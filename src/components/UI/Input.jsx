@@ -1,8 +1,9 @@
+import { forwardRef } from 'react'
 import styled from 'styled-components'
 
-const Input = (props) => {
-   return <InputStyled {...props} />
-}
+const Input = forwardRef((props, ref) => {
+   return <InputStyled ref={ref} {...props} />
+})
 
 const InputStyled = styled.input`
    width: ${({ width }) => width || '100%'};
