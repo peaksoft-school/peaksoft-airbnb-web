@@ -11,7 +11,7 @@ code {
       monospace;
 }
 body {
-   background: url(./assets/images/Rectangle\ 2.jpg);
+   /* background: url(./assets/images/Rectangle\ 2.jpg); */
    background-size: cover;
    background-position: center;
 }
