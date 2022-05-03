@@ -1,11 +1,5 @@
-import CancelButton from './components/UI/buttons/CancelButton'
-
 function App() {
-   return (
-      <div className="App">
-         <CancelButton />
-      </div>
-   )
+   return <div className="App" />
 }
 
 export default App
