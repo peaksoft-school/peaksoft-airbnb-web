@@ -6,7 +6,7 @@ const Title = (props) => {
 }
 const TitleStyled = styled.h4`
    font-family: 'Inter';
-   font-weight: 500;
+   font-weight: ${({ weight }) => weight || '500'};
    font-size: ${({ size }) => size || '16px'};
    line-height: 24px;
    color: #000000;
