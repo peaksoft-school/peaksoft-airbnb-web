@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const CancelButton = (props) => {
-   return <CancelStyled {...props}>{props.children}</CancelStyled>
+   return <CancelStyled {...props}>cancel{props.children}</CancelStyled>
 }
 const CancelStyled = styled.button`
    border: none;
@@ -16,6 +16,7 @@ const CancelStyled = styled.button`
    cursor: pointer;
    :active {
       color: #363636;
+      background: #f3f3f3;
    }
 `
 export default CancelButton
