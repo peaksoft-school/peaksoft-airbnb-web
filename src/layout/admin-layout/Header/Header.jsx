@@ -13,15 +13,10 @@ const Header = () => {
       <HeaderStyled>
          <GlobalStyle />
          <Flex width="100%" justify="space-between" align="center">
-            <Flex
-               gap="83px"
-               align="center"
-               justifyTab="space-between"
-               width="100%"
-            >
+            <Div gap="83px" align="center" width="100%">
                <LogoAirBnb />
                <Nav user={user} />
-            </Flex>
+            </Div>
             <ContentForProfile user={user} />
          </Flex>
       </HeaderStyled>
@@ -33,11 +28,15 @@ const HeaderStyled = styled.header`
    background-color: #0b0b0b;
    position: fixed;
    ${media.tablet`
-      padding:20px 30px;
+      padding:10px 30px;
    `}
    ${media.mobile`
-      padding:20px 16px;
+      padding:10px 16px;
    `}
+`
+
+const Div = styled(Flex)`
+   justify-content: space-between;
 `
 const GlobalStyle = createGlobalStyle`
     a{
