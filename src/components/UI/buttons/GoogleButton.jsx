@@ -7,9 +7,8 @@ const GoogleButton = (props) => {
       <GoogleStyled {...props}>
          <GoogleSvg />
          <Title size="18px" weight="bold">
-            Default
+            {props.children}
          </Title>
-         {props.children}
       </GoogleStyled>
    )
 }
