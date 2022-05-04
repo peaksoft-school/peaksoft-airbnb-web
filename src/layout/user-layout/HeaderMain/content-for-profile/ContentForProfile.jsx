@@ -1,27 +1,24 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Button from '../../../components/UI/buttons/Button'
-import Flex from '../../../components/UI/ui-for-positions/Flex'
-import Avatar from '../../../assets/icons/Group 1688.svg'
-import Select from '../../../assets/icons/select.svg'
-import media from '../../../utils/helpers/media'
+import Flex from '../../../../components/UI/ui-for-positions/Flex'
+import Avatar from '../../../../assets/icons/Group 1688.svg'
+import Select from '../../../../assets/icons/select.svg'
+import media from '../../../../utils/helpers/media'
 
-const ContentForProfile = ({ user }) => {
+const ContentForProfile = React.forwardRef(({ auth }, ref) => {
    const [showProfile, setShowProfile] = useState(false)
 
-   const logoutHandler = () => {
-      setShowProfile(false)
-   }
-   const profileHanlder = () => {
-      setShowProfile(false)
-   }
+   const logoutHandler = () => setShowProfile(false)
+   const profileHanlder = () => setShowProfile(false)
+
    return (
-      user && (
+      auth && (
          <Flex align="center" gap="20px">
-            <Button>Submit an as</Button>
-            <Profile onClick={() => setShowProfile(!showProfile)}>
-               <UserAvatar src={Avatar} />
-               <Selection show={showProfile} src={Select} />
+            <Profile ref={ref} onClick={() => setShowProfile(!showProfile)}>
+               <Flex align="center" gap="8px">
+                  <UserAvatar src={Avatar} />
+                  <Selection show={showProfile} src={Select} />
+               </Flex>
                {showProfile && (
                   <AboutProfile>
                      <AboutItem onClick={profileHanlder}>My Profile</AboutItem>
@@ -32,7 +29,7 @@ const ContentForProfile = ({ user }) => {
          </Flex>
       )
    )
-}
+})
 const AboutProfile = styled.div`
    width: 180px;
    padding: 0.5rem;
@@ -86,6 +83,9 @@ const UserAvatar = styled.img`
 const Selection = styled.img`
    transition: all 0.5s;
    transform: ${({ show }) => (show ? 'rotate(540deg)' : 'rotate(0deg)')};
+   ${media.tablet`
+   opacity:0;
+   `}
 `
 
 export default ContentForProfile

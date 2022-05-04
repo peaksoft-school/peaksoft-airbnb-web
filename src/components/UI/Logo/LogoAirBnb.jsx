@@ -15,10 +15,10 @@ const LogoAirBnb = ({ color = 'light', size }) => {
 }
 const GlobalStyle = createGlobalStyle`
     .logo{
-        width: ${({ size }) => size || '78px'};
+        width: ${({ size }) => size || '68px'};
         color: red;
         ${media.tablet`
-        width:60px;
+        width:50px;
         `}
     }
 `

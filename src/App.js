@@ -1,4 +1,4 @@
-import MainHeader from './layout/admin-layout/index'
+import MainHeader from './layout/user-layout/index'
 
 function App() {
    return (

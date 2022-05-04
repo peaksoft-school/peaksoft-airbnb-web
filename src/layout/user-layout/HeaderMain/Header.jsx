@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
-import HeaderUserContent from './HeaderContent/HeaderUserContent'
 import HeaderMenu from '../header-menu/HeaderMenu'
+import HeaderContentMain from './HeaderContent/HeaderContentMain'
 
 const Header = () => {
    const [showMenu, setShowMenu] = useState(false)
@@ -12,7 +12,7 @@ const Header = () => {
 
    const hideMenuHandler = () => setShowMenu(false)
 
-   const auth = true
+   const auth = false
 
    return (
       <HeaderStyled>
@@ -23,7 +23,7 @@ const Header = () => {
             auth={auth}
          />
          <Flex width="100%" justify="space-between" align="center">
-            <HeaderUserContent showMenuHamdler={showMenuHamdler} auth={auth} />
+            <HeaderContentMain showMenuHamdler={showMenuHamdler} auth={auth} />
          </Flex>
       </HeaderStyled>
    )
@@ -32,10 +32,10 @@ const HeaderStyled = styled.header`
    width: 100%;
    padding: 20px 60px;
    position: fixed;
-   background-color: #ffffff;
    .btn {
       ${media.tablet`
-      display:none;      
+      width:100px;
+      margin-right:20px;
    `}
    }
    ${media.tablet`

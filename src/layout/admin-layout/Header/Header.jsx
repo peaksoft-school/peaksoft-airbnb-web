@@ -7,17 +7,15 @@ import LogoAirBnb from '../../../components/UI/Logo/LogoAirBnb'
 import media from '../../../utils/helpers/media'
 
 const Header = () => {
-   const user = false
-
    return (
       <HeaderStyled>
          <GlobalStyle />
          <Flex width="100%" justify="space-between" align="center">
             <Div gap="83px" align="center" width="100%">
                <LogoAirBnb />
-               <Nav user={user} />
+               <Nav />
             </Div>
-            <ContentForProfile user={user} />
+            <ContentForProfile />
          </Flex>
       </HeaderStyled>
    )
@@ -36,7 +34,9 @@ const HeaderStyled = styled.header`
 `
 
 const Div = styled(Flex)`
+   ${media.tablet`
    justify-content: space-between;
+   `}
 `
 const GlobalStyle = createGlobalStyle`
     a{
