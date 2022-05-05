@@ -5,35 +5,41 @@ import Title from '../typography/Title'
 import Flex from '../ui-for-positions/Flex'
 
 const Select = ({ data, onChange, name }) => {
-   const [select, setSelect] = useState(false)
-   const [selectValue, setSelectValue] = useState(data[0])
-   const showSelect = () => {
-      setSelect(!select)
-   }
-   const hideSelect = (event, value) => {
-      setSelect(false)
-      setSelectValue(value)
-      onChange(value)
+   const [selectToggle, setSelectToggle] = useState(false)
+   const [label, setLabel] = useState(data[0].label)
+
+   const showSelect = () => setSelectToggle(!selectToggle)
+
+   const changeHandler = (event, value) => {
       event.stopPropagation()
+      setSelectToggle(false)
+      setLabel(value.label)
+      onChange(value.value)
    }
    return (
-      <SelectWrapper select={select}>
-         <SelectStyled onBlur={() => setSelect(false)} onClick={showSelect}>
+      <SelectWrapper select={selectToggle}>
+         <SelectStyled
+            onBlur={() => setSelectToggle(false)}
+            onClick={showSelect}
+         >
             <Flex align="center" justify="space-between">
                <TitleSelect>{name}:</TitleSelect>
                <Flex align="center" gap="1rem">
-                  <Title>{selectValue}</Title>
+                  <Title>{label}</Title>
                   <SelectIcon className="icon__select" />
                </Flex>
             </Flex>
-            {select && (
-               <Selects>
+            {selectToggle && (
+               <Options>
                   {data.map((el) => (
-                     <Option onClick={(e) => hideSelect(e, el)} key={el}>
-                        <Title>{el}</Title>
+                     <Option
+                        onClick={(e) => changeHandler(e, el)}
+                        key={el.label}
+                     >
+                        <Title>{el.label}</Title>
                      </Option>
                   ))}
-               </Selects>
+               </Options>
             )}
          </SelectStyled>
       </SelectWrapper>
@@ -62,7 +68,7 @@ const SelectStyled = styled.button`
       background-color: #f3f3f3;
    }
 `
-const Selects = styled.div`
+const Options = styled.div`
    border: 1px solid #e5e5e5;
    width: 100%;
    position: absolute;
@@ -70,8 +76,17 @@ const Selects = styled.div`
    padding: 0.2rem;
    left: 0;
    top: 50px;
+   animation: OPTION 0.4s ease-in-out;
+   @keyframes OPTION {
+      from {
+         opacity: 0;
+      }
+      to {
+         opacity: 1;
+      }
+   }
 `
-export const Option = styled.div`
+const Option = styled.div`
    width: 100%;
    padding: 0.4rem 1rem;
    background-color: white;
