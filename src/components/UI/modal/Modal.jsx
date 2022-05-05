@@ -39,5 +39,6 @@ const ModalStyle = styled.div`
          top: 50%;
       }
    }
+   z-index: 11;
 `
 export default Modal
