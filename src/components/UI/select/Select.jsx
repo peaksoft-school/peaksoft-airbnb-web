@@ -10,11 +10,11 @@ const Select = ({ data, onChange, name }) => {
    const showSelect = () => {
       setSelect(!select)
    }
-   const hideSelect = (e, w) => {
+   const hideSelect = (event, value) => {
       setSelect(false)
-      setSelectValue(w)
-      onChange(w)
-      e.stopPropagation()
+      setSelectValue(value)
+      onChange(value)
+      event.stopPropagation()
    }
    return (
       <SelectWrapper select={select}>
