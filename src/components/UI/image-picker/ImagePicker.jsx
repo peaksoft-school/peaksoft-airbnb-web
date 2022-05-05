@@ -6,7 +6,7 @@ import Flex from '../ui-for-positions/Flex'
 import Text from '../typography/Text'
 import Title from '../typography/Title'
 
-function ImagePicker({ onDrop, file }) {
+function ImagePicker({ onDrop, files }) {
    const { getRootProps, getInputProps } = useDropzone({
       onDrop,
       accept: 'image/*',
@@ -14,17 +14,17 @@ function ImagePicker({ onDrop, file }) {
    return (
       <Flex align="center" gap="16px">
          <Flex gap="5px" wrap="wrap">
-            {file.map((img) => (
+            {files.map((img) => (
                <Image key={img} src={img} />
             ))}
-            {file.length < 4 && (
+            {files.length < 4 && (
                <ImagePickerStyled {...getRootProps()}>
                   <input {...getInputProps()} type="file" />
                   <IconImagePicker />
                </ImagePickerStyled>
             )}
          </Flex>
-         {file.length === 0 && (
+         {files.length === 0 && (
             <Flex direction="column">
                <Title color="#266BD3">Add photos to the review</Title>
                <Text>
