@@ -9,9 +9,9 @@ import { signInWithGoogle } from '../../store/authSlice'
 
 const SignInWithGoolge = () => {
    const dispatch = useDispatch()
-   const signInHandler = () => {
-      dispatch(signInWithGoogle())
-   }
+
+   const signInHandler = () => dispatch(signInWithGoogle())
+
    return (
       <ContainerForm>
          <GlobalStyle />
