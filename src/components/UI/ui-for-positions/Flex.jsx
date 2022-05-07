@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledFlex = styled.div`
-   width: ${(props) => props.width || ''};
+   width: ${(props) => props.width || '100%'};
    display: flex;
    flex-direction: ${(props) => props.direction || 'row'};
    align-items: ${(props) => props.align || 'stretch'};
