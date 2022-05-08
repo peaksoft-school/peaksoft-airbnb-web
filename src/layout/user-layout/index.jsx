@@ -1,12 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import Footer from './Footer/Footer'
-import Header from './Header/Header'
+import { useLocation } from 'react-router-dom'
+import Footer from './footer/Footer'
+import Header from './header-user/Header'
+import HeaderMain from './header-main/Header'
 
-const MainHeader = (props) => {
+const UserLayout = (props) => {
+   const { pathname } = useLocation()
    return (
       <>
-         <Header />
+         {pathname === '/main' ? <HeaderMain /> : <Header />}
          <Main>{props.children}</Main>
          <Footer />
       </>
@@ -16,4 +19,4 @@ const Main = styled.main`
    min-height: 80vh;
 `
 
-export default MainHeader
+export default UserLayout

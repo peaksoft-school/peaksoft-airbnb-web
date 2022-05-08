@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Header from './Header/Header'
 
-const MainHeader = (props) => {
+const AdminLayout = (props) => {
    return (
       <>
          <Header />
@@ -14,4 +14,4 @@ const Main = styled.main`
    min-height: 80vh;
 `
 
-export default MainHeader
+export default AdminLayout

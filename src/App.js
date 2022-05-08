@@ -1,9 +1,11 @@
-import MainHeader from './layout/user-layout/index'
+import AdminRoutes from './routes/AdminRoutes'
+import UserRoutes from './routes/UserRoutes'
 
 function App() {
    return (
       <div className="App">
-         <MainHeader />
+         <UserRoutes />
+         <AdminRoutes />
       </div>
    )
 }
