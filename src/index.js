@@ -9,13 +9,13 @@ import Loader from './components/UI/loader/Loader'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-   <Provider store={store}>
-      <Suspense fallback={<Loader />}>
-         <BrowserRouter>
-            <React.StrictMode>
+   <React.StrictMode>
+      <Provider store={store}>
+         <Suspense fallback={<Loader />}>
+            <BrowserRouter>
                <App />
-            </React.StrictMode>
-         </BrowserRouter>
-      </Suspense>
-   </Provider>
+            </BrowserRouter>
+         </Suspense>
+      </Provider>
+   </React.StrictMode>
 )
