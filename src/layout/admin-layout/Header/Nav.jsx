@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import { NavLink } from 'react-router-dom'
+import styled, { createGlobalStyle } from 'styled-components'
 import { ReactComponent as NavBurger } from '../../../assets/icons/NavAdmin.svg'
 import Drawer from '../../../components/UI/drawer/Drawer'
 import LogoAirBnb from '../../../components/UI/Logo/LogoAirBnb'
@@ -15,8 +16,14 @@ const Nav = () => {
    const hideMenuHandler = () => {
       setShowMenu(false)
    }
+   const logOutHandler = () => {}
+
+   const isActiveFunction = (isAcive) => {
+      return isAcive ? 'active' : ''
+   }
    return (
       <>
+         <GlobalStyle />
          <Drawer
             isVisible={showMenu}
             justify="center"
@@ -28,16 +35,34 @@ const Nav = () => {
                </Flex>
                <List>
                   <Li>
-                     <a href="/">Announcement</a>
+                     <NavLink
+                        onClick={hideMenuHandler}
+                        className={({ isActive }) => isActiveFunction(isActive)}
+                        to="/announcement"
+                     >
+                        Announcement
+                     </NavLink>
                   </Li>
                   <Li>
-                     <a href="/">Users</a>
+                     <NavLink
+                        onClick={hideMenuHandler}
+                        className={({ isActive }) => isActiveFunction(isActive)}
+                        to="/users"
+                     >
+                        Users
+                     </NavLink>
                   </Li>
                   <Li>
-                     <a href="/">All housing</a>
+                     <NavLink
+                        onClick={hideMenuHandler}
+                        className={({ isActive }) => isActiveFunction(isActive)}
+                        to="/all-housing"
+                     >
+                        All housing
+                     </NavLink>
                   </Li>
                </List>
-               <Title>Log out</Title>
+               <Logout onClick={logOutHandler}>Log out</Logout>
             </Flex>
          </Drawer>
          <NabBar onClick={showMenuHamdler}>
@@ -46,13 +71,28 @@ const Nav = () => {
          <NavStyled>
             <List>
                <Li>
-                  <a href="/">Announcement</a>
+                  <NavLink
+                     className={({ isActive }) => isActiveFunction(isActive)}
+                     to="/announcement"
+                  >
+                     Announcement
+                  </NavLink>
                </Li>
                <Li>
-                  <a href="/">Users</a>
+                  <NavLink
+                     className={({ isActive }) => isActiveFunction(isActive)}
+                     to="/users"
+                  >
+                     Users
+                  </NavLink>
                </Li>
                <Li>
-                  <a href="/">All housing</a>
+                  <NavLink
+                     className={({ isActive }) => isActiveFunction(isActive)}
+                     to="/all-housing"
+                  >
+                     All housing
+                  </NavLink>
                </Li>
             </List>
          </NavStyled>
@@ -91,5 +131,28 @@ const NabBar = styled.div`
    ${media.tablet`
       display:block;
    `}
+`
+const Logout = styled(Title)`
+   cursor: pointer;
+   :hover {
+      color: #ff4b4b;
+   }
+`
+const GlobalStyle = createGlobalStyle`
+    a{
+        text-decoration: none;
+        font-family: 'Inter';
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 22px;
+        color: #FFFFFF;
+        transition: 0.1s;
+        :hover{
+           color:#FF4B4B;
+        }
+    }
+    a.active{
+           color:#FF4B4B;
+        }
 `
 export default Nav

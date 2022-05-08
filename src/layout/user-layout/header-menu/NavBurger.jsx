@@ -4,9 +4,9 @@ import { ReactComponent as NavBurgerIcon } from '../../../assets/icons/NavAdmin.
 import { ReactComponent as NavBurgerIconDark } from '../../../assets/icons/navburgerdark.svg'
 import media from '../../../utils/helpers/media'
 
-const NavBurger = ({ showMenuHamdler, dark }) => {
+const NavBurger = ({ showMenuHandler, dark }) => {
    return (
-      <NavBar onClick={showMenuHamdler}>
+      <NavBar onClick={showMenuHandler}>
          {dark ? <NavBurgerIconDark /> : <NavBurgerIcon />}
       </NavBar>
    )

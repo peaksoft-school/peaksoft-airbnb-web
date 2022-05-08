@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import media from '../../../utils/helpers/media'
 
@@ -7,10 +8,10 @@ const Nav = ({ dark }) => {
       <NavStyled>
          <List dark={dark}>
             <Li>
-               <a href="/">Regions</a>
+               <NavLink to="/">Regions</NavLink>
             </Li>
             <Li>
-               <a href="/">Leave an ad</a>
+               <NavLink to="/">Leave an ad</NavLink>
             </Li>
          </List>
       </NavStyled>

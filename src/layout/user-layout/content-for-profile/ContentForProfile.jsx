@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Flex from '../../../../components/UI/ui-for-positions/Flex'
-import Avatar from '../../../../assets/icons/Group 1688.svg'
-import Select from '../../../../assets/icons/select.svg'
-import media from '../../../../utils/helpers/media'
+import { useLocation } from 'react-router-dom'
+import Flex from '../../../components/UI/ui-for-positions/Flex'
+import Avatar from '../../../assets/icons/Group 1688.svg'
+import Select from '../../../assets/icons/select.svg'
+import media from '../../../utils/helpers/media'
 
-const ContentForProfile = React.forwardRef(({ auth }, ref) => {
+const ContentForProfile = ({ auth }) => {
+   const { pathname } = useLocation()
    const [showProfile, setShowProfile] = useState(false)
 
    const logoutHandler = () => setShowProfile(false)
@@ -14,7 +16,10 @@ const ContentForProfile = React.forwardRef(({ auth }, ref) => {
    return (
       auth && (
          <Flex align="center" gap="20px">
-            <Profile ref={ref} onClick={() => setShowProfile(!showProfile)}>
+            <Profile
+               path={pathname}
+               onClick={() => setShowProfile(!showProfile)}
+            >
                <Flex align="center" gap="8px">
                   <UserAvatar src={Avatar} />
                   <Selection show={showProfile} src={Select} />
@@ -29,7 +34,7 @@ const ContentForProfile = React.forwardRef(({ auth }, ref) => {
          </Flex>
       )
    )
-})
+}
 const AboutProfile = styled.div`
    width: 180px;
    padding: 0.5rem;
@@ -74,6 +79,9 @@ const Profile = styled.button`
    gap: 10px;
    cursor: pointer;
    position: relative;
+   ${media.tablet`
+   display:${({ path }) => (path === '/main' ? 'block' : 'none')};
+   `}
 `
 const UserAvatar = styled.img`
    width: 30px;

@@ -3,12 +3,13 @@ import styled from 'styled-components'
 import Button from '../../../../components/UI/buttons/Button'
 import LogoAirBnb from '../../../../components/UI/Logo/LogoAirBnb'
 import Flex from '../../../../components/UI/ui-for-positions/Flex'
-import ContentForProfile from '../content-for-profile/ContentForProfile'
+import ContentForProfile from '../../content-for-profile/ContentForProfile'
 import Nav from '../../header-menu/Nav'
 import media from '../../../../utils/helpers/media'
 import NavBurger from '../../header-menu/NavBurger'
 
-const HeaderContentMain = ({ auth, showMenuHamdler }) => {
+const HeaderContentMain = ({ auth, showMenuHandler }) => {
+   const loginHandler = () => {}
    return (
       <Flex justify="space-between" align="center" width="100%">
          <Nav />
@@ -17,12 +18,12 @@ const HeaderContentMain = ({ auth, showMenuHamdler }) => {
          </Content>
          <Flex align="center">
             {!auth && (
-               <Button className="btn" width="200px">
+               <Button onClick={loginHandler} className="btn" width="200px">
                   JOIN AS
                </Button>
             )}
             <ContentForProfile auth={auth} />
-            <NavBurger showMenuHamdler={showMenuHamdler} />
+            <NavBurger showMenuHandler={showMenuHandler} />
          </Flex>
       </Flex>
    )

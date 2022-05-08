@@ -8,11 +8,11 @@ import HeaderContentMain from './HeaderContent/HeaderContentMain'
 const Header = () => {
    const [showMenu, setShowMenu] = useState(false)
 
-   const showMenuHamdler = () => setShowMenu(true)
+   const showMenuHandler = () => setShowMenu(true)
 
    const hideMenuHandler = () => setShowMenu(false)
 
-   const auth = false
+   const auth = true
 
    return (
       <HeaderStyled>
@@ -23,7 +23,7 @@ const Header = () => {
             auth={auth}
          />
          <Flex width="100%" justify="space-between" align="center">
-            <HeaderContentMain showMenuHamdler={showMenuHamdler} auth={auth} />
+            <HeaderContentMain showMenuHandler={showMenuHandler} auth={auth} />
          </Flex>
       </HeaderStyled>
    )

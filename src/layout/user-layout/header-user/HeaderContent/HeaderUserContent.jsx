@@ -1,16 +1,22 @@
 import React from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 import Button from '../../../../components/UI/buttons/Button'
 import LogoAirBnb from '../../../../components/UI/Logo/LogoAirBnb'
 import Flex from '../../../../components/UI/ui-for-positions/Flex'
 import media from '../../../../utils/helpers/media'
-import ContentForProfile from '../content-for-profile/ContentForProfile'
+import ContentForProfile from '../../content-for-profile/ContentForProfile'
 import { ReactComponent as SearchIcon } from '../../../../assets/icons/search.svg'
 import Nav from '../../header-menu/Nav'
 import Input from '../../../../components/UI/text-fields/Input'
 import NavBurger from '../../header-menu/NavBurger'
 
-const HeaderUserContent = ({ auth, showMenuHamdler }) => {
+const HeaderUserContent = ({ auth, showMenuHandler }) => {
+   const navigate = useNavigate()
+
+   const loginHandler = () => {}
+
+   const navigateToForm = () => navigate('/submit-an-ad')
    return (
       <>
          <GlobaStyle />
@@ -23,14 +29,18 @@ const HeaderUserContent = ({ auth, showMenuHamdler }) => {
                <SearchIcon />
             </SearchIconWrapper>
             <Search placeholder="search" />
-            {auth && <Button className="btnSubmit">Submit an as</Button>}
+            {auth && (
+               <Button onClick={navigateToForm} className="btnSubmit">
+                  Submit an as
+               </Button>
+            )}
             <ContentForProfile auth={auth} />
             {!auth && (
-               <Button className="btn" width="250px">
+               <Button onClick={loginHandler} className="btn" width="250px">
                   JOIN AS
                </Button>
             )}
-            <NavBurger dark showMenuHamdler={showMenuHamdler} />
+            <NavBurger dark showMenuHandler={showMenuHandler} />
          </FlexSearch>
       </>
    )
