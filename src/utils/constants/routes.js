@@ -51,7 +51,7 @@ export const ADMIN_ROUTES = {
       label: 'Edit',
    },
    ALL_HOUSING: {
-      path: '/all_housing',
+      path: '/all-housing',
       label: 'All-housing',
    },
 }

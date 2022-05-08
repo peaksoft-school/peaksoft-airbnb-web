@@ -1,5 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
+import AdminLayout from '../layout/admin-layout'
 import { ADMIN_ROUTES } from '../utils/constants/routes'
 import ProtectedRoute from './ProtectedRoute'
 
@@ -31,19 +32,21 @@ const AdminRoutes = () => {
    } = ADMIN_ROUTES
    return (
       <Routes>
-         <Route
-            element={<ProtectedRoute isAllowed={auth && role === 'admin'} />}
-         >
-            <Route path={ANNOUNCEMENT.path} element={<Announcement />} />
+         <Route element={<AdminLayout />}>
             <Route
-               path={ANNOUNCEMENT_NAME.path}
-               element={<AnnouncementDetail />}
-            />
-            <Route path={USERS.path} element={<Users />} />
-            <Route path={USER.path} element={<UserDetail />} />
-            <Route path={USER_HOUSE.path} element={<UserHouseDetail />} />
-            <Route path={USER_HOUSE_EDIT.path} element={<EditHouse />} />
-            <Route path={ALL_HOUSING.path} element={<AllHousing />} />
+               element={<ProtectedRoute isAllowed={auth && role === 'admin'} />}
+            >
+               <Route path={ANNOUNCEMENT.path} element={<Announcement />} />
+               <Route
+                  path={ANNOUNCEMENT_NAME.path}
+                  element={<AnnouncementDetail />}
+               />
+               <Route path={USERS.path} element={<Users />} />
+               <Route path={USER.path} element={<UserDetail />} />
+               <Route path={USER_HOUSE.path} element={<UserHouseDetail />} />
+               <Route path={USER_HOUSE_EDIT.path} element={<EditHouse />} />
+               <Route path={ALL_HOUSING.path} element={<AllHousing />} />
+            </Route>
          </Route>
       </Routes>
    )

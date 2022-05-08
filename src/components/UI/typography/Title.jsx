@@ -9,7 +9,7 @@ const TitleStyled = styled.h4`
    font-weight: ${({ weight }) => weight || '500'};
    font-size: ${({ size }) => size || '16px'};
    line-height: 24px;
-   color: #000000;
+   color: ${({ color }) => color || '#000000s'};
    text-transform: ${({ uppercase }) => (uppercase ? 'uppercase' : 'none')};
 `
 export default Title
