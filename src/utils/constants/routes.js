@@ -1,14 +1,18 @@
 export const USER_ROUTES = {
+   INDEX: {
+      path: '/',
+      label: 'index',
+   },
    MAIN: {
       path: '/main',
       label: 'MAIN',
    },
    REGION: {
-      path: '/main:region',
+      path: '/main/:region',
       label: 'REGIONS',
    },
    HOUSE: {
-      path: '/main:regions:house',
+      path: '/main/:region/:house',
       label: 'Hause',
    },
    PROFILE: {
@@ -27,7 +31,7 @@ export const ADMIN_ROUTES = {
       label: 'Announcement',
    },
    ANNOUNCEMENT_NAME: {
-      path: '/announcement:name',
+      path: '/announcement/:name',
       label: 'Announcement',
    },
    USERS: {
@@ -39,11 +43,11 @@ export const ADMIN_ROUTES = {
       label: 'Announcement',
    },
    USER_HOUSE: {
-      path: '/user:userId:houseId',
+      path: '/user/:userId/:houseId',
       label: 'User-house',
    },
    USER_HOUSE_EDIT: {
-      path: '/user;userId:houseId/edit',
+      path: '/user/:userId/:houseId/edit',
       label: 'Edit',
    },
    ALL_HOUSING: {
