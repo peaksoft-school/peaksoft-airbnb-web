@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { ADMIN_ROUTES } from '../utils/constants/routes'
-import PrivateRoute from './PrivateRoute'
+import ProtectedRoute from './ProtectedRoute'
 
 const Announcement = React.lazy(
    () => import('../pages/admin-pages/announcement')
@@ -28,8 +28,8 @@ const AdminRoutes = () => {
       ALL_HOUSING,
    } = ADMIN_ROUTES
    return (
-      <Routes element={<PrivateRoute />}>
-         <Route element={<PrivateRoute isAllowed />}>
+      <Routes>
+         <Route element={<ProtectedRoute isAllowed />}>
             <Route path={ANNOUNCEMENT.path} element={<Announcement />} />
             <Route
                path={ANNOUNCEMENT_NAME.path}

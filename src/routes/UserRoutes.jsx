@@ -2,7 +2,7 @@ import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { USER_ROUTES } from '../utils/constants/routes'
 import Main from '../pages/user-pages/main'
-import PrivateRoute from './PrivateRoute'
+import ProtectedRoute from './ProtectedRoute'
 
 const Region = React.lazy(() => import('../pages/user-pages/region'))
 const HomeDetail = React.lazy(() => import('../pages/user-pages/home-detail'))
@@ -17,7 +17,7 @@ const UserRoutes = () => {
          <Route path={MAIN.path} element={<Main />} />
          <Route path={REGION.path} element={<Region />} />
          <Route path={HOUSE.path} element={<HomeDetail />} />
-         <Route element={<PrivateRoute />}>
+         <Route element={<ProtectedRoute />}>
             <Route path={PROFILE.path} element={<Profile />} />
          </Route>
          <Route path={SUBMIT_AN_AD.path} element={<SubmitAnAd />} />
