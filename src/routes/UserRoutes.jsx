@@ -10,6 +10,8 @@ const Profile = React.lazy(() => import('../pages/user-pages/profile'))
 const SubmitAnAd = React.lazy(() => import('../pages/user-pages/submit-an-ad'))
 
 const UserRoutes = () => {
+   const auth = true
+   const role = 'wendor'
    const { INDEX, MAIN, REGION, HOUSE, PROFILE, SUBMIT_AN_AD } = USER_ROUTES
    return (
       <Routes>
@@ -17,7 +19,9 @@ const UserRoutes = () => {
          <Route path={MAIN.path} element={<Main />} />
          <Route path={REGION.path} element={<Region />} />
          <Route path={HOUSE.path} element={<HomeDetail />} />
-         <Route element={<ProtectedRoute />}>
+         <Route
+            element={<ProtectedRoute isAllowed={auth && role === 'wendor'} />}
+         >
             <Route path={PROFILE.path} element={<Profile />} />
          </Route>
          <Route path={SUBMIT_AN_AD.path} element={<SubmitAnAd />} />

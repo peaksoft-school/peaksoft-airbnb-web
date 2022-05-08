@@ -18,6 +18,8 @@ const EditHouse = React.lazy(() => import('../pages/admin-pages/edit-house'))
 const AllHousing = React.lazy(() => import('../pages/admin-pages/all-housing'))
 
 const AdminRoutes = () => {
+   const auth = true
+   const role = 'admin'
    const {
       ANNOUNCEMENT,
       ANNOUNCEMENT_NAME,
@@ -29,7 +31,9 @@ const AdminRoutes = () => {
    } = ADMIN_ROUTES
    return (
       <Routes>
-         <Route element={<ProtectedRoute isAllowed />}>
+         <Route
+            element={<ProtectedRoute isAllowed={auth && role === 'admin'} />}
+         >
             <Route path={ANNOUNCEMENT.path} element={<Announcement />} />
             <Route
                path={ANNOUNCEMENT_NAME.path}
