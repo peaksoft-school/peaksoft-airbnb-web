@@ -8,8 +8,10 @@ import Nav from '../../header-menu/Nav'
 import media from '../../../../utils/helpers/media'
 import NavBurger from '../../header-menu/NavBurger'
 
-const HeaderContentMain = ({ auth, showMenuHandler }) => {
-   const loginHandler = () => {}
+const HeaderContentMain = ({ auth, showSignInWithGoogle, showMenuHandler }) => {
+   const loginHandler = () => {
+      showSignInWithGoogle()
+   }
    return (
       <Flex justify="space-between" align="center" width="100%">
          <Nav />

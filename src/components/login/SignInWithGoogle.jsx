@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import Flex from '../UI/ui-for-positions/Flex'
 import Text from '../UI/typography/Text'
@@ -7,14 +7,13 @@ import Title from '../UI/typography/Title'
 import GoogleButton from '../UI/buttons/GoogleButton'
 import { signInWithGoogle } from '../../store/authSlice'
 
-const SignInWithGoolge = () => {
+const SignInWithGoogle = ({ showSignInAsAdminHandler }) => {
    const dispatch = useDispatch()
 
    const signInHandler = () => dispatch(signInWithGoogle())
 
    return (
       <ContainerForm>
-         <GlobalStyle />
          <Flex direction="column" align="center" gap="20px">
             <Title uppercase>
                <b>Join us</b>
@@ -25,7 +24,9 @@ const SignInWithGoolge = () => {
             <GoogleButton onClick={signInHandler}>Google</GoogleButton>
          </Flex>
          <Flex margin="40px 0 0 0" justify="center">
-            <a href="/">log in as admin</a>
+            <LoginAsAdmin onClick={showSignInAsAdminHandler}>
+               log in as admin
+            </LoginAsAdmin>
          </Flex>
       </ContainerForm>
    )
@@ -33,14 +34,15 @@ const SignInWithGoolge = () => {
 const ContainerForm = styled.div`
    width: 100%;
 `
-const GlobalStyle = createGlobalStyle`
-a{
-    font-family: 'Inter';
-    font-style: normal;
-    font-size: 14px;
-    color: #266BD3;
-}
-
+const LoginAsAdmin = styled.button`
+   font-family: 'Inter';
+   font-style: normal;
+   font-size: 14px;
+   color: #266bd3;
+   border: none;
+   background-color: none;
+   cursor: pointer;
+   text-decoration: underline;
 `
 
-export default SignInWithGoolge
+export default SignInWithGoogle
