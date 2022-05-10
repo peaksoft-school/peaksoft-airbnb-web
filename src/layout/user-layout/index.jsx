@@ -5,6 +5,7 @@ import Footer from './footer/Footer'
 import Header from './header-user/Header'
 import HeaderMain from './header-main/Header'
 import SignInWithGoogle from '../../components/login/SignInWithGoogle'
+import SignInAsAdmin from '../../components/login/SignInAsAdmin'
 import Modal from '../../components/UI/modal/Modal'
 
 const UserLayout = (props) => {
@@ -16,13 +17,28 @@ const UserLayout = (props) => {
    const showSignInAsAdminHandler = () => setParams({ signIn: 'admin' })
 
    const paramsValue = params.get('signIn')
+   console.log(params)
 
+   const hideSignIn = () => {
+      setParams('')
+   }
    return (
       <>
-         <Modal isVisible={paramsValue === 'google'}>
+         <Modal
+            onClose={hideSignIn}
+            width="450px"
+            isVisible={paramsValue === 'google'}
+         >
             <SignInWithGoogle
                showSignInAsAdminHandler={showSignInAsAdminHandler}
             />
+         </Modal>
+         <Modal
+            onClose={hideSignIn}
+            width="450px"
+            isVisible={paramsValue === 'admin'}
+         >
+            <SignInAsAdmin />
          </Modal>
          {pathname === '/main' ? (
             <HeaderMain showSignInWithGoogle={showSignInWithGoogle} />
