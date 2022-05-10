@@ -1,9 +1,17 @@
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
+import { IoMdClose } from 'react-icons/io'
 import BackDrop from './BackDrop'
 
 const ModalOverly = (props) => {
-   return <ModalStyle {...props}>{props.children}</ModalStyle>
+   return (
+      <ModalStyle {...props}>
+         {props.children}
+         <Close onClick={props.onClose}>
+            <IoMdClose fontSize={20} color="#50607f" />
+         </Close>
+      </ModalStyle>
+   )
 }
 const Modal = (props) => {
    return (
@@ -19,7 +27,7 @@ const Modal = (props) => {
 }
 
 const ModalStyle = styled.div`
-   width: ${({ width }) => width || '0'};
+   width: ${({ width }) => width || ''};
    padding: 20px 25px;
    position: fixed;
    top: 50%;
@@ -49,9 +57,34 @@ const ModalStyle = styled.div`
       right: 0;
       width: 100%;
       height: 100%;
-      padding: 1rem;
+      padding: 4rem 1rem;
       transform: translate(0%, 0%);
-      animation: none;
+      animation: MOBILE_MODAL ease-in-out 0.5s;
+   }
+   @keyframes MOBILE_MODAL {
+      0% {
+         opacity: 0;
+      }
+      100% {
+         opacity: 1;
+      }
+   }
+`
+const Close = styled.button`
+   padding: 0.2rem;
+   border-radius: 50%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: rgba(255, 255, 255, 0.854);
+   border: none;
+   position: absolute;
+   top: 0;
+   right: -35px;
+   cursor: pointer;
+   @media (max-width: 525px) {
+      top: 10px;
+      right: 10px;
    }
 `
 export default Modal

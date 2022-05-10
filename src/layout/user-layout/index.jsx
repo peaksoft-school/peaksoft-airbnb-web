@@ -17,7 +17,6 @@ const UserLayout = (props) => {
    const showSignInAsAdminHandler = () => setParams({ signIn: 'admin' })
 
    const paramsValue = params.get('signIn')
-   console.log(params)
 
    const hideSignIn = () => {
       setParams('')
@@ -26,20 +25,18 @@ const UserLayout = (props) => {
       <>
          <Modal
             onClose={hideSignIn}
-            width="450px"
-            isVisible={paramsValue === 'google'}
+            width="480px"
+            isVisible={paramsValue === 'google' || paramsValue === 'admin'}
          >
-            <SignInWithGoogle
-               showSignInAsAdminHandler={showSignInAsAdminHandler}
-            />
+            {paramsValue === 'google' ? (
+               <SignInWithGoogle
+                  showSignInAsAdminHandler={showSignInAsAdminHandler}
+               />
+            ) : (
+               <SignInAsAdmin />
+            )}
          </Modal>
-         <Modal
-            onClose={hideSignIn}
-            width="450px"
-            isVisible={paramsValue === 'admin'}
-         >
-            <SignInAsAdmin />
-         </Modal>
+
          {pathname === '/main' ? (
             <HeaderMain showSignInWithGoogle={showSignInWithGoogle} />
          ) : (
