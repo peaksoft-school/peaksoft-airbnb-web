@@ -1,9 +1,11 @@
-import ClientCard from './components/client-card/ClientCard'
+import AdminRoutes from './routes/AdminRoutes'
+import UserRoutes from './routes/UserRoutes'
 
 function App() {
    return (
       <div className="App">
-         <ClientCard />
+         <UserRoutes />
+         <AdminRoutes />
       </div>
    )
 }
