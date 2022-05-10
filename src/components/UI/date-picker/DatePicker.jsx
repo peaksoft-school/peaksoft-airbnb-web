@@ -1,17 +1,19 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-plusplus */
 import 'gestalt/dist/gestalt.css'
 import 'gestalt-datepicker/dist/gestalt-datepicker.css'
-import { useState, useRef } from 'react'
+import { useRef } from 'react'
 import DatePicker from 'gestalt-datepicker'
 import { Flex } from 'gestalt'
+import { generatedDate } from '../../../utils/helpers/general'
 
-const DateRangePicker = () => {
-   const [startDate, setStartDate] = useState(undefined)
-   const [endDate, setEndDate] = useState(undefined)
+const DateRangePicker = ({
+   onChangeStartDate,
+   onChangeEndDate,
+   valueStartDate,
+   valueEndDate,
+}) => {
    const endDateInput = useRef(null)
    const startDateInput = useRef(null)
-
    const bookings = [
       {
          startDate: '2022.6.1',
@@ -26,52 +28,33 @@ const DateRangePicker = () => {
          endDate: '2022.7.19',
       },
    ]
-   function getDatesRange(startDate, stopDate) {
-      const ONE_DAY = 24 * 3600 * 1000
-      const days = []
-      let currentDate = new Date(startDate)
-      while (currentDate <= stopDate) {
-         days.push(new Date(currentDate))
-         currentDate = currentDate - 1 + 1 + ONE_DAY
-      }
-      return days
-   }
-   const newDate = bookings.map((el) => {
-      return getDatesRange(new Date(el.startDate), new Date(el.endDate))
-   })
-   const selectedDays = []
-   for (let i = 0; i < newDate.length; i++) {
-      newDate[i].map((el) => selectedDays.push(el))
-   }
-   console.log(selectedDays)
+
    return (
       <Flex gap={2}>
          <DatePicker
-            excludeDates={selectedDays}
+            excludeDates={generatedDate(bookings)}
             minDate={new Date()}
-            rangeStartDate={startDate}
-            rangeEndDate={endDate}
+            rangeStartDate={valueStartDate}
+            rangeEndDate={valueEndDate}
             id="example-start-date"
             label="Check In"
             nextRef={endDateInput}
-            onChange={({ event, value }) => {
-               setStartDate(value)
-            }}
+            onChange={({ event, value }) => onChangeStartDate(value)}
             rangeSelector="start"
-            value={startDate}
+            value={valueStartDate}
             ref={startDateInput}
          />
          <DatePicker
             minDate={new Date()}
-            excludeDates={selectedDays}
-            rangeStartDate={startDate}
-            rangeEndDate={endDate}
+            excludeDates={generatedDate(bookings)}
+            rangeStartDate={valueStartDate}
+            rangeEndDate={valueEndDate}
             id="example-end-date"
             label="Check Out"
             nextRef={startDateInput}
-            onChange={({ event, value }) => setEndDate(value)}
+            onChange={({ event, value }) => onChangeEndDate(value)}
             rangeSelector="end"
-            value={endDate}
+            value={valueEndDate}
             ref={endDateInput}
          />
       </Flex>
