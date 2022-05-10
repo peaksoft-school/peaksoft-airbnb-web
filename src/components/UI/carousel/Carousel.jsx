@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import BtnCarousel, { StyledButton } from './BtnCarousel'
 import Flex from '../ui-for-positions/Flex'
 
-export default function Slider({ dataSlider = [],...props }) {
+export default function Slider({ dataSlider = [] }) {
    const [slideIndex, setSlideIndex] = useState(1)
 
    const nextSlide = () => {
