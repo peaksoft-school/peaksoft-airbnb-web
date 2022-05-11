@@ -8,7 +8,6 @@ const ButtonStyled = styled.button`
    border: ${({ outline }) => (outline ? '1px solid #dd8a08' : 'none')};
    width: ${({ width }) => width || '153px'};
    border-radius: 2px;
-   padding: 10px 16px;
    background: ${({ outline }) => (outline ? 'white' : '#dd8a08')};
    border-radius: 2px;
    font-family: 'Inter', sans-serif;
@@ -17,6 +16,7 @@ const ButtonStyled = styled.button`
    color: ${({ outline }) => (outline ? '#DD8A08' : '#F7F7F7')};
    transition: 0.2s;
    cursor: pointer;
+   padding: ${({ padding }) => padding || '10px 16px'};
    :hover {
       background: #bb7200;
       border: #bb7200;
