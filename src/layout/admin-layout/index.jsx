@@ -1,12 +1,15 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from './Header/Header'
 
-const AdminLayout = (props) => {
+const AdminLayout = () => {
    return (
       <>
          <Header />
-         <Main>{props.children}</Main>
+         <Main>
+            <Outlet />
+         </Main>
       </>
    )
 }

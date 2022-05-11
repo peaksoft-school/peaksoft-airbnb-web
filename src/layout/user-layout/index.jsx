@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useLocation, useSearchParams } from 'react-router-dom'
+import { useLocation, useSearchParams, Outlet } from 'react-router-dom'
 import Footer from './footer/Footer'
 import Header from './header-user/Header'
 import HeaderMain from './header-main/Header'
@@ -8,7 +8,7 @@ import SignInWithGoogle from '../../components/login/SignInWithGoogle'
 import SignInAsAdmin from '../../components/login/SignInAsAdmin'
 import Modal from '../../components/UI/modal/Modal'
 
-const UserLayout = (props) => {
+const UserLayout = () => {
    const [params, setParams] = useSearchParams()
    const { pathname } = useLocation()
 
@@ -42,7 +42,9 @@ const UserLayout = (props) => {
          ) : (
             <Header showSignInWithGoogle={showSignInWithGoogle} />
          )}
-         <Main>{props.children}</Main>
+         <Main>
+            <Outlet />
+         </Main>
          <Footer />
       </>
    )
