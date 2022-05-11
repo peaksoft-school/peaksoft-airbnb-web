@@ -5,12 +5,12 @@ import Flex from '../UI/ui-for-positions/Flex'
 import Text from '../UI/typography/Text'
 import Title from '../UI/typography/Title'
 import GoogleButton from '../UI/buttons/GoogleButton'
-import { signInWithGoogle } from '../../store/authSlice'
+import { googleAccountIntegration } from '../../store/authSlice'
 
 const SignInWithGoogle = ({ showSignInAsAdminHandler }) => {
    const dispatch = useDispatch()
 
-   const signInHandler = () => dispatch(signInWithGoogle())
+   const signInHandler = () => dispatch(googleAccountIntegration())
 
    return (
       <ContainerForm>

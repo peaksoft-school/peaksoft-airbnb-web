@@ -11,10 +11,12 @@ import Nav from '../../header-menu/Nav'
 import Input from '../../../../components/UI/text-fields/Input'
 import NavBurger from '../../header-menu/NavBurger'
 
-const HeaderUserContent = ({ auth, showMenuHandler }) => {
+const HeaderUserContent = ({ auth, showMenuHandler, showSignInWithGoogle }) => {
    const navigate = useNavigate()
 
-   const loginHandler = () => {}
+   const loginHandler = () => {
+      showSignInWithGoogle()
+   }
 
    const navigateToForm = () => navigate('/submit-an-ad')
    return (

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import initializeAuthenication from '../Firebase/firebase.init'
+import { fetchApi } from '../api/fetchApi'
 
 initializeAuthenication()
 const provider = new GoogleAuthProvider()
@@ -12,23 +13,35 @@ const initialState = {
    status: null,
    error: null,
 }
-export const signInWithGoogle = createAsyncThunk(
+export const googleAccountIntegration = createAsyncThunk(
    'auth/google',
-   async function (_, { rejectWithValue }) {
+   async function (_, { rejectWithValue, dispatch }) {
       try {
          const response = await signInWithPopup(auth, provider)
          const { user } = response
-         return {
-            token: user.accessToken,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            email: user.email,
-            phoneNumber: user.phoneNumber,
-         }
+         dispatch(
+            signInWithGoogle({
+               idToken: user.accessToken,
+            })
+         )
       } catch (error) {
          rejectWithValue(error.message)
       }
       return null
+   }
+)
+export const signInWithGoogle = createAsyncThunk(
+   'auth/signInWithGoogle',
+   async function ({ idToken }, { rejectWithValue }) {
+      try {
+         return fetchApi({
+            path: 'api/auth/user/login',
+            method: 'POST',
+            body: { idToken },
+         })
+      } catch (error) {
+         rejectWithValue(error)
+      }
    }
 )
 
@@ -42,17 +55,19 @@ const authSlice = createSlice({
    },
    extraReducers: {
       [signInWithGoogle.pending]: (state) => {
-         state.status = 'succes'
+         state.status = 'loading'
       },
       [signInWithGoogle.fulfilled]: (state, { payload }) => {
+         console.log(payload)
          state.status = 'succes'
-         state.token = payload.accessToken
-         state.user = payload
+         state.token = payload.idToken
+         state.user = payload.user
          state.error = null
       },
       [signInWithGoogle.rejected]: (state, action) => {
+         console.log(action.error.message)
          state.status = 'rejected'
-         state.error = action.payload
+         state.error = action.error.message
       },
    },
 })

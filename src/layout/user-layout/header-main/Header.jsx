@@ -21,6 +21,7 @@ const Header = ({ showSignInWithGoogle }) => {
             showMenu={showMenu}
             hideMenuHandler={hideMenuHandler}
             auth={auth}
+            showSignInWithGoogle={showSignInWithGoogle}
          />
          <Flex width="100%" justify="space-between" align="center">
             <HeaderContentMain

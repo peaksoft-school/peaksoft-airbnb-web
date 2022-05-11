@@ -5,14 +5,14 @@ import media from '../../../utils/helpers/media'
 import HeaderUserContent from './HeaderContent/HeaderUserContent'
 import HeaderMenu from '../header-menu/HeaderMenu'
 
-const Header = () => {
+const Header = ({ showSignInWithGoogle }) => {
    const [showMenu, setShowMenu] = useState(false)
 
    const showMenuHandler = () => setShowMenu(true)
 
    const hideMenuHandler = () => setShowMenu(false)
 
-   const auth = true
+   const auth = false
 
    return (
       <HeaderStyled>
@@ -21,9 +21,14 @@ const Header = () => {
             showMenu={showMenu}
             hideMenuHandler={hideMenuHandler}
             auth={auth}
+            showSignInWithGoogle={showSignInWithGoogle}
          />
          <Flex width="100%" justify="space-between" align="center">
-            <HeaderUserContent showMenuHandler={showMenuHandler} auth={auth} />
+            <HeaderUserContent
+               showSignInWithGoogle={showSignInWithGoogle}
+               showMenuHandler={showMenuHandler}
+               auth={auth}
+            />
          </Flex>
       </HeaderStyled>
    )

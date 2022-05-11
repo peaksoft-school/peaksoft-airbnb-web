@@ -6,7 +6,12 @@ import LogoAirBnb from '../../../components/UI/Logo/LogoAirBnb'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
 
-const HeaderMenu = ({ showMenu, hideMenuHandler, auth }) => {
+const HeaderMenu = ({
+   showMenu,
+   showSignInWithGoogle,
+   hideMenuHandler,
+   auth,
+}) => {
    return (
       <Drawer isVisible={showMenu} justify="center" onClose={hideMenuHandler}>
          <Flex justify="space-evenly" align="center" direction="column">
@@ -30,7 +35,9 @@ const HeaderMenu = ({ showMenu, hideMenuHandler, auth }) => {
             {auth ? (
                <Button>Submit an ad</Button>
             ) : (
-               <Button width="100%">JOIN AS</Button>
+               <Button onClick={() => showSignInWithGoogle()} width="100%">
+                  JOIN AS
+               </Button>
             )}
          </Flex>
       </Drawer>
