@@ -1,15 +1,17 @@
 import styled from 'styled-components'
 import Title from '../UI/typography/Title'
 import Flex from '../UI/ui-for-positions/Flex'
+import Text from '../UI/typography/Text'
 
 const Profile = () => {
    return (
       <Wrapper>
          <Div>M</Div>
-         <Flex>
+         <Flex justify="space-evenly">
             <Title width="49px" height="19px" color="#646464">
                Name:
             </Title>
+            <Text>Медер Медербеков</Text>
          </Flex>
       </Wrapper>
    )
@@ -38,10 +40,8 @@ const Div = styled.div`
    font-weight: 500;
    font-size: 38px;
    line-height: 46px;
-   /* identical to box height */
-
    text-transform: uppercase;
-
    color: #ffffff;
+   padding: 25px;
 `
 export default Profile
