@@ -27,7 +27,8 @@ const Modal = (props) => {
 }
 
 const ModalStyle = styled.div`
-   width: ${({ width }) => width || ''};
+   max-width: ${({ width }) => width || ''};
+   width: 100%;
    padding: 20px 25px;
    position: fixed;
    top: 50%;
