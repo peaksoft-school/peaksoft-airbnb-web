@@ -1,5 +1,5 @@
 /* eslint-disable no-plusplus */
-export const generatedDate = (bookings) => {
+export const getExcludedDates = (bookings) => {
    function getDatesRange(startDate, stopDate) {
       const ONE_DAY = 24 * 3600 * 1000
       const days = []
