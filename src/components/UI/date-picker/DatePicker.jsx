@@ -11,6 +11,7 @@ const DateRangePicker = ({
    onChangeEndDate,
    valueStartDate,
    valueEndDate,
+   booking,
 }) => {
    const endDateInput = useRef(null)
    const startDateInput = useRef(null)
@@ -18,7 +19,7 @@ const DateRangePicker = ({
    return (
       <Flex gap={2}>
          <DatePicker
-            excludeDates={getExcludedDates()}
+            excludeDates={getExcludedDates(booking)}
             minDate={new Date()}
             rangeStartDate={valueStartDate}
             rangeEndDate={valueEndDate}
@@ -32,7 +33,7 @@ const DateRangePicker = ({
          />
          <DatePicker
             minDate={new Date()}
-            excludeDates={getExcludedDates()}
+            excludeDates={getExcludedDates(booking)}
             rangeStartDate={valueStartDate}
             rangeEndDate={valueEndDate}
             id="example-end-date"
