@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 import { ReactComponent as NavBurger } from '../../../assets/icons/NavAdmin.svg'
@@ -6,9 +7,11 @@ import Drawer from '../../../components/UI/drawer/Drawer'
 import LogoAirBnb from '../../../components/UI/Logo/LogoAirBnb'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
+import { modalActions } from '../../../store/modalSlice'
 import media from '../../../utils/helpers/media'
 
 const Nav = () => {
+   const dispatch = useDispatch()
    const [showMenu, setShowMenu] = useState(false)
    const showMenuHamdler = () => {
       setShowMenu(true)
@@ -16,7 +19,9 @@ const Nav = () => {
    const hideMenuHandler = () => {
       setShowMenu(false)
    }
-   const logOutHandler = () => {}
+   const logOutHandler = () => {
+      dispatch(modalActions.showLogoutModal())
+   }
 
    const isActiveFunction = (isAcive) => {
       return isAcive ? 'active' : ''
@@ -122,7 +127,6 @@ const Li = styled.li`
    
 `}
 `
-
 const NabBar = styled.div`
    border: none;
    background: none;

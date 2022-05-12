@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import styled, { createGlobalStyle } from 'styled-components'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
@@ -7,12 +8,11 @@ import HeaderContentMain from './HeaderContent/HeaderContentMain'
 
 const Header = ({ showSignInWithGoogle }) => {
    const [showMenu, setShowMenu] = useState(false)
+   const { auth } = useSelector((state) => state.auth)
 
    const showMenuHandler = () => setShowMenu(true)
 
    const hideMenuHandler = () => setShowMenu(false)
-
-   const auth = false
 
    return (
       <HeaderStyled>

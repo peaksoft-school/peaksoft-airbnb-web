@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Routes, Route } from 'react-router-dom'
 import AdminLayout from '../layout/admin-layout'
 import { ADMIN_ROUTES } from '../utils/constants/routes'
@@ -19,8 +20,7 @@ const EditHouse = React.lazy(() => import('../pages/admin-pages/edit-house'))
 const AllHousing = React.lazy(() => import('../pages/admin-pages/all-housing'))
 
 const AdminRoutes = () => {
-   const auth = true
-   const role = 'admin'
+   const { auth, role } = useSelector((state) => state.auth)
    const {
       ANNOUNCEMENT,
       ANNOUNCEMENT_NAME,

@@ -1,23 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Flex from '../UI/ui-for-positions/Flex'
 import Text from '../UI/typography/Text'
 import Title from '../UI/typography/Title'
 import GoogleButton from '../UI/buttons/GoogleButton'
 import { googleAccountIntegration } from '../../store/authSlice'
+import Loader from '../UI/loader/Loader'
 
 const SignInWithGoogle = ({ showSignInAsAdminHandler }) => {
+   const navigate = useNavigate()
    const dispatch = useDispatch()
+   const { auth, error, role, isLoading } = useSelector((state) => state.auth)
+
+   useEffect(() => {
+      if (auth && role === 'wendor') navigate('/profile')
+   }, [auth, role])
 
    const signInHandler = () => dispatch(googleAccountIntegration())
 
    return (
       <ContainerForm>
+         {isLoading && <Loader />}
          <Flex direction="column" align="center" gap="20px">
             <Title uppercase>
                <b>Join us</b>
             </Title>
+            <p>{error}</p>
             <Text>
                Sign in with Google to start booking available listings!
             </Text>

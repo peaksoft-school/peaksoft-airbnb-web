@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Flex from '../UI/ui-for-positions/Flex'
 import Input from '../UI/text-fields/Input'
 import Button from '../UI/buttons/Button'
@@ -9,7 +10,14 @@ import Title from '../UI/typography/Title'
 import { signInAsAdmin } from '../../store/authSlice'
 
 const SignInAsAdmin = () => {
+   const { error, auth, role } = useSelector((state) => state.auth)
    const dispatch = useDispatch()
+   const navigate = useNavigate()
+
+   useEffect(() => {
+      if (auth && role === 'admin') navigate('/announcement')
+   }, [auth, role])
+
    const {
       register,
       formState: { errors, isValid },
@@ -18,7 +26,7 @@ const SignInAsAdmin = () => {
    } = useForm({ mode: 'onChange' })
    const input = {
       login: {
-         ...register('login', {
+         ...register('email', {
             required: 'Please enter login',
          }),
       },
@@ -38,15 +46,16 @@ const SignInAsAdmin = () => {
          <Title size="18px" uppercase>
             SIGN IN
          </Title>
+         <ErrorMessage>{error}</ErrorMessage>
          <Flex width="100%" direction="column" gap="15px">
             <Flex direction="column" gap="5px">
                <Input
-                  isValid={errors?.login && !isValid}
+                  isValid={errors?.email && !isValid}
                   {...input.login}
                   placeholder="Login"
                />
                <ErrorMessage>
-                  {errors?.login ? errors.login.message : ''}
+                  {errors?.email ? errors.email.message : ''}
                </ErrorMessage>
             </Flex>
             <Flex direction="column" gap="5px  ">

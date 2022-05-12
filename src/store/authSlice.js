@@ -7,23 +7,26 @@ initializeAuthenication()
 const provider = new GoogleAuthProvider()
 const auth = getAuth()
 
+const localData = JSON.parse(localStorage.getItem('@users'))
+
 const initialState = {
-   auth: false,
-   token: null,
-   user: null,
-   status: null,
+   auth: localData.auth || false,
+   token: localData.token || null,
+   user: localData.user || null,
+   status: '',
+   isLoading: false,
    error: null,
+   role: localData.role || null,
 }
 export const signInAsAdmin = createAsyncThunk(
    'auth/admin',
    async (dataAdmin, { rejectWithValue }) => {
       try {
-         const response = fetchApi({
+         return fetchApi({
             method: 'POST',
             path: 'api/auth/admin/login',
-            body: { dataAdmin },
+            body: dataAdmin,
          })
-         return await response.json()
       } catch (error) {
          rejectWithValue(error)
       }
@@ -65,39 +68,48 @@ const authSlice = createSlice({
    name: 'auth',
    initialState,
    reducers: {
-      saveUser(state, action) {
-         state.token = action.payload.accessToken
+      signOut(state) {
+         state.auth = false
+         state.token = null
+         state.user = null
+         state.role = null
       },
    },
    extraReducers: {
       [signInWithGoogle.pending]: (state) => {
          state.status = 'loading'
+         state.isLoading = true
       },
       [signInWithGoogle.fulfilled]: (state, { payload }) => {
-         state.status = 'succes'
-         state.token = payload.idToken
-         state.user = payload.user
+         state.status = 'success'
+         state.auth = true
+         state.role = 'wendor'
+         state.token = payload.data.idToken
+         state.user = payload.data.user
          state.error = null
+         state.isLoading = false
       },
       [signInWithGoogle.rejected]: (state, action) => {
          state.status = 'rejected'
          state.error = action.error.message
+         state.isLoading = false
       },
 
       [signInAsAdmin.pending]: (state) => {
          state.status = 'loading'
+         state.isLoading = true
       },
       [signInAsAdmin.fulfilled]: (state, { payload }) => {
          state.status = 'succes'
-         console.log(payload)
-         // state.token = payload.idToken
-         // state.user = payload.user
-         // state.error = null
+         state.token = payload.idToken
+         state.user = payload.user
+         state.error = null
+         state.isLoading = false
       },
-      [signInAsAdmin.rejected]: (state, action) => {
-         console.log(action.error.message)
+      [signInAsAdmin.rejected]: (state, { error }) => {
          state.status = 'rejected'
-         state.error = action.error.message
+         state.error = error.message
+         state.isLoading = false
       },
    },
 })
