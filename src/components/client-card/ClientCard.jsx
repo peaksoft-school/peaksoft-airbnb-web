@@ -8,38 +8,43 @@ import Flex from '../UI/ui-for-positions/Flex'
 import Title from '../UI/typography/Title'
 import Carousel from '../UI/carousel/Carousel'
 
-const ClientCard = ({ width }) => {
+const ClientCard = ({
+   width,
+   title,
+   day,
+   starRange,
+   text,
+   address,
+   guest,
+   image,
+}) => {
    return (
       <Wrapper width={width}>
          <Flex direction="column" align="center">
             <ImgWrapper>
-               <Carousel />
+               <Carousel dataSlider={image} />
             </ImgWrapper>
 
             <ContentWrapper>
                <Flex margin="16px 0" justify="space-between" width="100%">
                   <Flex gap="3px" align="center">
-                     <Title>$26/</Title>
-                     <Text size="16px">day</Text>
+                     <Title>${title}/</Title>
+                     <Text size="16px">{day}</Text>
                   </Flex>
                   <StarStyle>
                      <Stars />
-                     <Div>3.4</Div>
+                     <Div>{starRange}</Div>
                   </StarStyle>
                </Flex>
                <Flex direction="column" gap="8px">
-                  <Title className="text">
-                     Beautiful and pictures fhgfg ghfghffffffffffh thffytftyfy
-                  </Title>
+                  <Title className="text">{text}</Title>
                   <Flex width="100%" align="flex-start" margin="0 0 18px 0">
                      <Geolocations />
-                     <Text className="text">
-                        12 Morris Ave, Toronto, ON, CA gfgjhjh
-                     </Text>
+                     <Text className="text">{address}</Text>
                   </Flex>
                </Flex>
                <Flex width="100%" justify="space-between" align="center">
-                  <Text>2 guests</Text>
+                  <Text>{guest} guests</Text>
                   <Button padding="6px 8px">BOOK</Button>
                </Flex>
             </ContentWrapper>
