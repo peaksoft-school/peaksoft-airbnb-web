@@ -18,7 +18,7 @@ const AdminCard = ({
    text,
    address,
    guest,
-   image,
+   images,
 }) => {
    const [showMeetballs, setShowMeetballs] = useState(false)
    const meetballsHandler = () => setShowMeetballs(!showMeetballs)
@@ -33,7 +33,7 @@ const AdminCard = ({
       <Wrapper width={width} isViewed={isViewed}>
          <Flex direction="column" align="center">
             <ImgWrapper>
-               <Carousel dataSlider={image} />
+               <Carousel dataSlider={images} />
             </ImgWrapper>
 
             <ContentWrapper>
