@@ -1,12 +1,15 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
 import Flex from '../UI/ui-for-positions/Flex'
 import Input from '../UI/text-fields/Input'
 import Button from '../UI/buttons/Button'
 import Title from '../UI/typography/Title'
+import { signInAsAdmin } from '../../store/authSlice'
 
 const SignInAsAdmin = () => {
+   const dispatch = useDispatch()
    const {
       register,
       formState: { errors, isValid },
@@ -26,7 +29,7 @@ const SignInAsAdmin = () => {
       },
    }
    const submitHandler = (data) => {
-      console.log(data)
+      dispatch(signInAsAdmin(data))
       reset()
    }
 

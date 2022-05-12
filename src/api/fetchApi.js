@@ -1,4 +1,4 @@
-const SERVER_BASE_URL = 'http://ec2-54-83-251-79.compute-1.amazonaws.com:8000'
+const SERVER_BASE_URL = 'http://192.168.3.228:8008'
 export const fetchApi = async (options) => {
    try {
       let { path } = options
