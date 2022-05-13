@@ -34,12 +34,16 @@ const Checkout = () => {
             <Flex margin="10px 0 20px 0 ">
                <hr width="454px" color="#C4C4C4" />
             </Flex>
-            <DateRangePicker
-               onChangeStartDate={onChangeStartDate}
-               onChangeEndDate={onChangeEndDate}
-               valueStartDate={valueDatePicker.valueStartDate}
-               valueEndDate={valueDatePicker.valueEndDate}
-            />
+            <DatePickerStyle>
+               <DateRangePicker
+                  onChangeStartDate={onChangeStartDate}
+                  onChangeEndDate={onChangeEndDate}
+                  valueStartDate={valueDatePicker.valueStartDate}
+                  valueEndDate={valueDatePicker.valueEndDate}
+                  booking={[]}
+               />
+            </DatePickerStyle>
+
             <Button width="100%">REQUEST TO BOOK</Button>
             <Flex margin="20px 0 0 0 ">
                <Text>You have to be signed in to book a listing</Text>
@@ -62,9 +66,9 @@ const Wrapper = styled.div`
       border-radius: 2px;
    }
 `
-// const Line = styled.div`
-//    width: 454px;
-//    border: 1px solid #c4c4c4;
-// `
+
+const DatePickerStyle = styled.div`
+   margin-bottom: 25px;
+`
 
 export default Checkout
