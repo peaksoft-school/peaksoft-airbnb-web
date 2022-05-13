@@ -60,6 +60,7 @@ const SignInAsAdmin = () => {
             </Flex>
             <Flex direction="column" gap="5px  ">
                <Input
+                  type="password"
                   isValid={errors?.password && !isValid}
                   {...input.password}
                   placeholder="Password"

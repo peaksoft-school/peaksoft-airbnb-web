@@ -12,7 +12,6 @@ const ContentForProfile = () => {
    const [showProfile, setShowProfile] = useState(false)
 
    const logoutHandler = () => {
-      setShowProfile(false)
       dispatch(modalActions.showLogoutModal())
    }
    return (

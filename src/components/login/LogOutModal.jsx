@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
+// import { signOut } from 'firebase/auth'
 import Button from '../UI/buttons/Button'
 import Title from '../UI/typography/Title'
 import Flex from '../UI/ui-for-positions/Flex'

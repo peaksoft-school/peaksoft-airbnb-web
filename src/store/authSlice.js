@@ -1,11 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
-import initializeAuthenication from '../Firebase/firebase.init'
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { authentication } from '../Firebase/firebase-config'
 import { fetchApi } from '../api/fetchApi'
 
-initializeAuthenication()
 const provider = new GoogleAuthProvider()
-const auth = getAuth()
 
 const localData = JSON.parse(localStorage.getItem('@users'))
 
@@ -36,7 +34,7 @@ export const googleAccountIntegration = createAsyncThunk(
    'auth/google',
    async function (_, { rejectWithValue, dispatch }) {
       try {
-         const response = await signInWithPopup(auth, provider)
+         const response = await signInWithPopup(authentication, provider)
          const { idToken } = GoogleAuthProvider.credentialFromResult(response)
          dispatch(
             signInWithGoogle({
@@ -101,8 +99,10 @@ const authSlice = createSlice({
       },
       [signInAsAdmin.fulfilled]: (state, { payload }) => {
          state.status = 'succes'
-         state.token = payload.idToken
-         state.user = payload.user
+         state.role = 'admin'
+         state.auth = true
+         state.token = payload.data.token
+         state.user = payload.data.user
          state.error = null
          state.isLoading = false
       },
