@@ -1,10 +1,29 @@
 import styled from 'styled-components'
+import { useState } from 'react'
 import Title from '../UI/typography/Title'
 import Text from '../UI/typography/Text'
 import Button from '../UI/buttons/Button'
 import Flex from '../UI/ui-for-positions/Flex'
+import DateRangePicker from '../UI/date-picker/DatePicker'
 
 const Checkout = () => {
+   const [valueDatePicker, setValueDatePicker] = useState({
+      valueStartDate: null,
+      valueEndDate: null,
+   })
+   const onChangeStartDate = (value) => {
+      setValueDatePicker({
+         ...valueDatePicker,
+         valueStartDate: value,
+      })
+   }
+
+   const onChangeEndDate = (value) => {
+      setValueDatePicker({
+         ...valueDatePicker,
+         valueEndDate: value,
+      })
+   }
    return (
       <Wrapper>
          <Flex direction="column" align="center">
@@ -15,6 +34,12 @@ const Checkout = () => {
             <Flex margin="10px 0 20px 0 ">
                <hr width="454px" color="#C4C4C4" />
             </Flex>
+            <DateRangePicker
+               onChangeStartDate={onChangeStartDate}
+               onChangeEndDate={onChangeEndDate}
+               valueStartDate={valueDatePicker.valueStartDate}
+               valueEndDate={valueDatePicker.valueEndDate}
+            />
             <Button width="100%">REQUEST TO BOOK</Button>
             <Flex margin="20px 0 0 0 ">
                <Text>You have to be signed in to book a listing</Text>

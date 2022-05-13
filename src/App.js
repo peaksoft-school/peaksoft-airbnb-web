@@ -1,4 +1,6 @@
+// import { useState } from 'react'
 import Checkout from './components/checkout-form/Checkout'
+// import DateRangePicker from './components/UI/date-picker/DatePicker'
 import AdminRoutes from './routes/AdminRoutes'
 import UserRoutes from './routes/UserRoutes'
 
@@ -7,6 +9,7 @@ function App() {
       <div className="App">
          <UserRoutes />
          <AdminRoutes />
+
          <Checkout />
       </div>
    )
