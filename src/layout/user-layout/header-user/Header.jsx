@@ -31,7 +31,6 @@ const Header = () => {
 const HeaderStyled = styled.header`
    width: 100%;
    padding: 20px 60px;
-   position: fixed;
    background-color: #ffffff;
    .btn {
       ${media.tablet`

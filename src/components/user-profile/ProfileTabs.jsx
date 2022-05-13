@@ -6,7 +6,6 @@ import { useState } from 'react'
 
 const AntTabs = styled(Tabs)({
    borderBottom: '1px solid #e8e8e8',
-   //    marginBottom: '10rem',
    '& .MuiTabs-indicator': {
       backgroundColor: '#363636',
    },
@@ -22,7 +21,6 @@ const AntTab = styled((props) => <Tab disableRipple {...props} />)(
          minWidth: 0,
       },
       fontWeight: theme.typography.fontWeightRegular,
-      //   marginRight: theme.spacing(1),
       color: 'rgba(0, 0, 0, 0.85)',
       fontFamily: [
          '-apple-system',
@@ -45,13 +43,10 @@ const AntTab = styled((props) => <Tab disableRipple {...props} />)(
          color: '#363636',
          fontWeight: theme.typography.fontWeightMedium,
       },
-      //   '&.Mui-focusVisible': {
-      //      backgroundColor: '#d1eaff',
-      //   },
    })
 )
 
-export default function CustomizedTabs() {
+const ProfileTabs = () => {
    const [tabValue, setTabValue] = useState(0)
 
    const handleChange = (event, newValue) => {
@@ -69,8 +64,9 @@ export default function CustomizedTabs() {
                <AntTab label="Bookings" />
                <AntTab label="My announcement" />
             </AntTabs>
-            {/* <Box sx={{ p: 0 }} /> */}
          </Box>
       </Box>
    )
 }
+
+export default ProfileTabs
