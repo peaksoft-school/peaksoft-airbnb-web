@@ -38,7 +38,12 @@ const ClientCard = ({
                </Flex>
                <Flex direction="column" gap="8px">
                   <Title className="text">{text}</Title>
-                  <Flex width="100%" align="flex-start" margin="0 0 18px 0">
+                  <Flex
+                     width="100%"
+                     align="center"
+                     gap="3px"
+                     margin="0 0 18px 0"
+                  >
                      <Geolocations />
                      <Text className="text">{address}</Text>
                   </Flex>
@@ -59,7 +64,7 @@ const Wrapper = styled.div`
    @media (max-width: 425px) {
       width: 100%;
    }
-   background-color: #f7f7f7;
+   background-color: transparent;
    :hover {
       box-shadow: 0px 4px 12px rgba(105, 105, 105, 0.08);
       background-color: #ffffff;
@@ -96,8 +101,7 @@ const StarStyle = styled.div`
    align-items: center;
    border-radius: 2px;
    gap: 4.5px;
-   width: 62px;
-   height: 25px;
+   padding: 5px 11px;
 `
 
 export default ClientCard

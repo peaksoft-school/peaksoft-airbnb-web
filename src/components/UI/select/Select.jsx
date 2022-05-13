@@ -78,6 +78,7 @@ const Options = styled.div`
    left: 0;
    top: 50px;
    animation: OPTION 0.4s ease-in-out;
+   z-index: 10;
    @keyframes OPTION {
       from {
          opacity: 0;
