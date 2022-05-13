@@ -2,18 +2,18 @@ import styled from 'styled-components'
 import Title from '../UI/typography/Title'
 import Flex from '../UI/ui-for-positions/Flex'
 
-const UserCart = () => {
+const UserCart = ({ name, email }) => {
    return (
       <Wrapper>
          <Div />
          <Flex>
             <Title color="#646464" className="text">
-               Name: <strong>Медер Медербеков</strong>
+               Name: <strong>{name}</strong>
             </Title>
          </Flex>
          <Flex>
             <Title color="#646464">
-               Contact: <strong>mederbekov@gmail.com</strong>
+               Contact: <strong>{email}</strong>
             </Title>
          </Flex>
          <Flex>

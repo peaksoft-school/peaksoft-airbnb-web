@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import Flex from '../UI/ui-for-positions/Flex'
 import UserCart from './UserCart'
-import ProfileList from './ProfileList'
 import ProfileTabs from './ProfileTabs'
+import ProfileList from './ProfileList'
+// import ProfileBackdrop from './ProfileBackdrop'
 
 const Profile = () => {
    const data = [
@@ -111,6 +112,10 @@ const Profile = () => {
                      gap="20px"
                      wrap="wrap"
                   >
+                     {/* <VectorStyle>
+                        <ProfileBackdrop />
+                     </VectorStyle> */}
+
                      {data.map((el) => (
                         <ProfileList
                            width="260px"
@@ -137,7 +142,7 @@ const UserProfile = styled.div`
    font-style: normal;
    font-weight: 500;
    font-size: 20px;
-   /* line-height: 24px; */
+   padding-top: 30px;
    text-transform: uppercase;
    color: #363636;
 `
@@ -147,6 +152,12 @@ const WrapperContainer = styled.div`
    margin: 0 auto;
 `
 const ContainerList = styled.div`
-   /* width: 820px; */
+   width: 820px;
+   padding-bottom: 8rem;
 `
+// const VectorStyle = styled.div`
+//    width: 24px;
+//    height: 24px;
+//    background: #f3f3f3;
+// `
 export default Profile

@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import { useState } from 'react'
 
 const AntTabs = styled(Tabs)({
-   borderBottom: '1px solid #e8e8e8',
+   borderBottom: '1px solid #C4C4C4',
    '& .MuiTabs-indicator': {
       backgroundColor: '#363636',
    },
@@ -64,6 +64,7 @@ const ProfileTabs = () => {
                <AntTab label="Bookings" />
                <AntTab label="My announcement" />
             </AntTabs>
+            <Box sx={{ p: 2 }} />
          </Box>
       </Box>
    )

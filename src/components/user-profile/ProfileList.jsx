@@ -1,12 +1,13 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { useState } from 'react'
 import { ReactComponent as Stars } from '../../assets/icons/Star.svg'
 import { ReactComponent as Geolocations } from '../../assets/icons/Geolocation.svg'
+// import { ReactComponent as VectorBlocked } from '../../assets/icons/VectorBlocked.svg'
 import Text from '../UI/typography/Text'
 import Flex from '../UI/ui-for-positions/Flex'
 import Title from '../UI/typography/Title'
 import Carousel from '../UI/carousel/Carousel'
+// import Button from '../UI/buttons/Button'
 
 const ProfileList = ({
    width,
@@ -18,17 +19,10 @@ const ProfileList = ({
    guest,
    images,
 }) => {
-   const [showMeetballs, setShowMeetballs] = useState(false)
-   const meetballsHandler = () => setShowMeetballs(!showMeetballs)
-   const editBookHandler = () => {
-      setShowMeetballs(false)
-   }
-   const deleteBookHandler = () => {
-      setShowMeetballs(false)
-   }
    return (
       <Wrapper width={width}>
          <Flex direction="column" align="center">
+            {/* <VectorBlocked /> */}
             <ImgWrapper>
                <Carousel dataSlider={images} />
             </ImgWrapper>
@@ -52,15 +46,12 @@ const ProfileList = ({
                </Flex>
                <Flex width="100%" justify="space-between" align="center">
                   <Text>{guest} guests</Text>
-                  {showMeetballs && (
-                     <Meetballs>
-                        <AboutItem onClick={editBookHandler}>Edit</AboutItem>
-                        <AboutItem onClick={deleteBookHandler}>
-                           Delete
-                        </AboutItem>
-                     </Meetballs>
-                  )}
-                  <Button onClick={meetballsHandler}>...</Button>
+                  {/* <Button
+                     background="#D4D4D4
+"
+                  >
+                     blocked
+                  </Button> */}
                </Flex>
             </ContentWrapper>
          </Flex>
@@ -115,47 +106,5 @@ const StarStyle = styled.div`
    width: 62px;
    height: 25px;
 `
-const Button = styled.p`
-   border: none;
-   color: #c4c4c4;
-   width: 30px;
-   font-family: bold;
-   font-size: 20px;
-   bottom: 200px;
-   display: inline;
-   font-family: 'Inter';
-   font-weight: 400;
-   cursor: pointer;
-`
-const Meetballs = styled.div`
-   padding: 0.3rem;
-   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
-   background-color: white;
-   position: absolute;
-   bottom: 50px;
-   right: 20px;
-   animation: YES ease 0.2s;
-   @keyframes YES {
-      from {
-         opacity: 0;
-      }
-      to {
-         opacity: 1;
-      }
-   }
-`
-const AboutItem = styled.div`
-   width: 200px;
-   padding: 0.4rem 1rem;
-   box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
-   font-family: 'Inter';
-   font-weight: 400;
-   font-size: 16px;
-   background-color: #ebebeb;
-   color: #5d5d5d;
-   cursor: pointer;
-   :hover {
-      background-color: #b8b8b888;
-   }
-`
+
 export default ProfileList
