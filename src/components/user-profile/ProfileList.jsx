@@ -7,7 +7,6 @@ import Text from '../UI/typography/Text'
 import Flex from '../UI/ui-for-positions/Flex'
 import Title from '../UI/typography/Title'
 import Carousel from '../UI/carousel/Carousel'
-// import Button from '../UI/buttons/Button'
 
 const ProfileList = ({
    width,
@@ -46,12 +45,6 @@ const ProfileList = ({
                </Flex>
                <Flex width="100%" justify="space-between" align="center">
                   <Text>{guest} guests</Text>
-                  {/* <Button
-                     background="#D4D4D4
-"
-                  >
-                     blocked
-                  </Button> */}
                </Flex>
             </ContentWrapper>
          </Flex>
