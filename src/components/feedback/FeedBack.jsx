@@ -19,7 +19,7 @@ const FeedBack = ({ onClose, isVisible }) => {
 
    const onDrop = (file) => {
       const img = URL.createObjectURL(file[0])
-      setFiles([...files, { img, id: Math.random().toString() }])
+      setFiles([...files, { img, id: Date.now() }])
    }
 
    const removePhotosHandler = (id) => {
