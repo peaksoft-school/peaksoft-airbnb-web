@@ -15,8 +15,8 @@ function ImagePicker({ onDrop, files, deleteHandler }) {
       <Flex align="center" gap="16px">
          <Flex gap="5px" wrap="wrap">
             {files.map((img) => (
-               <GroupImg>
-                  <Image key={img} src={img.img} />
+               <GroupImg key={img.id}>
+                  <Image src={img.img} />
                   <DeleteBtn onClick={() => deleteHandler(img.id)}>
                      DELETE
                   </DeleteBtn>
@@ -57,6 +57,9 @@ const DeleteBtn = styled.button`
    right: 0;
    bottom: 0;
    display: none;
+   @media (max-width: 425px) {
+      font-size: 10px;
+   }
 `
 const GroupImg = styled.div`
    width: 100px;
@@ -66,14 +69,14 @@ const GroupImg = styled.div`
    :hover ${DeleteBtn} {
       display: block;
    }
-`
-const Image = styled.img`
-   width: 100%;
-   height: 100%;
    @media (max-width: 425px) {
       width: 60px;
       height: 60px;
    }
+`
+const Image = styled.img`
+   width: 100%;
+   height: 100%;
 `
 const ImagePickerStyled = styled.div`
    width: 100px;
