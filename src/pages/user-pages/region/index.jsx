@@ -37,7 +37,7 @@ const ClearAll = styled(Text)`
 `
 const GlobalStyle = createGlobalStyle`
    body{
-      background: #f1f1f1;
+      background: #f7f7f7;
    }
 `
 

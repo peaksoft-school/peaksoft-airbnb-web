@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import Drawer from '../../../components/UI/drawer/Drawer'
-import Title from '../../../components/UI/typography/Title'
-import Flex from '../../../components/UI/ui-for-positions/Flex'
-import RadioButton from '../../../components/UI/buttons/RadioButton'
-import Grid from '../../../components/UI/ui-for-positions/Grid'
-import Checkbox from '../../../components/UI/checkbox/Checkbox'
+import Drawer from '../UI/drawer/Drawer'
+import Title from '../UI/typography/Title'
+import Flex from '../UI/ui-for-positions/Flex'
+import RadioButton from '../UI/buttons/RadioButton'
+import Grid from '../UI/ui-for-positions/Grid'
+import Checkbox from '../UI/checkbox/Checkbox'
 
 const sortByRegion = [
    {
@@ -72,7 +72,29 @@ const sortByPrice = [
    },
 ]
 
-const MenuMobile = (props) => {
+const SelectsForFilterMobile = (props) => {
+   const [categories, setCategories] = useState({
+      type: [],
+      region: null,
+      sortby: [],
+      price: null,
+   })
+   console.log(categories)
+   const changeRadioButtonHnadler = (data) => {
+      setCategories({ ...categories, ...data })
+   }
+   const changeCheckboxHandler = ({ event, value }) => {
+      const { name, checked } = event.target
+      if (checked)
+         setCategories({ ...categories, [name]: [...categories[name], value] })
+
+      if (!checked) {
+         setCategories({
+            ...categories,
+            [name]: categories[name].filter((el) => el !== value),
+         })
+      }
+   }
    return (
       <Drawer {...props}>
          <Flex margin="10px 0 30px 0">
@@ -80,10 +102,15 @@ const MenuMobile = (props) => {
          </Flex>
          <Flex gap="12px" direction="column">
             <Title>Sort by</Title>
-            <Flex margin="0 0 20px 0" direction="column" gap="10px">
+            <Flex margin="0 0 20px 0" direction="column" gap="16px">
                {sortByPopular.map((el) => (
                   <Label key={el.label}>
-                     <Checkbox type="checkbox" />
+                     <Checkbox
+                        name="sortby"
+                        onChange={(event) =>
+                           changeCheckboxHandler({ event, value: el.value })
+                        }
+                     />
                      {el.label}
                   </Label>
                ))}
@@ -92,16 +119,25 @@ const MenuMobile = (props) => {
             <Flex margin="0 0 20px 0" direction="column" gap="10px">
                {sortByPrice.map((el) => (
                   <Label key={el.label}>
-                     <RadioButton />
+                     <RadioButton
+                        onChange={() =>
+                           changeRadioButtonHnadler({ price: el.value })
+                        }
+                     />
                      {el.label}
                   </Label>
                ))}
             </Flex>
             <Title>Type</Title>
-            <Flex margin="0 0 20px 0" direction="column" gap="10px">
+            <Flex margin="0 0 20px 0" direction="column" gap="16px">
                {sortByType.map((el) => (
                   <Label key={el.label}>
-                     <Checkbox />
+                     <Checkbox
+                        name="type"
+                        onChange={(event) =>
+                           changeCheckboxHandler({ event, value: el.value })
+                        }
+                     />
                      {el.label}
                   </Label>
                ))}
@@ -110,7 +146,11 @@ const MenuMobile = (props) => {
             <Grid gap="15px" columns="1fr 1fr">
                {sortByRegion.map((el) => (
                   <Label key={el.label}>
-                     <Checkbox />
+                     <RadioButton
+                        onChange={() =>
+                           changeRadioButtonHnadler({ region: el.value })
+                        }
+                     />
                      {el.label}
                   </Label>
                ))}
@@ -129,4 +169,4 @@ const Label = styled.label`
    align-items: center;
    gap: 10px;
 `
-export default MenuMobile
+export default SelectsForFilterMobile

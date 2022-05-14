@@ -6,7 +6,7 @@ import Title from '../UI/typography/Title'
 import Flex from '../UI/ui-for-positions/Flex'
 import media from '../../utils/helpers/media'
 import { ReactComponent as MenuFilter } from '../../assets/icons/filtermenu.svg'
-import MenuMobile from '../../pages/user-pages/region/MenuMobile'
+import SelectsForFilterMobile from './SelectsForFilterMobile'
 
 const sortByRegion = [
    {
@@ -99,7 +99,7 @@ const SelectsForFilter = () => {
    })
    return (
       <>
-         <MenuMobile
+         <SelectsForFilterMobile
             isVisible={showDrawer}
             onClose={() => setShowDrawer(false)}
          />
