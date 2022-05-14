@@ -8,7 +8,7 @@ import HeaderContentMain from './HeaderContent/HeaderContentMain'
 
 const Header = ({ showSignInWithGoogle }) => {
    const [showMenu, setShowMenu] = useState(false)
-   const { auth } = useSelector((state) => state.auth)
+   const { isAuthorized } = useSelector((state) => state.auth)
 
    const showMenuHandler = () => setShowMenu(true)
 
@@ -20,14 +20,14 @@ const Header = ({ showSignInWithGoogle }) => {
          <HeaderMenu
             showMenu={showMenu}
             hideMenuHandler={hideMenuHandler}
-            auth={auth}
+            isAuthorized={isAuthorized}
             showSignInWithGoogle={showSignInWithGoogle}
          />
          <Flex width="100%" justify="space-between" align="center">
             <HeaderContentMain
                showSignInWithGoogle={showSignInWithGoogle}
                showMenuHandler={showMenuHandler}
-               auth={auth}
+               isAuthorized={isAuthorized}
             />
          </Flex>
       </HeaderStyled>

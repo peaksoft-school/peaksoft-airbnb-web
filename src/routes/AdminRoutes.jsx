@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Routes, Route } from 'react-router-dom'
 import AdminLayout from '../layout/admin-layout'
+import { ROLES } from '../utils/constants/general'
 import { ADMIN_ROUTES } from '../utils/constants/routes'
 import ProtectedRoute from './ProtectedRoute'
 
@@ -20,7 +21,7 @@ const EditHouse = React.lazy(() => import('../pages/admin-pages/edit-house'))
 const AllHousing = React.lazy(() => import('../pages/admin-pages/all-housing'))
 
 const AdminRoutes = () => {
-   const { auth, role } = useSelector((state) => state.auth)
+   const { isAuthorized, role } = useSelector((state) => state.auth)
    const {
       ANNOUNCEMENT,
       ANNOUNCEMENT_NAME,
@@ -34,7 +35,11 @@ const AdminRoutes = () => {
       <Routes>
          <Route element={<AdminLayout />}>
             <Route
-               element={<ProtectedRoute isAllowed={auth && role === 'admin'} />}
+               element={
+                  <ProtectedRoute
+                     isAllowed={isAuthorized && role === ROLES.ADMIN}
+                  />
+               }
             >
                <Route path={ANNOUNCEMENT.path} element={<Announcement />} />
                <Route

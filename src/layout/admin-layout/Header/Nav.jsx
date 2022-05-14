@@ -13,19 +13,15 @@ import media from '../../../utils/helpers/media'
 const Nav = () => {
    const dispatch = useDispatch()
    const [showMenu, setShowMenu] = useState(false)
-   const showMenuHamdler = () => {
-      setShowMenu(true)
-   }
-   const hideMenuHandler = () => {
-      setShowMenu(false)
-   }
-   const logOutHandler = () => {
-      dispatch(modalActions.showLogoutModal())
-   }
 
-   const isActiveFunction = (isAcive) => {
-      return isAcive ? 'active' : ''
-   }
+   const showMenuHamdler = () => setShowMenu(true)
+
+   const hideMenuHandler = () => setShowMenu(false)
+
+   const logOutHandler = () => dispatch(modalActions.showLogoutModal())
+
+   const isActiveFunction = (isAcive) => (isAcive ? 'active' : '')
+
    return (
       <>
          <GlobalStyle />

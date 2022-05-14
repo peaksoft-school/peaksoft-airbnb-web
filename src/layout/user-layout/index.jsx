@@ -23,9 +23,8 @@ const UserLayout = () => {
 
    const paramsValue = params.get('signIn')
 
-   const hideSignIn = () => {
-      setParams('')
-   }
+   const hideSignIn = () => setParams('')
+
    return (
       <>
          <Modal

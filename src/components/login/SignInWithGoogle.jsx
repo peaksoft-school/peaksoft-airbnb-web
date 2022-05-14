@@ -8,15 +8,18 @@ import Title from '../UI/typography/Title'
 import GoogleButton from '../UI/buttons/GoogleButton'
 import { googleAccountIntegration } from '../../store/authSlice'
 import Loader from '../UI/loader/Loader'
+import { ROLES } from '../../utils/constants/general'
 
 const SignInWithGoogle = ({ showSignInAsAdminHandler }) => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const { auth, error, role, isLoading } = useSelector((state) => state.auth)
+   const { isAuthorized, error, role, isLoading } = useSelector(
+      (state) => state.auth
+   )
 
    useEffect(() => {
-      if (auth && role === 'wendor') navigate('/profile')
-   }, [auth, role])
+      if (isAuthorized && role === ROLES.WENDOR) navigate('/profile')
+   }, [isAuthorized, role])
 
    const signInHandler = () => dispatch(googleAccountIntegration())
 

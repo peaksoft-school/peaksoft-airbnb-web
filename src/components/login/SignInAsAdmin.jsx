@@ -8,15 +8,16 @@ import Input from '../UI/text-fields/Input'
 import Button from '../UI/buttons/Button'
 import Title from '../UI/typography/Title'
 import { signInAsAdmin } from '../../store/authSlice'
+import { ROLES } from '../../utils/constants/general'
 
 const SignInAsAdmin = () => {
-   const { error, auth, role } = useSelector((state) => state.auth)
+   const { error, isAuthorized, role } = useSelector((state) => state.auth)
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
    useEffect(() => {
-      if (auth && role === 'admin') navigate('/announcement')
-   }, [auth, role])
+      if (isAuthorized && role === ROLES.ADMIN) navigate('/announcement')
+   }, [isAuthorized, role])
 
    const {
       register,

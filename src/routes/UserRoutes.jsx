@@ -5,6 +5,7 @@ import { USER_ROUTES } from '../utils/constants/routes'
 import Main from '../pages/user-pages/main'
 import ProtectedRoute from './ProtectedRoute'
 import UserLayout from '../layout/user-layout'
+import { ROLES } from '../utils/constants/general'
 
 const Region = React.lazy(() => import('../pages/user-pages/region'))
 const HomeDetail = React.lazy(() => import('../pages/user-pages/home-detail'))
@@ -24,7 +25,7 @@ const UserRoutes = () => {
             <Route path={HOUSE.path} element={<HomeDetail />} />
             <Route
                element={
-                  <ProtectedRoute isAllowed={auth && role === 'wendor'} />
+                  <ProtectedRoute isAllowed={auth && role === ROLES.WENDOR} />
                }
             >
                <Route path={PROFILE.path} element={<Profile />} />

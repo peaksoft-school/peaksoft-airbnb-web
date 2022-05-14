@@ -2,13 +2,15 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { authentication } from '../Firebase/firebase-config'
 import { fetchApi } from '../api/fetchApi'
+import { getDataFromLocalStorage } from '../utils/helpers/general'
+import { KEY_AUTH, ROLES } from '../utils/constants/general'
 
 const provider = new GoogleAuthProvider()
 
-const localData = JSON.parse(localStorage.getItem('@users'))
+const localData = getDataFromLocalStorage(KEY_AUTH) || {}
 
 const initialState = {
-   auth: localData.auth || false,
+   isAuthorized: localData.isAuthorized || false,
    token: localData.token || null,
    user: localData.user || null,
    status: '',
@@ -42,7 +44,7 @@ export const googleAccountIntegration = createAsyncThunk(
             })
          )
       } catch (error) {
-         rejectWithValue(error.message)
+         return rejectWithValue(error.message)
       }
       return null
    }
@@ -57,7 +59,7 @@ export const signInWithGoogle = createAsyncThunk(
             body: { idToken },
          })
       } catch (error) {
-         rejectWithValue(error)
+         return rejectWithValue(error)
       }
    }
 )
@@ -67,7 +69,7 @@ const authSlice = createSlice({
    initialState,
    reducers: {
       signOut(state) {
-         state.auth = false
+         state.isAuthorized = false
          state.token = null
          state.user = null
          state.role = null
@@ -80,8 +82,8 @@ const authSlice = createSlice({
       },
       [signInWithGoogle.fulfilled]: (state, { payload }) => {
          state.status = 'success'
-         state.auth = true
-         state.role = 'wendor'
+         state.isAuthorized = true
+         state.role = ROLES.WENDOR
          state.token = payload.data.idToken
          state.user = payload.data.user
          state.error = null
@@ -99,8 +101,8 @@ const authSlice = createSlice({
       },
       [signInAsAdmin.fulfilled]: (state, { payload }) => {
          state.status = 'succes'
-         state.role = 'admin'
-         state.auth = true
+         state.role = ROLES.ADMIN
+         state.isAuthorized = true
          state.token = payload.data.token
          state.user = payload.data.user
          state.error = null

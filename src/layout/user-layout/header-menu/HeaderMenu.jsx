@@ -13,7 +13,7 @@ const HeaderMenu = ({
    showMenu,
    showSignInWithGoogle,
    hideMenuHandler,
-   auth,
+   isAuthorized,
 }) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
@@ -35,7 +35,7 @@ const HeaderMenu = ({
             <Flex margin="70px 0 0 0">
                <LogoAirBnb color="dark" />
             </Flex>
-            {auth && (
+            {isAuthorized && (
                <Flex gap="20px" align="center">
                   {pathname !== '/profile' && (
                      <AboutItem onClick={profileHanlder}>My Profile</AboutItem>
@@ -51,7 +51,7 @@ const HeaderMenu = ({
                   <NavLink to="/">Leave an ad</NavLink>
                </Li>
             </List>
-            {auth ? (
+            {isAuthorized ? (
                pathname !== '/submit-an-ad' && (
                   <Button onClick={navigateToSubmitAnAd}>Submit an ad</Button>
                )

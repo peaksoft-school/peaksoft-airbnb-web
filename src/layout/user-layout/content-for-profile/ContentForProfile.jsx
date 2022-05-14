@@ -8,7 +8,7 @@ import Select from '../../../assets/icons/select.svg'
 import media from '../../../utils/helpers/media'
 import { modalActions } from '../../../store/modalSlice'
 
-const ContentForProfile = ({ auth }) => {
+const ContentForProfile = ({ isAuthorized }) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const { pathname } = useLocation()
@@ -24,7 +24,7 @@ const ContentForProfile = ({ auth }) => {
    }
 
    return (
-      auth && (
+      isAuthorized && (
          <Flex align="center" gap="20px">
             <Profile
                path={pathname}
