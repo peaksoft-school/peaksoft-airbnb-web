@@ -1,9 +1,11 @@
 import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { USER_ROUTES } from '../utils/constants/routes'
 import Main from '../pages/user-pages/main'
 import ProtectedRoute from './ProtectedRoute'
 import UserLayout from '../layout/user-layout'
+import { ROLES } from '../utils/constants/general'
 
 const Region = React.lazy(() => import('../pages/user-pages/region'))
 const HomeDetail = React.lazy(() => import('../pages/user-pages/home-detail'))
@@ -11,8 +13,8 @@ const Profile = React.lazy(() => import('../pages/user-pages/profile'))
 const SubmitAnAd = React.lazy(() => import('../pages/user-pages/submit-an-ad'))
 
 const UserRoutes = () => {
-   const auth = true
-   const role = 'wendor'
+   const { isAuthorized, role } = useSelector((state) => state.auth)
+
    const { INDEX, MAIN, REGION, HOUSE, PROFILE, SUBMIT_AN_AD } = USER_ROUTES
    return (
       <Routes>
@@ -23,7 +25,9 @@ const UserRoutes = () => {
             <Route path={HOUSE.path} element={<HomeDetail />} />
             <Route
                element={
-                  <ProtectedRoute isAllowed={auth && role === 'wendor'} />
+                  <ProtectedRoute
+                     isAllowed={isAuthorized && role === ROLES.WENDOR}
+                  />
                }
             >
                <Route path={PROFILE.path} element={<Profile />} />

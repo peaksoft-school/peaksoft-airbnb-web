@@ -11,10 +11,14 @@ import Nav from '../../header-menu/Nav'
 import Input from '../../../../components/UI/text-fields/Input'
 import NavBurger from '../../header-menu/NavBurger'
 
-const HeaderUserContent = ({ auth, showMenuHandler }) => {
+const HeaderUserContent = ({
+   isAuthorized,
+   showMenuHandler,
+   showSignInWithGoogle,
+}) => {
    const navigate = useNavigate()
 
-   const loginHandler = () => {}
+   const loginHandler = () => showSignInWithGoogle()
 
    const navigateToForm = () => navigate('/submit-an-ad')
    return (
@@ -29,13 +33,13 @@ const HeaderUserContent = ({ auth, showMenuHandler }) => {
                <SearchIcon />
             </SearchIconWrapper>
             <Search placeholder="search" />
-            {auth && (
+            {isAuthorized && (
                <Button onClick={navigateToForm} className="btnSubmit">
                   Submit an as
                </Button>
             )}
-            <ContentForProfile auth={auth} />
-            {!auth && (
+            <ContentForProfile isAuthorized={isAuthorized} />
+            {!isAuthorized && (
                <Button onClick={loginHandler} className="btn" width="250px">
                   JOIN AS
                </Button>
