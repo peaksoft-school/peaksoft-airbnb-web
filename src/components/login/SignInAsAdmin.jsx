@@ -9,9 +9,12 @@ import Button from '../UI/buttons/Button'
 import Title from '../UI/typography/Title'
 import { signInAsAdmin } from '../../store/authSlice'
 import { ROLES } from '../../utils/constants/general'
+import Spinner from '../UI/loader/Spinner'
 
 const SignInAsAdmin = () => {
-   const { error, isAuthorized, role } = useSelector((state) => state.auth)
+   const { error, isAuthorized, role, status } = useSelector(
+      (state) => state.auth
+   )
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
@@ -71,7 +74,9 @@ const SignInAsAdmin = () => {
                </ErrorMessage>
             </Flex>
          </Flex>
-         <Button width="100%">SIGN IN</Button>
+         <Button width="100%">
+            {status === 'loading' ? <Spinner /> : 'SIGN IN'}
+         </Button>
       </Form>
    )
 }
