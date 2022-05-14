@@ -5,7 +5,7 @@ import Title from '../typography/Title'
 const GoogleButton = (props) => {
    return (
       <GoogleStyled {...props}>
-         <GoogleSvg />
+         {props.isLoading && <GoogleSvg />}
          <Title size="18px" weight="bold">
             {props.children}
          </Title>

@@ -19,10 +19,20 @@ const UserRoutes = () => {
    return (
       <Routes>
          <Route element={<UserLayout />}>
-            <Route path={INDEX.path} element={<Navigate to={MAIN.path} />} />
-            <Route path={MAIN.path} element={<Main />} />
-            <Route path={REGION.path} element={<Region />} />
-            <Route path={HOUSE.path} element={<HomeDetail />} />
+            <Route
+               element={
+                  <ProtectedRoute
+                     redirectPath="/announcement"
+                     isAllowed={role !== ROLES.ADMIN}
+                  />
+               }
+            >
+               <Route path={INDEX.path} element={<Navigate to={MAIN.path} />} />
+               <Route path={MAIN.path} element={<Main />} />
+               <Route path={REGION.path} element={<Region />} />
+               <Route path={HOUSE.path} element={<HomeDetail />} />
+               <Route path={SUBMIT_AN_AD.path} element={<SubmitAnAd />} />
+            </Route>
             <Route
                element={
                   <ProtectedRoute
@@ -32,7 +42,6 @@ const UserRoutes = () => {
             >
                <Route path={PROFILE.path} element={<Profile />} />
             </Route>
-            <Route path={SUBMIT_AN_AD.path} element={<SubmitAnAd />} />
          </Route>
       </Routes>
    )

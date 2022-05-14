@@ -7,8 +7,8 @@ import Text from '../UI/typography/Text'
 import Title from '../UI/typography/Title'
 import GoogleButton from '../UI/buttons/GoogleButton'
 import { googleAccountIntegration } from '../../store/authSlice'
-import Loader from '../UI/loader/Loader'
 import { ROLES } from '../../utils/constants/general'
+import Spinner from '../UI/loader/Spinner'
 
 const SignInWithGoogle = ({ showSignInAsAdminHandler }) => {
    const navigate = useNavigate()
@@ -25,7 +25,6 @@ const SignInWithGoogle = ({ showSignInAsAdminHandler }) => {
 
    return (
       <ContainerForm>
-         {isLoading && <Loader />}
          <Flex direction="column" align="center" gap="20px">
             <Title uppercase>
                <b>Join us</b>
@@ -34,7 +33,9 @@ const SignInWithGoogle = ({ showSignInAsAdminHandler }) => {
             <Text>
                Sign in with Google to start booking available listings!
             </Text>
-            <GoogleButton onClick={signInHandler}>Google</GoogleButton>
+            <GoogleButton isLoading={!isLoading} onClick={signInHandler}>
+               {isLoading ? <Spinner dark /> : 'Google'}
+            </GoogleButton>
          </Flex>
          <Flex margin="40px 0 0 0" justify="center">
             <LoginAsAdmin onClick={showSignInAsAdminHandler}>
