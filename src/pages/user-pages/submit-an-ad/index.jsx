@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import ProfileCard from '../../../components/cards/ProfileCard'
 
 const data = [
@@ -32,7 +33,26 @@ const data = [
 ]
 
 const SubmitAnAd = () => {
-   return data.map((el) => <ProfileCard />)
+   return (
+      <Container>
+         {data.map((el) => (
+            <ProfileCard
+               key={el.day}
+               isViewed
+               day={el.day}
+               text={el.text}
+               address={el.address}
+               title={el.title}
+               starRange={el.starRange}
+               guest={el.guest}
+               image={el.image}
+            />
+         ))}
+      </Container>
+   )
 }
+const Container = styled.div`
+   margin: 30px;
+`
 
 export default SubmitAnAd

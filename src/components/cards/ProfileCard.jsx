@@ -8,7 +8,6 @@ import Flex from '../UI/ui-for-positions/Flex'
 import Title from '../UI/typography/Title'
 import Carousel from '../UI/carousel/Carousel'
 
-
 const ProfileCard = ({
    width,
    title,
