@@ -10,7 +10,6 @@ import Carousel from '../UI/carousel/Carousel'
 import { ReactComponent as WarningIcon } from '../../assets/icons/Warning.svg'
 
 const ProfileCard = ({
-   width,
    title,
    day,
    starRange,
@@ -21,7 +20,7 @@ const ProfileCard = ({
    blocked = true,
 }) => {
    return (
-      <Wrapper blocked={blocked} width={width}>
+      <Wrapper blocked={blocked}>
          {blocked && (
             <BlockedContent>
                <Flex justify="end">
@@ -83,7 +82,7 @@ const ContainerItem = styled(Flex)`
 `
 const Wrapper = styled.div`
    position: relative;
-   width: ${({ width }) => width || '260px'};
+   width: 260px;
    height: 332px;
    @media (max-width: 525px) {
       width: 40vmin;
