@@ -11,6 +11,7 @@ function ImagePicker({ onDrop, files, deleteHandler }) {
       onDrop,
       accept: 'image/*',
    })
+
    return (
       <Flex align="center" gap="16px">
          <Flex gap="5px" wrap="wrap">
@@ -62,8 +63,8 @@ const DeleteBtn = styled.button`
    }
 `
 const GroupImg = styled.div`
-   width: 100px;
-   height: 100px;
+   width: 135px;
+   height: 135px;
    position: relative;
    cursor: pointer;
    :hover ${DeleteBtn} {
@@ -77,10 +78,11 @@ const GroupImg = styled.div`
 const Image = styled.img`
    width: 100%;
    height: 100%;
+   object-fit: cover;
 `
 const ImagePickerStyled = styled.div`
-   width: 100px;
-   height: 100px;
+   width: 135px;
+   height: 135px;
    background: #f3f3f3;
    display: flex;
    justify-content: center;
