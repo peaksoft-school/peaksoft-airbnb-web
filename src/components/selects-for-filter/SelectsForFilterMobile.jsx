@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Drawer from '../UI/drawer/Drawer'
 import Title from '../UI/typography/Title'
@@ -14,28 +14,6 @@ import {
 } from '../../utils/constants/general'
 
 const SelectsForFilterMobile = (props) => {
-   const [categories, setCategories] = useState({
-      type: [],
-      region: null,
-      sortby: [],
-      price: null,
-   })
-   console.log(categories)
-   const changeRadioButtonHnadler = (data) => {
-      setCategories({ ...categories, ...data })
-   }
-   const changeCheckboxHandler = ({ event, value }) => {
-      const { name, checked } = event.target
-      if (checked)
-         setCategories({ ...categories, [name]: [...categories[name], value] })
-
-      if (!checked) {
-         setCategories({
-            ...categories,
-            [name]: categories[name].filter((el) => el !== value),
-         })
-      }
-   }
    return (
       <Drawer {...props}>
          <Flex margin="10px 0 30px 0">
@@ -47,10 +25,8 @@ const SelectsForFilterMobile = (props) => {
                {SORT_BY_POPULAR_FOR_MOBILE.map((el) => (
                   <Label key={el.label}>
                      <Checkbox
-                        name="sortby"
-                        onChange={(event) =>
-                           changeCheckboxHandler({ event, value: el.value })
-                        }
+                        value={el.value}
+                        onChange={(event) => props.onChange(event)}
                      />
                      {el.label}
                   </Label>
@@ -61,9 +37,8 @@ const SelectsForFilterMobile = (props) => {
                {SORT_BY_PRICE_FOR_MOBILE.map((el) => (
                   <Label key={el.label}>
                      <RadioButton
-                        onChange={() =>
-                           changeRadioButtonHnadler({ price: el.value })
-                        }
+                        value={el.value}
+                        onChange={(event) => props.onChange(event)}
                      />
                      {el.label}
                   </Label>
@@ -74,10 +49,8 @@ const SelectsForFilterMobile = (props) => {
                {SORT_BY_TYPE_FOR_MOBILE.map((el) => (
                   <Label key={el.label}>
                      <Checkbox
-                        name="type"
-                        onChange={(event) =>
-                           changeCheckboxHandler({ event, value: el.value })
-                        }
+                        value={el.value}
+                        onChange={(event) => props.onChange(event)}
                      />
                      {el.label}
                   </Label>
@@ -88,9 +61,8 @@ const SelectsForFilterMobile = (props) => {
                {SORT_BY_REGION_FOR_MOBILE.map((el) => (
                   <Label key={el.label}>
                      <RadioButton
-                        onChange={() =>
-                           changeRadioButtonHnadler({ region: el.value })
-                        }
+                        value={el.value}
+                        onChange={(event) => props.onChange(event)}
                      />
                      {el.label}
                   </Label>

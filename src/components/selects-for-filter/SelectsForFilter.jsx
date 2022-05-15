@@ -14,20 +14,14 @@ import {
    SORT_BY_TYPE,
 } from '../../utils/constants/general'
 
-const SelectsForFilter = () => {
+const SelectsForFilter = ({ onChange, onChangeMobileVersion }) => {
    const [showDrawer, setShowDrawer] = useState(false)
-   const [valueSelects, setValueSelects] = useState({
-      region: '',
-      homeType: '',
-      homePopular: '',
-      homePrice: '',
-   })
-   console.log(valueSelects)
    return (
       <>
          <SelectsForFilterMobile
             isVisible={showDrawer}
             onClose={() => setShowDrawer(false)}
+            onChange={onChangeMobileVersion}
          />
          <Flex wrap="wrap" align="center" justify="space-between" width="100%">
             <Title uppercase>
@@ -39,30 +33,22 @@ const SelectsForFilter = () => {
             </FilterMenu>
             <ContainerSelects>
                <Select
-                  onChange={(value) =>
-                     setValueSelects({ ...valueSelects, region: value })
-                  }
+                  onChange={(value) => onChange(value)}
                   data={SORT_BY_REGION}
                   name="Sort by"
                />
                <Select
-                  onChange={(value) =>
-                     setValueSelects({ ...valueSelects, homeType: value })
-                  }
+                  onChange={(value) => onChange(value)}
                   data={SORT_BY_TYPE}
                   name="Filter by home type"
                />
                <Select
-                  onChange={(value) =>
-                     setValueSelects({ ...valueSelects, homePopular: value })
-                  }
+                  onChange={(value) => onChange(value)}
                   data={SORT_BY_POPULAR}
                   name="Sort by"
                />
                <Select
-                  onChange={(value) =>
-                     setValueSelects({ ...valueSelects, homePrice: value })
-                  }
+                  onChange={(value) => onChange(value)}
                   data={SORT_BY_PRICE}
                   name="Filter by price"
                />

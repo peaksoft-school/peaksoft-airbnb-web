@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import Text from '../../../components/UI/typography/Text'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
@@ -8,10 +8,23 @@ import Tag from './Tags'
 import Pagination from '../../../components/pagination/Pagination'
 
 const Region = () => {
+   const [valueSelects, setValueSelects] = useState([])
+
+   const changeSelectHandler = (valueSelect) =>
+      setValueSelects([...valueSelects, valueSelect])
+
+   const changeForFilterMobileVersion = (event) => {
+      const { value, checked } = event.target
+      if (checked) setValueSelects([...valueSelects, value])
+      else setValueSelects(valueSelects.filter((item) => item !== value))
+   }
    return (
       <Container>
          <GlobalStyle />
-         <SelectsForFilter />
+         <SelectsForFilter
+            onChange={changeSelectHandler}
+            onChangeMobileVersion={changeForFilterMobileVersion}
+         />
          <Flex wrap="wrap" align="center" margin="40px 0" gap="10px">
             <Tag content="Appartment" dark />
             <Tag content="Popular" />
