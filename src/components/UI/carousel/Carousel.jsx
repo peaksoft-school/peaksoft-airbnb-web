@@ -83,10 +83,7 @@ const ContainerDots = styled.div`
 `
 const ContainerSlider = styled.div`
    width: 100%;
-   height: 191px;
-   @media (max-width: 425px) {
-      width: 100%;
-   }
+   height: 100%;
    position: relative;
    overflow: hidden;
    :hover {
