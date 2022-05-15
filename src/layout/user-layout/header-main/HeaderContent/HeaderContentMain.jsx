@@ -8,21 +8,27 @@ import Nav from '../../header-menu/Nav'
 import media from '../../../../utils/helpers/media'
 import NavBurger from '../../header-menu/NavBurger'
 
-const HeaderContentMain = ({ auth, showMenuHandler }) => {
-   const loginHandler = () => {}
+const HeaderContentMain = ({
+   isAuthorized,
+   showSignInWithGoogle,
+   showMenuHandler,
+}) => {
+   const loginHandler = () => {
+      showSignInWithGoogle()
+   }
    return (
       <Flex justify="space-between" align="center" width="100%">
          <Nav />
-         <Content auth={auth}>
+         <Content isAuthorized={isAuthorized}>
             <LogoAirBnb />
          </Content>
          <Flex align="center">
-            {!auth && (
+            {!isAuthorized && (
                <Button onClick={loginHandler} className="btn" width="200px">
                   JOIN AS
                </Button>
             )}
-            <ContentForProfile auth={auth} />
+            <ContentForProfile isAuthorized={isAuthorized} />
             <NavBurger showMenuHandler={showMenuHandler} />
          </Flex>
       </Flex>
@@ -30,7 +36,8 @@ const HeaderContentMain = ({ auth, showMenuHandler }) => {
 }
 
 const Content = styled.div`
-   transform: ${({ auth }) => (auth ? 'translate(-70px)' : 'translate(-10px)')};
+   transform: ${({ isAuthorized }) =>
+      isAuthorized ? 'translate(-70px)' : 'translate(-10px)'};
    ${media.tablet`
   transform: translate(0px);
       

@@ -7,87 +7,12 @@ import Flex from '../UI/ui-for-positions/Flex'
 import media from '../../utils/helpers/media'
 import { ReactComponent as MenuFilter } from '../../assets/icons/filtermenu.svg'
 import SelectsForFilterMobile from './SelectsForFilterMobile'
-
-const sortByRegion = [
-   {
-      label: 'All',
-      value: 'All',
-   },
-   {
-      label: 'Osh',
-      value: 'Osh',
-   },
-   {
-      label: ' Bishkek',
-      value: 'Bishkek',
-   },
-   {
-      label: 'Chui',
-      value: 'Chui',
-   },
-   {
-      label: 'Naryn',
-      value: 'Naryn',
-   },
-   {
-      label: 'Jalalabat',
-      value: 'Jalalabat',
-   },
-   {
-      label: 'Issyk-Kul',
-      value: 'Issyk-Kul',
-   },
-   {
-      label: 'Talas',
-      value: 'Talas',
-   },
-   {
-      label: 'Batken',
-      value: 'Batken',
-   },
-]
-const sortByType = [
-   {
-      label: 'All',
-      value: 'All',
-   },
-   {
-      label: 'Apartment',
-      value: 'Apartment',
-   },
-   {
-      label: 'House',
-      value: 'House',
-   },
-]
-const sortByPopular = [
-   {
-      label: 'All',
-      value: 'All',
-   },
-   {
-      label: 'Popular',
-      value: 'Popular',
-   },
-   {
-      label: 'The lastest',
-      value: 'The lastest',
-   },
-]
-const sortByPrice = [
-   {
-      label: 'All',
-      value: 'All',
-   },
-   {
-      label: 'Low to high',
-      value: 'Low to high',
-   },
-   {
-      label: 'High to low',
-      value: 'High to low',
-   },
-]
+import {
+   SORT_BY_POPULAR,
+   SORT_BY_PRICE,
+   SORT_BY_REGION,
+   SORT_BY_TYPE,
+} from '../../utils/constants/general'
 
 const SelectsForFilter = () => {
    const [showDrawer, setShowDrawer] = useState(false)
@@ -97,6 +22,7 @@ const SelectsForFilter = () => {
       homePopular: '',
       homePrice: '',
    })
+   console.log(valueSelects)
    return (
       <>
          <SelectsForFilterMobile
@@ -116,28 +42,28 @@ const SelectsForFilter = () => {
                   onChange={(value) =>
                      setValueSelects({ ...valueSelects, region: value })
                   }
-                  data={sortByRegion}
+                  data={SORT_BY_REGION}
                   name="Sort by"
                />
                <Select
                   onChange={(value) =>
                      setValueSelects({ ...valueSelects, homeType: value })
                   }
-                  data={sortByType}
+                  data={SORT_BY_TYPE}
                   name="Filter by home type"
                />
                <Select
                   onChange={(value) =>
                      setValueSelects({ ...valueSelects, homePopular: value })
                   }
-                  data={sortByPopular}
+                  data={SORT_BY_POPULAR}
                   name="Sort by"
                />
                <Select
                   onChange={(value) =>
                      setValueSelects({ ...valueSelects, homePrice: value })
                   }
-                  data={sortByPrice}
+                  data={SORT_BY_PRICE}
                   name="Filter by price"
                />
             </ContainerSelects>
