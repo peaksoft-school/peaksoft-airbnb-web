@@ -65,7 +65,7 @@ const BookForm = () => {
       setFiles(files.filter((el) => el.id !== id))
    }
    const submitHandler = (data) => {
-      console.log(data)
+      console.log({ ...data, images: files })
       reset()
    }
    return (
