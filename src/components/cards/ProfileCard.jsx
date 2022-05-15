@@ -8,7 +8,8 @@ import Flex from '../UI/ui-for-positions/Flex'
 import Title from '../UI/typography/Title'
 import Carousel from '../UI/carousel/Carousel'
 
-const ClientCard = ({
+
+const ProfileCard = ({
    width,
    title,
    day,
@@ -100,4 +101,4 @@ const StarStyle = styled.div`
    height: 25px;
 `
 
-export default ClientCard
+export default ProfileCard
