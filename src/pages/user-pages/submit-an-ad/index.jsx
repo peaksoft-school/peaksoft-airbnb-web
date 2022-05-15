@@ -1,7 +1,8 @@
 import React from 'react'
+import ProfileCard from '../../../components/cards/ProfileCard'
 
 const SubmitAnAd = () => {
-   return <div>SubmitAnAd</div>
+   return <ProfileCard />
 }
 
 export default SubmitAnAd
