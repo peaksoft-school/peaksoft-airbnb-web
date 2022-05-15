@@ -16,7 +16,7 @@ const ProfileCard = ({
    text,
    address,
    guest,
-   image,
+   images,
    blocked = true,
 }) => {
    return (
@@ -34,7 +34,7 @@ const ProfileCard = ({
          )}
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
-               <Carousel dataSlider={image} />
+               <Carousel dataSlider={images} />
             </ImgWrapper>
             <ContentWrapper>
                <ContainerItem>
