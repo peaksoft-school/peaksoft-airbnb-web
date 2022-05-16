@@ -10,6 +10,7 @@ const StyledFlex = styled.div`
    flex-wrap: ${(props) => props.wrap || 'nowrap'};
    gap: ${(props) => props.gap || '0px'};
    margin: ${({ margin }) => margin || '0'};
+   height: ${(props) => props.height || ''};
 `
 
 const Flex = (props) => {

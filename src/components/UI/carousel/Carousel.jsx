@@ -83,7 +83,7 @@ const ContainerDots = styled.div`
 `
 const ContainerSlider = styled.div`
    width: 100%;
-   height: 191px;
+   height: 100%;
    @media (max-width: 425px) {
       width: 100%;
    }
