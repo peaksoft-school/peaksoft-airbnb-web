@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import AdminCard from '../../../components/admin-card/AdminCard'
 
-const Application = () => {
+const Announcement = () => {
    const data = []
    return (
       <WrapperContainer>
@@ -51,4 +51,4 @@ const ContainerList = styled.div`
    padding-bottom: 8rem;
 `
 
-export default Application
+export default Announcement

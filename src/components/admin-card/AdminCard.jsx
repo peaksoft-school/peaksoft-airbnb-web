@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { useState } from 'react'
 import { ReactComponent as Stars } from '../../assets/icons/Star.svg'
 import { ReactComponent as Geolocations } from '../../assets/icons/Geolocation.svg'
 import Text from '../UI/typography/Text'
@@ -17,13 +18,23 @@ const AdminCard = ({
    guest,
    images,
 }) => {
+   const [showMeetballs, setShowMeetballs] = useState(false)
+   const meetballsHandler = () => setShowMeetballs(!showMeetballs)
+   const editBookHandler = () => {
+      setShowMeetballs(false)
+   }
+   const deleteBookHandler = () => {
+      setShowMeetballs(false)
+   }
+   const acceptBookHandler = () => {
+      setShowMeetballs(false)
+   }
    return (
       <Wrapper isViewed={isViewed}>
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={images} />
             </ImgWrapper>
-
             <ContentWrapper>
                <Flex margin="8px 0 16px 0" justify="space-between" width="100%">
                   <Flex gap="3px" align="center">
@@ -48,25 +59,34 @@ const AdminCard = ({
                </Flex>
                <Flex width="100%" align="center" justify="space-between">
                   <Text size="12px">{guest} guests</Text>
+                  <Button onClick={meetballsHandler}>...</Button>
+                  {showMeetballs && (
+                     <Meetballs>
+                        <AboutItem onClick={editBookHandler}>Reject</AboutItem>
+                        <AboutItem onClick={deleteBookHandler}>
+                           Delete
+                        </AboutItem>
+                        <AboutItem onClick={acceptBookHandler}>
+                           Accept
+                        </AboutItem>
+                     </Meetballs>
+                  )}
                </Flex>
             </ContentWrapper>
          </Flex>
       </Wrapper>
    )
 }
-
 const Wrapper = styled.div`
    width: 210px;
    height: 275px;
    @media (max-width: 425px) {
       width: 100%;
    }
-
-   border: ${({ isViewed }) => (isViewed ? '5px solid #ff0000' : '')};
+   border: ${({ isViewed }) => (isViewed ? '5px solid #FF0000' : '')};
    border-radius: ${({ isViewed }) => (isViewed ? '8px' : '4px')};
    border-radius: ${({ isViewed }) =>
       isViewed ? 'rgba(255, 0, 0, 0.18)' : ''};
-
    background-color: #f7f7f7;
    :hover {
       box-shadow: 0px 4px 12px rgba(105, 105, 105, 0.08);
@@ -108,5 +128,46 @@ const StarStyle = styled.div`
    width: 62px;
    height: 25px;
 `
-
+const Button = styled.p`
+   border: none;
+   color: #c4c4c4;
+   font-size: 20px;
+   font-family: 'Inter';
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding-bottom: 10px;
+`
+const Meetballs = styled.div`
+   padding: 0.3rem;
+   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+   background-color: white;
+   position: absolute;
+   bottom: 50px;
+   right: 20px;
+   animation: YES ease 0.2s;
+   @keyframes YES {
+      from {
+         opacity: 0;
+      }
+      to {
+         opacity: 1;
+      }
+   }
+`
+const AboutItem = styled.div`
+   width: 200px;
+   padding: 0.4rem 1rem;
+   box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
+   font-family: 'Inter';
+   font-weight: 400;
+   font-size: 16px;
+   background-color: #ebebeb;
+   color: #5d5d5d;
+   cursor: pointer;
+   :hover {
+      background-color: #b8b8b888;
+   }
+`
 export default AdminCard
