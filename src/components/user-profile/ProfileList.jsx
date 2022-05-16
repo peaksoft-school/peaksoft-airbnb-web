@@ -2,7 +2,6 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { ReactComponent as Stars } from '../../assets/icons/Star.svg'
 import { ReactComponent as Geolocations } from '../../assets/icons/Geolocation.svg'
-// import { ReactComponent as VectorBlocked } from '../../assets/icons/VectorBlocked.svg'
 import Text from '../UI/typography/Text'
 import Flex from '../UI/ui-for-positions/Flex'
 import Title from '../UI/typography/Title'
@@ -21,7 +20,6 @@ const ProfileList = ({
    return (
       <Wrapper width={width}>
          <Flex direction="column" align="center">
-            {/* <VectorBlocked /> */}
             <ImgWrapper>
                <Carousel dataSlider={images} />
             </ImgWrapper>

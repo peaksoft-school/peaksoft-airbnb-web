@@ -43,6 +43,9 @@ const AntTab = styled((props) => <Tab disableRipple {...props} />)(
          color: '#363636',
          fontWeight: theme.typography.fontWeightMedium,
       },
+      '@media(max-width:765px)': {
+         margin: '0 auto',
+      },
    })
 )
 
@@ -54,7 +57,7 @@ const ProfileTabs = () => {
    }
 
    return (
-      <Box sx={{ width: '820px' }}>
+      <Box sx={{ width: '100%' }}>
          <Box sx={{ bgcolor: 'none' }}>
             <AntTabs
                value={tabValue}
@@ -64,7 +67,7 @@ const ProfileTabs = () => {
                <AntTab label="Bookings" />
                <AntTab label="My announcement" />
             </AntTabs>
-            <Box sx={{ p: 2 }} />
+            <br />
          </Box>
       </Box>
    )

@@ -1,34 +1,52 @@
 import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
 import Title from '../UI/typography/Title'
 import Flex from '../UI/ui-for-positions/Flex'
+import media from '../../utils/helpers/media'
+import { modalActions } from '../../store/modalSlice'
 
-const UserCart = ({ name, email }) => {
+const UserCart = () => {
+   const { user } = useSelector((state) => state.auth)
+   const dispatch = useDispatch()
    return (
       <Wrapper>
-         <Div />
+         <Div>
+            <img src={user.avatar} alt="" />
+         </Div>
          <Flex>
             <Title color="#646464" className="text">
-               Name: <strong>{name}</strong>
+               Name: <strong>{user.name}</strong>
             </Title>
          </Flex>
          <Flex>
-            <Title color="#646464">
-               Contact: <strong>{email}</strong>
+            <Title color="#646464" className="text">
+               Contact: <strong>{user.email}</strong>
             </Title>
          </Flex>
          <Flex>
-            <Title className="logout" color="#FF4B4B;">
+            <LogOut onClick={() => dispatch(modalActions.showLogoutModal())}>
                Log out
-            </Title>
+            </LogOut>
          </Flex>
       </Wrapper>
    )
 }
+const LogOut = styled(Title)`
+   position: absolute;
+   left: 0;
+   bottom: 0;
+   margin: 2em;
+   color: #ff4b4b;
+   transition: 0.2;
+   cursor: pointer;
+   :hover {
+      color: #bd3434;
+   }
+`
 
 const Wrapper = styled.div`
    margin-top: 50px;
-   max-width: 372px;
-   width: 100%;
+   width: 372px;
    height: 285px;
    padding: 2rem;
    background-color: #f1f1f1;
@@ -36,23 +54,34 @@ const Wrapper = styled.div`
    border-radius: 16px;
    display: flex;
    flex-direction: column;
-   justify-content: space-around;
    align-items: center;
    position: relative;
+   ${media.mobile`
+   width:100%;
+   `}
    strong {
       color: #202020;
    }
-   .logout {
-      position: absolute;
-      left: 3.5rem;
+   .text {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      ${media.mobile`
+      font-size:16px;
+   `}
    }
 `
 const Div = styled.div`
-   border-radius: 95px;
+   border-radius: 50%;
    background: #266bd3;
    width: 89px;
    height: 89px;
    color: #ffffff;
-   padding: 26px;
+   margin-bottom: 20px;
+   img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+   }
 `
 export default UserCart

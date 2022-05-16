@@ -3,7 +3,7 @@ import Flex from '../UI/ui-for-positions/Flex'
 import UserCart from './UserCart'
 import ProfileTabs from './ProfileTabs'
 import ProfileList from './ProfileList'
-// import ProfileBackdrop from './ProfileBackdrop'
+import media from '../../utils/helpers/media'
 
 const Profile = () => {
    const data = [
@@ -101,38 +101,27 @@ const Profile = () => {
    return (
       <WrapperContainer>
          <UserProfile>Profile</UserProfile>
-         <Flex gap="50px">
+         <ContentWrapper>
             <UserCart />
-            <Flex>
-               <ContainerList>
-                  <ProfileTabs />
-                  <Flex
-                     width="100%"
-                     justify="space-around"
-                     gap="20px"
-                     wrap="wrap"
-                  >
-                     {/* <VectorStyle>
-                        <ProfileBackdrop />
-                     </VectorStyle> */}
-
-                     {data.map((el) => (
-                        <ProfileList
-                           width="260px"
-                           images={el.Image}
-                           isViewed
-                           day={el.day}
-                           text={el.text}
-                           address={el.address}
-                           title={el.title}
-                           starRange={el.starRange}
-                           guest={el.guest}
-                        />
-                     ))}
-                  </Flex>
-               </ContainerList>
-            </Flex>
-         </Flex>
+            <ContainerList>
+               <ProfileTabs />
+               <Flex width="100%" gap="20px" wrap="wrap">
+                  {data.map((el) => (
+                     <ProfileList
+                        width="260px"
+                        images={el.Image}
+                        isViewed
+                        day={el.day}
+                        text={el.text}
+                        address={el.address}
+                        title={el.title}
+                        starRange={el.starRange}
+                        guest={el.guest}
+                     />
+                  ))}
+               </Flex>
+            </ContainerList>
+         </ContentWrapper>
       </WrapperContainer>
    )
 }
@@ -147,12 +136,24 @@ const UserProfile = styled.div`
    color: #363636;
 `
 const WrapperContainer = styled.div`
-   max-width: 1240px;
+   max-width: 1340px;
    width: 100%;
    margin: 0 auto;
+   ${media.tablet`
+      padding:10px;
+   `}
+`
+const ContentWrapper = styled.div`
+   width: 100%;
+   display: flex;
+   gap: 50px;
+   ${media.desktop`
+   flex-direction:column;
+   justify-content:center;
+   `}
 `
 const ContainerList = styled.div`
-   width: 820px;
+   max-width: 820px;
    padding-bottom: 8rem;
 `
 // const VectorStyle = styled.div`
