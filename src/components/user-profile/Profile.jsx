@@ -138,7 +138,8 @@ const UserProfile = styled.div`
 const WrapperContainer = styled.div`
    max-width: 1340px;
    width: 100%;
-   margin: 0 auto;
+   /* margin: 0 auto; */
+   margin-left: 15px;
    ${media.tablet`
       padding:10px;
    `}
@@ -156,9 +157,5 @@ const ContainerList = styled.div`
    max-width: 820px;
    padding-bottom: 8rem;
 `
-// const VectorStyle = styled.div`
-//    width: 24px;
-//    height: 24px;
-//    background: #f3f3f3;
-// `
+
 export default Profile

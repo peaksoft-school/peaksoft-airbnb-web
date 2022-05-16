@@ -10,9 +10,9 @@ const UserCart = () => {
    const dispatch = useDispatch()
    return (
       <Wrapper>
-         <Div>
+         <Avatar>
             <img src={user.avatar} alt="" />
-         </Div>
+         </Avatar>
          <Flex>
             <Title color="#646464" className="text">
                Name: <strong>{user.name}</strong>
@@ -71,7 +71,7 @@ const Wrapper = styled.div`
    `}
    }
 `
-const Div = styled.div`
+const Avatar = styled.div`
    border-radius: 50%;
    background: #266bd3;
    width: 89px;
