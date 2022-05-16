@@ -9,14 +9,37 @@ import Pagination from '../../../components/pagination/Pagination'
 
 const Region = () => {
    const [valueSelects, setValueSelects] = useState([])
+   console.log(valueSelects)
 
-   const changeSelectHandler = (valueSelect) =>
-      setValueSelects([...valueSelects, valueSelect])
+   const examinationValue = (value) => {
+      return valueSelects.some((item) => item === value)
+   }
+
+   const changeSelectHandler = (valueSelect) => {
+      if (!examinationValue(valueSelect))
+         setValueSelects([...valueSelects, valueSelect])
+
+      if (valueSelect === 'All') setValueSelects([])
+   }
 
    const changeForFilterMobileVersion = (event) => {
-      const { value, checked } = event.target
+      const { value, checked, type } = event.target
       if (checked) setValueSelects([...valueSelects, value])
       else setValueSelects(valueSelects.filter((item) => item !== value))
+
+      if (type === 'radio') {
+         const sortPrice = (value) => {
+            if (value === 'Low to high') {
+               return 'High to low'
+            }
+            return 'Low to high'
+         }
+         const a = valueSelects.filter(
+            (el) => el !== sortPrice() && el !== value
+         )
+         // console.log(a)
+         setValueSelects([...a, value])
+      }
    }
    return (
       <Container>

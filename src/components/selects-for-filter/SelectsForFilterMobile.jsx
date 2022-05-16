@@ -60,7 +60,7 @@ const SelectsForFilterMobile = (props) => {
             <Grid gap="15px" columns="1fr 1fr">
                {SORT_BY_REGION_FOR_MOBILE.map((el) => (
                   <Label key={el.label}>
-                     <RadioButton
+                     <Checkbox
                         value={el.value}
                         onChange={(event) => props.onChange(event)}
                      />
