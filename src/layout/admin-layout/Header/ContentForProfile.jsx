@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import Select from '../../../assets/icons/select.svg'
 import media from '../../../utils/helpers/media'
 import Title from '../../../components/UI/typography/Title'
+import { modalActions } from '../../../store/modalSlice'
 
 const ContentForProfile = () => {
+   const dispatch = useDispatch()
    const [showProfile, setShowProfile] = useState(false)
 
    const logoutHandler = () => {
-      setShowProfile(false)
+      dispatch(modalActions.showLogoutModal())
    }
    return (
       <Flex align="center" gap="20px">
