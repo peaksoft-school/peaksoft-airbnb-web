@@ -56,7 +56,7 @@ const ProfileCard = ({
                </Flex>
                <FlexText>
                   <Text className="address">{guest} guests</Text>
-                  <Blocked>Blocked</Blocked>
+                  {blocked && <Blocked>Blocked</Blocked>}
                </FlexText>
             </ContentWrapper>
          </Flex>
@@ -179,8 +179,7 @@ const Blocked = styled(Button)`
    background-color: #cacaca;
    @media (max-width: 525px) {
       font-size: 10px;
-      padding: 0.5em 2rem;
-      width: auto;
+      padding: 0.5em 1rem;
    }
 `
 export default ProfileCard
