@@ -24,6 +24,7 @@ const HeaderStyled = styled.header`
    padding: 15px 40px;
    background-color: #0b0b0b;
    position: fixed;
+   z-index: 3;
    ${media.tablet`
       padding:10px 30px;
    `}
