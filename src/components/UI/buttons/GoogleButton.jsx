@@ -5,7 +5,7 @@ import Title from '../typography/Title'
 const GoogleButton = (props) => {
    return (
       <GoogleStyled {...props}>
-         <GoogleSvg />
+         {props.isLoading && <GoogleSvg />}
          <Title size="18px" weight="bold">
             {props.children}
          </Title>
@@ -18,13 +18,13 @@ const GoogleStyled = styled.button`
    justify-content: center;
    align-items: center;
    gap: 18.5px;
-   padding: 10px 158px;
+   padding: 10px;
    width: 100%;
-   height: 50px;
    border: 1px solid #c4c4c4;
    border-radius: 8px;
    background-color: #ffffff;
    transition: 0.2s;
+   cursor: pointer;
    :hover {
       border: 1px solid #828282;
    }

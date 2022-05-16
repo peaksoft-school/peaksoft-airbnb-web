@@ -1,36 +1,64 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from '../../../components/UI/buttons/Button'
 import Drawer from '../../../components/UI/drawer/Drawer'
 import LogoAirBnb from '../../../components/UI/Logo/LogoAirBnb'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
+import { modalActions } from '../../../store/modalSlice'
 import media from '../../../utils/helpers/media'
 
-const HeaderMenu = ({ showMenu, hideMenuHandler, auth }) => {
+const HeaderMenu = ({
+   showMenu,
+   showSignInWithGoogle,
+   hideMenuHandler,
+   isAuthorized,
+}) => {
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
+   const { pathname } = useLocation()
+
+   const logoutHandler = () => {
+      dispatch(modalActions.showLogoutModal())
+   }
+   const profileHanlder = () => {
+      navigate('/profile')
+   }
+   const navigateToSubmitAnAd = () => {
+      navigate('/submit-an-ad')
+      hideMenuHandler()
+   }
    return (
       <Drawer isVisible={showMenu} justify="center" onClose={hideMenuHandler}>
          <Flex justify="space-evenly" align="center" direction="column">
             <Flex margin="70px 0 0 0">
                <LogoAirBnb color="dark" />
             </Flex>
-            {auth && (
+            {isAuthorized && (
                <Flex gap="20px" align="center">
-                  <AboutItem>My Profile</AboutItem>
-                  <AboutItem>Log out</AboutItem>
+                  {pathname !== '/profile' && (
+                     <AboutItem onClick={profileHanlder}>My Profile</AboutItem>
+                  )}
+                  <AboutItem onClick={logoutHandler}>Log out</AboutItem>
                </Flex>
             )}
             <List>
                <Li>
-                  <a href="/">Regions</a>
+                  <NavLink to="/">Regions</NavLink>
                </Li>
                <Li>
-                  <a href="/">Leave an ad</a>
+                  <NavLink to="/">Leave an ad</NavLink>
                </Li>
             </List>
-            {auth ? (
-               <Button>Submit an ad</Button>
+            {isAuthorized ? (
+               pathname !== '/submit-an-ad' && (
+                  <Button onClick={navigateToSubmitAnAd}>Submit an ad</Button>
+               )
             ) : (
-               <Button width="100%">JOIN AS</Button>
+               <Button onClick={() => showSignInWithGoogle()} width="100%">
+                  JOIN AS
+               </Button>
             )}
          </Flex>
       </Drawer>
