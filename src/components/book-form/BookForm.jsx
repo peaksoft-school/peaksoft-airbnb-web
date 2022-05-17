@@ -21,163 +21,114 @@ const BookForm = () => {
    const { regions } = useSelector((state) => state.region)
    const { imagesId } = useSelector((state) => state.listing)
    const [regionNames, setRegionNames] = useState([])
-   const [formIsValid, setFormIsValid] = useState(false)
-   const [error, setError] = useState({
-      errorImage: null,
-      errorHomeType: null,
-      errorRegion: null,
-   })
-   const [values, setValues] = useState({
-      images: [],
-      regionId: '',
-      homeType: '',
-   })
+   const [selectedImages, setSelectedImages] = useState([])
    const {
       register,
-      formState: { errors, isValid },
+      setValue,
+      formState: { errors, isValid, isSubmitted },
       handleSubmit,
       reset,
-   } = useForm({ mode: 'onChange' })
+   } = useForm({
+      defaultValues: {
+         type: '',
+         regionId: '',
+         images: [],
+      },
+   })
    const input = {
       maxNumberOfGuests: {
          ...register('maxNumberOfGuests', {
-            required: 'Obligatory field',
+            required: '🛑 Obligatory field',
          }),
       },
       price: {
          ...register('price', {
-            required: 'Obligatory field',
+            required: '🛑 Obligatory field',
          }),
       },
       title: {
          ...register('title', {
-            required: 'Obligatory field',
+            required: '🛑 Obligatory field',
          }),
       },
       description: {
          ...register('description', {
-            required: 'Obligatory field',
+            required: '🛑 Obligatory field',
          }),
       },
       town: {
          ...register('town', {
-            required: 'Obligatory field',
+            required: '🛑 Obligatory field',
          }),
       },
       address: {
          ...register('address', {
-            required: 'Obligatory field',
+            required: '🛑 Obligatory field',
+         }),
+      },
+      regionId: {
+         ...register('regionId', {
+            required: '🛑 Obligatory field',
+         }),
+      },
+      type: {
+         ...register('type', {
+            required: '🛑 Obligatory field',
+         }),
+      },
+      images: {
+         ...register('images', {
+            required: '🛑 please add at least one photo',
          }),
       },
    }
    const onDrop = (files) => {
       const img = URL.createObjectURL(files[0])
-      setValues({
-         ...values,
-         images: [...values.images, { img, id: Math.random().toString() }],
-      })
+      setSelectedImages([
+         ...selectedImages,
+         { img, id: Math.random().toString() },
+      ])
       dispatch(uploadImageListing(files[0]))
    }
-   const deleteImgHandler = (id) => {
-      setValues({
-         ...values,
-         images: values.images.filter((el) => el.id !== id),
-      })
-   }
-   const changeRadionButtonHandler = (e) => {
-      setValues({ ...values, homeType: e.target.value })
-   }
 
-   const changeSelectHandler = (regionId) => {
-      setValues({ ...values, regionId })
+   const deleteImgHandler = (id) =>
+      setSelectedImages(selectedImages.filter((image) => image.id !== id))
+
+   const changeRadionButtonHandler = (e) =>
+      setValue('type', e.target.value, { shouldValidate: true })
+
+   const changeSelectHandler = (regionId) =>
+      setValue('regionId', regionId, { shouldValidate: true })
+
+   const submitHandler = (data) => {
+      dispatch(
+         addListing({
+            ...data,
+            price: Number(data.price),
+            maxNumberOfGuests: Number(data.maxNumberOfGuests),
+         })
+      )
+      reset({
+         maxNumberOfGuests: '',
+         price: '',
+         town: '',
+         description: '',
+         address: '',
+         title: '',
+         images: [],
+         type: '',
+         regionId: '',
+      })
+      setSelectedImages([])
    }
    useEffect(() => {
-      if (
-         values.homeType !== '' &&
-         values.regionId !== '' &&
-         values.images.length > 0
-      ) {
-         setFormIsValid(true)
-      } else {
-         setFormIsValid(false)
-      }
-   }, [values])
-   const submitHandler = (data) => {
-      if (formIsValid) {
-         dispatch(
-            addListing({
-               ...data,
-               regionId: values.regionId,
-               type: values.homeType,
-               images: imagesId,
-               price: Number(data.price),
-               maxNumberOfGuests: Number(data.maxNumberOfGuests),
-            })
-         )
-         reset({
-            // maxNumberOfGuests: '',
-            // price: '',
-            // town: '',
-            // description: '',
-            // address: '',
-            // title: '',
-         })
-      }
-   }
-   const onError = () => {
-      if (values.images.length === 0 && !values.homeType && !values.regionId) {
-         setError({
-            errorImage: 'add at least one photo',
-            errorHomeType: 'Obligatory field',
-            errorRegion: 'Obligatory field',
-         })
-      } else if (values.images.length === 0 && !values.homeType) {
-         setError({
-            errorImage: 'add at least one photo',
-            errorHomeType: 'Obligatory field',
-            errorRegion: '',
-         })
-      } else if (!values.regionId && !values.homeType) {
-         setError({
-            errorImage: '',
-            errorHomeType: 'Obligatory field',
-            errorRegion: 'Obligatory field',
-         })
-      } else if (!values.regionId && values.images.length === 0) {
-         setError({
-            errorImage: 'add at least one photo',
-            errorHomeType: '',
-            errorRegion: 'Obligatory field',
-         })
-      } else if (!values.regionId) {
-         setError({
-            errorImage: '',
-            errorHomeType: '',
-            errorRegion: 'Obligatory field',
-         })
-      } else if (values.images.length === 0) {
-         setError({
-            errorImage: 'add at least one photo',
-            errorHomeType: '',
-            errorRegion: '',
-         })
-      } else if (!values.homeType) {
-         setError({
-            errorImage: '',
-            errorHomeType: 'Obligatory field',
-            errorRegion: '',
-         })
-      } else {
-         setError({
-            errorImage: '',
-            errorHomeType: '',
-            errorRegion: '',
-         })
-      }
-   }
+      setValue('images', imagesId, { shouldValidate: true, shouldDirty: true })
+   }, [imagesId])
+
    useEffect(() => {
       dispatch(getRegions())
    }, [])
+
    useEffect(() => {
       setRegionNames(
          regions.map((el) => {
@@ -185,6 +136,7 @@ const BookForm = () => {
          })
       )
    }, [regions])
+
    return (
       <FormContainer>
          <GlobalStyle />
@@ -201,16 +153,21 @@ const BookForm = () => {
          </Title>
          <Br />
          <ImagePicker
+            {...input.images}
             deleteHandler={deleteImgHandler}
             onDrop={onDrop}
-            files={values.images}
+            files={selectedImages}
          />
-         <ErrorMessage>{error && error.errorImage}</ErrorMessage>
+         <Br />
+         <ErrorMessage>
+            {isSubmitted ? errors.images?.message : ''}
+         </ErrorMessage>
          <Br />
          <Title>Home type</Title>
          <Flex margin="10px 0 0 0" gap="50px">
             <Flex gap="13px" align="center">
                <RadioButton
+                  {...input.type}
                   value="APARTMENT"
                   onChange={changeRadionButtonHandler}
                />
@@ -218,13 +175,14 @@ const BookForm = () => {
             </Flex>
             <Flex gap="13px" align="center">
                <RadioButton
+                  {...input.type}
                   onChange={changeRadionButtonHandler}
                   value="HOUSE"
-               />{' '}
+               />
                <Label>House</Label>
             </Flex>
          </Flex>
-         <ErrorMessage>{error && error.errorHomeType}</ErrorMessage>
+         <ErrorMessage>{errors?.type ? errors.type.message : ''}</ErrorMessage>
          <Flex margin="23px 0 0 0" gap="20px">
             <Label>
                Max of Guests
@@ -284,14 +242,18 @@ const BookForm = () => {
          <Label>Region</Label>
          <Flex margin="15px 0 0 0">
             <Select
+               {...input.regionId}
                data={regionNames}
+               isValid={errors?.regionId && !isValid}
                width="100%"
                name="Please, select the region"
                onChange={changeSelectHandler}
             />
          </Flex>
-
-         <ErrorMessage>{error && error.errorRegion}</ErrorMessage>
+         <Br />
+         <ErrorMessage>
+            {errors?.regionId ? errors.regionId.message : ''}
+         </ErrorMessage>
          <Br />
          <Br />
          <Label>
@@ -319,10 +281,7 @@ const BookForm = () => {
             </ErrorMessage>
          </Label>
          <Flex margin="23px 0 0 0" justify="end">
-            <Button
-               onClick={handleSubmit(submitHandler, onError)}
-               width="200px"
-            >
+            <Button onClick={handleSubmit(submitHandler)} width="200px">
                submit
             </Button>
          </Flex>
@@ -357,5 +316,9 @@ const ErrorMessage = styled.p`
    font-family: 'Inter';
    font-size: 14px;
    color: tomato;
+   text-transform: uppercase;
+   ${media.mobile`
+      font-size :10px;
+   `}
 `
 export default BookForm
