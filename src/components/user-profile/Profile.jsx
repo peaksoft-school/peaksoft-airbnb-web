@@ -8,7 +8,11 @@ import media from '../../utils/helpers/media'
 const Profile = () => {
    const data = [
       {
-         Image: [],
+         Image: [
+            {
+               img: 'https://media.istockphoto.com/photos/beautiful-siding-house-view-from-backyard-picture-id480775603?k=20&m=480775603&s=612x612&w=0&h=FHBTUWXE8ZxMwTP_BfJ804G9j1nyByGaRTjDH3jknOQ=',
+            },
+         ],
          text: 'hdgfhjgfhdBeautiful and pictures fhgfg ghfghffffffffffh thffytftyfy',
          address: '12 Morris Ave, Toronto, ON, CA gfgjhjh',
          number: '46565465',
@@ -18,7 +22,11 @@ const Profile = () => {
          guest: '3',
       },
       {
-         Image: [],
+         Image: [
+            {
+               img: 'https://media.istockphoto.com/photos/new-home-with-a-freshly-mown-lawn-picture-id171363972?k=20&m=171363972&s=612x612&w=0&h=SQ-qVPVnGF4WNmhkaH5zidEXWk6Uvf1lOBbuNVEO15k=',
+            },
+         ],
          text: 'hdgfhjgfhdBeautiful and pictures fhgfg ghfghffffffffffh thffytftyfy',
          address: '12 Morris Ave, Toronto, ON, CA gfgjhjh',
          number: '46565465',
@@ -110,7 +118,6 @@ const Profile = () => {
                      <ProfileList
                         width="260px"
                         images={el.Image}
-                        isViewed
                         day={el.day}
                         text={el.text}
                         address={el.address}
@@ -138,9 +145,12 @@ const UserProfile = styled.div`
 const WrapperContainer = styled.div`
    max-width: 1340px;
    width: 100%;
-   /* margin: 0 auto; */
-   margin-left: 15px;
+   padding: 10px 10px 0 40px;
+   margin: 0 auto;
    ${media.tablet`
+      padding:20px;
+   `}
+   ${media.mobile`
       padding:10px;
    `}
 `
@@ -154,7 +164,7 @@ const ContentWrapper = styled.div`
    `}
 `
 const ContainerList = styled.div`
-   max-width: 820px;
+   max-width: 850px;
    padding-bottom: 8rem;
 `
 

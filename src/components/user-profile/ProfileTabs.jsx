@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import { useState } from 'react'
 
 const AntTabs = styled(Tabs)({
+   maxWidth: '820px',
    borderBottom: '1px solid #C4C4C4',
    '& .MuiTabs-indicator': {
       backgroundColor: '#363636',
