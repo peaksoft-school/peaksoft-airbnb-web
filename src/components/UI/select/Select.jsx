@@ -4,9 +4,9 @@ import { ReactComponent as SelectIcon } from '../../../assets/icons/Vector.svg'
 import Title from '../typography/Title'
 import Flex from '../ui-for-positions/Flex'
 
-const Select = ({ data, onChange, name }) => {
+const Select = ({ data, onChange, name, width }) => {
    const [selectToggle, setSelectToggle] = useState(false)
-   const [label, setLabel] = useState(data[0].label)
+   const [label, setLabel] = useState((data && data[0] && data[0].label) || '')
 
    const showSelect = () => setSelectToggle(!selectToggle)
 
@@ -17,7 +17,7 @@ const Select = ({ data, onChange, name }) => {
       onChange(value.value)
    }
    return (
-      <SelectWrapper select={selectToggle}>
+      <SelectWrapper width={width} select={selectToggle}>
          <SelectStyled
             onBlur={() => setSelectToggle(false)}
             onClick={showSelect}
@@ -46,7 +46,7 @@ const Select = ({ data, onChange, name }) => {
    )
 }
 const SelectWrapper = styled.div`
-   width: 300px;
+   width: ${({ width }) => width || '300px'};
    position: relative;
    .icon__select {
       transition: 0.4s;
@@ -59,7 +59,7 @@ const TitleSelect = styled(Title)`
 const SelectStyled = styled.button`
    font-size: 16px;
    padding: 10px;
-   width: 300px;
+   width: 100%;
    border: 1px solid #c4c4c4;
    background-color: #ffffff;
    box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);

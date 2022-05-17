@@ -1,11 +1,21 @@
+// eslint-disable-next-line import/no-cycle
+import store from '../store'
+
 const SERVER_BASE_URL = 'http://ec2-54-83-251-79.compute-1.amazonaws.com:8000'
 export const fetchApi = async (options) => {
+   const { role, token } = store.getState().auth
    try {
       let { path } = options
 
       const requestOptions = {
          method: options.method || 'GET',
-         headers: options.headers || { 'Content-Type': 'application/json' },
+         headers: token
+            ? {
+                 'Content-Type': 'application/json',
+                 Authorization: `Bearer ${token}`,
+                 Role: role,
+              }
+            : { 'Content-Type': 'application/json' },
       }
 
       if (options.method !== 'GET') {

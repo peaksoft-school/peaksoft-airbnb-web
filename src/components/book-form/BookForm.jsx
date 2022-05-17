@@ -1,7 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
 import RadioButton from '../UI/buttons/RadioButton'
 import Flex from '../UI/ui-for-positions/Flex'
 import Button from '../UI/buttons/Button'
@@ -11,9 +12,26 @@ import Text from '../UI/typography/Text'
 import Input from '../UI/text-fields/Input'
 import TextArea from '../UI/text-fields/TextArea'
 import media from '../../utils/helpers/media'
+import Select from '../UI/select/Select'
+import { getRegions } from '../../store/regionSlice'
+import { addListing, uploadImageListing } from '../../store/listingSlice'
 
 const BookForm = () => {
-   const [files, setFiles] = useState([])
+   const dispatch = useDispatch()
+   const { regions } = useSelector((state) => state.region)
+   const { imagesId } = useSelector((state) => state.listing)
+   const [regionNames, setRegionNames] = useState([])
+   const [formIsValid, setFormIsValid] = useState(false)
+   const [error, setError] = useState({
+      errorImage: null,
+      errorHomeType: null,
+      errorRegion: null,
+   })
+   const [values, setValues] = useState({
+      images: [],
+      regionId: '',
+      homeType: '',
+   })
    const {
       register,
       formState: { errors, isValid },
@@ -21,8 +39,8 @@ const BookForm = () => {
       reset,
    } = useForm({ mode: 'onChange' })
    const input = {
-      maxOfQuests: {
-         ...register('maxOfQuests', {
+      maxNumberOfGuests: {
+         ...register('maxNumberOfGuests', {
             required: 'Obligatory field',
          }),
       },
@@ -41,13 +59,8 @@ const BookForm = () => {
             required: 'Obligatory field',
          }),
       },
-      region: {
-         ...register('region', {
-            required: 'Obligatory field',
-         }),
-      },
-      townProvince: {
-         ...register('townProvince', {
+      town: {
+         ...register('town', {
             required: 'Obligatory field',
          }),
       },
@@ -57,19 +70,123 @@ const BookForm = () => {
          }),
       },
    }
-   const onDrop = (file) => {
-      const img = URL.createObjectURL(file[0])
-      setFiles([...files, { img, id: Math.random().toString() }])
+   const onDrop = (files) => {
+      const img = URL.createObjectURL(files[0])
+      setValues({
+         ...values,
+         images: [...values.images, { img, id: Math.random().toString() }],
+      })
+      dispatch(uploadImageListing(files[0]))
    }
    const deleteImgHandler = (id) => {
-      setFiles(files.filter((el) => el.id !== id))
+      setValues({
+         ...values,
+         images: values.images.filter((el) => el.id !== id),
+      })
    }
+   const changeRadionButtonHandler = (e) => {
+      setValues({ ...values, homeType: e.target.value })
+   }
+
+   const changeSelectHandler = (regionId) => {
+      setValues({ ...values, regionId })
+   }
+   useEffect(() => {
+      if (
+         values.homeType !== '' &&
+         values.regionId !== '' &&
+         values.images.length > 0
+      ) {
+         setFormIsValid(true)
+      } else {
+         setFormIsValid(false)
+      }
+   }, [values])
    const submitHandler = (data) => {
-      console.log({ ...data, images: files })
-      reset()
+      if (formIsValid) {
+         dispatch(
+            addListing({
+               ...data,
+               regionId: values.regionId,
+               type: values.homeType,
+               images: imagesId,
+               price: Number(data.price),
+               maxNumberOfGuests: Number(data.maxNumberOfGuests),
+            })
+         )
+         reset({
+            // maxNumberOfGuests: '',
+            // price: '',
+            // town: '',
+            // description: '',
+            // address: '',
+            // title: '',
+         })
+      }
    }
+   const onError = () => {
+      if (values.images.length === 0 && !values.homeType && !values.regionId) {
+         setError({
+            errorImage: 'add at least one photo',
+            errorHomeType: 'Obligatory field',
+            errorRegion: 'Obligatory field',
+         })
+      } else if (values.images.length === 0 && !values.homeType) {
+         setError({
+            errorImage: 'add at least one photo',
+            errorHomeType: 'Obligatory field',
+            errorRegion: '',
+         })
+      } else if (!values.regionId && !values.homeType) {
+         setError({
+            errorImage: '',
+            errorHomeType: 'Obligatory field',
+            errorRegion: 'Obligatory field',
+         })
+      } else if (!values.regionId && values.images.length === 0) {
+         setError({
+            errorImage: 'add at least one photo',
+            errorHomeType: '',
+            errorRegion: 'Obligatory field',
+         })
+      } else if (!values.regionId) {
+         setError({
+            errorImage: '',
+            errorHomeType: '',
+            errorRegion: 'Obligatory field',
+         })
+      } else if (values.images.length === 0) {
+         setError({
+            errorImage: 'add at least one photo',
+            errorHomeType: '',
+            errorRegion: '',
+         })
+      } else if (!values.homeType) {
+         setError({
+            errorImage: '',
+            errorHomeType: 'Obligatory field',
+            errorRegion: '',
+         })
+      } else {
+         setError({
+            errorImage: '',
+            errorHomeType: '',
+            errorRegion: '',
+         })
+      }
+   }
+   useEffect(() => {
+      dispatch(getRegions())
+   }, [])
+   useEffect(() => {
+      setRegionNames(
+         regions.map((el) => {
+            return { label: el.title, value: el.id }
+         })
+      )
+   }, [regions])
    return (
-      <FormContainer onSubmit={handleSubmit(submitHandler)}>
+      <FormContainer>
          <GlobalStyle />
          <Title uppercase>Hi! Let's get started listing your place.</Title>
          <Br />
@@ -86,29 +203,41 @@ const BookForm = () => {
          <ImagePicker
             deleteHandler={deleteImgHandler}
             onDrop={onDrop}
-            files={files}
+            files={values.images}
          />
+         <ErrorMessage>{error && error.errorImage}</ErrorMessage>
          <Br />
          <Title>Home type</Title>
          <Flex margin="10px 0 0 0" gap="50px">
             <Flex gap="13px" align="center">
-               <RadioButton /> <Label>Apartment</Label>
+               <RadioButton
+                  value="APARTMENT"
+                  onChange={changeRadionButtonHandler}
+               />
+               <Label>Apartment</Label>
             </Flex>
             <Flex gap="13px" align="center">
-               <RadioButton /> <Label>House</Label>
+               <RadioButton
+                  onChange={changeRadionButtonHandler}
+                  value="HOUSE"
+               />{' '}
+               <Label>House</Label>
             </Flex>
          </Flex>
+         <ErrorMessage>{error && error.errorHomeType}</ErrorMessage>
          <Flex margin="23px 0 0 0" gap="20px">
             <Label>
                Max of Guests
                <Input
-                  isValid={errors?.maxOfQuests && !isValid}
-                  {...input.maxOfQuests}
+                  isValid={errors?.maxNumberOfGuests && !isValid}
+                  {...input.maxNumberOfGuests}
                   placeholder="0"
                   type="number"
                />
                <ErrorMessage>
-                  {errors?.maxOfQuests ? errors.maxOfQuests.message : ''}
+                  {errors?.maxNumberOfGuests
+                     ? errors.maxNumberOfGuests.message
+                     : ''}
                </ErrorMessage>
             </Label>
             <Label>
@@ -152,16 +281,28 @@ const BookForm = () => {
          </Label>
          <Br />
          <Br />
-         <Label>
-            Region
-            <Input
-               isValid={errors?.region && !isValid}
-               {...input.region}
+         <Label>Region</Label>
+         <Flex margin="15px 0 0 0">
+            <Select
+               data={regionNames}
                width="100%"
-               placeholder="Please, select the region"
+               name="Please, select the region"
+               onChange={changeSelectHandler}
+            />
+         </Flex>
+
+         <ErrorMessage>{error && error.errorRegion}</ErrorMessage>
+         <Br />
+         <Br />
+         <Label>
+            Town / Province
+            <Input
+               isValid={errors?.town && !isValid}
+               {...input.town}
+               width="100%"
             />
             <ErrorMessage>
-               {errors?.region ? errors.region.message : ''}
+               {errors?.town ? errors.town.message : ''}
             </ErrorMessage>
          </Label>
          <Br />
@@ -172,32 +313,23 @@ const BookForm = () => {
                isValid={errors?.address && !isValid}
                {...input.address}
                width="100%"
-               placeholder="Please, select the region"
             />
             <ErrorMessage>
                {errors?.address ? errors.address.message : ''}
             </ErrorMessage>
          </Label>
-         <Br />
-         <Br />
-         <Label>
-            Town / Province
-            <Input
-               isValid={errors?.townProvince && !isValid}
-               {...input.townProvince}
-               width="100%"
-            />
-            <ErrorMessage>
-               {errors?.townProvince ? errors.townProvince.message : ''}
-            </ErrorMessage>
-         </Label>
          <Flex margin="23px 0 0 0" justify="end">
-            <Button width="200px">submit</Button>
+            <Button
+               onClick={handleSubmit(submitHandler, onError)}
+               width="200px"
+            >
+               submit
+            </Button>
          </Flex>
       </FormContainer>
    )
 }
-const FormContainer = styled.form`
+const FormContainer = styled.div`
    max-width: 610px;
    width: 100%;
    margin: 0 auto;
