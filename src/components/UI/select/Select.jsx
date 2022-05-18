@@ -5,19 +5,22 @@ import Title from '../typography/Title'
 import Flex from '../ui-for-positions/Flex'
 
 const Select = React.forwardRef(
-   ({ data, onChange, name, width, value, ...props }, ref) => {
+   (
+      { data, onChange, name, width, label, value, defaultValue, ...props },
+      ref
+   ) => {
       const [selectToggle, setSelectToggle] = useState(false)
-      const [label, setLabel] = useState(
-         value || (data && data[0] && data[0].label) || ''
+      const [labelValue, setLabelValue] = useState(
+         defaultValue || (data && data[0] && data[0][label]) || ''
       )
 
       const showSelect = () => setSelectToggle(!selectToggle)
 
-      const changeHandler = (event, value) => {
+      const changeHandler = (event, data) => {
          event.stopPropagation()
          setSelectToggle(false)
-         setLabel(value.label)
-         onChange(value.value)
+         setLabelValue(data[label])
+         onChange(data[value])
       }
       return (
          <SelectWrapper width={width} select={selectToggle}>
@@ -30,7 +33,7 @@ const Select = React.forwardRef(
                <Flex align="center" justify="space-between">
                   <TitleSelect>{name}:</TitleSelect>
                   <Flex align="center" gap="1rem">
-                     <Title>{label}</Title>
+                     <Title>{labelValue}</Title>
                      <SelectIcon className="icon__select" />
                   </Flex>
                </Flex>
@@ -39,9 +42,9 @@ const Select = React.forwardRef(
                      {data.map((el) => (
                         <Option
                            onClick={(e) => changeHandler(e, el)}
-                           key={el.label}
+                           key={el[label]}
                         >
-                           <Title>{el.label}</Title>
+                           <Title>{el[label]}</Title>
                         </Option>
                      ))}
                   </Options>
