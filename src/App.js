@@ -1,9 +1,11 @@
-import MainPage from './components/home/MainPage'
+import AdminRoutes from './routes/AdminRoutes'
+import UserRoutes from './routes/UserRoutes'
 
 function App() {
    return (
-      <div>
-         <MainPage />
+      <div className="App">
+         <UserRoutes />
+         <AdminRoutes />
       </div>
    )
 }
