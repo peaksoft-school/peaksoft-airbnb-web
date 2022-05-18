@@ -29,24 +29,24 @@ const ProfileList = ({
          {blocked && (
             <BlockedContent>
                <Flex justify="end">
-                  <StyledWarningIcon />
+                  <StyledWarningIcon onClick={worningHandle} />
                </Flex>
-               <Message>
+               <BlockedMessage>
                   Your application has been blocked, please contact the
                   administrator
-               </Message>
+               </BlockedMessage>
             </BlockedContent>
          )}
          {rejected && (
             <RejectedContent>
                <Flex justify="end">
-                  <StyledWarningIcon onClick={worningHandle} />
+                  <StyledWarningIcon />
                </Flex>
-               {warning && (
-                  <Message>
+               {!warning && (
+                  <RejectedMessage>
                      Your application has been rejected, please contact the
                      administrator
-                  </Message>
+                  </RejectedMessage>
                )}
             </RejectedContent>
          )}
@@ -151,7 +151,7 @@ const BlockedContent = styled.div`
 `
 const StyledWarningIcon = styled(WarningIcon)``
 
-const Message = styled.h5`
+const BlockedMessage = styled.h5`
    font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
@@ -160,6 +160,21 @@ const Message = styled.h5`
    color: #ffffff;
    padding: 0.5em;
    background: #646464;
+   border-radius: 4px;
+   margin-top: 10px;
+   @media (max-width: 525px) {
+      font-size: 8px;
+   }
+`
+const RejectedMessage = styled.h5`
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 10px;
+   line-height: 12px;
+   color: #ffffff;
+   padding: 0.5em;
+   background: #e74848;
    border-radius: 4px;
    margin-top: 10px;
    @media (max-width: 525px) {
@@ -183,7 +198,7 @@ const RejectedContent = styled.div`
    width: 260px;
    height: 362px;
    padding: 17px;
-   border: 3px solid red;
+   border: 3px solid #e74848;
    cursor: not-allowed;
    background-color: rgba(212, 212, 212, 0.4);
    opacity: 0.2;

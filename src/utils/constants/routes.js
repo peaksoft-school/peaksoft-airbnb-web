@@ -16,7 +16,7 @@ export const USER_ROUTES = {
       label: 'Hause',
    },
    PROFILE: {
-      path: '/profile',
+      path: '/profile/',
       label: 'Profile',
    },
    SUBMIT_AN_AD: {
