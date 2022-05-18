@@ -1,20 +1,30 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import Avatar from '../../../assets/icons/Group 1688.svg'
 import Select from '../../../assets/icons/select.svg'
 import media from '../../../utils/helpers/media'
+import { modalActions } from '../../../store/modalSlice'
 
-const ContentForProfile = ({ auth }) => {
+const ContentForProfile = ({ isAuthorized }) => {
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
    const { pathname } = useLocation()
    const [showProfile, setShowProfile] = useState(false)
 
-   const logoutHandler = () => setShowProfile(false)
-   const profileHanlder = () => setShowProfile(false)
+   const logoutHandler = () => {
+      setShowProfile(false)
+      dispatch(modalActions.showLogoutModal())
+   }
+   const profileHanlder = () => {
+      navigate('/profile')
+      setShowProfile(false)
+   }
 
    return (
-      auth && (
+      isAuthorized && (
          <Flex align="center" gap="20px">
             <Profile
                path={pathname}
@@ -26,7 +36,11 @@ const ContentForProfile = ({ auth }) => {
                </Flex>
                {showProfile && (
                   <AboutProfile>
-                     <AboutItem onClick={profileHanlder}>My Profile</AboutItem>
+                     {pathname !== '/profile' && (
+                        <AboutItem onClick={profileHanlder}>
+                           My Profile
+                        </AboutItem>
+                     )}
                      <AboutItem onClick={logoutHandler}>Log out</AboutItem>
                   </AboutProfile>
                )}

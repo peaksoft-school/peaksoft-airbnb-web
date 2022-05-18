@@ -1,4 +1,4 @@
-const SERVER_BASE_URL = ''
+const SERVER_BASE_URL = 'http://ec2-54-83-251-79.compute-1.amazonaws.com:8000'
 export const fetchApi = async (options) => {
    try {
       let { path } = options
@@ -20,12 +20,17 @@ export const fetchApi = async (options) => {
       }
 
       const response = await fetch(`${SERVER_BASE_URL}/${path}`, requestOptions)
+      const data = await response.json()
 
       if (!response.ok) {
-         throw new Error('Some thing went wrong')
+         let errorMessage = 'Some thing went wrong'
+         if (data && data.message) {
+            errorMessage = data.message
+         }
+         throw new Error(errorMessage)
       }
 
-      return response.json()
+      return data
    } catch (e) {
       throw new Error(e.message)
    }

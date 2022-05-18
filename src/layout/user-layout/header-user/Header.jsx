@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
+import { useSelector } from 'react-redux'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
 import HeaderUserContent from './HeaderContent/HeaderUserContent'
 import HeaderMenu from '../header-menu/HeaderMenu'
 
-const Header = () => {
+const Header = ({ showSignInWithGoogle }) => {
+   const { isAuthorized } = useSelector((state) => state.auth)
    const [showMenu, setShowMenu] = useState(false)
 
    const showMenuHandler = () => setShowMenu(true)
 
    const hideMenuHandler = () => setShowMenu(false)
-
-   const auth = true
 
    return (
       <HeaderStyled>
@@ -20,10 +20,15 @@ const Header = () => {
          <HeaderMenu
             showMenu={showMenu}
             hideMenuHandler={hideMenuHandler}
-            auth={auth}
+            isAuthorized={isAuthorized}
+            showSignInWithGoogle={showSignInWithGoogle}
          />
          <Flex width="100%" justify="space-between" align="center">
-            <HeaderUserContent showMenuHandler={showMenuHandler} auth={auth} />
+            <HeaderUserContent
+               showSignInWithGoogle={showSignInWithGoogle}
+               showMenuHandler={showMenuHandler}
+               isAuthorized={isAuthorized}
+            />
          </Flex>
       </HeaderStyled>
    )
@@ -31,7 +36,7 @@ const Header = () => {
 const HeaderStyled = styled.header`
    width: 100%;
    padding: 20px 60px;
-   position: fixed;
+   /* position: fixed; */
    background-color: #ffffff;
    .btn {
       ${media.tablet`
