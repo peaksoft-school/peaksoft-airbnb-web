@@ -4,7 +4,7 @@ import Avatar from '@mui/material/Avatar'
 import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
-
+import PositionedSnackbar from '../../../components/UI/snackbar/Snackbar'
 import Button from '../../../components/UI/buttons/Button'
 import media from '../../../utils/helpers/media'
 import ReplaceImages from '../../../components/UI/replace-image/ReplaceImages'
@@ -34,12 +34,21 @@ const dataSlider = [
 ]
 const AnnouncementDetail = () => {
    const [showModal, setShowModal] = useState(false)
+   const [show, setShow] = useState(false)
    const rejectHandler = () => {
       setShowModal(true)
    }
+   const cancelHandler = () => {
+      setShowModal(false)
+   }
    return (
       <>
-         {showModal && <Rejects onClose={() => setShowModal(false)} />}
+         {showModal && (
+            <Rejects
+               onClose={() => setShowModal(false)}
+               cancelHandler={cancelHandler}
+            />
+         )}
          <Wrapper>
             <Flex align="center" gap="6px" margin="86px 0 0 0 ">
                <Text size="17">Announcement</Text>
@@ -88,9 +97,22 @@ const AnnouncementDetail = () => {
                         >
                            REJECT
                         </Button>
-                        <Button className="btn" width="196px">
+
+                        <Button
+                           width="196px"
+                           className="btn"
+                           onClick={() => setShow(true)}
+                        >
                            ACCEPT
                         </Button>
+                        <PositionedSnackbar
+                           message="Moderation successfully passeasdflakjsdklfjaskldfjkl;asdjlfjlkasdjfjlsdjfas;ldfja;sldjflk;adsj lajsdlkfjlkasdjflkjasl;djf lajlks;djflk;asdlk;fjd"
+                           title="Accepted :)"
+                           severity="success"
+                           open={show}
+                           onClose={() => setShow(false)}
+                           delay={setShow}
+                        />
                      </Flex>
                   </Flex>
                </RightContent>
@@ -125,9 +147,9 @@ const Wrapper = styled.div`
    max-width: 1290px;
    padding: 4rem;
    width: 100%;
-   /* margin: 0 auto; */
    ${media.mobile`
    padding:0.5rem;
+  
    `}
 
    .btn {

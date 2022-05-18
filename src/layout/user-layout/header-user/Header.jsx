@@ -36,7 +36,7 @@ const Header = ({ showSignInWithGoogle }) => {
 const HeaderStyled = styled.header`
    width: 100%;
    padding: 20px 60px;
-   position: fixed;
+   /* position: fixed; */
    background-color: #ffffff;
    .btn {
       ${media.tablet`

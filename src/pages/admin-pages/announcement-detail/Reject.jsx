@@ -1,56 +1,94 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useForm } from 'react-hook-form'
 import Title from '../../../components/UI/typography/Title'
 import Modal from '../../../components/UI/modal/Modal'
 import TextArea from '../../../components/UI/text-fields/TextArea'
-
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import CancelButton from '../../../components/UI/buttons/CancelButton'
-// import Button from '../../../components/UI/buttons/Button'
 import PositionedSnackbar from '../../../components/UI/snackbar/Snackbar'
+import Button from '../../../components/UI/buttons/Button'
 
-const Rejects = ({ onClose, isVisible = true }) => {
-   //    const [files, setFiles] = useState([])
+const Rejects = ({ onClose, cancelHandler, isVisible = true }) => {
    const [value, setValue] = useState('')
+   const [show, setShow] = useState(false)
+   const {
+      formState: { errors, isValid },
+      register,
+      reset,
+      handleSubmit,
+   } = useForm({ mode: 'onChange' })
+   const input = {
+      rejection: {
+         ...register('rejection', {
+            required: 'write something',
+         }),
+      },
+   }
+   const submitHandler = () => {
+      setShow(true)
 
-   //    const onDrop = (file) => {
-   //       const img = URL.createObjectURL(file[0])
-   //       setFiles([...files, { img, id: Date.now() }])
-   //    }
-
-   //    const removePhotosHandler = (id) => {
-   //       setFiles(files.filter((element) => element.id !== id))
-   //    }
-
-   const textAreaChangeHandler = (e) =>
+      reset()
+   }
+   const textAreaChangeHandler = (e) => {
       setValue({ ...value, feedbackDescription: e.target.value })
-   //    const changeRatingHandler = (ratingValue) =>
-   //       setValue({ ...value, rating: ratingValue })
+   }
+
+   useEffect(() => {
+      if (value.trim() === '') {
+         setValue(true)
+      } else {
+         setValue(false)
+      }
+   }, [])
+
    return (
-      <Modal width="474px" onClose={onClose} isVisible={isVisible}>
-         <ContainerReject>
-            <Flex justify="center" margin="0 0 20px 0">
-               <Title>REJECT</Title>
-            </Flex>
+      <>
+         <PositionedSnackbar
+            message=""
+            title="Successfully sent :)"
+            open={show}
+            severity="success"
+            onClose={() => setShow(false)}
+         />
+         <Modal width="474px" onClose={onClose} isVisible={isVisible}>
+            <div>
+               <Flex justify="center" margin="0 0 20px 0">
+                  <Title>REJECT</Title>
+               </Flex>
 
-            <TextArea
-               placeholder="Write the reason for your rejection"
-               onChange={textAreaChangeHandler}
-               value={value.feedbackDescription}
-            />
+               <TextArea
+                  type="submit"
+                  placeholder="Write the reason for your rejection"
+                  onChange={textAreaChangeHandler}
+                  value={value.feedbackDescription}
+                  {...input.rejection}
+                  isValid={errors?.rejection && !isValid}
+               />
+               <ErrorMessage>
+                  {errors?.rejection ? errors.rejection.message : ''}
+               </ErrorMessage>
 
-            <Flex margin="20px 0 0 0" width="100%" gap="50px" justify="end">
-               <CancelButton width="100px" />
-               {/*  <Button>ACCEPT</Button> */} <PositionedSnackbar />
-            </Flex>
-         </ContainerReject>
-      </Modal>
+               <Flex margin="20px 0 0 0" width="100%" gap="50px" justify="end">
+                  <CancelButton width="100px" onClick={cancelHandler} />
+                  <Button
+                     width="196px"
+                     disabled={!isValid}
+                     onClick={handleSubmit(submitHandler)}
+                  >
+                     SENT
+                  </Button>
+               </Flex>
+            </div>
+         </Modal>
+      </>
    )
 }
-const ContainerReject = styled.div`
-   /* width: 474px; */
-   /* height: 259px; */
-   /* max-width: 700px; */
+
+const ErrorMessage = styled.p`
+   font-family: 'Inter';
+   font-size: 14px;
+   color: tomato;
 `
 
 export default Rejects
