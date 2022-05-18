@@ -24,7 +24,7 @@ const MainPage = () => {
 
 const Container = styled.div`
    width: 100%;
-   max-width: 1440px;
+   /* max-width: 1440px; */
    margin: 0 auto;
 `
 
