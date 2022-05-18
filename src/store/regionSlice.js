@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchApi } from '../api/fetchApi'
 
