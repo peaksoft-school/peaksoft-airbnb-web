@@ -15,12 +15,16 @@ import media from '../../utils/helpers/media'
 import Select from '../UI/select/Select'
 import { getRegions } from '../../store/regionSlice'
 import { addListing, uploadImageListing } from '../../store/listingSlice'
+import uuid from 'react-uuid'
+import Spinner from '../UI/loader/Spinner'
+import { useNavigate } from 'react-router-dom'
 
 const BookForm = () => {
+   const navigate = useNavigate()
    const dispatch = useDispatch()
    const { regions } = useSelector((state) => state.region)
+   const { isLoading, status } = useSelector((state) => state.listing)
    const { imagesId } = useSelector((state) => state.listing)
-   const [regionNames, setRegionNames] = useState([])
    const [selectedImages, setSelectedImages] = useState([])
    const {
       register,
@@ -84,13 +88,9 @@ const BookForm = () => {
    }
    const onDrop = (files) => {
       const img = URL.createObjectURL(files[0])
-      setSelectedImages([
-         ...selectedImages,
-         { img, id: Math.random().toString() },
-      ])
+      setSelectedImages([...selectedImages, { img, id: uuid() }])
       dispatch(uploadImageListing(files[0]))
    }
-
    const deleteImgHandler = (id) =>
       setSelectedImages(selectedImages.filter((image) => image.id !== id))
 
@@ -128,15 +128,12 @@ const BookForm = () => {
    useEffect(() => {
       dispatch(getRegions())
    }, [])
-
    useEffect(() => {
-      setRegionNames(
-         regions.map((el) => {
-            return { label: el.title, value: el.id }
-         })
-      )
-   }, [regions])
-
+      if (status === 'success') {
+         navigate('/')
+         window.location.reload()
+      }
+   }, [status])
    return (
       <FormContainer>
          <GlobalStyle />
@@ -243,11 +240,14 @@ const BookForm = () => {
          <Flex margin="15px 0 0 0">
             <Select
                {...input.regionId}
-               data={regionNames}
+               data={regions}
                isValid={errors?.regionId && !isValid}
                width="100%"
                name="Please, select the region"
                onChange={changeSelectHandler}
+               value="id"
+               label="title"
+               defaultValue=""
             />
          </Flex>
          <Br />
@@ -282,7 +282,7 @@ const BookForm = () => {
          </Label>
          <Flex margin="23px 0 0 0" justify="end">
             <Button onClick={handleSubmit(submitHandler)} width="200px">
-               submit
+               {isLoading ? <Spinner /> : 'submit'}
             </Button>
          </Flex>
       </FormContainer>

@@ -40,6 +40,7 @@ const initialState = {
    imagesId: [],
    isLoading: false,
    error: null,
+   status: null,
 }
 
 const listingSlice = createSlice({
@@ -49,10 +50,25 @@ const listingSlice = createSlice({
    extraReducers: {
       [uploadImageListing.pending]: (state) => {
          state.isLoading = true
+         state.status = 'pending'
       },
       [uploadImageListing.fulfilled]: (state, { payload }) => {
          state.isLoading = false
          state.imagesId = [...state.imagesId, payload.imageId]
+         state.statues = 'success'
+      },
+      [addListing.pending]: (state) => {
+         state.isLoading = true
+         state.status = 'pending'
+      },
+      [addListing.fulfilled]: (state) => {
+         state.isLoading = false
+         state.status = 'success'
+      },
+      [addListing.rejected]: (state, { error }) => {
+         state.status = 'rejected'
+         state.isLoading = false
+         state.error = error.message
       },
    },
 })
