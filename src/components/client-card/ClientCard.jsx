@@ -20,7 +20,7 @@ const ClientCard = ({
 }) => {
    return (
       <Wrapper width={width}>
-         <Flex direction="column" align="center">
+         <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={image} />
             </ImgWrapper>
