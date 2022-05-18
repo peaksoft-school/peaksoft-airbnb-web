@@ -20,11 +20,6 @@ const ReplaceImages = ({ dataSlider }) => {
          </Flex>
          <FlexImages>
             {filterImg.map((data) => (
-               // <Image
-               //    img={data.img}
-               //    key={data.id}
-               //    onClick={() => imgHandler(data.id, data)}
-               // />
                <Img
                   key={data.id}
                   src={data.img}
@@ -46,7 +41,7 @@ const FlexImages = styled(Flex)`
 `
 const Container = styled.div`
    width: 100%;
-   /* margin: auto; */
+
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -58,6 +53,7 @@ const Container = styled.div`
       height: auto;
       aspect-ratio: 15/13;
       object-fit: cover;
+      margin-top: 10px;
    }
 `
 const Img = styled.img`
@@ -65,20 +61,7 @@ const Img = styled.img`
    width: 100%;
    min-height: 100px;
    height: auto;
-   /* aspect-ratio: 20/9; */
    object-fit: cover;
 `
-// const Image = styled.div`
-//    max-width: 196px;
-//    width: 100%;
-//    padding: 20px;
-//    height: auto;
-//    /* max-height: 137px; */
-
-//    background-image: url(${({ img }) => img});
-//    background-size: cover;
-//    object-fit: cover;
-//    object-position: bottom;
-// `
 
 export default ReplaceImages
