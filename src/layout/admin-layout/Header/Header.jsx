@@ -23,7 +23,8 @@ const HeaderStyled = styled.header`
    width: 100%;
    padding: 15px 40px;
    background-color: #0b0b0b;
-   /* position: fixed; */
+   position: fixed;
+   z-index: 3;
    ${media.tablet`
       padding:10px 30px;
    `}
