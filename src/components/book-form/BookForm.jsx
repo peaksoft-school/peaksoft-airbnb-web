@@ -14,7 +14,7 @@ import TextArea from '../UI/text-fields/TextArea'
 import media from '../../utils/helpers/media'
 import Select from '../UI/select/Select'
 import { getRegions } from '../../store/regionSlice'
-import { addListing, uploadImageListing } from '../../store/listingSlice'
+import { uploadImageListing } from '../../store/listingSlice'
 import uuid from 'react-uuid'
 import Spinner from '../UI/loader/Spinner'
 import { useNavigate } from 'react-router-dom'
@@ -24,7 +24,10 @@ const BookForm = () => {
    const dispatch = useDispatch()
    const { listing, region } = useSelector((state) => state)
    const { imagesId } = useSelector((state) => state.listing)
-   const [selectedImages, setSelectedImages] = useState([])
+   const [selectedImages, setSelectedImages] = useState({
+      images: [],
+      files: [],
+   })
    const {
       register,
       setValue,
@@ -35,7 +38,6 @@ const BookForm = () => {
       defaultValues: {
          type: '',
          regionId: '',
-         images: [],
       },
    })
    const input = {
@@ -79,36 +81,48 @@ const BookForm = () => {
             required: '🛑 Obligatory field',
          }),
       },
-      images: {
-         ...register('images', {
-            required: '🛑 please add at least one photo',
-         }),
-      },
+      // images: {
+      //    ...register('images', {
+      //       required: '🛑 please add at least one photo',
+      //    }),
+      // },
    }
 
-   const { isLoading, status } = listing
+   const { isLoading } = listing
    const { regions } = region
 
    const onDrop = (files) => {
       const img = URL.createObjectURL(files[0])
-      setSelectedImages([...selectedImages, { img, id: uuid() }])
-      dispatch(uploadImageListing(files[0]))
+      setSelectedImages({
+         images: [...selectedImages.images, { img, id: uuid() }],
+         files: [...selectedImages.files, files[0]],
+      })
    }
-   const deleteImgHandler = (id) =>
-      setSelectedImages(selectedImages.filter((image) => image.id !== id))
+   const deleteImgHandler = (index) =>
+      setSelectedImages({
+         ...selectedImages,
+         images: selectedImages.images.filter((image, i) => i !== index),
+         files: selectedImages.files.filter((file, i) => i !== index),
+      })
 
    const changeRadionButtonHandler = (e) =>
       setValue('type', e.target.value, { shouldValidate: true })
 
    const changeSelectHandler = (regionId) =>
       setValue('regionId', regionId, { shouldValidate: true })
-
+   const navigateAfterSuccessUpload = () => {
+      navigate('/')
+   }
    const submitHandler = (data) => {
       dispatch(
-         addListing({
-            ...data,
-            price: Number(data.price),
-            maxNumberOfGuests: Number(data.maxNumberOfGuests),
+         uploadImageListing({
+            dataListing: {
+               ...data,
+               price: Number(data.price),
+               maxNumberOfGuests: Number(data.maxNumberOfGuests),
+            },
+            imagesListing: selectedImages.files,
+            navigateAfterSuccessUpload,
          })
       )
       reset({
@@ -118,11 +132,13 @@ const BookForm = () => {
          description: '',
          address: '',
          title: '',
-         images: [],
          type: '',
          regionId: '',
       })
-      setSelectedImages([])
+      setSelectedImages({
+         images: [],
+         files: [],
+      })
    }
    useEffect(() => {
       setValue('images', imagesId, { shouldValidate: true, shouldDirty: true })
@@ -131,12 +147,6 @@ const BookForm = () => {
    useEffect(() => {
       dispatch(getRegions())
    }, [])
-   useEffect(() => {
-      if (status === 'success') {
-         navigate('/')
-         window.location.reload()
-      }
-   }, [status])
    return (
       <FormContainer>
          <GlobalStyle />
@@ -153,10 +163,9 @@ const BookForm = () => {
          </Title>
          <Br />
          <ImagePicker
-            {...input.images}
             deleteHandler={deleteImgHandler}
             onDrop={onDrop}
-            files={selectedImages}
+            files={selectedImages.images}
          />
          <Br />
          <ErrorMessage>

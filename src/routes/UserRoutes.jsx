@@ -36,7 +36,7 @@ const UserRoutes = () => {
             <Route
                element={
                   <ProtectedRoute
-                     isAllowed={isAuthorized && role === ROLES.WENDOR}
+                     isAllowed={isAuthorized && role === ROLES.VENDOR}
                   />
                }
             >
