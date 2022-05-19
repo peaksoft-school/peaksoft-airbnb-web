@@ -1,0 +1,48 @@
+version: 2.1 # use CircleCI 2.0
+
+orbs:
+  aws-ecr: circleci/aws-ecr@7.0.0
+  eb: circleci/aws-elastic-beanstalk@2.0.1
+
+jobs:
+  deploy-to-beanstalk:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - eb/setup
+      - run:
+          name: "Insert BUILD NUMBER to Dockerrun.aws.json"
+          command: |
+            sed -i -e "s;%BUILD_NUM%;$CIRCLE_SHA1;g" ./.deploy/Dockerrun.aws.json
+            cd ./.deploy && eb init Airbnbwebdev-env -r $AWS_DEFAULT_REGION -p docker
+            eb deploy -l $CIRCLE_SHA1
+
+workflows:
+  build_image_and_push_to_ecr_and_deploy_to_elastic_beanstalk:
+    jobs:
+      - aws-ecr/build-and-push-image:
+          name: 'build-and-push-image-to-development'
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          region: AWS_REGION
+          account-url: AWS_ECR_ACCOUNT_URL
+          repo: airbnb-web-dev
+          create-repo: true
+          tag: "$CIRCLE_SHA1"
+          dockerfile: Dockerfile
+          path: .
+          skip-when-tags-exist: false
+          filters:
+            branches:
+              only:
+                - development
+
+
+      - deploy-to-beanstalk:
+          filters:
+            branches:
+              only:
+                - development
+          requires:
+            - build-and-push-image-to-development
