@@ -1,12 +1,19 @@
 import * as React from 'react'
+import { useEffect } from 'react'
 import { Snackbar as MuiSnackbar } from '@mui/material'
 import styled from 'styled-components'
 import imageХ from '../../../assets/icons/VectorX.svg'
 
 const PositionedSnackbar = (props) => {
-   setTimeout(() => {
-      props.delay(false)
-   }, 6000)
+   useEffect(() => {
+      const hideTimeOut = setTimeout(() => {
+         props.delay(false)
+      }, 6000)
+      return () => {
+         clearTimeout(hideTimeOut)
+      }
+   }, [props.open])
+
    return (
       <StyledSnackbar
          severity={props.severity}

@@ -50,6 +50,7 @@ const Rejects = ({ onClose, cancelHandler, isVisible = true }) => {
             open={show}
             severity="success"
             onClose={() => setShow(false)}
+            delay={setShow}
          />
          <Modal width="474px" onClose={onClose} isVisible={isVisible}>
             <div>
