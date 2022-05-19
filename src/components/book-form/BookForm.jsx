@@ -22,8 +22,7 @@ import { useNavigate } from 'react-router-dom'
 const BookForm = () => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const { regions } = useSelector((state) => state.region)
-   const { isLoading, status } = useSelector((state) => state.listing)
+   const { listing, region } = useSelector((state) => state)
    const { imagesId } = useSelector((state) => state.listing)
    const [selectedImages, setSelectedImages] = useState([])
    const {
@@ -86,6 +85,10 @@ const BookForm = () => {
          }),
       },
    }
+
+   const { isLoading, status } = listing
+   const { regions } = region
+
    const onDrop = (files) => {
       const img = URL.createObjectURL(files[0])
       setSelectedImages([...selectedImages, { img, id: uuid() }])
