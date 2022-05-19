@@ -4,6 +4,9 @@ import frame from '../../assets/icons/Frame.svg'
 import Regions from './Regions'
 import Flex from '../UI/ui-for-positions/Flex'
 import media from '../../utils/helpers/media'
+import Apartments from './Apartments'
+import PopularHouse from './PopularHouse'
+import Lastest from './Lastest'
 
 const MainPage = () => {
    return (
@@ -18,6 +21,9 @@ const MainPage = () => {
             </Flex>
          </MainPages>
          <Regions />
+         <Apartments />
+         <PopularHouse />
+         <Lastest />
       </Container>
    )
 }
