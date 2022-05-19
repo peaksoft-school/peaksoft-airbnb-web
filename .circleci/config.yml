@@ -15,7 +15,7 @@ jobs:
           name: "Insert BUILD NUMBER to Dockerrun.aws.json"
           command: |
             sed -i -e "s;%BUILD_NUM%;$CIRCLE_SHA1;g" ./.deploy/Dockerrun.aws.json
-            cd ./.deploy && eb init Airbnbwebdev-env -r $AWS_DEFAULT_REGION -p docker
+            cd ./.deploy && eb init airbnb-web-dev -r $AWS_DEFAULT_REGION -p docker
             eb deploy -l $CIRCLE_SHA1
 
 workflows:
