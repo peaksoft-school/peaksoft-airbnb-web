@@ -4,11 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { getRegions } from '../../../store/bookingSlice'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
+import { SERVER_BASE_URL } from '../../../api/fetchApi'
 
 const Regions = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const { regions } = useSelector((state) => state.booking)
+
+   console.log(regions)
 
    const transitionToListingHandler = ({ title, id }) => {
       navigate(`/main/${title}`, { state: id })
@@ -31,7 +34,7 @@ const Regions = () => {
                   onClick={() =>
                      transitionToListingHandler({ title: el.title, id: el.id })
                   }
-                  image={el.image.largeImageName}
+                  image={`${SERVER_BASE_URL}/${el.image.largeImagePath}`}
                   className={el.title}
                >
                   <TitleRegion>{el.title}</TitleRegion>
@@ -61,6 +64,8 @@ const Region = styled.div`
    background-color: #a23f3f;
    position: relative;
    transition: 0.2s;
+   background: url(${({ image }) => image});
+   background-size: cover;
    :hover {
       opacity: 0.9;
    }
@@ -88,16 +93,21 @@ const ContainerRegions = styled.div`
    grid-template-rows: repeat(4, 1.5fr);
    gap: 20px 20px;
    grid-auto-flow: column;
+   -ms-grid-column-align: start;
    @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
    }
    .chui {
       grid-area: 1 / 1 / 3 / 3;
+      /* width: 505px;
+      height: 621px; */
+      grid-auto-rows: min-content;
    }
 
    .batken {
       grid-area: 1 / 3 / 2 / 4;
+      grid-auto-columns: min-content;
    }
 
    .jalalabat {
@@ -110,6 +120,8 @@ const ContainerRegions = styled.div`
 
    .osh {
       grid-area: 3 / 3 / 5 / 5;
+      /* width: 505px;
+      height: 621px; */
    }
 
    .issyk-kul {

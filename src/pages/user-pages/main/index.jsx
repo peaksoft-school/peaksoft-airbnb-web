@@ -2,20 +2,20 @@ import styled from 'styled-components'
 import BackgroundMain from '../../../assets/images/PageMain.png'
 import frame from '../../../assets/icons/Frame.svg'
 import Regions from './Regions'
-import Flex from '../../../components/UI/ui-for-positions/Flex'
+// import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
 
 const MainPage = () => {
    return (
       <Container>
          <MainPages>
-            <Flex align="center" justify="center" direction="column">
+            <div>
                <h1>FIND A PLACE YOU WILL LOVE TO STAY AT</h1>
                <DivInput>
                   <img src={frame} alt="find" />
                   <Input placeholder="Region, city , apartment, house..." />
                </DivInput>
-            </Flex>
+            </div>
          </MainPages>
          <Regions />
       </Container>
@@ -24,18 +24,19 @@ const MainPage = () => {
 
 const Container = styled.div`
    width: 100%;
-   /* max-width: 1440px; */
    margin: 0 auto;
 `
 
 const MainPages = styled.div`
-   padding-top: 349px;
    width: 100%;
+   display: grid;
+   align-items: center;
    background: url(${BackgroundMain}) no-repeat;
    background-size: cover;
    background-position: center;
    background-attachment: fixed;
-   height: 820px;
+   min-height: ${`${window.innerHeight}px`};
+   text-align: center;
    ${media.tablet`
    padding-left:20px;
    padding-right:20px;
@@ -49,8 +50,8 @@ const MainPages = styled.div`
       font-family: 'Jenriv Titling';
       font-style: normal;
       font-weight: 400;
-      font-size: 40px;
-      line-height: 48px;
+      font-size: 39px;
+      line-height: 38px;
       text-transform: uppercase;
       color: #ffffff;
       ${media.tablet`
@@ -75,7 +76,7 @@ const DivInput = styled.div`
    background-color: white;
    display: flex;
    align-items: center;
-   margin-top: 100px;
+   margin-top: 50px;
    & img {
       width: 18.62px;
       height: 18.62px;
