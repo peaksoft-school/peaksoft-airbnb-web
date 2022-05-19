@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Outlet } from 'react-router-dom'
 import Flex from '../UI/ui-for-positions/Flex'
-import UserCart from './UserCart'
+import UserCard from './UserCard'
 import ProfileTabs from './ProfileTabs'
 import media from '../../utils/helpers/media'
 
@@ -10,7 +10,7 @@ const Profile = () => {
       <WrapperContainer>
          <UserProfile>Profile</UserProfile>
          <ContentWrapper>
-            <UserCart />
+            <UserCard />
             <ContainerList>
                <ProfileTabs />
                <Flex width="100%" gap="20px" wrap="wrap">

@@ -5,7 +5,7 @@ import Flex from '../UI/ui-for-positions/Flex'
 import media from '../../utils/helpers/media'
 import { modalActions } from '../../store/modalSlice'
 
-const UserCart = () => {
+const UserCard = () => {
    const { user } = useSelector((state) => state.auth)
    const dispatch = useDispatch()
    return (
@@ -84,4 +84,4 @@ const Avatar = styled.div`
       border-radius: 50%;
    }
 `
-export default UserCart
+export default UserCard

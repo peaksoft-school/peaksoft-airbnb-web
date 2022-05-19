@@ -64,6 +64,14 @@ const ProfileTabs = () => {
    const handleChange = (event, newValue) => {
       setTabValue(newValue)
    }
+
+   // if (tabValue === 0) {
+   //    navigate('/profile/bookings')
+   // }
+   // if (tabValue === 1) {
+   //    navigate('/profile/my-announcements')
+   // }
+
    useEffect(() => {
       saveToLocalStorage('tabs', tabValue)
       if (tabValue === 0) {

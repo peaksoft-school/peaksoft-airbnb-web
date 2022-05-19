@@ -22,38 +22,26 @@ const ProfileCard = ({
    const [showWarningMessage, setShowWarningMessage] = React.useState(false)
    const showOrHideWarningMessageHandler = () =>
       setShowWarningMessage(!showWarningMessage)
+   let content = null
+   if (rejected || blocked) {
+      content = (
+         <BlockedContent>
+            <Flex justify="end">
+               <StyledWarningIcon onClick={showOrHideWarningMessageHandler} />
+            </Flex>
+            {showWarningMessage && (
+               <Message>
+                  {(blocked &&
+                     'Your application has been blocked, please contact the administrator') ||
+                     'Your application has been rejected, please contact the administrator'}
+               </Message>
+            )}
+         </BlockedContent>
+      )
+   }
    return (
       <Wrapper blocked={blocked} rejected={rejected}>
-         {blocked && (
-            <BlockedContent>
-               <Flex justify="end">
-                  <StyledWarningIcon
-                     onClick={showOrHideWarningMessageHandler}
-                  />
-               </Flex>
-               {showWarningMessage && (
-                  <Message>
-                     Your application has been blocked, please contact the
-                     administrator
-                  </Message>
-               )}
-            </BlockedContent>
-         )}
-         {rejected && (
-            <BlockedContent>
-               <Flex justify="end">
-                  <StyledWarningIcon
-                     onClick={showOrHideWarningMessageHandler}
-                  />
-               </Flex>
-               {showWarningMessage && (
-                  <Message>
-                     Your application has been rejected, please contact the
-                     administrator
-                  </Message>
-               )}
-            </BlockedContent>
-         )}
+         {content}
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={images} />

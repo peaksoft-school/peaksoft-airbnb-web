@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -33,7 +34,7 @@ export default function Slider({ dataSlider = [] }) {
             {dataSlider.map((obj, index) => {
                return (
                   <div
-                     key={obj.id}
+                     key={index}
                      className={
                         slideIndex === index + 1 ? 'slide active-anim' : 'slide'
                      }
