@@ -2,7 +2,12 @@ import { styled } from '@mui/material/styles'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import {
+   getDataFromLocalStorage,
+   saveToLocalStorage,
+} from '../../utils/helpers/general'
 
 const AntTabs = styled(Tabs)({
    maxWidth: '820px',
@@ -51,12 +56,23 @@ const AntTab = styled((props) => <Tab disableRipple {...props} />)(
 )
 
 const ProfileTabs = () => {
-   const [tabValue, setTabValue] = useState(0)
+   const navigate = useNavigate()
+   const [tabValue, setTabValue] = useState(
+      getDataFromLocalStorage('tabs') || 0
+   )
 
    const handleChange = (event, newValue) => {
       setTabValue(newValue)
    }
-
+   useEffect(() => {
+      saveToLocalStorage('tabs', tabValue)
+      if (tabValue === 0) {
+         navigate('/profile/bookings')
+      }
+      if (tabValue === 1) {
+         navigate('/profile/my-announcements')
+      }
+   }, [tabValue])
    return (
       <Box sx={{ width: '100%' }}>
          <Box sx={{ bgcolor: 'none' }}>

@@ -19,6 +19,16 @@ export const USER_ROUTES = {
       path: '/profile/',
       label: 'Profile',
    },
+   PROFILE_TABS: {
+      PFOFILE_BOOKINGS: {
+         path: '/profile/bookings',
+         label: 'bookings',
+      },
+      PROFILE_MY_ANNOUNCEMENTS: {
+         path: '/profile/my-announcements',
+         label: 'my-announcements',
+      },
+   },
    SUBMIT_AN_AD: {
       path: '/submit-an-ad',
       label: 'Submit-an-ad',

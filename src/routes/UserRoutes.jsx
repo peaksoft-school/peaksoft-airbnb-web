@@ -6,6 +6,8 @@ import Main from '../pages/user-pages/main'
 import ProtectedRoute from './ProtectedRoute'
 import UserLayout from '../layout/user-layout'
 import { ROLES } from '../utils/constants/general'
+import Bookings from '../components/user-profile/Bookings'
+import MyAnnouncements from '../components/user-profile/MyAnnouncement'
 
 const Region = React.lazy(() => import('../pages/user-pages/region'))
 const HomeDetail = React.lazy(() => import('../pages/user-pages/home-detail'))
@@ -15,7 +17,8 @@ const SubmitAnAd = React.lazy(() => import('../pages/user-pages/submit-an-ad'))
 const UserRoutes = () => {
    const { isAuthorized, role } = useSelector((state) => state.auth)
 
-   const { INDEX, MAIN, REGION, HOUSE, PROFILE, SUBMIT_AN_AD } = USER_ROUTES
+   const { INDEX, MAIN, REGION, HOUSE, PROFILE, SUBMIT_AN_AD, PROFILE_TABS } =
+      USER_ROUTES
    return (
       <Routes>
          <Route element={<UserLayout />}>
@@ -40,7 +43,16 @@ const UserRoutes = () => {
                   />
                }
             >
-               <Route path={PROFILE.path} element={<Profile />} />
+               <Route path={PROFILE.path} element={<Profile />}>
+                  <Route
+                     path={PROFILE_TABS.PFOFILE_BOOKINGS.path}
+                     element={<Bookings />}
+                  />
+                  <Route
+                     path={PROFILE_TABS.PROFILE_MY_ANNOUNCEMENTS.path}
+                     element={<MyAnnouncements />}
+                  />
+               </Route>
             </Route>
          </Route>
       </Routes>
