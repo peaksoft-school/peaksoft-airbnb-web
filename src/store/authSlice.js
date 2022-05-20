@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { authentication } from '../Firebase/firebase-config'
@@ -83,7 +84,7 @@ const authSlice = createSlice({
       [signInWithGoogle.fulfilled]: (state, { payload }) => {
          state.status = 'success'
          state.isAuthorized = true
-         state.role = ROLES.WENDOR
+         state.role = ROLES.VENDOR
          state.token = payload.data.idToken
          state.user = payload.data.user
          state.error = null
