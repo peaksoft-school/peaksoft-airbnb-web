@@ -1,3 +1,5 @@
+import { SERVER_BASE_URL } from '../../api/fetchApi'
+
 export const saveToLocalStorage = (key, data) => {
    try {
       localStorage.setItem(key, JSON.stringify(data))
@@ -35,4 +37,7 @@ export const getExcludedDates = (bookings) => {
       newDate[i].map((el) => selectedDays.push(el))
    }
    return selectedDays
+}
+export const mergePhotosLinksIntoServerBaseUrl = (linkPhoto) => {
+   return `${SERVER_BASE_URL}/${linkPhoto}`
 }
