@@ -10,28 +10,38 @@ import Carousel from '../UI/carousel/Carousel'
 import { ReactComponent as WarningIcon } from '../../assets/icons/Warning.svg'
 
 const ProfileCard = ({
-   title,
-   day,
+   price,
    starRange,
-   text,
+   title,
    address,
    guest,
    images,
-   blocked = true,
+   blocked,
+   rejected,
 }) => {
-   return (
-      <Wrapper blocked={blocked}>
-         {blocked && (
-            <BlockedContent>
-               <Flex justify="end">
-                  <StyledWarningIcon />
-               </Flex>
+   const [showWarningMessage, setShowWarningMessage] = React.useState(false)
+   const showOrHideWarningMessageHandler = () =>
+      setShowWarningMessage(!showWarningMessage)
+   let content = null
+   if (rejected || blocked) {
+      content = (
+         <BlockedContent>
+            <Flex justify="end">
+               <StyledWarningIcon onClick={showOrHideWarningMessageHandler} />
+            </Flex>
+            {showWarningMessage && (
                <Message>
-                  Your application has been blocked, please contact the
-                  administrator
+                  {(blocked &&
+                     'Your application has been blocked, please contact the administrator') ||
+                     'Your application has been rejected, please contact the administrator'}
                </Message>
-            </BlockedContent>
-         )}
+            )}
+         </BlockedContent>
+      )
+   }
+   return (
+      <Wrapper blocked={blocked} rejected={rejected}>
+         {content}
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={images} />
@@ -39,8 +49,10 @@ const ProfileCard = ({
             <ContentWrapper>
                <ContainerItem>
                   <Flex gap="3px" align="center">
-                     <Title>${title}/</Title>
-                     <Text size="16px">{day}</Text>
+                     <Title className="price">${price}/</Title>
+                     <Text className="price" size="16px">
+                        day
+                     </Text>
                   </Flex>
                   <StarStyle>
                      <Stars />
@@ -48,7 +60,7 @@ const ProfileCard = ({
                   </StarStyle>
                </ContainerItem>
                <Flex className="flex" direction="column" gap="7px">
-                  <Title className="text">{text}</Title>
+                  <Title className="text">{title}</Title>
                   <Flex width="100%" align="center" gap="3px">
                      <Geolocations />
                      <Text className="text address">{address}</Text>
@@ -56,7 +68,8 @@ const ProfileCard = ({
                </Flex>
                <FlexText>
                   <Text className="address">{guest} guests</Text>
-                  {blocked && <Blocked>Blocked</Blocked>}
+                  {blocked && <Warning>Blocked</Warning>}
+                  {rejected && !blocked && <Warning>Rejected</Warning>}
                </FlexText>
             </ContentWrapper>
          </Flex>
@@ -75,9 +88,13 @@ const FlexText = styled(Flex)`
 const ContainerItem = styled(Flex)`
    width: 100%;
    justify-content: space-between;
+   align-items: center;
    margin: 8px 0 16px 0;
-   @media (max-width: 525px) {
-      margin: 8px 0 5px 0;
+   @media (max-width: 500px) {
+      margin: 10px 0 2px 0;
+   }
+   @media (max-width: 400px) {
+      margin: 3px 0 0px 0;
    }
 `
 const Wrapper = styled.div`
@@ -89,9 +106,9 @@ const Wrapper = styled.div`
       height: 55vmin;
    }
    background-color: transparent;
+   border: ${({ rejected }) => (rejected ? '3px solid tomato' : 'none')};
    :hover {
       box-shadow: 0px 4px 12px rgba(105, 105, 105, 0.08);
-      background-color: ${({ blocked }) => !blocked && '#ffffff'};
    }
    .text {
       overflow: hidden;
@@ -108,14 +125,20 @@ const Wrapper = styled.div`
          font-size: 10px;
       }
    }
+   .price {
+      @media (max-width: 400px) {
+         font-size: 80%;
+      }
+   }
 `
-const Div = styled.div`
+const Div = styled.p`
    font-family: 'Inter';
-   font-style: normal;
    font-weight: 500;
    font-size: 14px;
-   line-height: 17px;
    color: #ffffff;
+   @media (max-width: 400px) {
+      font-size: 10px;
+   }
 `
 const ImgWrapper = styled.div`
    min-width: 100%;
@@ -126,9 +149,13 @@ const ContentWrapper = styled.div`
    width: 100%;
    padding: 0 10px 10px 10px;
    .flex {
-      @media (max-width: 525px) {
+      @media (max-width: 470px) {
          gap: 0px;
+         padding: 0 6px 6px 6px;
       }
+   }
+   @media (max-width: 525px) {
+      padding: 0 6px 6px 6px;
    }
 `
 const StarStyle = styled.div`
@@ -139,7 +166,7 @@ const StarStyle = styled.div`
    gap: 4.5px;
    padding: 0.3em 0.9em;
    @media (max-width: 525px) {
-      font-size: 12px;
+      padding: 0.1em 0.4em;
    }
 `
 const BlockedContent = styled.div`
@@ -153,7 +180,7 @@ const BlockedContent = styled.div`
    height: 100%;
    padding: 17px;
    cursor: not-allowed;
-   background-color: rgba(255, 255, 255, 0.3);
+   background-color: #d4d4d483;
    @media (max-width: 525px) {
       padding: 6px;
    }
@@ -172,14 +199,34 @@ const Message = styled.h5`
    @media (max-width: 525px) {
       font-size: 8px;
    }
+   animation: message linear 0.4s;
+   @keyframes message {
+      from {
+         opacity: 0;
+      }
+      to {
+         opacity: 1;
+      }
+   }
 `
-const StyledWarningIcon = styled(WarningIcon)``
+const StyledWarningIcon = styled(WarningIcon)`
+   z-index: 11;
+   cursor: pointer;
+`
 
-const Blocked = styled(Button)`
+const Warning = styled(Button)`
    background-color: #cacaca;
+
    @media (max-width: 525px) {
-      font-size: 10px;
+      font-size: 9px;
       padding: 0.5em 1rem;
+      width: auto;
+      position: relative;
+   }
+   @media (max-width: 400px) {
+      font-size: 9px;
+      padding: 0.5em 0.7rem;
+      width: auto;
    }
 `
 export default ProfileCard
