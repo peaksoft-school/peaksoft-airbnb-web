@@ -12,15 +12,16 @@ const HeaderContentMain = ({
    isAuthorized,
    showSignInWithGoogle,
    showMenuHandler,
+   headerStyle,
 }) => {
    const loginHandler = () => {
       showSignInWithGoogle()
    }
    return (
       <Flex justify="space-between" align="center" width="100%">
-         <Nav />
+         <Nav dark={headerStyle} />
          <Content isAuthorized={isAuthorized}>
-            <LogoAirBnb />
+            <LogoAirBnb color={headerStyle ? 'dark' : 'light'} />
          </Content>
          <Flex align="center">
             {!isAuthorized && (
@@ -29,7 +30,10 @@ const HeaderContentMain = ({
                </Button>
             )}
             <ContentForProfile isAuthorized={isAuthorized} />
-            <NavBurger showMenuHandler={showMenuHandler} />
+            <NavBurger
+               headerStyle={headerStyle}
+               showMenuHandler={showMenuHandler}
+            />
          </Flex>
       </Flex>
    )
