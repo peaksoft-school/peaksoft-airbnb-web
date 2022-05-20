@@ -11,25 +11,24 @@ import Carousel from '../UI/carousel/Carousel'
 const ClientCard = ({
    width,
    title,
-   day,
+   price,
    starRange,
-   text,
    address,
    guest,
-   image,
+   images,
 }) => {
    return (
       <Wrapper width={width}>
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
-               <Carousel dataSlider={image} />
+               <Carousel dataSlider={images} />
             </ImgWrapper>
 
             <ContentWrapper>
                <Flex margin="16px 0" justify="space-between" width="100%">
                   <Flex gap="3px" align="center">
-                     <Title>${title}/</Title>
-                     <Text size="16px">{day}</Text>
+                     <Title>${price}/</Title>
+                     <Text size="16px">day</Text>
                   </Flex>
                   <StarStyle>
                      <Stars />
@@ -37,7 +36,7 @@ const ClientCard = ({
                   </StarStyle>
                </Flex>
                <Flex direction="column" gap="8px">
-                  <Title className="text">{text}</Title>
+                  <Title className="text">{title}</Title>
                   <Flex
                      width="100%"
                      align="center"
@@ -61,6 +60,15 @@ const ClientCard = ({
 const Wrapper = styled.div`
    width: ${({ width }) => width || '295px'};
    height: 362px;
+   animation: YES ease-in-out 1s;
+   @keyframes YES {
+      from {
+         opacity: 0;
+      }
+      to {
+         opacity: 1;
+      }
+   }
    @media (max-width: 425px) {
       width: 100%;
    }

@@ -55,9 +55,49 @@ export const addListing = createAsyncThunk(
       }
    }
 )
+export const getListings = createAsyncThunk(
+   'listing/getListings',
+   async ({ sort, filter, pagination }, { rejectWithValue }) => {
+      console.log(filter)
+      const filterBy = {}
+      const sortBy = {}
+      if (filter.regionIds.length > 0) {
+         filterBy.regionIds = filter.regionIds
+      }
+      if (filter.type) {
+         filterBy.type = filter.type
+      }
+      if (sort.popular.length > 0) {
+         sortBy.popular = sort.popular
+      }
+      if (sort.price) {
+         sortBy.price = sort.price
+      }
+      const params = {
+         page: Number(pagination) || 1,
+         limit: 8,
+      }
+      if (Object.values(filterBy).length > 0) {
+         params.filterBy = JSON.stringify(filterBy)
+      }
+      if (Object.values(sortBy).length > 0) {
+         params.sortBy = JSON.stringify(sortBy)
+      }
+      try {
+         const listings = fetchApi({
+            path: 'api/listings',
+            method: 'GET',
+            params,
+         })
+         return listings
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
 
 const initialState = {
-   listins: [],
+   listings: [],
    imagesId: [],
    isLoading: false,
    error: null,
@@ -86,6 +126,20 @@ const listingSlice = createSlice({
          state.status = 'success'
       },
       [addListing.rejected]: (state, { error }) => {
+         state.status = 'rejected'
+         state.isLoading = false
+         state.error = error.message
+      },
+      [getListings.pending]: (state) => {
+         state.isLoading = true
+         state.status = 'pending'
+      },
+      [getListings.fulfilled]: (state, { payload }) => {
+         state.isLoading = false
+         state.listings = payload
+         state.status = 'success'
+      },
+      [getListings.rejected]: (state, { error }) => {
          state.status = 'rejected'
          state.isLoading = false
          state.error = error.message

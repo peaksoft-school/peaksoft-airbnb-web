@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Select from '../UI/select/Select'
 import Text from '../UI/typography/Text'
@@ -10,12 +10,30 @@ import SelectsForFilterMobile from './SelectsForFilterMobile'
 import {
    SORT_BY_POPULAR,
    SORT_BY_PRICE,
-   SORT_BY_REGION,
    SORT_BY_TYPE,
 } from '../../utils/constants/general'
+import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { getRegions } from '../../store/regionSlice'
 
-const SelectsForFilter = ({ onChange, onChangeMobileVersion }) => {
+const SelectsForFilter = ({
+   selectRegion,
+   selectType,
+   selectPrice,
+   selectPopular,
+   onChangeMobileVersion,
+}) => {
+   const dispatch = useDispatch()
    const [showDrawer, setShowDrawer] = useState(false)
+   const [regionsId, setRegionsId] = useState([])
+   const { regions } = useSelector((state) => state.region)
+   const { region } = useParams()
+   useEffect(() => {
+      dispatch(getRegions())
+   }, [])
+   useEffect(() => {
+      setRegionsId([{ title: 'All', id: 'All' }, ...regions])
+   }, [regions])
    return (
       <>
          <SelectsForFilterMobile
@@ -25,7 +43,7 @@ const SelectsForFilter = ({ onChange, onChangeMobileVersion }) => {
          />
          <Flex wrap="wrap" align="center" justify="space-between" width="100%">
             <Title uppercase>
-               Naryn <Text>(45)</Text>
+               {region} <Text>(45)</Text>
             </Title>
             <FilterMenu onClick={() => setShowDrawer(true)}>
                <Text size="16px">Filter</Text>
@@ -33,24 +51,36 @@ const SelectsForFilter = ({ onChange, onChangeMobileVersion }) => {
             </FilterMenu>
             <ContainerSelects>
                <Select
-                  onChange={(value) => onChange(value)}
-                  data={SORT_BY_REGION}
+                  width="270px"
+                  onChange={(value) => selectRegion(value)}
+                  data={regionsId}
                   name="Sort by"
+                  value="id"
+                  label="title"
                />
                <Select
-                  onChange={(value) => onChange(value)}
+                  width="270px"
+                  onChange={(value) => selectType(value)}
                   data={SORT_BY_TYPE}
                   name="Filter by home type"
+                  value="value"
+                  label="label"
                />
                <Select
-                  onChange={(value) => onChange(value)}
+                  width="270px"
+                  onChange={(value) => selectPopular(value)}
                   data={SORT_BY_POPULAR}
                   name="Sort by"
+                  value="value"
+                  label="label"
                />
                <Select
-                  onChange={(value) => onChange(value)}
+                  width="270px"
+                  onChange={(value) => selectPrice(value)}
                   data={SORT_BY_PRICE}
                   name="Filter by price"
+                  value="value"
+                  label="label"
                />
             </ContainerSelects>
          </Flex>

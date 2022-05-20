@@ -11,7 +11,7 @@ const Paginations = (props) => {
 }
 
 const StyledPagination = styled(MuiPagination)`
-   width: 350px;
+   /* width: 350px; */
    height: 22px;
    .MuiButtonBase-root {
       color: #bdbdbd;

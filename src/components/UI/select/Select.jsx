@@ -20,7 +20,7 @@ const Select = React.forwardRef(
          event.stopPropagation()
          setSelectToggle(false)
          setLabelValue(data[label])
-         onChange(data[value])
+         onChange(data[value], data[label])
       }
       return (
          <SelectWrapper width={width} select={selectToggle}>
@@ -33,7 +33,7 @@ const Select = React.forwardRef(
                <Flex align="center" justify="space-between">
                   <TitleSelect>{name}:</TitleSelect>
                   <Flex align="center" gap="1rem">
-                     <Title>{labelValue}</Title>
+                     <Title size="15px">{labelValue}</Title>
                      <SelectIcon className="icon__select" />
                   </Flex>
                </Flex>
@@ -64,7 +64,7 @@ const SelectWrapper = styled.div`
 `
 const TitleSelect = styled(Title)`
    color: #828282;
-   font-size: small;
+   font-size: 15px;
 `
 const SelectStyled = styled.button`
    font-size: 16px;
@@ -72,7 +72,7 @@ const SelectStyled = styled.button`
    width: 100%;
    border: ${({ isValid }) =>
       isValid ? ' 1px solid tomato' : '1px solid #c4c4c4'};
-   background-color: #ffffff;
+   background-color: transparent;
    box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
    cursor: pointer;
    :hover {

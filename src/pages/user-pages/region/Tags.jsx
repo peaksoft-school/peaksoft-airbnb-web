@@ -20,8 +20,20 @@ const TagStyled = styled.div`
    padding: 0.4rem 0.8rem;
    font-family: 'Inter';
    color: ${({ dark }) => (dark ? '#F7F7F7' : '#828282')};
+   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+   text-transform: uppercase;
+   border-radius: 1px;
    :hover {
       opacity: 0.7;
+   }
+   animation: YES ease-in 0.2s;
+   @keyframes YES {
+      from {
+         opacity: 0;
+      }
+      to {
+         opacity: 1;
+      }
    }
 `
 export default Tag

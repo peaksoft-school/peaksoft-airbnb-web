@@ -109,21 +109,21 @@ export const SORT_BY_REGION = [
 export const SORT_BY_TYPE = [
    {
       label: 'All',
-      value: 'All',
+      value: '',
    },
    {
       label: 'Apartment',
-      value: 'Apartment',
+      value: 'APARTMENT',
    },
    {
       label: 'House',
-      value: 'House',
+      value: 'HOUSE',
    },
 ]
 export const SORT_BY_POPULAR = [
    {
       label: 'All',
-      value: 'All',
+      value: '',
    },
    {
       label: 'Popular',
@@ -137,14 +137,14 @@ export const SORT_BY_POPULAR = [
 export const SORT_BY_PRICE = [
    {
       label: 'All',
-      value: 'All',
+      value: '',
    },
    {
       label: 'Low to high',
-      value: 'Low to high',
+      value: 'ASC',
    },
    {
       label: 'High to low',
-      value: 'High to low',
+      value: 'DESC',
    },
 ]
