@@ -39,10 +39,10 @@ workflows:
                 - development
 
 
-      - deploy-to-beanstalk:
-          filters:
-            branches:
-              only:
-                - development
-          requires:
-            - build-and-push-image-to-development
+#      - deploy-to-beanstalk:
+#          filters:
+#            branches:
+#              only:
+#                - development
+#          requires:
+#            - build-and-push-image-to-development
