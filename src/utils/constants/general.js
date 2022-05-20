@@ -1,7 +1,7 @@
 export const KEY_AUTH = '@eyjsw6450k'
 export const ROLES = {
    ADMIN: 'ADMIN',
-   WENDOR: 'WENDOR',
+   VENDOR: 'USER',
 }
 export const SORT_BY_REGION_FOR_MOBILE = [
    {
