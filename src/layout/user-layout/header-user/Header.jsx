@@ -38,6 +38,7 @@ const HeaderStyled = styled.header`
    padding: 13px 60px;
    /* position: fixed; */
    background-color: #ffffff;
+   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
    .btn {
       ${media.tablet`
       display:none;      
