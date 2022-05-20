@@ -18,7 +18,7 @@ const SignInWithGoogle = ({ showSignInAsAdminHandler }) => {
    )
 
    useEffect(() => {
-      if (isAuthorized && role === ROLES.WENDOR) navigate('/profile')
+      if (isAuthorized && role === ROLES.VENDOR) navigate('/profile')
    }, [isAuthorized, role])
 
    const signInHandler = () => dispatch(googleAccountIntegration())

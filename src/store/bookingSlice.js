@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { fetchApi } from '../api/fetchApi'
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit')

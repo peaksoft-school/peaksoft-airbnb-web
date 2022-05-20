@@ -1,7 +1,8 @@
 import React from 'react'
+import BookForm from '../../../components/book-form/BookForm'
 
 const SubmitAnAd = () => {
-   return <div>SubmitAnAd</div>
+   return <BookForm />
 }
 
 export default SubmitAnAd

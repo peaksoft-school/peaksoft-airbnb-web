@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { getRegions } from '../../../store/bookingSlice'
+import { getRegions } from '../../../store/regionSlice'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import { mergePhotosLinksIntoServerBaseUrl } from '../../../utils/helpers/general'
 
@@ -10,8 +10,6 @@ const Regions = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const { regions } = useSelector((state) => state.booking)
-
-   console.log(regions)
 
    const transitionToListingHandler = ({ title, id }) => {
       navigate(`/main/${title}`, { state: id })
@@ -36,6 +34,9 @@ const Regions = () => {
                   }
                   image={mergePhotosLinksIntoServerBaseUrl(
                      el.image.largeImagePath
+                  )}
+                  smallImage={mergePhotosLinksIntoServerBaseUrl(
+                     el.image.smallImagePath
                   )}
                   className={el.title}
                >
@@ -79,6 +80,9 @@ const Region = styled.div`
    @media (max-width: 428px) {
       width: 100%;
       height: 230px;
+      background: url(${({ smallImage }) => smallImage});
+      background-size: cover;
+      background-repeat: no-repeat;
    }
 `
 const Container = styled.div`
@@ -102,8 +106,6 @@ const ContainerRegions = styled.div`
    }
    .chui {
       grid-area: 1 / 1 / 3 / 3;
-      /* width: 505px;
-      height: 621px; */
       grid-auto-rows: min-content;
    }
 
@@ -122,8 +124,6 @@ const ContainerRegions = styled.div`
 
    .osh {
       grid-area: 3 / 3 / 5 / 5;
-      /* width: 505px;
-      height: 621px; */
    }
 
    .issyk-kul {

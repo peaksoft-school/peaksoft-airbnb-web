@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { SERVER_BASE_URL } from '../../api/fetchApi'
 
 export const saveToLocalStorage = (key, data) => {
