@@ -36,7 +36,7 @@ const PopularHouse = () => {
 
    return (
       <Container>
-         <Flex justify="space-between" width="98%" margin="170px 0 60px 0">
+         <Flex justify="space-between" width="98%" margin="170px 0 0 0">
             <Title size="20px" uppercase color="#363636">
                Popular House
             </Title>
@@ -103,7 +103,7 @@ const LinkStyled = styled(Link)`
 const HomeDiv = styled.div`
    margin: 60px 20px 0 0;
    ${media.tablet`
-       margin: 50px 0 20px 0;
+       margin: 16px 0 20px 0;
    `}
 `
 
@@ -142,6 +142,10 @@ const TextMain = styled.p`
    font-size: 16px;
    line-height: 19px;
    color: #363636;
+   margin-top: 60px;
+   ${media.tablet`
+      margin-top: 16px;
+   `}
 `
 
 const DivHouse = styled.div`
@@ -164,11 +168,11 @@ const ImgHomeInDiv = styled.img`
    height: 484px;
    object-fit: cover;
    ${media.tablet`
-       max-width: 650px;
+       max-width: 700px;
        width: 100%;
    `}
    ${media.mobile`
-       max-width: 342px;
+       max-width: 360px;
        width: 100%;
        height: 321px
    `}
@@ -185,6 +189,7 @@ const MainTitle = styled.h3`
    font-size: 18px;
    line-height: 22px;
    color: #363636;
+   margin-top: 16px;
 `
 
 const AdressTitle = styled.p`

@@ -128,7 +128,7 @@ const Apartments = () => {
                         <ImgHome1 src={secondApartments.url} alt="page" />
                         <ImgHome2 src={thirdApartments.url} alt="page" />
                      </Flex>
-                     <Flex height="14px" margin="80px 0 0 0">
+                     <FlexButton height="14px" margin="80px 0 0 0">
                         <ButtonSlide onClick={prevChangeHandler}>
                            <img src={prev} alt="prev" />
                         </ButtonSlide>
@@ -138,7 +138,7 @@ const Apartments = () => {
                         <ButtonSlide onClick={nextChangeHandler}>
                            <img src={next} alt="next" />
                         </ButtonSlide>
-                     </Flex>
+                     </FlexButton>
                   </Flex>
                </Apart>
             </Flex>
@@ -194,10 +194,22 @@ const MainApartment = styled(Flex)`
       }
    }
 `
+
+const FlexButton = styled.div`
+   display: flex;
+   margin: 80px 0 0 0;
+   align-items: center;
+   gap: 25px;
+   ${media.tablet`
+      width:100%;
+      justify-content:center;
+   `}
+`
+
 const ButtonSlide = styled.button`
    border: none;
-   background: #4f7755;
-   margin-left: 20px;
+   background: transparent;
+   cursor: pointer;
 `
 
 const DivGeo = styled.div`
@@ -216,7 +228,6 @@ const SpanLength = styled.span`
    font-size: 16px;
    line-height: 130%;
    color: #ffffff;
-   margin: 2.6px 5.5px 0 25.5px;
 `
 
 const Background = styled.div`
@@ -257,11 +268,13 @@ const HomeImg = styled.img`
    object-fit: cover;
    ${media.tablet`
       max-width: 650px;
+      width: 100%;
       height: 420px;
    `}
    ${media.mobile`
-      max-width: 343px;
-      height: 212px;
+      max-width: 390px;
+      width: 100%;
+      height: 250px;
    `}
 `
 const ImgHome1 = styled.img`

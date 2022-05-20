@@ -128,7 +128,7 @@ const Lastest = () => {
                         <ImgHome1 src={secondApartments.url} alt="page" />
                         <ImgHome2 src={thirdApartments.url} alt="page" />
                      </Flex>
-                     <Flex height="14px" margin="80px 0 0 0">
+                     <FlexButton>
                         <ButtonSlide onClick={prevChangeHandler}>
                            <img src={prev} alt="prev" />
                         </ButtonSlide>
@@ -138,7 +138,7 @@ const Lastest = () => {
                         <ButtonSlide onClick={nextChangeHandler}>
                            <img src={next} alt="next" />
                         </ButtonSlide>
-                     </Flex>
+                     </FlexButton>
                   </Flex>
                </Apart>
             </Flex>
@@ -194,10 +194,23 @@ const MainApartment = styled(Flex)`
       }
    }
 `
+
+const FlexButton = styled.div`
+   display: flex;
+   margin: 80px 0 0 0;
+   align-items: center;
+   gap: 25px;
+   ${media.tablet`
+      width:100%;
+      justify-content:center;
+   `}
+`
+
 const ButtonSlide = styled.button`
    border: none;
    background: none;
    margin-left: 20px;
+   cursor: pointer;
 `
 
 const DivGeo = styled.div`
@@ -264,11 +277,13 @@ const HomeImg = styled.img`
    object-fit: cover;
    ${media.tablet`
             max-width: 650px;
+            width: 100%;
             height: 420px;
          `}
    ${media.mobile`
-            max-width: 343px;
-            height: 212px;
+            max-width: 370px;
+            width: 100%;
+            height: 250px;
          `}
 `
 const ImgHome1 = styled.img`
