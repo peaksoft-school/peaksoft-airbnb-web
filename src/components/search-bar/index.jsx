@@ -8,7 +8,7 @@ import frame from '../../assets/icons/Frame.svg'
 import { fetchApi } from '../../api/fetchApi'
 
 const InputSearch = () => {
-   const [regions, setRegions] = useState([])
+   // const [regions, setRegions] = useState([])
    const [search, setSearch] = useState('')
    const { pathname } = useLocation()
 
@@ -19,9 +19,13 @@ const InputSearch = () => {
       getRegions()
    }, [])
 
-   const filteredRegions = regions.filter((regions) => {
-      return regions.name.toLowerCase().includes(search.toLocaleLowerCase())
-   })
+   const changeSearchHandler = (event) => {
+      setSearch(event.target.value)
+   }
+
+   // const filteredRegions = regions.filter((regions) => {
+   //    return regions.name.toLowerCase().includes(search.toLocaleLowerCase())
+   // })
 
    if (pathname === '/main') {
       return (
@@ -29,7 +33,8 @@ const InputSearch = () => {
             <img src={frame} alt="find" />
             <Input
                placeholder="Region, city , apartment, house..."
-               onChange={(event) => setSearch(event.target.value)}
+               onChange={changeSearchHandler}
+               value={search}
             />
          </DivInput>
       )
@@ -39,11 +44,7 @@ const InputSearch = () => {
          <SearchIconWrapper>
             <SearchIcon />
          </SearchIconWrapper>
-         <Search
-            placeholder="search"
-            onChange={(event) => setSearch(event.target.value)}
-         />
-         {filteredRegions.map()}
+         <Search placeholder="search" onChange={changeSearchHandler} />
       </FlexSearch>
    )
 }
