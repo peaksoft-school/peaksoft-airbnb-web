@@ -3,11 +3,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import {
-   getDataFromLocalStorage,
-   saveToLocalStorage,
-} from '../../utils/helpers/general'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const AntTabs = styled(Tabs)({
    maxWidth: '820px',
@@ -55,32 +51,22 @@ const AntTab = styled((props) => <Tab disableRipple {...props} />)(
    })
 )
 
-const ProfileTabs = () => {
+const ProjectTabs = ({ firstPath, secondPath }) => {
    const navigate = useNavigate()
-   const [tabValue, setTabValue] = useState(
-      getDataFromLocalStorage('tabs') || 0
-   )
+   const { pathname } = useLocation()
+   const [tabValue, setTabValue] = useState(0)
 
    const handleChange = (event, newValue) => {
       setTabValue(newValue)
    }
 
-   // if (tabValue === 0) {
-   //    navigate('/profile/bookings')
-   // }
-   // if (tabValue === 1) {
-   //    navigate('/profile/my-announcements')
-   // }
-
    useEffect(() => {
-      saveToLocalStorage('tabs', tabValue)
-      if (tabValue === 0) {
-         navigate('/profile/bookings')
+      if (pathname === firstPath) {
+         setTabValue(0)
+      } else {
+         setTabValue(1)
       }
-      if (tabValue === 1) {
-         navigate('/profile/my-announcements')
-      }
-   }, [tabValue])
+   }, [pathname])
    return (
       <Box sx={{ width: '100%' }}>
          <Box sx={{ bgcolor: 'none' }}>
@@ -89,8 +75,14 @@ const ProfileTabs = () => {
                onChange={handleChange}
                aria-label="ant example"
             >
-               <AntTab label="Bookings" />
-               <AntTab label="My announcement" />
+               <AntTab
+                  onClick={() => navigate(`${firstPath}`)}
+                  label="Bookings"
+               />
+               <AntTab
+                  onClick={() => navigate(`${secondPath}`)}
+                  label="My announcement"
+               />
             </AntTabs>
             <br />
          </Box>
@@ -98,4 +90,4 @@ const ProfileTabs = () => {
    )
 }
 
-export default ProfileTabs
+export default ProjectTabs

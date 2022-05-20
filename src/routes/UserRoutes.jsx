@@ -45,6 +45,12 @@ const UserRoutes = () => {
             >
                <Route path={PROFILE.path} element={<Profile />}>
                   <Route
+                     path={PROFILE.path}
+                     element={
+                        <Navigate to={PROFILE_TABS.PFOFILE_BOOKINGS.path} />
+                     }
+                  />
+                  <Route
                      path={PROFILE_TABS.PFOFILE_BOOKINGS.path}
                      element={<Bookings />}
                   />
