@@ -12,22 +12,42 @@ import {
    SORT_BY_PRICE,
    SORT_BY_TYPE,
 } from '../../utils/constants/general'
-import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRegions } from '../../store/regionSlice'
+import { getTitle } from '../../utils/helpers/general'
 
 const SelectsForFilter = ({
-   selectRegion,
-   selectType,
-   selectPrice,
-   selectPopular,
-   onChangeMobileVersion,
+   regionIds,
+   total,
+   setFilter,
+   setSort,
+   filter,
+   sort,
 }) => {
    const dispatch = useDispatch()
    const [showDrawer, setShowDrawer] = useState(false)
    const [regionsId, setRegionsId] = useState([])
    const { regions } = useSelector((state) => state.region)
-   const { region } = useParams()
+
+   const examinationValue = (id) => {
+      return filter.regionIds.some((item) => item === id)
+   }
+   const changeSelectRegionIdHandler = (id) => {
+      if (!examinationValue(id))
+         setFilter({ ...filter, regionIds: [...filter.regionIds, id] })
+
+      if (id === 'All') setFilter({ ...filter, regionIds: [] })
+   }
+   const changeSelectTypeHandler = (value) => {
+      setFilter({ ...filter, type: value })
+      if (value === 'All') setFilter({ ...filter, type: '' })
+   }
+   const changeSelectPriceHandler = (value) => {
+      setSort({ ...sort, price: value })
+      if (value === 'All') setSort({ ...sort, price: '' })
+   }
+   const changeSelectPopularHandler = () => {}
+
    useEffect(() => {
       dispatch(getRegions())
    }, [])
@@ -39,12 +59,24 @@ const SelectsForFilter = ({
          <SelectsForFilterMobile
             isVisible={showDrawer}
             onClose={() => setShowDrawer(false)}
-            onChange={onChangeMobileVersion}
+            onChange={changeSelectRegionIdHandler}
          />
-         <Flex wrap="wrap" align="center" justify="space-between" width="100%">
-            <Title uppercase>
-               {region} <Text>(45)</Text>
-            </Title>
+         <Flex
+            gap="10px"
+            wrap="wrap"
+            align="center"
+            justify="space-between"
+            width="100%"
+         >
+            <Flex align="center" gap="5px">
+               {(regionIds.length > 0 &&
+                  regionIds.map((region) => (
+                     <Title key={region} uppercase>
+                        {getTitle(region, regions)}
+                     </Title>
+                  ))) || <Title>TOTAL</Title>}
+               <Text>({total})</Text>
+            </Flex>
             <FilterMenu onClick={() => setShowDrawer(true)}>
                <Text size="16px">Filter</Text>
                <MenuFilter />
@@ -52,15 +84,15 @@ const SelectsForFilter = ({
             <ContainerSelects>
                <Select
                   width="270px"
-                  onChange={(value) => selectRegion(value)}
+                  onChange={(value) => changeSelectRegionIdHandler(value)}
                   data={regionsId}
-                  name="Sort by"
+                  name="Filter by region"
                   value="id"
                   label="title"
                />
                <Select
                   width="270px"
-                  onChange={(value) => selectType(value)}
+                  onChange={(value) => changeSelectTypeHandler(value)}
                   data={SORT_BY_TYPE}
                   name="Filter by home type"
                   value="value"
@@ -68,7 +100,7 @@ const SelectsForFilter = ({
                />
                <Select
                   width="270px"
-                  onChange={(value) => selectPopular(value)}
+                  onChange={(value) => changeSelectPriceHandler(value)}
                   data={SORT_BY_POPULAR}
                   name="Sort by"
                   value="value"
@@ -76,9 +108,9 @@ const SelectsForFilter = ({
                />
                <Select
                   width="270px"
-                  onChange={(value) => selectPrice(value)}
+                  onChange={(value) => changeSelectPopularHandler(value)}
                   data={SORT_BY_PRICE}
-                  name="Filter by price"
+                  name="Sort by price"
                   value="value"
                   label="label"
                />
@@ -89,7 +121,7 @@ const SelectsForFilter = ({
 }
 const ContainerSelects = styled(Flex)`
    align-items: center;
-   gap: 15px;
+   gap: 10px;
    flex-wrap: wrap;
    ${media.tablet`
      display:none;

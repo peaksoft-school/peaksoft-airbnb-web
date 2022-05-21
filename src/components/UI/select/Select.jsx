@@ -68,7 +68,7 @@ const TitleSelect = styled(Title)`
 `
 const SelectStyled = styled.button`
    font-size: 16px;
-   padding: 10px;
+   padding: 0.4em 0.6em;
    width: 100%;
    border: ${({ isValid }) =>
       isValid ? ' 1px solid tomato' : '1px solid #c4c4c4'};

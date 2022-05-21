@@ -9,13 +9,15 @@ const LoadingPage = ({ width }) => {
          {Array.from({ length: 10 }).map((_, i) => (
             <Card key={i}>
                <P />
-               <Flex width="100%" justify="space-between">
-                  <H2 width="20%" />
-                  <H2 width="20%" />
-               </Flex>
-               <H2 />
-               <H2 />
-               <H2 />
+               <Content>
+                  <Flex width="100%" justify="space-between">
+                     <H2 width="20%" />
+                     <H2 width="20%" />
+                  </Flex>
+                  <H2 />
+                  <H2 />
+                  <H2 />
+               </Content>
             </Card>
          ))}
       </Flex>
@@ -24,12 +26,16 @@ const LoadingPage = ({ width }) => {
 
 const Card = styled.div`
    width: ${(props) => props.width || '290px'};
-   min-height: 300px;
-   padding: 10px;
+   min-height: 360px;
    position: relative;
    @media (max-width: 425px) {
       width: 100%;
    }
+`
+const Content = styled.div`
+   width: 100%;
+   height: 50%;
+   padding: 10px;
 `
 const H2 = styled.h2`
    :empty {
@@ -50,7 +56,7 @@ const H2 = styled.h2`
 `
 const P = styled.p`
    width: 100%;
-   height: 8em;
+   height: 50%;
    background-color: rgba(0, 0, 0, 0.2);
    animation: skeleton-anim 1s infinite alternate;
 

@@ -42,3 +42,11 @@ export const getExcludedDates = (bookings) => {
 export const mergePhotosLinksIntoServerBaseUrl = (linkPhoto) => {
    return `${SERVER_BASE_URL}/${linkPhoto}`
 }
+export const getTitle = (id, datas) => {
+   try {
+      const data = datas.find((el) => el.id === id)
+      return data && data.title
+   } catch (error) {
+      console.log(error.message)
+   }
+}

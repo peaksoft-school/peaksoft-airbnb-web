@@ -5,8 +5,8 @@ import styled from 'styled-components'
 const Tag = (props) => {
    return (
       <TagStyled {...props}>
-         {props.content}
          <IoMdClose />
+         {props.content}
       </TagStyled>
    )
 }
@@ -16,12 +16,12 @@ const TagStyled = styled.div`
    align-items: center;
    gap: 10px;
    cursor: pointer;
-   background: ${({ dark }) => (dark ? '#C4C4C4' : 'rgba(214, 214, 214, 0.2)')};
+   background: ${({ dark }) =>
+      dark ? '#c4c4c4c7' : 'rgba(214, 214, 214, 0.2)'};
    padding: 0.4rem 0.8rem;
    font-family: 'Inter';
    color: ${({ dark }) => (dark ? '#F7F7F7' : '#828282')};
-   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-   text-transform: uppercase;
+   text-transform: lowercase;
    border-radius: 1px;
    :hover {
       opacity: 0.7;

@@ -9,67 +9,31 @@ import Tag from './Tags'
 import Pagination from '../../../components/pagination/Pagination'
 import { useDispatch, useSelector } from 'react-redux'
 import { getListings } from '../../../store/listingSlice'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import LoadingPage from '../../../components/UI/loader/LoadingPage'
+import { getTitle } from '../../../utils/helpers/general'
 
 const Region = () => {
+   const [params, setParams] = useSearchParams()
+   const filterByParams = JSON.parse(params.get('filterBy'))
    const { state } = useLocation()
    const dispatch = useDispatch()
    const { listing, region } = useSelector((state) => state)
+   const { listings, isLoading } = listing
+   const { regions } = region
    const [pagination, setPagination] = useState(1)
    const [sort, setSort] = useState({
       popular: [],
       price: '',
    })
    const [filter, setFilter] = useState({
-      regionIds: [state] || [],
-      type: '',
+      regionIds:
+         (state && [state]) ||
+         (filterByParams && filterByParams.regionIds) ||
+         [],
+      type: (filterByParams && filterByParams.type) || '',
    })
-   const { listings, isLoading } = listing
-   const { regions } = region
-
-   const getTitle = (id) => {
-      try {
-         const region = regions.find((el) => el.id === id)
-         return region && region.title
-      } catch (error) {
-         console.log(error.message)
-      }
-   }
-
-   const examinationValue = (id) => {
-      return filter.regionIds.some((item) => item === id)
-   }
-
-   const changeSelectRegionIdHandler = (id) => {
-      if (!examinationValue(id)) {
-         setFilter({
-            ...filter,
-            regionIds: [...filter.regionIds, id],
-         })
-      }
-      if (id === 'All') {
-         setFilter({
-            ...filter,
-            regionIds: [],
-         })
-      }
-   }
-   const changeSelectTypeHandler = (value) => {
-      setFilter({
-         ...filter,
-         type: value,
-      })
-   }
-   const changeSelectPriceHandler = (value) => {
-      setSort({
-         ...sort,
-         price: value,
-      })
-      if (value === 'All') setSort({ ...sort, price: '' })
-   }
-   const changeSelectPopularHandler = () => {}
-
+   console.log(filterByParams)
    const clearFilteredType = () => {
       setFilter({ ...filter, type: '' })
    }
@@ -87,24 +51,49 @@ const Region = () => {
       setSort({ popular: [], price: '' })
    }
    useEffect(() => {
-      dispatch(getListings({ sort, filter, pagination }))
+      const filterBy = {}
+      const sortBy = {}
+      const params = {
+         page: Number(pagination) || 1,
+      }
+      if (filter.regionIds.length > 0) {
+         filterBy.regionIds = filter.regionIds
+      }
+      if (filter.type) {
+         filterBy.type = filter.type
+      }
+      if (sort.popular.length > 0) {
+         sortBy.popular = sort.popular
+      }
+      if (sort.price) {
+         sortBy.price = sort.price
+      }
+      if (Object.values(filterBy).length > 0) {
+         params.filterBy = JSON.stringify(filterBy)
+      }
+      if (Object.values(sortBy).length > 0) {
+         params.sortBy = JSON.stringify(sortBy)
+      }
+      dispatch(getListings({ params }))
+      setParams(params)
    }, [filter, sort, pagination])
    return (
       <Container>
          <GlobalStyle />
          <SelectsForFilter
-            selectRegion={changeSelectRegionIdHandler}
-            selectType={changeSelectTypeHandler}
-            selectPrice={changeSelectPriceHandler}
-            selectPopular={changeSelectPopularHandler}
-            // onChangeMobileVersion={changeForFilterMobileVersion}
+            regionIds={filter.regionIds}
+            total={listings.total}
+            setSort={setSort}
+            setFilter={setFilter}
+            filter={filter}
+            sort={sort}
          />
-         <Flex wrap="wrap" align="center" margin="40px 0" gap="10px">
+         <Flex wrap="wrap" align="center" margin="40px 0" gap="13px">
             {filter.regionIds.map((regionId) => (
                <Tag
                   key={regionId}
                   onClick={() => clearFilteredRegionIds(regionId)}
-                  content={getTitle(regionId)}
+                  content={getTitle(regionId, regions)}
                   dark
                />
             ))}
@@ -123,7 +112,7 @@ const Region = () => {
          <Flex margin="80px 0 140px 0" width="100%" justify="center">
             <Pagination
                onChange={(e) => setPagination(e.target.innerText)}
-               count={Math.ceil(listings.total / 4)}
+               count={Math.ceil(listings.total / 12)}
             />
          </Flex>
       </Container>
