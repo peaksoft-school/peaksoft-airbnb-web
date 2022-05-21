@@ -43,10 +43,9 @@ const FeedBack = ({ onClose, isVisible }) => {
                   deleteHandler={removePhotosHandler}
                />
             </Flex>
-            <RatingFeedBack
-               value={value.rating}
-               onChange={changeRatingHandler}
-            />
+            <RatingFeedBack value={value.rating} onChange={changeRatingHandler}>
+               RATE
+            </RatingFeedBack>
             <Flex margin="10px 0 10px 0">
                <Title color="#828282" width="74px" height="19px">
                   Feedback

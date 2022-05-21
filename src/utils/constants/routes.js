@@ -39,16 +39,12 @@ export const ADMIN_ROUTES = {
       label: 'Users',
    },
    USER: {
-      path: '/users:userId',
+      path: '/users/:userId',
       label: 'Announcement',
    },
    USER_HOUSE: {
-      path: '/user/:userId/:houseId',
+      path: '/users/:userId/:houseId',
       label: 'User-house',
-   },
-   USER_HOUSE_EDIT: {
-      path: '/user/:userId/:houseId/edit',
-      label: 'Edit',
    },
    ALL_HOUSING: {
       path: '/all-housing',

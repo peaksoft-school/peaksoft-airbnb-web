@@ -48,7 +48,7 @@ const Container = styled.div`
    position: relative;
 
    & img {
-      max-width: 600px;
+      max-width: 630px;
       width: 100%;
       height: auto;
       aspect-ratio: 15/13;

@@ -1,6 +1,6 @@
 import { Box, Rating, Typography } from '@mui/material'
 
-const RatingFeedBack = ({ onChange, value }) => {
+const RatingFeedBack = ({ onChange, value, children }) => {
    return (
       <Box
          sx={{
@@ -8,7 +8,7 @@ const RatingFeedBack = ({ onChange, value }) => {
          }}
       >
          <Typography component="legend" color="#828282" marginBottom="10px">
-            Rate
+            {children}
          </Typography>
          <Rating
             name="simple-controlled"
