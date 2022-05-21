@@ -55,7 +55,17 @@ export const addListing = createAsyncThunk(
 )
 export const getListings = createAsyncThunk(
    'listing/getListings',
-   async ({ params }, { rejectWithValue }) => {
+   async ({ filterBy, sortBy, pagination }, { rejectWithValue }) => {
+      const params = {
+         page: Number(pagination) || 1,
+         limit: 12,
+      }
+      if (Object.values(filterBy).length > 0) {
+         params.filterBy = JSON.stringify(filterBy)
+      }
+      if (Object.values(sortBy).length > 0) {
+         params.sortBy = JSON.stringify(sortBy)
+      }
       try {
          const listings = fetchApi({
             path: 'api/listings',

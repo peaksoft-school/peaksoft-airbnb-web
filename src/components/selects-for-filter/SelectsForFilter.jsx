@@ -100,7 +100,7 @@ const SelectsForFilter = ({
                />
                <Select
                   width="270px"
-                  onChange={(value) => changeSelectPriceHandler(value)}
+                  onChange={(value) => changeSelectPopularHandler(value)}
                   data={SORT_BY_POPULAR}
                   name="Sort by"
                   value="value"
@@ -108,7 +108,7 @@ const SelectsForFilter = ({
                />
                <Select
                   width="270px"
-                  onChange={(value) => changeSelectPopularHandler(value)}
+                  onChange={(value) => changeSelectPriceHandler(value)}
                   data={SORT_BY_PRICE}
                   name="Sort by price"
                   value="value"

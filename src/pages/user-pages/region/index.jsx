@@ -15,25 +15,20 @@ import { getTitle } from '../../../utils/helpers/general'
 
 const Region = () => {
    const [params, setParams] = useSearchParams()
-   const filterByParams = JSON.parse(params.get('filterBy'))
    const { state } = useLocation()
    const dispatch = useDispatch()
    const { listing, region } = useSelector((state) => state)
    const { listings, isLoading } = listing
    const { regions } = region
-   const [pagination, setPagination] = useState(1)
+   const [pagination, setPagination] = useState(Number(params.get('page')) || 1)
    const [sort, setSort] = useState({
       popular: [],
-      price: '',
+      price: params.get('price') || '',
    })
    const [filter, setFilter] = useState({
-      regionIds:
-         (state && [state]) ||
-         (filterByParams && filterByParams.regionIds) ||
-         [],
-      type: (filterByParams && filterByParams.type) || '',
+      regionIds: (state && [state]) || params.get('regionIds') || [],
+      type: params.get('type') || '',
    })
-   console.log(filterByParams)
    const clearFilteredType = () => {
       setFilter({ ...filter, type: '' })
    }
@@ -50,12 +45,12 @@ const Region = () => {
       setFilter({ regionIds: [], type: '' })
       setSort({ popular: [], price: '' })
    }
+   const paginationHandler = (page) => {
+      setPagination(page)
+   }
    useEffect(() => {
       const filterBy = {}
       const sortBy = {}
-      const params = {
-         page: Number(pagination) || 1,
-      }
       if (filter.regionIds.length > 0) {
          filterBy.regionIds = filter.regionIds
       }
@@ -68,14 +63,8 @@ const Region = () => {
       if (sort.price) {
          sortBy.price = sort.price
       }
-      if (Object.values(filterBy).length > 0) {
-         params.filterBy = JSON.stringify(filterBy)
-      }
-      if (Object.values(sortBy).length > 0) {
-         params.sortBy = JSON.stringify(sortBy)
-      }
-      dispatch(getListings({ params }))
-      setParams(params)
+      dispatch(getListings({ filterBy, sortBy, pagination }))
+      setParams({ page: pagination, ...filterBy, ...sortBy })
    }, [filter, sort, pagination])
    return (
       <Container>
@@ -111,7 +100,7 @@ const Region = () => {
 
          <Flex margin="80px 0 140px 0" width="100%" justify="center">
             <Pagination
-               onChange={(e) => setPagination(e.target.innerText)}
+               onChange={(e) => paginationHandler(e.target.innerText)}
                count={Math.ceil(listings.total / 12)}
             />
          </Flex>
