@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 import styled from 'styled-components'
 
 const Input = forwardRef((props, ref) => {
-   return <InputStyled ref={ref} {...props} />
+   return <InputStyled autoComplete="off" ref={ref} {...props} />
 })
 
 const InputStyled = styled.input`

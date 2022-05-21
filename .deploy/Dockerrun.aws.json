@@ -1,0 +1,13 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Ports": [
+    {
+      "ContainerPort": 80,
+      "HostPort": 8080
+    }
+  ],
+  "Image": {
+    "Name": "702446084991.dkr.ecr.us-east-1.amazonaws.com/airbnb-web-dev:%BUILD_NUM%",
+    "Update": "true"
+  }
+}
