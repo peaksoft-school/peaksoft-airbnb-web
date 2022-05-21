@@ -6,41 +6,44 @@ import Flex from '../ui-for-positions/Flex'
 import Text from '../typography/Text'
 import Title from '../typography/Title'
 
-function ImagePicker({ onDrop, files, deleteHandler }) {
-   const { getRootProps, getInputProps } = useDropzone({
-      onDrop,
-      accept: 'image/*',
-   })
-   return (
-      <Flex align="center" gap="16px">
-         <Flex gap="5px" wrap="wrap">
-            {files.map((img) => (
-               <GroupImg key={img.id}>
-                  <Image src={img.img} />
-                  <DeleteBtn onClick={() => deleteHandler(img.id)}>
-                     DELETE
-                  </DeleteBtn>
-               </GroupImg>
-            ))}
-            {files.length < 4 && (
-               <ImagePickerStyled {...getRootProps()}>
-                  <input {...getInputProps()} type="file" />
-                  <IconImagePicker />
-               </ImagePickerStyled>
+const ImagePicker = React.forwardRef(
+   ({ onDrop, files, deleteHandler }, ref) => {
+      const { getRootProps, getInputProps } = useDropzone({
+         onDrop,
+         accept: 'image/*',
+      })
+
+      return (
+         <Flex align="center" gap="16px">
+            <Flex gap="5px" wrap="wrap">
+               {files.map((img, index) => (
+                  <GroupImg key={img.id}>
+                     <Image src={img.img} />
+                     <DeleteBtn onClick={() => deleteHandler(index)}>
+                        DELETE
+                     </DeleteBtn>
+                  </GroupImg>
+               ))}
+               {files.length < 4 && (
+                  <ImagePickerStyled {...getRootProps()}>
+                     <input ref={ref} {...getInputProps()} type="file" />
+                     <IconImagePicker />
+                  </ImagePickerStyled>
+               )}
+            </Flex>
+            {files.length === 0 && (
+               <Flex direction="column">
+                  <Title color="#266BD3">Add photos to the review</Title>
+                  <Text>
+                     it will become more noticeable and even more useful. You
+                     can upload up to 4 potos
+                  </Text>
+               </Flex>
             )}
          </Flex>
-         {files.length === 0 && (
-            <Flex direction="column">
-               <Title color="#266BD3">Add photos to the review</Title>
-               <Text>
-                  it will become more noticeable and even more useful. You can
-                  upload up to 4 potos
-               </Text>
-            </Flex>
-         )}
-      </Flex>
-   )
-}
+      )
+   }
+)
 const DeleteBtn = styled.button`
    width: 100%;
    height: 100%;
@@ -62,8 +65,8 @@ const DeleteBtn = styled.button`
    }
 `
 const GroupImg = styled.div`
-   width: 100px;
-   height: 100px;
+   width: 135px;
+   height: 135px;
    position: relative;
    cursor: pointer;
    :hover ${DeleteBtn} {
@@ -77,10 +80,11 @@ const GroupImg = styled.div`
 const Image = styled.img`
    width: 100%;
    height: 100%;
+   object-fit: cover;
 `
 const ImagePickerStyled = styled.div`
-   width: 100px;
-   height: 100px;
+   width: 135px;
+   height: 135px;
    background: #f3f3f3;
    display: flex;
    justify-content: center;
