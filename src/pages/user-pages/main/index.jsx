@@ -4,6 +4,7 @@ import frame from '../../../assets/icons/Frame.svg'
 import Regions from './Regions'
 // import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
+import RatingChart from '../../../components/UI/rating-chart/RatingChart'
 
 const MainPage = () => {
    return (
@@ -18,6 +19,7 @@ const MainPage = () => {
             </div>
          </MainPages>
          <Regions />
+         <RatingChart allRating="4.4" />
       </Container>
    )
 }
