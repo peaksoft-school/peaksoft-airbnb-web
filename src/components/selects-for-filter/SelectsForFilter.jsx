@@ -12,27 +12,13 @@ import {
    SORT_BY_PRICE,
    SORT_BY_TYPE,
 } from '../../utils/constants/general'
-import { useDispatch, useSelector } from 'react-redux'
-import { getRegions } from '../../store/regionSlice'
-import { getTitle, saveToLocalStorage } from '../../utils/helpers/general'
+import { useSelector } from 'react-redux'
+import { getSomeGiven, saveToLocalStorage } from '../../utils/helpers/general'
 
-const SelectsForFilter = ({
-   regionIds,
-   total,
-   setFilter,
-   setSort,
-   filter,
-   sort,
-}) => {
-   const dispatch = useDispatch()
+const SelectsForFilter = ({ total, setFilter, setSort, filter, sort }) => {
    const [showDrawer, setShowDrawer] = useState(false)
    const [regionsId, setRegionsId] = useState([])
    const { regions } = useSelector((state) => state.region)
-
-   const getLabel = (value, data) => {
-      const label = data.find((el) => el.value === value)
-      return label && label.label
-   }
 
    const examinationValue = (id) => {
       return filter.regionIds.some((item) => item === id)
@@ -61,9 +47,6 @@ const SelectsForFilter = ({
    }, [filter.regionIds])
 
    useEffect(() => {
-      dispatch(getRegions())
-   }, [])
-   useEffect(() => {
       setRegionsId([{ title: 'All', id: 'All' }, ...regions])
    }, [regions])
    return (
@@ -85,10 +68,11 @@ const SelectsForFilter = ({
             width="100%"
          >
             <Flex align="center" gap="5px">
-               {(regionIds.length > 0 &&
-                  regionIds.map((region) => (
+               {(filter.regionIds.length > 0 &&
+                  filter.regionIds.map((region) => (
                      <Title key={region} uppercase>
-                        {getTitle(region, regions)}
+                        {regions.length &&
+                           getSomeGiven(region, regions, 'id').title}
                      </Title>
                   ))) || <Title>TOTAL</Title>}
                <Text>({total})</Text>
@@ -113,7 +97,10 @@ const SelectsForFilter = ({
                   name="Filter by home type"
                   value="value"
                   label="label"
-                  defaultValue={getLabel(filter.type, SORT_BY_TYPE) || ''}
+                  defaultValue={
+                     getSomeGiven(filter.type, SORT_BY_TYPE, 'value').label ||
+                     ''
+                  }
                />
                <Select
                   width="270px"
@@ -122,7 +109,10 @@ const SelectsForFilter = ({
                   name="Sort by"
                   value="value"
                   label="label"
-                  defaultValue={getLabel(sort.popular, SORT_BY_POPULAR) || ''}
+                  defaultValue={
+                     getSomeGiven(sort.popular, SORT_BY_POPULAR, 'value')
+                        .label || ''
+                  }
                />
                <Select
                   width="270px"
@@ -131,7 +121,10 @@ const SelectsForFilter = ({
                   name="Sort by price"
                   value="value"
                   label="label"
-                  defaultValue={getLabel(sort.price, SORT_BY_PRICE) || ''}
+                  defaultValue={
+                     getSomeGiven(sort.price, SORT_BY_PRICE, 'value').label ||
+                     ''
+                  }
                />
             </ContainerSelects>
          </Flex>

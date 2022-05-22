@@ -1,4 +1,3 @@
-/* eslint-disable array-callback-return */
 import React, { useEffect, useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import Text from '../../../components/UI/typography/Text'
@@ -13,8 +12,9 @@ import { useLocation, useSearchParams } from 'react-router-dom'
 import LoadingPage from '../../../components/UI/loader/LoadingPage'
 import {
    getDataFromLocalStorage,
-   getTitle,
+   getSomeGiven,
 } from '../../../utils/helpers/general'
+import { getRegions } from '../../../store/bookingSlice'
 
 const Region = () => {
    const [params, setParams] = useSearchParams()
@@ -33,23 +33,25 @@ const Region = () => {
       popular: popular || '',
       price: price || '',
    })
-   const clearFilteredRegionIds = (id) => {
+   const [filter, setFilter] = useState({
+      regionIds: (state && [state]) || regionsIds || [],
+      type: homeType || '',
+   })
+   const filteredRegionIds = (id) => {
       const filteredRegions = filter.regionIds.filter(
          (regionId) => regionId !== id
       )
       setFilter({ ...filter, regionIds: filteredRegions })
    }
-   const [filter, setFilter] = useState({
-      regionIds: (state && [state]) || regionsIds || [],
-      type: homeType || '',
-   })
    const clearFilteredType = () => setFilter({ ...filter, type: '' })
 
    const clearSortPrice = () => setSort({ ...sort, price: '' })
 
+   const clearSortPopular = () => setSort({ ...sort, popular: '' })
+
    const clearAllFilterAndSortHandler = () => {
       setFilter({ regionIds: [], type: '' })
-      setSort({ popular: [], price: '' })
+      setSort({ popular: '', price: '' })
    }
    const paginationHandler = (page) => setPagination(page)
 
@@ -64,7 +66,7 @@ const Region = () => {
          filterBy.type = filter.type
          queryParams.type = filter.type
       }
-      if (sort.popular.length > 0) {
+      if (sort.popular) {
          sortBy.popular = sort.popular
          queryParams.popular = sort.popular
       }
@@ -75,6 +77,9 @@ const Region = () => {
       dispatch(getListings({ filterBy, sortBy, pagination }))
       setParams({ page: pagination, ...queryParams })
    }, [filter, sort, pagination])
+   useEffect(() => {
+      dispatch(getRegions())
+   }, [])
    return (
       <Container>
          <GlobalStyle />
@@ -90,8 +95,11 @@ const Region = () => {
             {filter.regionIds.map((regionId) => (
                <Tag
                   key={regionId}
-                  onClick={() => clearFilteredRegionIds(regionId)}
-                  content={getTitle(regionId, regions)}
+                  onClick={() => filteredRegionIds(regionId)}
+                  content={
+                     regions.length &&
+                     getSomeGiven(regionId, regions, 'id').title
+                  }
                   dark
                />
             ))}
@@ -100,6 +108,9 @@ const Region = () => {
             )}
             {sort.price && (
                <Tag onClick={clearSortPrice} content={sort.price} />
+            )}
+            {sort.popular && (
+               <Tag onClick={clearSortPopular} content={sort.popular} />
             )}
             <ClearAll onClick={clearAllFilterAndSortHandler}>
                Clear all
@@ -110,7 +121,7 @@ const Region = () => {
          <Flex margin="80px 0 140px 0" width="100%" justify="center">
             <Pagination
                onChange={(e) => paginationHandler(e.target.innerText)}
-               count={Math.ceil(listings.total / 4)}
+               count={Math.ceil(listings.total / 16)}
             />
          </Flex>
       </Container>

@@ -58,7 +58,7 @@ export const getListings = createAsyncThunk(
    async ({ filterBy, sortBy, pagination }, { rejectWithValue }) => {
       const params = {
          page: Number(pagination) || 1,
-         limit: 4,
+         limit: 16,
       }
       if (Object.values(filterBy).length > 0) {
          params.filterBy = JSON.stringify(filterBy)

@@ -2,13 +2,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import ClientCard from '../../../components/client-card/ClientCard'
+import NotFound from '../../../components/UI/not-found-content/NotFound'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
 
 const Cards = ({ listings = [] }) => {
    return (
       <CardContainer>
-         {listings.length > 0 &&
+         {(listings.length > 0 &&
             listings.map((el) => (
                <ClientCard
                   key={el.id}
@@ -20,7 +21,7 @@ const Cards = ({ listings = [] }) => {
                   guest={el.maxNumberOfGuests}
                   images={el.images}
                />
-            ))}
+            ))) || <NotFound />}
       </CardContainer>
    )
 }
