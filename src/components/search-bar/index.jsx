@@ -1,63 +1,42 @@
 import { useLocation } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
-import Flex from '../UI/ui-for-positions/Flex'
 import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg'
-import media from '../../utils/helpers/media'
-import frame from '../../assets/icons/Frame.svg'
-import { fetchApi } from '../../api/fetchApi'
+import Input from '../UI/text-fields/Input'
 
 const InputSearch = () => {
-   // const [regions, setRegions] = useState([])
-   const [search, setSearch] = useState('')
+   const [searchInput, setSearchInput] = useState('')
    const { pathname } = useLocation()
 
-   const getRegions = () => {
-      fetchApi()
-   }
-   useEffect(() => {
-      getRegions()
-   }, [])
-
-   const changeSearchHandler = (event) => {
-      setSearch(event.target.value)
-   }
-
-   // const filteredRegions = regions.filter((regions) => {
-   //    return regions.name.toLowerCase().includes(search.toLocaleLowerCase())
-   // })
+   let search = (
+      <>
+         <SearchIconWrapper>
+            <SearchIconStyled />
+         </SearchIconWrapper>
+         <Search
+            placeholder="search"
+            onChange={(e) => setSearchInput(e.target.value)}
+         />
+      </>
+   )
 
    if (pathname === '/main') {
-      return (
+      search = (
          <DivInput>
-            <img src={frame} alt="find" />
-            <Input
+            <SearchIconStyled />
+            <InputSearchMain
                placeholder="Region, city , apartment, house..."
-               onChange={changeSearchHandler}
-               value={search}
+               onChange={(e) => setSearchInput(e.target.value)}
+               value={searchInput}
             />
          </DivInput>
       )
    }
-   return (
-      <FlexSearch justify="end" align="center">
-         <SearchIconWrapper>
-            <SearchIcon />
-         </SearchIconWrapper>
-         <Search placeholder="search" onChange={changeSearchHandler} />
-      </FlexSearch>
-   )
+   return search
 }
 
 const SearchIconWrapper = styled.div`
    transform: translate(40px, 2px);
-`
-
-const FlexSearch = styled(Flex)`
-   width: 100%;
-   ${media.tablet`
-   width:300rem;
-   `}
 `
 
 const DivInput = styled.div`
@@ -76,16 +55,25 @@ const DivInput = styled.div`
       color: #7d7d7d;
    }
 `
-const Input = styled.input`
+const InputSearchMain = styled.input`
    width: 100%;
    height: 34px;
    border: none;
    font-size: 17px;
    outline: none;
+   color: #2c2c2c;
 `
 const Search = styled(Input)`
    width: 100%;
    margin: 0 10px 0 0;
    padding-left: 45px;
+   font-family: 'Inter';
+   color: #464666;
+   :focus {
+      box-shadow: -1px 3px 12px rgba(187, 195, 197, 0.6);
+   }
+`
+const SearchIconStyled = styled(SearchIcon)`
+   cursor: pointer;
 `
 export default InputSearch
