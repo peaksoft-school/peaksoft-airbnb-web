@@ -11,7 +11,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getListings } from '../../../store/listingSlice'
 import { useLocation, useSearchParams } from 'react-router-dom'
 import LoadingPage from '../../../components/UI/loader/LoadingPage'
-import { getTitle } from '../../../utils/helpers/general'
+import {
+   getDataFromLocalStorage,
+   getTitle,
+} from '../../../utils/helpers/general'
 
 const Region = () => {
    const [params, setParams] = useSearchParams()
@@ -20,51 +23,57 @@ const Region = () => {
    const { listing, region } = useSelector((state) => state)
    const { listings, isLoading } = listing
    const { regions } = region
-   const [pagination, setPagination] = useState(Number(params.get('page')) || 1)
+   const homeType = params.get('type')
+   const price = params.get('price')
+   const popular = params.get('popular')
+   const page = params.get('page')
+   const regionsIds = getDataFromLocalStorage('regions')
+   const [pagination, setPagination] = useState(Number(page) || 1)
    const [sort, setSort] = useState({
-      popular: [],
-      price: params.get('price') || '',
+      popular: popular || '',
+      price: price || '',
    })
-   const [filter, setFilter] = useState({
-      regionIds: (state && [state]) || params.get('regionIds') || [],
-      type: params.get('type') || '',
-   })
-   const clearFilteredType = () => {
-      setFilter({ ...filter, type: '' })
-   }
-   const clearSortPrice = () => {
-      setSort({ ...sort, price: '' })
-   }
    const clearFilteredRegionIds = (id) => {
       const filteredRegions = filter.regionIds.filter(
          (regionId) => regionId !== id
       )
       setFilter({ ...filter, regionIds: filteredRegions })
    }
+   const [filter, setFilter] = useState({
+      regionIds: (state && [state]) || regionsIds || [],
+      type: homeType || '',
+   })
+   const clearFilteredType = () => setFilter({ ...filter, type: '' })
+
+   const clearSortPrice = () => setSort({ ...sort, price: '' })
+
    const clearAllFilterAndSortHandler = () => {
       setFilter({ regionIds: [], type: '' })
       setSort({ popular: [], price: '' })
    }
-   const paginationHandler = (page) => {
-      setPagination(page)
-   }
+   const paginationHandler = (page) => setPagination(page)
+
    useEffect(() => {
       const filterBy = {}
       const sortBy = {}
+      const queryParams = {}
       if (filter.regionIds.length > 0) {
          filterBy.regionIds = filter.regionIds
       }
       if (filter.type) {
          filterBy.type = filter.type
+         queryParams.type = filter.type
       }
       if (sort.popular.length > 0) {
          sortBy.popular = sort.popular
+         queryParams.popular = sort.popular
       }
       if (sort.price) {
          sortBy.price = sort.price
+         queryParams.price = sort.price
       }
       dispatch(getListings({ filterBy, sortBy, pagination }))
-      setParams({ page: pagination, ...filterBy, ...sortBy })
+      setParams({ page: pagination, ...queryParams })
    }, [filter, sort, pagination])
    return (
       <Container>
@@ -101,7 +110,7 @@ const Region = () => {
          <Flex margin="80px 0 140px 0" width="100%" justify="center">
             <Pagination
                onChange={(e) => paginationHandler(e.target.innerText)}
-               count={Math.ceil(listings.total / 12)}
+               count={Math.ceil(listings.total / 4)}
             />
          </Flex>
       </Container>

@@ -4,7 +4,13 @@ import styled from 'styled-components'
 const RadioButton = React.forwardRef((props, ref) => {
    return (
       <RadioBtn>
-         <input type="radio" ref={ref} name="hause" {...props} />
+         <input
+            type="radio"
+            id={props.id}
+            ref={ref}
+            name={props.name}
+            {...props}
+         />
          <span />
       </RadioBtn>
    )

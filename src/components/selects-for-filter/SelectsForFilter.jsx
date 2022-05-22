@@ -14,7 +14,7 @@ import {
 } from '../../utils/constants/general'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRegions } from '../../store/regionSlice'
-import { getTitle } from '../../utils/helpers/general'
+import { getTitle, saveToLocalStorage } from '../../utils/helpers/general'
 
 const SelectsForFilter = ({
    regionIds,
@@ -28,6 +28,11 @@ const SelectsForFilter = ({
    const [showDrawer, setShowDrawer] = useState(false)
    const [regionsId, setRegionsId] = useState([])
    const { regions } = useSelector((state) => state.region)
+
+   const getLabel = (value, data) => {
+      const label = data.find((el) => el.value === value)
+      return label && label.label
+   }
 
    const examinationValue = (id) => {
       return filter.regionIds.some((item) => item === id)
@@ -46,7 +51,14 @@ const SelectsForFilter = ({
       setSort({ ...sort, price: value })
       if (value === 'All') setSort({ ...sort, price: '' })
    }
-   const changeSelectPopularHandler = () => {}
+   const changeSelectPopularHandler = (value) => {
+      setSort({ ...sort, popular: value })
+      if (value === 'All') setSort({ ...sort, popular: '' })
+   }
+
+   useEffect(() => {
+      saveToLocalStorage('regions', filter.regionIds)
+   }, [filter.regionIds])
 
    useEffect(() => {
       dispatch(getRegions())
@@ -60,6 +72,10 @@ const SelectsForFilter = ({
             isVisible={showDrawer}
             onClose={() => setShowDrawer(false)}
             onChange={changeSelectRegionIdHandler}
+            setSort={setSort}
+            setFilter={setFilter}
+            filter={filter}
+            sort={sort}
          />
          <Flex
             gap="10px"
@@ -97,6 +113,7 @@ const SelectsForFilter = ({
                   name="Filter by home type"
                   value="value"
                   label="label"
+                  defaultValue={getLabel(filter.type, SORT_BY_TYPE) || ''}
                />
                <Select
                   width="270px"
@@ -105,6 +122,7 @@ const SelectsForFilter = ({
                   name="Sort by"
                   value="value"
                   label="label"
+                  defaultValue={getLabel(sort.popular, SORT_BY_POPULAR) || ''}
                />
                <Select
                   width="270px"
@@ -113,6 +131,7 @@ const SelectsForFilter = ({
                   name="Sort by price"
                   value="value"
                   label="label"
+                  defaultValue={getLabel(sort.price, SORT_BY_PRICE) || ''}
                />
             </ContainerSelects>
          </Flex>

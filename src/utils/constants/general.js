@@ -40,11 +40,11 @@ export const SORT_BY_REGION_FOR_MOBILE = [
 export const SORT_BY_TYPE_FOR_MOBILE = [
    {
       label: 'Apartment',
-      value: 'Apartment',
+      value: 'APARTMENT',
    },
    {
       label: 'House',
-      value: 'House',
+      value: 'HOUSE',
    },
 ]
 export const SORT_BY_POPULAR_FOR_MOBILE = [
@@ -60,11 +60,11 @@ export const SORT_BY_POPULAR_FOR_MOBILE = [
 export const SORT_BY_PRICE_FOR_MOBILE = [
    {
       label: 'Low to high',
-      value: 'Low to high',
+      value: 'ASC',
    },
    {
       label: 'High to low',
-      value: 'High to low',
+      value: 'DESC',
    },
 ]
 

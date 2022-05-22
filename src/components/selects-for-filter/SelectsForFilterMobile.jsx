@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Drawer from '../UI/drawer/Drawer'
 import Title from '../UI/typography/Title'
+import Text from '../UI/typography/Text'
 import Flex from '../UI/ui-for-positions/Flex'
 import RadioButton from '../UI/buttons/RadioButton'
 import Grid from '../UI/ui-for-positions/Grid'
@@ -9,24 +10,64 @@ import Checkbox from '../UI/checkbox/Checkbox'
 import {
    SORT_BY_POPULAR_FOR_MOBILE,
    SORT_BY_PRICE_FOR_MOBILE,
-   SORT_BY_REGION_FOR_MOBILE,
    SORT_BY_TYPE_FOR_MOBILE,
 } from '../../utils/constants/general'
+import { useSelector } from 'react-redux'
 
-const SelectsForFilterMobile = (props) => {
+const SelectsForFilterMobile = ({
+   setFilter,
+   setSort,
+   filter,
+   sort,
+   ...props
+}) => {
+   const { regions } = useSelector((state) => state.region)
+   const changeSelectRegionIdHandler = (e) => {
+      const { value, checked } = e.target
+      if (checked)
+         setFilter({ ...filter, regionIds: [...filter.regionIds, value] })
+      else
+         setFilter({
+            ...filter,
+            regionIds: filter.regionIds.filter((region) => region !== value),
+         })
+   }
+   const changeSelectTypeHandler = (e) =>
+      setFilter({ ...filter, type: e.target.value })
+
+   const changeSelectPriceHandler = (e) =>
+      setSort({ ...sort, price: e.target.value })
+
+   const changeSelectPopularHandler = (e) =>
+      setSort({ ...sort, popular: e.target.value })
+
+   const clearAllFilterAndSortHandler = () => {
+      setFilter({ regionIds: [], type: '' })
+      setSort({ popular: '', price: '' })
+   }
    return (
       <Drawer {...props}>
-         <Flex margin="10px 0 30px 0">
+         <Flex
+            align="center"
+            justify="space-between"
+            width="80%"
+            margin="10px 0 30px 0"
+         >
             <Title size="19px">Filter</Title>
+            <ClearAll onClick={clearAllFilterAndSortHandler}>
+               Clear all
+            </ClearAll>
          </Flex>
          <Flex gap="12px" direction="column">
             <Title>Sort by</Title>
             <Flex margin="0 0 20px 0" direction="column" gap="16px">
                {SORT_BY_POPULAR_FOR_MOBILE.map((el) => (
                   <Label key={el.label}>
-                     <Checkbox
+                     <RadioButton
+                        checked={el.value === sort.popular}
                         value={el.value}
-                        onChange={(event) => props.onChange(event)}
+                        onChange={changeSelectPopularHandler}
+                        name="popular"
                      />
                      {el.label}
                   </Label>
@@ -35,10 +76,13 @@ const SelectsForFilterMobile = (props) => {
             <Title>Price</Title>
             <Flex margin="0 0 20px 0" direction="column" gap="10px">
                {SORT_BY_PRICE_FOR_MOBILE.map((el) => (
-                  <Label key={el.label}>
+                  <Label id="price" key={el.label}>
                      <RadioButton
+                        checked={el.value === sort.price}
                         value={el.value}
-                        onChange={(event) => props.onChange(event)}
+                        onChange={changeSelectPriceHandler}
+                        name="price"
+                        id="price"
                      />
                      {el.label}
                   </Label>
@@ -48,9 +92,11 @@ const SelectsForFilterMobile = (props) => {
             <Flex margin="0 0 20px 0" direction="column" gap="16px">
                {SORT_BY_TYPE_FOR_MOBILE.map((el) => (
                   <Label key={el.label}>
-                     <Checkbox
+                     <RadioButton
+                        checked={el.value === filter.type}
                         value={el.value}
-                        onChange={(event) => props.onChange(event)}
+                        onChange={changeSelectTypeHandler}
+                        name="type"
                      />
                      {el.label}
                   </Label>
@@ -58,13 +104,16 @@ const SelectsForFilterMobile = (props) => {
             </Flex>
             <Title>Region</Title>
             <Grid gap="15px" columns="1fr 1fr">
-               {SORT_BY_REGION_FOR_MOBILE.map((el) => (
-                  <Label key={el.label}>
+               {regions.map((el) => (
+                  <Label key={el.id}>
                      <Checkbox
-                        value={el.value}
-                        onChange={(event) => props.onChange(event)}
+                        checked={filter.regionIds.some(
+                           (element) => element === el.id
+                        )}
+                        value={el.id}
+                        onChange={changeSelectRegionIdHandler}
                      />
-                     {el.label}
+                     {el.title}
                   </Label>
                ))}
             </Grid>
@@ -72,6 +121,10 @@ const SelectsForFilterMobile = (props) => {
       </Drawer>
    )
 }
+const ClearAll = styled(Text)`
+   text-decoration: underline;
+   cursor: pointer;
+`
 const Label = styled.label`
    font-family: 'Inter';
    font-style: normal;
