@@ -76,12 +76,12 @@ const Region = () => {
       dispatch(getListings({ filterBy, sortBy, pagination }))
       setParams({ page: pagination, ...queryParams })
    }, [filter, sort, pagination])
+
    useEffect(() => {
       dispatch(getRegions())
-   }, [])
-   useEffect(() => {
       setFilter({ ...filter, regionIds: getDataFromLocalStorage('regions') })
-   }, [filter.regionIds])
+   }, [])
+
    return (
       <Container>
          <GlobalStyle />
