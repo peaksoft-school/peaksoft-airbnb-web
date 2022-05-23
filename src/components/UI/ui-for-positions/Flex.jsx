@@ -11,6 +11,8 @@ const StyledFlex = styled.div`
    gap: ${(props) => props.gap || '0px'};
    margin: ${({ margin }) => margin || '0'};
    height: ${({ height }) => height || ''};
+   background: ${({ background }) => background || ''};
+   padding: ${({ padding }) => padding || '0px'};
 `
 
 const Flex = (props) => {
