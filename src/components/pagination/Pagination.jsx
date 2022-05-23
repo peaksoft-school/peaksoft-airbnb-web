@@ -3,15 +3,14 @@ import styled from 'styled-components'
 import { Pagination as MuiPagination } from '@mui/material'
 
 const Paginations = (props) => {
-   let content
-   if (props.count !== 0) {
+   let content = ''
+   if (props.count > 0) {
       content = <StyledPagination {...props} />
    }
    return content
 }
 
 const StyledPagination = styled(MuiPagination)`
-   width: 350px;
    height: 22px;
    .MuiButtonBase-root {
       color: #bdbdbd;
