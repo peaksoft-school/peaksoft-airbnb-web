@@ -5,7 +5,13 @@ import { Pagination as MuiPagination } from '@mui/material'
 const Paginations = (props) => {
    let content = ''
    if (props.count > 0) {
-      content = <StyledPagination {...props} />
+      content = (
+         <StyledPagination
+            page={props.page}
+            onChange={props.onChange}
+            {...props}
+         />
+      )
    }
    return content
 }

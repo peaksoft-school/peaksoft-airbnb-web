@@ -53,7 +53,7 @@ const Region = () => {
       setFilter({ regionIds: [], type: '' })
       setSort({ popular: '', price: '' })
    }
-   const paginationHandler = (page) => setPagination(page)
+   const paginationHandler = (event, value) => setPagination(value)
 
    useEffect(() => {
       const filterBy = {}
@@ -122,8 +122,9 @@ const Region = () => {
 
          <Flex margin="80px 0 140px 0" width="100%" justify="center">
             <Pagination
-               onChange={(e) => paginationHandler(e.target.innerText)}
+               onChange={paginationHandler}
                count={Math.ceil(listings.total / 16)}
+               page={pagination}
             />
          </Flex>
       </Container>
