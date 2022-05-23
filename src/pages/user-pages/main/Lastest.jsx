@@ -2,14 +2,14 @@ import { useState } from 'react'
 // import { Text } from 'gestalt'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import geo from '../../assets/icons/IconGeo.svg'
-import Flex from '../UI/ui-for-positions/Flex'
-import Title from '../UI/typography/Title'
-import prev from '../../assets/icons/PrevButton.svg'
-import next from '../../assets/icons/NextButton.svg'
-import media from '../../utils/helpers/media'
+import geo from '../../../assets/icons/IconGeo.svg'
+import Flex from '../../../components/UI/ui-for-positions/Flex'
+import Title from '../../../components/UI/typography/Title'
+import prev from '../../../assets/icons/PrevButtonBlack.svg'
+import next from '../../../assets/icons/NextButtonBlack.svg'
+import media from '../../../utils/helpers/media'
 
-const Apartments = () => {
+const Lastest = () => {
    const users = [
       {
          id: 1,
@@ -90,8 +90,8 @@ const Apartments = () => {
       <Background>
          <Container>
             <Flex justify="space-between" width="98%" margin="170px 0 60px 0">
-               <Title size="20px" uppercase color="#ffffff">
-                  Popular Apartments
+               <Title size="20px" uppercase color="#363636;">
+                  The Lastest
                </Title>
                <StyledLink to="/">View All</StyledLink>
             </Flex>
@@ -114,21 +114,21 @@ const Apartments = () => {
                            <ImgGeo src={geo} alt="iconGeo" />
                            <TitleGeo>{apartments.geo}</TitleGeo>
                         </DivGeo>
-                        <StyledLink to="/">Read More</StyledLink>
+                        <StyledLink2 to="/">Read More</StyledLink2>
                      </div>
                   </MainApartment>
                   <Flex direction="column">
                      <Flex>
                         {/* <ImgHome
-                           animation={animation}
-                           image={secondApartments.url}
-                           apartment={apartments.url}
-                           alt="page"
-                        /> */}
+                                 animation={animation}
+                                 image={secondApartments.url}
+                                 apartment={apartments.url}
+                                 alt="page"
+                              /> */}
                         <ImgHome1 src={secondApartments.url} alt="page" />
                         <ImgHome2 src={thirdApartments.url} alt="page" />
                      </Flex>
-                     <FlexButton height="14px" margin="80px 0 0 0">
+                     <FlexButton>
                         <ButtonSlide onClick={prevChangeHandler}>
                            <img src={prev} alt="prev" />
                         </ButtonSlide>
@@ -148,9 +148,9 @@ const Apartments = () => {
 }
 const MainApartment = styled(Flex)`
    ${media.tablet`
-      flex-direction: column;
-      /* text-align: center; */
-   `}
+            flex-direction: column;
+            /* text-align: center; */
+         `}
    animation: ${({ animation }) =>
       animation
          ? 'yes cubic-bezier(.25,.46,.45,.94) 0.7s'
@@ -158,24 +158,24 @@ const MainApartment = styled(Flex)`
 
    @keyframes yes {
       /* 0% {
-         transform: translate(0, 0);
-      }
-      30% {
-         opacity: 0;
-         transform: translate(-50rem, 0);
-      }
-      70% {
-         opacity: 0;
-         transform: translate(0, 0);
-      }
-      80% {
-         opacity: 0;
-         transform: translate(55.3rem, 0);
-      }
-      100% {
-         opacity: 1;
-         transform: translate(0, 0);
-      } */
+               transform: translate(0, 0);
+            }
+            30% {
+               opacity: 0;
+               transform: translate(-50rem, 0);
+            }
+            70% {
+               opacity: 0;
+               transform: translate(0, 0);
+            }
+            80% {
+               opacity: 0;
+               transform: translate(55.3rem, 0);
+            }
+            100% {
+               opacity: 1;
+               transform: translate(0, 0);
+            } */
       0% {
          transform: translate(0, 0);
       }
@@ -208,7 +208,8 @@ const FlexButton = styled.div`
 
 const ButtonSlide = styled.button`
    border: none;
-   background: transparent;
+   background: none;
+   margin-left: 20px;
    cursor: pointer;
 `
 
@@ -216,9 +217,9 @@ const DivGeo = styled.div`
    display: flex;
    margin: 0 0 34.57px 0;
    /* ${media.tablet`
-      margin-bottom: 34.57px;
-      text-align: center;
-   `} */
+            margin-bottom: 34.57px;
+            text-align: center;
+         `} */
 `
 
 const SpanLength = styled.span`
@@ -227,19 +228,17 @@ const SpanLength = styled.span`
    font-weight: 400;
    font-size: 16px;
    line-height: 130%;
-   color: #ffffff;
+   margin: 2.6px 5.5px 0 25.5px;
 `
 
 const Background = styled.div`
    margin: 0 auto;
-   background: #4f7755;
    overflow: hidden;
 `
 const Container = styled.div`
    max-width: 1262px;
    width: 100%;
    margin: 0 auto;
-   background: #4f7755;
    padding: 1rem;
    /* overflow: hidden; */
 `
@@ -247,8 +246,8 @@ const Container = styled.div`
 const Apart = styled.div`
    display: flex;
    ${media.desktop`
-      flex-direction: column; 
-   `}
+            flex-direction: column; 
+         `}
 `
 
 const StyledLink = styled(Link)`
@@ -257,8 +256,18 @@ const StyledLink = styled(Link)`
    font-size: 16px;
    line-height: 19px;
    text-decoration-line: underline;
-   color: #ffbe58;
-   border-bottom: #ffbe58;
+   color: #363636;
+   border-bottom: #363636;
+`
+
+const StyledLink2 = styled(Link)`
+   font-family: 'Inter';
+   font-weight: 400;
+   font-size: 16px;
+   line-height: 19px;
+   text-decoration-line: underline;
+   color: #8a8a8a;
+   border-bottom: #8a8a8a;
 `
 
 const HomeImg = styled.img`
@@ -267,15 +276,15 @@ const HomeImg = styled.img`
    height: 456px;
    object-fit: cover;
    ${media.tablet`
-      max-width: 650px;
-      width: 100%;
-      height: 420px;
-   `}
+            max-width: 650px;
+            width: 100%;
+            height: 420px;
+         `}
    ${media.mobile`
-      max-width: 390px;
-      width: 100%;
-      height: 250px;
-   `}
+            max-width: 370px;
+            width: 100%;
+            height: 250px;
+         `}
 `
 const ImgHome1 = styled.img`
    max-width: 224px;
@@ -284,9 +293,9 @@ const ImgHome1 = styled.img`
    object-fit: cover;
    margin: 0 0 0 20px;
    ${media.desktop`
-      width: 0px;
-      height: 0px;
-   `}
+            width: 0px;
+            height: 0px;
+         `}
 `
 
 const ImgHome2 = styled.img`
@@ -296,9 +305,9 @@ const ImgHome2 = styled.img`
    object-fit: cover;
    margin: 0 -100px 0 20px;
    ${media.desktop`
-      width: 0px;
-      height: 0px;
-   `}
+            width: 0px;
+            height: 0px;
+         `}
 `
 
 const ImgGeo = styled.img`
@@ -308,7 +317,7 @@ const ImgGeo = styled.img`
    color: #97c69e;
    margin: 1px 9.75px 0 0;
    ${media.tablet`
-   `}
+         `}
 `
 
 const TitleGeo = styled.p`
@@ -326,11 +335,11 @@ const TitleHeader = styled.h2`
    font-weight: 500;
    font-size: 18px;
    line-height: 22px;
-   color: #ffffff;
+   color: #363636;
    margin: 75px 0 40px 0;
    ${media.tablet`
-      margin: 25px 0 28px 0;
-   `}
+            margin: 25px 0 28px 0;
+         `}
 `
 
 const TitleApartment = styled.p`
@@ -341,10 +350,10 @@ const TitleApartment = styled.p`
    font-weight: 400;
    font-size: 16px;
    line-height: 130%;
-   color: #f7f7f7;
+   color: #6a6a6a;
    margin: 0 50px 7.44px 0;
    ${media.tablet`
-      margin: 0 6px 7.44px 0;
+       margin: 0 6px 7.44px 0;
    `}
 `
 // const ImgHome = styled.div`
@@ -372,4 +381,4 @@ const TitleApartment = styled.p`
 //    }
 // `
 
-export default Apartments
+export default Lastest

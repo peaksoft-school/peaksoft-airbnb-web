@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import Title from '../UI/typography/Title'
-import geo from '../../assets/icons/IconGeo.svg'
-import Flex from '../UI/ui-for-positions/Flex'
-import star from '../../assets/icons/Star.svg'
-import media from '../../utils/helpers/media'
+import Title from '../../../components/UI/typography/Title'
+import geo from '../../../assets/icons/IconGeo.svg'
+import Flex from '../../../components/UI/ui-for-positions/Flex'
+import star from '../../../assets/icons/Star.svg'
+import media from '../../../utils/helpers/media'
 
 const PopularHouse = () => {
    const homes = [

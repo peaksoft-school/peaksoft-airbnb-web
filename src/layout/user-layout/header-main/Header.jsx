@@ -8,14 +8,25 @@ import HeaderContentMain from './HeaderContent/HeaderContentMain'
 
 const Header = ({ showSignInWithGoogle }) => {
    const [showMenu, setShowMenu] = useState(false)
+   const [headerBackground, setHeaderBckground] = useState(false)
    const { isAuthorized } = useSelector((state) => state.auth)
 
    const showMenuHandler = () => setShowMenu(true)
 
    const hideMenuHandler = () => setShowMenu(false)
+   window.addEventListener('scroll', () => {
+      if (
+         document.body.scrollTop > 50 ||
+         document.documentElement.scrollTop > 50
+      ) {
+         setHeaderBckground(true)
+      } else {
+         setHeaderBckground(false)
+      }
+   })
 
    return (
-      <HeaderStyled>
+      <HeaderStyled headerBackground={headerBackground}>
          <GlobalStyle />
          <HeaderMenu
             showMenu={showMenu}
@@ -25,6 +36,7 @@ const Header = ({ showSignInWithGoogle }) => {
          />
          <Flex width="100%" justify="space-between" align="center">
             <HeaderContentMain
+               headerStyle={headerBackground}
                showSignInWithGoogle={showSignInWithGoogle}
                showMenuHandler={showMenuHandler}
                isAuthorized={isAuthorized}
@@ -35,8 +47,15 @@ const Header = ({ showSignInWithGoogle }) => {
 }
 const HeaderStyled = styled.header`
    width: 100%;
-   padding: 20px 60px;
+   padding: 15px 60px;
    position: fixed;
+   transition: background 0.3s;
+   background: ${({ headerBackground }) =>
+      headerBackground ? '#ffffff' : 'none'};
+   -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+   -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+   box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+   z-index: 11;
    .btn {
       ${media.tablet`
       width:100px;
