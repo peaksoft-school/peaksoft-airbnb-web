@@ -11,12 +11,11 @@ import Carousel from '../UI/carousel/Carousel'
 const AdminCard = ({
    isViewed,
    title,
-   day,
-   starRange,
-   text,
+   price,
    address,
-   guest,
+   maxNumberOfGuests,
    images,
+   rating,
 }) => {
    const [showMeetballs, setShowMeetballs] = useState(false)
    const meetballsHandler = () => setShowMeetballs(!showMeetballs)
@@ -38,17 +37,17 @@ const AdminCard = ({
             <ContentWrapper>
                <Flex margin="8px 0 16px 0" justify="space-between" width="100%">
                   <Flex gap="3px" align="center">
-                     <Title>${title}/</Title>
-                     <Text size="16px">{day}</Text>
+                     <Title>${price}/</Title>
+                     <Text size="16px">day</Text>
                   </Flex>
                   <StarStyle>
                      <Stars />
-                     <Div>{starRange}</Div>
+                     <Div>{rating}</Div>
                   </StarStyle>
                </Flex>
                <Flex direction="column" gap="8px">
                   <Title size="14px" className="text">
-                     {text}
+                     {title}
                   </Title>
                   <Flex width="100%" align="center" margin="0 0 6px 0">
                      <Geolocations />
@@ -58,7 +57,7 @@ const AdminCard = ({
                   </Flex>
                </Flex>
                <Flex width="100%" align="center" justify="space-between">
-                  <Text size="12px">{guest} guests</Text>
+                  <Text size="12px">{maxNumberOfGuests} guests</Text>
                   <Button onClick={meetballsHandler}>...</Button>
                   {showMeetballs && (
                      <Meetballs>
@@ -83,8 +82,8 @@ const Wrapper = styled.div`
    @media (max-width: 425px) {
       width: 100%;
    }
-   border: ${({ isViewed }) => (isViewed ? '5px solid #FF0000' : '')};
-   border-radius: ${({ isViewed }) => (isViewed ? '8px' : '4px')};
+   border: ${({ isViewed }) => (!isViewed ? '3px solid #FF0000' : '')};
+   border-radius: ${({ isViewed }) => (!isViewed ? '8px' : '4px')};
    border-radius: ${({ isViewed }) =>
       isViewed ? 'rgba(255, 0, 0, 0.18)' : ''};
    background-color: #f7f7f7;

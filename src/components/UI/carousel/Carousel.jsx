@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import BtnCarousel, { StyledButton } from './BtnCarousel'
 import Flex from '../ui-for-positions/Flex'
+import { mergePhotosLinksIntoServerBaseUrl } from '../../../utils/helpers/general'
 
 export default function Slider({ dataSlider = [] }) {
    const [slideIndex, setSlideIndex] = useState(1)
@@ -31,7 +32,7 @@ export default function Slider({ dataSlider = [] }) {
    return (
       <ContainerSlider StyledButton={StyledButton}>
          <Flex>
-            {dataSlider.map((obj, index) => {
+            {dataSlider.map((image, index) => {
                return (
                   <div
                      key={index}
@@ -39,7 +40,12 @@ export default function Slider({ dataSlider = [] }) {
                         slideIndex === index + 1 ? 'slide active-anim' : 'slide'
                      }
                   >
-                     <img src={obj.img} alt="" />
+                     <img
+                        src={mergePhotosLinksIntoServerBaseUrl(
+                           image.image.smallImagePath
+                        )}
+                        alt=""
+                     />
                   </div>
                )
             })}
