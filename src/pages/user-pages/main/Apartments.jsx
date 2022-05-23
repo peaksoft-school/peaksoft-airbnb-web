@@ -267,7 +267,7 @@ const HomeImg = styled.img`
    height: 456px;
    object-fit: cover;
    ${media.tablet`
-      max-width: 650px;
+      max-width: 720px;
       width: 100%;
       height: 420px;
    `}
@@ -327,20 +327,20 @@ const TitleHeader = styled.h2`
    font-size: 18px;
    line-height: 22px;
    color: #ffffff;
-   margin: 75px 0 40px 0;
+   margin: 75px 0 28px 0;
    ${media.tablet`
-      margin: 25px 0 28px 0;
+      margin: 8px 0 28px 0;
    `}
 `
 
 const TitleApartment = styled.p`
-   max-width: 280px;
-   width: 100%;
+   width: 90%;
    font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
    font-size: 16px;
    line-height: 130%;
+   letter-spacing: 0.4px;
    color: #f7f7f7;
    margin: 0 50px 7.44px 0;
    ${media.tablet`

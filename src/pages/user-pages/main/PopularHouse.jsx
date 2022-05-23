@@ -37,7 +37,7 @@ const PopularHouse = () => {
    return (
       <Container>
          <Flex justify="space-between" width="98%" margin="170px 0 0 0">
-            <Title size="20px" uppercase color="#363636">
+            <Title size="20px" uppercase color="#363636" weight="700">
                Popular House
             </Title>
             <LinkStyled to="/">View all</LinkStyled>

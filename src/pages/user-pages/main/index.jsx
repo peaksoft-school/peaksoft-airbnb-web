@@ -22,8 +22,8 @@ const MainPage = () => {
          </MainPages>
          <Regions />
          <Apartments />
-         <Lastest />
          <PopularHouse />
+         <Lastest />
       </Container>
    )
 }

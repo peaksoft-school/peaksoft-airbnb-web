@@ -89,7 +89,7 @@ const Lastest = () => {
    return (
       <Background>
          <Container>
-            <Flex justify="space-between" width="98%" margin="170px 0 60px 0">
+            <Flex justify="space-between" width="98%" margin="130px 0 60px 0">
                <Title size="20px" uppercase color="#363636;">
                   The Lastest
                </Title>
@@ -276,7 +276,7 @@ const HomeImg = styled.img`
    height: 456px;
    object-fit: cover;
    ${media.tablet`
-            max-width: 650px;
+            max-width: 720px;
             width: 100%;
             height: 420px;
          `}
@@ -336,14 +336,14 @@ const TitleHeader = styled.h2`
    font-size: 18px;
    line-height: 22px;
    color: #363636;
-   margin: 75px 0 40px 0;
+   margin: 75px 0 28px 0;
    ${media.tablet`
-            margin: 25px 0 28px 0;
+            margin: 8px 0 28px 0;
          `}
 `
 
 const TitleApartment = styled.p`
-   max-width: 280px;
+   /* max-width: 280px; */
    width: 100%;
    font-family: 'Inter';
    font-style: normal;
@@ -351,6 +351,7 @@ const TitleApartment = styled.p`
    font-size: 16px;
    line-height: 130%;
    color: #6a6a6a;
+   letter-spacing: 0.4px;
    margin: 0 50px 7.44px 0;
    ${media.tablet`
        margin: 0 6px 7.44px 0;
