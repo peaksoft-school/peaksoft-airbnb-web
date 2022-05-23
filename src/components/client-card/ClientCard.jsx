@@ -60,7 +60,7 @@ const ClientCard = ({
 const Wrapper = styled.div`
    width: ${({ width }) => width || '295px'};
    height: 362px;
-   animation: YES ease-in-out 1s;
+   animation: YES ease-in-out 0.5s;
    @keyframes YES {
       from {
          opacity: 0;
