@@ -27,14 +27,13 @@ const Region = () => {
    const price = params.get('price')
    const popular = params.get('popular')
    const page = params.get('page')
-   const regionsIds = getDataFromLocalStorage('regions')
    const [pagination, setPagination] = useState(Number(page) || 1)
    const [sort, setSort] = useState({
       popular: popular || '',
       price: price || '',
    })
    const [filter, setFilter] = useState({
-      regionIds: (state && [state]) || regionsIds || [],
+      regionIds: (state && [state]) || [],
       type: homeType || '',
    })
    const filteredRegionIds = (id) => {
@@ -80,6 +79,9 @@ const Region = () => {
    useEffect(() => {
       dispatch(getRegions())
    }, [])
+   useEffect(() => {
+      setFilter({ ...filter, regionIds: getDataFromLocalStorage('regions') })
+   }, [filter.regionIds])
    return (
       <Container>
          <GlobalStyle />

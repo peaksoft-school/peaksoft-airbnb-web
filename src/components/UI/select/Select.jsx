@@ -106,6 +106,9 @@ const Option = styled.div`
    :hover {
       background: #e5e5e5;
    }
+   :active {
+      background: #6b7d884c;
+   }
 `
 
 export default Select

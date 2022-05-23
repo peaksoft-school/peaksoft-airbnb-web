@@ -8,9 +8,9 @@ import RadioButton from '../UI/buttons/RadioButton'
 import Grid from '../UI/ui-for-positions/Grid'
 import Checkbox from '../UI/checkbox/Checkbox'
 import {
-   SORT_BY_POPULAR_FOR_MOBILE,
-   SORT_BY_PRICE_FOR_MOBILE,
-   SORT_BY_TYPE_FOR_MOBILE,
+   SORT_BY_POPULAR,
+   SORT_BY_PRICE,
+   SORT_BY_TYPE,
 } from '../../utils/constants/general'
 import { useSelector } from 'react-redux'
 
@@ -60,8 +60,8 @@ const SelectsForFilterMobile = ({
          </Flex>
          <Flex gap="12px" direction="column">
             <Title>Sort by</Title>
-            <Flex margin="0 0 20px 0" direction="column" gap="16px">
-               {SORT_BY_POPULAR_FOR_MOBILE.map((el) => (
+            <Flex margin="0 0 20px 0" direction="column">
+               {SORT_BY_POPULAR.map((el) => (
                   <Label key={el.label}>
                      <RadioButton
                         checked={el.value === sort.popular}
@@ -74,8 +74,8 @@ const SelectsForFilterMobile = ({
                ))}
             </Flex>
             <Title>Price</Title>
-            <Flex margin="0 0 20px 0" direction="column" gap="10px">
-               {SORT_BY_PRICE_FOR_MOBILE.map((el) => (
+            <Flex margin="0 0 20px 0" direction="column">
+               {SORT_BY_PRICE.map((el) => (
                   <Label id="price" key={el.label}>
                      <RadioButton
                         checked={el.value === sort.price}
@@ -89,8 +89,8 @@ const SelectsForFilterMobile = ({
                ))}
             </Flex>
             <Title>Type</Title>
-            <Flex margin="0 0 20px 0" direction="column" gap="16px">
-               {SORT_BY_TYPE_FOR_MOBILE.map((el) => (
+            <Flex margin="0 0 20px 0" direction="column">
+               {SORT_BY_TYPE.map((el) => (
                   <Label key={el.label}>
                      <RadioButton
                         checked={el.value === filter.type}
