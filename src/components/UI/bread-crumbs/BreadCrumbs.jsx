@@ -9,7 +9,7 @@ const clickHandler = (event) => {
 const BreadCrumbs = () => {
    return (
       <Breadcrumbs aria-label="breadcrumb">
-         <Link color="inherit" href="/main" onClick={clickHandler}>
+         <Link color="inherit" href="/" onClick={clickHandler}>
             Main
          </Link>
          <Link

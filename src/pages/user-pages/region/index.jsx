@@ -13,6 +13,7 @@ import LoadingPage from '../../../components/UI/loader/LoadingPage'
 import {
    getDataFromLocalStorage,
    getSomeGiven,
+   paramsSet,
 } from '../../../utils/helpers/general'
 import { getRegions } from '../../../store/bookingSlice'
 
@@ -21,14 +22,16 @@ const Region = () => {
    const { state } = useLocation()
    const dispatch = useDispatch()
    const { listing, region } = useSelector((state) => state)
-   const { listings, isLoading } = listing
+   const { listings, searchValue, isLoading } = listing
    const { regions } = region
    const homeType = params.get('type')
    const price = params.get('price')
    const popular = params.get('popular')
-   const page = params.get('page')
+   const search = params.get('address')
+   const page = Number(params.get('page'))
    const regionsIds = getDataFromLocalStorage('regions')
-   const [pagination, setPagination] = useState(Number(page) || 1)
+
+   const [pagination, setPagination] = useState(page || 1)
    const [sort, setSort] = useState({
       popular: popular || '',
       price: price || '',
@@ -36,13 +39,16 @@ const Region = () => {
    const [filter, setFilter] = useState({
       regionIds: (state && [state]) || regionsIds || [],
       type: homeType || '',
+      address: search || '',
    })
+
    const filteredRegionIds = (id) => {
       const filteredRegions = filter.regionIds.filter(
          (regionId) => regionId !== id
       )
       setFilter({ ...filter, regionIds: filteredRegions })
    }
+
    const clearFilteredType = () => setFilter({ ...filter, type: '' })
 
    const clearSortPrice = () => setSort({ ...sort, price: '' })
@@ -53,30 +59,31 @@ const Region = () => {
       setFilter({ regionIds: [], type: '' })
       setSort({ popular: '', price: '' })
    }
-   const paginationHandler = (event, value) => setPagination(value)
+
+   const paginationHandler = (event, value) => {
+      setPagination(value)
+   }
 
    useEffect(() => {
       const filterBy = {}
       const sortBy = {}
-      const queryParams = {}
-      if (filter.regionIds.length > 0) {
-         filterBy.regionIds = filter.regionIds
-      }
-      if (filter.type) {
-         filterBy.type = filter.type
-         queryParams.type = filter.type
-      }
-      if (sort.popular) {
-         sortBy.popular = sort.popular
-         queryParams.popular = sort.popular
-      }
-      if (sort.price) {
-         sortBy.price = sort.price
-         queryParams.price = sort.price
-      }
-      dispatch(getListings({ filterBy, sortBy, pagination }))
-      setParams({ page: pagination, ...queryParams })
-   }, [filter, sort, pagination])
+      if (searchValue) filterBy.address = searchValue
+
+      if (filter.regionIds.length > 0) filterBy.regionIds = filter.regionIds
+
+      if (filter.type) filterBy.type = filter.type
+
+      if (sort.popular) sortBy.popular = sort.popular
+
+      if (sort.price) sortBy.price = sort.price
+
+      paramsSet(searchValue, 'address', setParams, params)
+      paramsSet(sort.price, 'price', setParams, params)
+      paramsSet(sort.popular, 'popular', setParams, params)
+      paramsSet(filter.type, 'type', setParams, params)
+      paramsSet(pagination, 'page', setParams, params)
+      dispatch(getListings({ pagination, filterBy, sortBy }))
+   }, [filter, sort, searchValue, pagination])
 
    useEffect(() => {
       dispatch(getRegions())

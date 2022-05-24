@@ -1,43 +1,39 @@
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { ReactComponent as SearchMainIcon } from '../../assets/icons/Frame.svg'
 import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg'
 import Input from '../UI/text-fields/Input'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
-import { getListings } from '../../store/listingSlice'
-import PositionedSnackbar from '../UI/snackbar/Snackbar'
-import { useState } from 'react'
+import { listingActions } from '../../store/listingSlice'
 
 const InputSearch = () => {
+   const [params, setParams] = useSearchParams()
    const dispatch = useDispatch()
    const { pathname } = useLocation()
-   const [showError, setShowError] = useState(false)
-   const { register, handleSubmit } = useForm()
-
+   const navigate = useNavigate()
+   const searchValue = params.get('address')
+   const { register, handleSubmit } = useForm({
+      defaultValues: {
+         address: searchValue || '',
+      },
+   })
+   console.log(setParams)
    const searchInput = {
       search: {
          ...register('address', {
-            required: 'ERROR',
+            required: false,
          }),
       },
    }
    const submitHandler = (filterBy) => {
-      dispatch(getListings({ filterBy }))
-   }
-
-   const onError = () => {
-      setShowError(true)
-   }
-
-   const onClose = () => {
-      setShowError(false)
+      dispatch(listingActions.saveSearchValue({ ...filterBy }))
+      if (pathname === '/main') navigate('/main/regions')
    }
 
    let search = (
-      <FormUserSearch onSubmit={handleSubmit(submitHandler, onError)}>
-         {/* {console.log(showError)} */}
-         <SearchIconWrapper onClick={handleSubmit(submitHandler, onError)}>
+      <FormUserSearch onSubmit={handleSubmit(submitHandler)}>
+         <SearchIconWrapper onClick={handleSubmit(submitHandler)}>
             <SearchIconStyled />
          </SearchIconWrapper>
          <Search {...searchInput.search} placeholder="Search" />
@@ -46,8 +42,8 @@ const InputSearch = () => {
 
    if (pathname === '/main') {
       search = (
-         <Form onSubmit={handleSubmit(submitHandler, onError)}>
-            <SearchMainIcon onClick={handleSubmit(submitHandler, onError)} />
+         <Form onSubmit={handleSubmit(submitHandler)}>
+            <SearchMainIcon onClick={handleSubmit(submitHandler)} />
             <InputSearchMain
                {...searchInput.search}
                placeholder="Region, city , apartment, house..."
@@ -55,19 +51,7 @@ const InputSearch = () => {
          </Form>
       )
    }
-   return (
-      <>
-         <PositionedSnackbar
-            severity="error"
-            open={showError}
-            message="Some thing wreng wrong"
-            title="Ooops ):"
-            onClose={onClose}
-            delay={setShowError}
-         />
-         {search}
-      </>
-   )
+   return search
 }
 
 const SearchIconWrapper = styled.div`
