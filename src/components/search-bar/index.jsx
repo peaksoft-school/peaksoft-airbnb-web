@@ -1,45 +1,88 @@
 import { useLocation } from 'react-router-dom'
-import { useState } from 'react'
 import styled from 'styled-components'
+import { ReactComponent as SearchMainIcon } from '../../assets/icons/Frame.svg'
 import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg'
 import Input from '../UI/text-fields/Input'
+import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { getListings } from '../../store/listingSlice'
+import PositionedSnackbar from '../UI/snackbar/Snackbar'
+import { useState } from 'react'
 
 const InputSearch = () => {
-   const [searchInput, setSearchInput] = useState('')
+   const dispatch = useDispatch()
    const { pathname } = useLocation()
+   const [showError, setShowError] = useState(false)
+   const { register, handleSubmit } = useForm()
+
+   const searchInput = {
+      search: {
+         ...register('address', {
+            required: 'ERROR',
+         }),
+      },
+   }
+   const submitHandler = (filterBy) => {
+      dispatch(getListings({ filterBy }))
+   }
+
+   const onError = () => {
+      setShowError(true)
+   }
+
+   const onClose = () => {
+      setShowError(false)
+   }
 
    let search = (
-      <>
-         <SearchIconWrapper>
+      <FormUserSearch onSubmit={handleSubmit(submitHandler, onError)}>
+         {/* {console.log(showError)} */}
+         <SearchIconWrapper onClick={handleSubmit(submitHandler, onError)}>
             <SearchIconStyled />
          </SearchIconWrapper>
-         <Search
-            placeholder="search"
-            onChange={(e) => setSearchInput(e.target.value)}
-         />
-      </>
+         <Search {...searchInput.search} placeholder="Search" />
+      </FormUserSearch>
    )
 
    if (pathname === '/main') {
       search = (
-         <DivInput>
-            <SearchIconStyled />
+         <Form onSubmit={handleSubmit(submitHandler, onError)}>
+            <SearchMainIcon onClick={handleSubmit(submitHandler, onError)} />
             <InputSearchMain
+               {...searchInput.search}
                placeholder="Region, city , apartment, house..."
-               onChange={(e) => setSearchInput(e.target.value)}
-               value={searchInput}
             />
-         </DivInput>
+         </Form>
       )
    }
-   return search
+   return (
+      <>
+         <PositionedSnackbar
+            severity="error"
+            open={showError}
+            message="Some thing wreng wrong"
+            title="Ooops ):"
+            onClose={onClose}
+            delay={setShowError}
+         />
+         {search}
+      </>
+   )
 }
 
 const SearchIconWrapper = styled.div`
-   transform: translate(40px, 2px);
+   transform: translateY(-50%);
+   position: absolute;
+   top: 55%;
+   left: 15px;
 `
-
-const DivInput = styled.div`
+const FormUserSearch = styled.form`
+   position: relative;
+   width: 100%;
+   height: 100%;
+   margin: 0 10px;
+`
+const Form = styled.form`
    max-width: 725px;
    width: 100%;
    height: 42px;
@@ -48,11 +91,12 @@ const DivInput = styled.div`
    display: flex;
    align-items: center;
    margin-top: 100px;
-   & img {
+   & svg {
       width: 18.62px;
       height: 18.62px;
       margin: 0 15px 0 15px;
       color: #7d7d7d;
+      cursor: pointer;
    }
 `
 const InputSearchMain = styled.input`

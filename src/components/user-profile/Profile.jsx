@@ -4,10 +4,12 @@ import Flex from '../UI/ui-for-positions/Flex'
 import UserCard from './UserCard'
 import ProjectTabs from '../UI/tabs/ProjectTabs'
 import media from '../../utils/helpers/media'
+import BreadCrumbs from '../UI/bread-crumbs/BreadCrumbs'
 
 const Profile = () => {
    return (
       <WrapperContainer>
+         <BreadCrumbs />
          <UserProfile>Profile</UserProfile>
          <ContentWrapper>
             <UserCard />
