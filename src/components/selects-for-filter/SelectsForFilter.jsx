@@ -43,8 +43,7 @@ const SelectsForFilter = ({ total, setFilter, setSort, filter, sort }) => {
    }
 
    useEffect(() => {
-      window.onbeforeunload = () =>
-         saveToLocalStorage('regions', filter.regionIds)
+      saveToLocalStorage('regions', filter.regionIds)
    }, [filter.regionIds])
 
    useEffect(() => {

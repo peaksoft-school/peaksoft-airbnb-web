@@ -41,7 +41,7 @@ export const addListing = createAsyncThunk(
    'listing/addListing',
    async ({ listingData, navigateAfterSuccessUpload }, { rejectWithValue }) => {
       try {
-         const result = fetchApi({
+         const result = await fetchApi({
             path: 'api/listings',
             method: 'POST',
             body: { ...listingData },
@@ -78,10 +78,25 @@ export const getListings = createAsyncThunk(
       }
    }
 )
+export const getOneListing = createAsyncThunk(
+   'lsiting/getOneListing',
+   async (listingId, { rejectWithValue }) => {
+      try {
+         const listing = await fetchApi({
+            path: `api/listings/${listingId}`,
+            method: 'GET',
+         })
+         return listing
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
 
 const initialState = {
    listings: [],
    imagesId: [],
+   listing: {},
    isLoading: false,
    error: null,
    status: null,
@@ -98,7 +113,7 @@ const listingSlice = createSlice({
       },
       [uploadImageListing.fulfilled]: (state) => {
          state.isLoading = false
-         state.statues = 'success'
+         state.status = 'success'
       },
       [addListing.pending]: (state) => {
          state.isLoading = true
@@ -123,6 +138,20 @@ const listingSlice = createSlice({
          state.status = 'success'
       },
       [getListings.rejected]: (state, { error }) => {
+         state.status = 'rejected'
+         state.isLoading = false
+         state.error = error.message
+      },
+      [getOneListing.pending]: (state) => {
+         state.isLoading = true
+         state.status = 'pending'
+      },
+      [getOneListing.fulfilled]: (state, { payload }) => {
+         state.listing = payload.data
+         state.status = 'success'
+         state.isLoading = false
+      },
+      [getOneListing.rejected]: (state, { error }) => {
          state.status = 'rejected'
          state.isLoading = false
          state.error = error.message

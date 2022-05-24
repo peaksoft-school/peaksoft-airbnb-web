@@ -6,7 +6,7 @@ import Button from '../UI/buttons/Button'
 import Flex from '../UI/ui-for-positions/Flex'
 import DateRangePicker from '../UI/date-picker/DatePicker'
 
-const Checkout = () => {
+const Checkout = ({ price, onClick }) => {
    const [valueDatePicker, setValueDatePicker] = useState({
       valueStartDate: null,
       valueEndDate: null,
@@ -24,15 +24,16 @@ const Checkout = () => {
          valueEndDate: value,
       })
    }
+
    return (
       <Wrapper>
          <Flex direction="column" align="center">
-            <Flex align="center">
-               <Title>$26 /</Title>
-               <Text>day</Text>
+            <Flex align="center" gap="3px">
+               <Title size="20px">${price} /</Title>
+               <Text size="18px">day</Text>
             </Flex>
-            <Flex margin="10px 0 20px 0 ">
-               <hr width="454px" color="#C4C4C4" />
+            <Flex width="100%" margin="10px 0 20px 0 ">
+               <hr width="100%" color="#d3d3d3" />
             </Flex>
             <DatePickerStyle>
                <DateRangePicker
@@ -44,7 +45,9 @@ const Checkout = () => {
                />
             </DatePickerStyle>
 
-            <Button width="100%">REQUEST TO BOOK</Button>
+            <Button onClick={onClick} width="100%">
+               REQUEST TO BOOK
+            </Button>
             <Flex margin="20px 0 0 0 ">
                <Text>You have to be signed in to book a listing</Text>
             </Flex>
@@ -57,7 +60,7 @@ const Wrapper = styled.div`
    max-width: 494px;
    width: 100%;
    height: 269px;
-   background-color: #f7f7f7;
+   background-color: #ffffff;
    padding: 1rem;
 
    :hover {
