@@ -78,9 +78,7 @@ const Container = styled.div`
    max-width: 1262px;
    width: 100%;
    margin: 0 auto;
-   ${media.tablet`
-       padding: 16px;
-   `}
+   padding: 1rem;
 `
 
 const MainDiv = styled.div`

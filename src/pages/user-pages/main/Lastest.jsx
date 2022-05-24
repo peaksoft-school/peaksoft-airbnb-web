@@ -8,6 +8,18 @@ import Title from '../../../components/UI/typography/Title'
 import prev from '../../../assets/icons/PrevButtonBlack.svg'
 import next from '../../../assets/icons/NextButtonBlack.svg'
 import media from '../../../utils/helpers/media'
+import {
+   Apart,
+   ButtonSlide,
+   DivGeo,
+   FlexButton,
+   HomeImg,
+   ImgGeo,
+   ImgHome1,
+   ImgHome2,
+   MainApartment,
+   TitleGeo,
+} from './styles'
 
 const Lastest = () => {
    const users = [
@@ -96,17 +108,9 @@ const Lastest = () => {
                <StyledLink to="/">View All</StyledLink>
             </Flex>
             <Flex width="100%" margin="0 0 170px 0">
-               <Apart animation={animation}>
-                  <MainApartment
-                     animation={animation}
-                     // align="center"
-                     gap="40px"
-                  >
-                     <HomeImg
-                        animation={animation}
-                        src={apartments.url}
-                        alt="home"
-                     />
+               <Apart>
+                  <MainApartment animation={animation} gap="40px">
+                     <HomeImg src={apartments.url} alt="home" />
                      <div>
                         <TitleHeader>{apartments.header}</TitleHeader>
                         <TitleApartment>{apartments.title}</TitleApartment>
@@ -119,12 +123,6 @@ const Lastest = () => {
                   </MainApartment>
                   <Flex direction="column">
                      <Flex>
-                        {/* <ImgHome
-                                 animation={animation}
-                                 image={secondApartments.url}
-                                 apartment={apartments.url}
-                                 alt="page"
-                              /> */}
                         <ImgHome1 src={secondApartments.url} alt="page" />
                         <ImgHome2 src={thirdApartments.url} alt="page" />
                      </Flex>
@@ -146,108 +144,17 @@ const Lastest = () => {
       </Background>
    )
 }
-const MainApartment = styled(Flex)`
-   ${media.tablet`
-            flex-direction: column;
-            /* text-align: center; */
-         `}
-   animation: ${({ animation }) =>
-      animation
-         ? 'yes cubic-bezier(.25,.46,.45,.94) 0.7s'
-         : 'no ease-in-out 0.7s'};
-
-   @keyframes yes {
-      /* 0% {
-               transform: translate(0, 0);
-            }
-            30% {
-               opacity: 0;
-               transform: translate(-50rem, 0);
-            }
-            70% {
-               opacity: 0;
-               transform: translate(0, 0);
-            }
-            80% {
-               opacity: 0;
-               transform: translate(55.3rem, 0);
-            }
-            100% {
-               opacity: 1;
-               transform: translate(0, 0);
-            } */
-      0% {
-         transform: translate(0, 0);
-      }
-      100% {
-         opacity: 0;
-         transform: translate(-50rem, 0);
-      }
-   }
-   @keyframes no {
-      0% {
-         transform: translate(0, 0);
-      }
-      100% {
-         opacity: 0;
-         transform: translate(-50rem, 0);
-      }
-   }
-`
-
-const FlexButton = styled.div`
-   display: flex;
-   margin: 80px 0 0 0;
-   align-items: center;
-   gap: 25px;
-   ${media.tablet`
-      width:100%;
-      justify-content:center;
-   `}
-`
-
-const ButtonSlide = styled.button`
-   border: none;
-   background: none;
-   margin-left: 20px;
-   cursor: pointer;
-`
-
-const DivGeo = styled.div`
-   display: flex;
-   margin: 0 0 34.57px 0;
-   /* ${media.tablet`
-            margin-bottom: 34.57px;
-            text-align: center;
-         `} */
-`
-
-const SpanLength = styled.span`
-   font-family: 'Inter';
-   font-style: normal;
-   font-weight: 400;
-   font-size: 16px;
-   line-height: 130%;
-   margin: 2.6px 5.5px 0 25.5px;
-`
 
 const Background = styled.div`
    margin: 0 auto;
    overflow: hidden;
 `
+
 const Container = styled.div`
    max-width: 1262px;
    width: 100%;
    margin: 0 auto;
    padding: 1rem;
-   /* overflow: hidden; */
-`
-
-const Apart = styled.div`
-   display: flex;
-   ${media.desktop`
-            flex-direction: column; 
-         `}
 `
 
 const StyledLink = styled(Link)`
@@ -270,63 +177,13 @@ const StyledLink2 = styled(Link)`
    border-bottom: #8a8a8a;
 `
 
-const HomeImg = styled.img`
-   max-width: 525px;
-   width: 100%;
-   height: 456px;
-   object-fit: cover;
-   ${media.tablet`
-            max-width: 720px;
-            width: 100%;
-            height: 420px;
-         `}
-   ${media.mobile`
-            max-width: 370px;
-            width: 100%;
-            height: 250px;
-         `}
-`
-const ImgHome1 = styled.img`
-   max-width: 224px;
-   width: 100%;
-   height: 317px;
-   object-fit: cover;
-   margin: 0 0 0 20px;
-   ${media.desktop`
-            width: 0px;
-            height: 0px;
-         `}
-`
-
-const ImgHome2 = styled.img`
-   max-width: 224px;
-   width: 100%;
-   height: 317px;
-   object-fit: cover;
-   margin: 0 -100px 0 20px;
-   ${media.desktop`
-            width: 0px;
-            height: 0px;
-         `}
-`
-
-const ImgGeo = styled.img`
-   max-width: 10.5px;
-   width: 100%;
-   height: 14px;
-   color: #97c69e;
-   margin: 1px 9.75px 0 0;
-   ${media.tablet`
-         `}
-`
-
-const TitleGeo = styled.p`
-   font-family: Inter;
+const SpanLength = styled.span`
+   font-family: 'Inter';
    font-style: normal;
-   color: #97c69e;
    font-weight: 400;
-   font-size: 14px;
-   line-height: 17px;
+   font-size: 16px;
+   line-height: 130%;
+   color: #363636;
 `
 
 const TitleHeader = styled.h2`
@@ -343,43 +200,25 @@ const TitleHeader = styled.h2`
 `
 
 const TitleApartment = styled.p`
-   /* max-width: 280px; */
+   max-width: 300px;
    width: 100%;
    font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
    font-size: 16px;
    line-height: 130%;
-   color: #6a6a6a;
    letter-spacing: 0.4px;
+   color: #6a6a6a;
    margin: 0 50px 7.44px 0;
    ${media.tablet`
-       margin: 0 6px 7.44px 0;
+      margin: 0 6px 7.44px 0;
+      max-width: 700px;
+      width: 100%;
+   `}
+   ${media.desktop`
+      max-width: 800px;
+      width: 95%;
    `}
 `
-// const ImgHome = styled.div`
-//    width: 224px;
-//    height: 317px;
-//    background: url(${({ image }) => image});
-//    background-size: cover;
-//    /* object-fit: cover; */
-//    animation: ${({ animation }) =>
-//       animation
-//          ? 'yess cubic-bezier(.25,.46,.45,.94) 0.7s'
-//          : 'nos ease-in-out 0.7s'};
-//    @keyframes nos {
-//       0% {
-//          transform: translate(0, 0);
-//          background: url(${({ apartment }) => apartment});
-//       }
-//       100% {
-//          /* opacity: 0; */
-//          background: url(${({ image }) => image});
-//          transform: translate(-38rem, 0);
-//          width: 500px;
-//          height: 430px;
-//       }
-//    }
-// `
 
 export default Lastest
