@@ -4,49 +4,58 @@ import { ReactComponent as SelectIcon } from '../../../assets/icons/Vector.svg'
 import Title from '../typography/Title'
 import Flex from '../ui-for-positions/Flex'
 
-const Select = ({ data, onChange, name }) => {
-   const [selectToggle, setSelectToggle] = useState(false)
-   const [label, setLabel] = useState(data[0].label)
+const Select = React.forwardRef(
+   (
+      { data, onChange, name, width, label, value, defaultValue, ...props },
+      ref
+   ) => {
+      const [selectToggle, setSelectToggle] = useState(false)
+      const [labelValue, setLabelValue] = useState(
+         defaultValue || (data && data[0] && data[0][label]) || ''
+      )
 
-   const showSelect = () => setSelectToggle(!selectToggle)
+      const showSelect = () => setSelectToggle(!selectToggle)
 
-   const changeHandler = (event, value) => {
-      event.stopPropagation()
-      setSelectToggle(false)
-      setLabel(value.label)
-      onChange(value.value)
-   }
-   return (
-      <SelectWrapper select={selectToggle}>
-         <SelectStyled
-            onBlur={() => setSelectToggle(false)}
-            onClick={showSelect}
-         >
-            <Flex align="center" justify="space-between">
-               <TitleSelect>{name}:</TitleSelect>
-               <Flex align="center" gap="1rem">
-                  <Title>{label}</Title>
-                  <SelectIcon className="icon__select" />
+      const changeHandler = (event, data) => {
+         event.stopPropagation()
+         setSelectToggle(false)
+         setLabelValue(data[label])
+         onChange(data[value], data[label])
+      }
+      return (
+         <SelectWrapper width={width} select={selectToggle}>
+            <SelectStyled
+               {...props}
+               ref={ref}
+               onBlur={() => setSelectToggle(false)}
+               onClick={showSelect}
+            >
+               <Flex align="center" justify="space-between">
+                  <TitleSelect>{name}:</TitleSelect>
+                  <Flex align="center" gap="1rem">
+                     <Title size="15px">{labelValue}</Title>
+                     <SelectIcon className="icon__select" />
+                  </Flex>
                </Flex>
-            </Flex>
-            {selectToggle && (
-               <Options>
-                  {data.map((el) => (
-                     <Option
-                        onClick={(e) => changeHandler(e, el)}
-                        key={el.label}
-                     >
-                        <Title>{el.label}</Title>
-                     </Option>
-                  ))}
-               </Options>
-            )}
-         </SelectStyled>
-      </SelectWrapper>
-   )
-}
+               {selectToggle && (
+                  <Options>
+                     {data.map((el) => (
+                        <Option
+                           onClick={(e) => changeHandler(e, el)}
+                           key={el[label]}
+                        >
+                           <Title>{el[label]}</Title>
+                        </Option>
+                     ))}
+                  </Options>
+               )}
+            </SelectStyled>
+         </SelectWrapper>
+      )
+   }
+)
 const SelectWrapper = styled.div`
-   width: 300px;
+   width: ${({ width }) => width || '300px'};
    position: relative;
    .icon__select {
       transition: 0.4s;
@@ -55,13 +64,15 @@ const SelectWrapper = styled.div`
 `
 const TitleSelect = styled(Title)`
    color: #828282;
+   font-size: 15px;
 `
 const SelectStyled = styled.button`
    font-size: 16px;
-   padding: 10px;
-   width: 300px;
-   border: 1px solid #c4c4c4;
-   background-color: #ffffff;
+   padding: 0.4em 0.6em;
+   width: 100%;
+   border: ${({ isValid }) =>
+      isValid ? ' 1px solid tomato' : '1px solid #c4c4c4'};
+   background-color: transparent;
    box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
    cursor: pointer;
    :hover {
@@ -77,6 +88,7 @@ const Options = styled.div`
    left: 0;
    top: 50px;
    animation: OPTION 0.4s ease-in-out;
+   z-index: 10;
    @keyframes OPTION {
       from {
          opacity: 0;
@@ -93,6 +105,9 @@ const Option = styled.div`
    cursor: pointer;
    :hover {
       background: #e5e5e5;
+   }
+   :active {
+      background: #6b7d884c;
    }
 `
 

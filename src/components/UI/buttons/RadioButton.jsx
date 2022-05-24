@@ -1,14 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const RadioButton = (props) => {
+const RadioButton = React.forwardRef((props, ref) => {
    return (
       <RadioBtn>
-         <input type="radio" name="hause" {...props} />
+         <input
+            type="radio"
+            id={props.id}
+            ref={ref}
+            name={props.name}
+            {...props}
+         />
          <span />
       </RadioBtn>
    )
-}
+})
 const RadioBtn = styled.label`
    display: flex;
    justify-content: flex-start;

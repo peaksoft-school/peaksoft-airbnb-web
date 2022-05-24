@@ -69,6 +69,8 @@
          "off",
          { "packageDir": ["./some-dir/", "./root-pkg"] }
       ],
-      "func-names": ["off", "always"]
+      "func-names": ["off", "always"],
+      "import/no-cycle": [2, { "ignoreExternal": true }],
+      "import/order": ["off", { "newlines-between": "never" }]
    }
 }

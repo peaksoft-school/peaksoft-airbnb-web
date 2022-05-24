@@ -8,7 +8,7 @@ export const USER_ROUTES = {
       label: 'MAIN',
    },
    REGION: {
-      path: '/main/:region',
+      path: '/main/regions',
       label: 'REGIONS',
    },
    HOUSE: {
@@ -16,8 +16,18 @@ export const USER_ROUTES = {
       label: 'Hause',
    },
    PROFILE: {
-      path: '/profile',
+      path: '/profile/',
       label: 'Profile',
+   },
+   PROFILE_TABS: {
+      PFOFILE_BOOKINGS: {
+         path: '/profile/bookings',
+         label: 'bookings',
+      },
+      PROFILE_MY_ANNOUNCEMENTS: {
+         path: '/profile/my-announcements',
+         label: 'my-announcements',
+      },
    },
    SUBMIT_AN_AD: {
       path: '/submit-an-ad',
