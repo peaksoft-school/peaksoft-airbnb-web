@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import Text from '../../../components/UI/typography/Text'
@@ -16,6 +17,7 @@ import {
    paramsSet,
 } from '../../../utils/helpers/general'
 import { getRegions } from '../../../store/bookingSlice'
+import Title from '../../../components/UI/typography/Title'
 
 const Region = () => {
    const [params, setParams] = useSearchParams()
@@ -89,17 +91,42 @@ const Region = () => {
       dispatch(getRegions())
    }, [])
 
+   let content = <Title>TOTAL</Title>
+
+   if (searchValue !== '') {
+      content = (
+         <Title>
+            <Text>Search for :</Text> "{searchValue}"
+         </Title>
+      )
+   }
+   if (!search && regionsIds.length > 0) {
+      content =
+         filter.regionIds.length > 0 &&
+         filter.regionIds.map((region) => (
+            <Title key={region} uppercase>
+               {regions.length && getSomeGiven(region, regions, 'id').title}
+            </Title>
+         ))
+   }
    return (
       <Container>
          <GlobalStyle />
-         <SelectsForFilter
-            regionIds={filter.regionIds}
-            total={listings.total}
-            setSort={setSort}
-            setFilter={setFilter}
-            filter={filter}
-            sort={sort}
-         />
+         <Flex width="100%" align="center" gap="10px" wrap="wrap">
+            <Flex align="center" gap="5px">
+               {content}
+               <Text>({listings.total})</Text>
+            </Flex>
+            <SelectsForFilter
+               regionIds={filter.regionIds}
+               total={listings.total}
+               setSort={setSort}
+               setFilter={setFilter}
+               filter={filter}
+               sort={sort}
+            />
+         </Flex>
+
          <Flex wrap="wrap" align="center" margin="40px 0" gap="13px">
             {filter.regionIds.map((regionId) => (
                <Tag
