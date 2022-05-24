@@ -10,6 +10,7 @@ const TextStyled = styled.p`
    font-weight: 400;
    font-size: ${({ size, feedback }) => (feedback && '16px') || size || '14px'};
    line-height: 130%;
-   color: ${({ feedback }) => (feedback ? '#646464' : '#828282')};
+   color: ${({ feedback, color }) =>
+      feedback ? '#646464' : color || '#828282'};
 `
 export default Text

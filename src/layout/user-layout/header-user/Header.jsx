@@ -35,7 +35,7 @@ const Header = ({ showSignInWithGoogle }) => {
 }
 const HeaderStyled = styled.header`
    width: 100%;
-   padding: 20px 60px;
+   padding: 13px 60px;
    /* position: fixed; */
    background-color: #ffffff;
    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);

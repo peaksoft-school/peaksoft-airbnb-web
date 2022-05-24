@@ -11,8 +11,8 @@ const Regions = () => {
    const navigate = useNavigate()
    const { regions } = useSelector((state) => state.booking)
 
-   const transitionToListingHandler = ({ title, id }) => {
-      navigate(`/main/${title}`, { state: id })
+   const transitionToListingHandler = ({ id }) => {
+      navigate(`/main/regions`, { state: id })
    }
    useEffect(() => {
       dispatch(getRegions())
@@ -29,6 +29,7 @@ const Regions = () => {
          <ContainerRegions>
             {regions.map((el) => (
                <Region
+                  key={el.id}
                   onClick={() =>
                      transitionToListingHandler({ title: el.title, id: el.id })
                   }
