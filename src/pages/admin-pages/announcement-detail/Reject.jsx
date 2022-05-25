@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
 import Title from '../../../components/UI/typography/Title'
@@ -6,12 +5,10 @@ import Modal from '../../../components/UI/modal/Modal'
 import TextArea from '../../../components/UI/text-fields/TextArea'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import CancelButton from '../../../components/UI/buttons/CancelButton'
-import PositionedSnackbar from '../../../components/UI/snackbar/Snackbar'
 import Button from '../../../components/UI/buttons/Button'
+import { showSuccessMessage } from '../../../components/UI/notification/Notification'
 
-const Rejects = ({ onClose, cancelHandler, isVisible = true }) => {
-   const [value, setValue] = useState('')
-   const [show, setShow] = useState(false)
+const Rejects = ({ onClose, cancelHandler, isVisible }) => {
    const {
       formState: { errors, isValid },
       register,
@@ -26,63 +23,39 @@ const Rejects = ({ onClose, cancelHandler, isVisible = true }) => {
       },
    }
    const submitHandler = () => {
-      setShow(true)
-
+      showSuccessMessage({ message: 'hellooo' })
       reset()
    }
-   const textAreaChangeHandler = (e) => {
-      setValue({ ...value, feedbackDescription: e.target.value })
-   }
-
-   useEffect(() => {
-      if (value.trim() === '') {
-         setValue(true)
-      } else {
-         setValue(false)
-      }
-   }, [])
 
    return (
-      <>
-         <PositionedSnackbar
-            message=""
-            title="Successfully sent :)"
-            open={show}
-            severity="success"
-            onClose={() => setShow(false)}
-            delay={setShow}
-         />
-         <Modal width="474px" onClose={onClose} isVisible={isVisible}>
-            <div>
-               <Flex justify="center" margin="0 0 20px 0">
-                  <Title>REJECT</Title>
-               </Flex>
+      <Modal width="474px" onClose={onClose} isVisible={isVisible}>
+         <div>
+            <Flex justify="center" margin="0 0 20px 0">
+               <Title>REJECT</Title>
+            </Flex>
 
-               <TextArea
-                  type="submit"
-                  placeholder="Write the reason for your rejection"
-                  onChange={textAreaChangeHandler}
-                  value={value.feedbackDescription}
-                  {...input.rejection}
-                  isValid={errors?.rejection && !isValid}
-               />
-               <ErrorMessage>
-                  {errors?.rejection ? errors.rejection.message : ''}
-               </ErrorMessage>
+            <TextArea
+               type="submit"
+               placeholder="Write the reason for your rejection"
+               {...input.rejection}
+               isValid={errors?.rejection && !isValid}
+            />
+            <ErrorMessage>
+               {errors?.rejection ? errors.rejection.message : ''}
+            </ErrorMessage>
 
-               <Flex margin="20px 0 0 0" width="100%" gap="50px" justify="end">
-                  <CancelButton width="100px" onClick={cancelHandler} />
-                  <Button
-                     width="196px"
-                     disabled={!isValid}
-                     onClick={handleSubmit(submitHandler)}
-                  >
-                     SENT
-                  </Button>
-               </Flex>
-            </div>
-         </Modal>
-      </>
+            <Flex margin="20px 0 0 0" width="100%" gap="50px" justify="end">
+               <CancelButton width="100px" onClick={cancelHandler} />
+               <Button
+                  width="196px"
+                  disabled={!isValid}
+                  onClick={handleSubmit(submitHandler)}
+               >
+                  SENT
+               </Button>
+            </Flex>
+         </div>
+      </Modal>
    )
 }
 

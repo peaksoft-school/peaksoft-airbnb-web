@@ -1,10 +1,12 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import AdminLayout from '../layout/admin-layout'
 import { ROLES } from '../utils/constants/general'
 import { ADMIN_ROUTES } from '../utils/constants/routes'
 import ProtectedRoute from './ProtectedRoute'
+import Bookings from '../pages/admin-pages/user-detail/Bookings'
+import MyAnnouncement from '../pages/admin-pages/user-detail/MyAnouncement'
 
 const Announcement = React.lazy(
    () => import('../pages/admin-pages/announcement')
@@ -27,6 +29,7 @@ const AdminRoutes = () => {
       USERS,
       USER,
       USER_HOUSE,
+      USER_TABS,
       ALL_HOUSING,
    } = ADMIN_ROUTES
    return (
@@ -45,7 +48,20 @@ const AdminRoutes = () => {
                   element={<AnnouncementDetail />}
                />
                <Route path={USERS.path} element={<Users />} />
-               <Route path={USER.path} element={<UserDetail />} />
+               <Route path={USER.path} element={<UserDetail />}>
+                  <Route
+                     path={USER.path}
+                     element={<Navigate to={USER_TABS.USER_BOOKINGS.path} />}
+                  />
+                  <Route
+                     path={USER_TABS.USER_BOOKINGS.path}
+                     element={<Bookings />}
+                  />
+                  <Route
+                     path={USER_TABS.USER_MY_ANNOUNCEMENTS.path}
+                     element={<MyAnnouncement />}
+                  />
+               </Route>
                <Route path={USER_HOUSE.path} element={<UserHouseDetail />} />
                <Route path={ALL_HOUSING.path} element={<AllHousing />} />
             </Route>

@@ -39,6 +39,168 @@ const Feedback = () => {
          like: '6',
          dislike: '4',
       },
+      {
+         images: [
+            {
+               id: 'uuidv1',
+               img: first,
+            },
+            {
+               id: 'uuidv2',
+               img: second,
+            },
+            {
+               id: 'uuidv3',
+               img: third,
+            },
+            {
+               id: 'uuidv4',
+               img: fourth,
+            },
+         ],
+         id: Math.random().toString(),
+         users: 'Anna Niko',
+         value: 4,
+         data: 'bjhdhjbd djchshjd dsjchvshdj nsdjhsdf jsdhsjhdf sdjhdjhhdsj jsdhgjhfjhvjh sdjhjhdghjs sdjhbdjhb nsdhgsdjh sjdhfv sdjhvsd djsh sdjh djhvsd sdjhvdc jshdv sdhjv sdjhfv sdjv sdhv sdv sdgfv sdg',
+         date: '20.05.2022',
+         like: '6',
+         dislike: '4',
+      },
+      {
+         images: [
+            {
+               id: 'uuidv1',
+               img: first,
+            },
+            {
+               id: 'uuidv2',
+               img: second,
+            },
+            {
+               id: 'uuidv3',
+               img: third,
+            },
+            {
+               id: 'uuidv4',
+               img: fourth,
+            },
+         ],
+         id: Math.random().toString(),
+         users: 'Anna Niko',
+         value: 4,
+         data: 'bjhdhjbd djchshjd dsjchvshdj nsdjhsdf jsdhsjhdf sdjhdjhhdsj jsdhgjhfjhvjh sdjhjhdghjs sdjhbdjhb nsdhgsdjh sjdhfv sdjhvsd djsh sdjh djhvsd sdjhvdc jshdv sdhjv sdjhfv sdjv sdhv sdv sdgfv sdg',
+         date: '20.05.2022',
+         like: '6',
+         dislike: '4',
+      },
+      {
+         images: [
+            {
+               id: 'uuidv1',
+               img: first,
+            },
+            {
+               id: 'uuidv2',
+               img: second,
+            },
+            {
+               id: 'uuidv3',
+               img: third,
+            },
+            {
+               id: 'uuidv4',
+               img: fourth,
+            },
+         ],
+         id: Math.random().toString(),
+         users: 'Anna Niko',
+         value: 4,
+         data: 'bjhdhjbd djchshjd dsjchvshdj nsdjhsdf jsdhsjhdf sdjhdjhhdsj jsdhgjhfjhvjh sdjhjhdghjs sdjhbdjhb nsdhgsdjh sjdhfv sdjhvsd djsh sdjh djhvsd sdjhvdc jshdv sdhjv sdjhfv sdjv sdhv sdv sdgfv sdg',
+         date: '20.05.2022',
+         like: '6',
+         dislike: '4',
+      },
+      {
+         images: [
+            {
+               id: 'uuidv1',
+               img: first,
+            },
+            {
+               id: 'uuidv2',
+               img: second,
+            },
+            {
+               id: 'uuidv3',
+               img: third,
+            },
+            {
+               id: 'uuidv4',
+               img: fourth,
+            },
+         ],
+         id: Math.random().toString(),
+         users: 'Anna Niko',
+         value: 4,
+         data: 'bjhdhjbd djchshjd dsjchvshdj nsdjhsdf jsdhsjhdf sdjhdjhhdsj jsdhgjhfjhvjh sdjhjhdghjs sdjhbdjhb nsdhgsdjh sjdhfv sdjhvsd djsh sdjh djhvsd sdjhvdc jshdv sdhjv sdjhfv sdjv sdhv sdv sdgfv sdg',
+         date: '20.05.2022',
+         like: '6',
+         dislike: '4',
+      },
+      {
+         images: [
+            {
+               id: 'uuidv1',
+               img: first,
+            },
+            {
+               id: 'uuidv2',
+               img: second,
+            },
+            {
+               id: 'uuidv3',
+               img: third,
+            },
+            {
+               id: 'uuidv4',
+               img: fourth,
+            },
+         ],
+         id: Math.random().toString(),
+         users: 'Anna Niko',
+         value: 4,
+         data: 'bjhdhjbd djchshjd dsjchvshdj nsdjhsdf jsdhsjhdf sdjhdjhhdsj jsdhgjhfjhvjh sdjhjhdghjs sdjhbdjhb nsdhgsdjh sjdhfv sdjhvsd djsh sdjh djhvsd sdjhvdc jshdv sdhjv sdjhfv sdjv sdhv sdv sdgfv sdg',
+         date: '20.05.2022',
+         like: '6',
+         dislike: '4',
+      },
+      {
+         images: [
+            {
+               id: 'uuidv1',
+               img: first,
+            },
+            {
+               id: 'uuidv2',
+               img: second,
+            },
+            {
+               id: 'uuidv3',
+               img: third,
+            },
+            {
+               id: 'uuidv4',
+               img: fourth,
+            },
+         ],
+         id: Math.random().toString(),
+         users: 'Anna Niko',
+         value: 4,
+         data: 'bjhdhjbd djchshjd dsjchvshdj nsdjhsdf jsdhsjhdf sdjhdjhhdsj jsdhgjhfjhvjh sdjhjhdghjs sdjhbdjhb nsdhgsdjh sjdhfv sdjhvsd djsh sdjh djhvsd sdjhvdc jshdv sdhjv sdjhfv sdjv sdhv sdv sdgfv sdg',
+         date: '20.05.2022',
+         like: '6',
+         dislike: '4',
+      },
    ]
    const [showMore, setShowMore] = useState(false)
    return (
@@ -62,11 +224,6 @@ const Feedback = () => {
                {showMore ? 'Show less' : 'Show  more'}
             </Title>
          </Flex>
-
-         {/*   {showMore ? Comments : `${Comments.substring(0, 100)}`}
-         <span onClick={() => setShowMore(!showMore)}>
-            {showMore ? 'Show less' : 'Show  more'}
-         </span> */}
       </Container>
    )
 }

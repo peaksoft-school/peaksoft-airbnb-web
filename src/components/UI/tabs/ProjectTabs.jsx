@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const AntTabs = styled(Tabs)({
-   maxWidth: '820px',
+   maxWidth: '100%',
    borderBottom: '1px solid #C4C4C4',
    '& .MuiTabs-indicator': {
       backgroundColor: '#363636',

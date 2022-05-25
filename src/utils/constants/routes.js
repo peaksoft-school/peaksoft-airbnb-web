@@ -50,7 +50,17 @@ export const ADMIN_ROUTES = {
    },
    USER: {
       path: '/users/:userId',
-      label: 'Announcement',
+      label: 'user',
+   },
+   USER_TABS: {
+      USER_BOOKINGS: {
+         path: '/users/:userId/bookings',
+         label: 'bookings',
+      },
+      USER_MY_ANNOUNCEMENTS: {
+         path: '/users/:userId/my-announcements',
+         label: 'my-announcements',
+      },
    },
    USER_HOUSE: {
       path: '/users/:userId/:houseId',

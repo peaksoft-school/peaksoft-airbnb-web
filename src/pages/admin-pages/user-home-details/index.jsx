@@ -4,7 +4,6 @@ import Avatar from '@mui/material/Avatar'
 import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
-import PositionedSnackbar from '../../../components/UI/snackbar/Snackbar'
 import Button from '../../../components/UI/buttons/Button'
 import media from '../../../utils/helpers/media'
 import ReplaceImages from '../../../components/UI/replace-image/ReplaceImages'
@@ -13,6 +12,7 @@ import second from '../../../assets/images/InnerImage2.jpg'
 import third from '../../../assets/images/InnerImage3.jpg'
 import fourth from '../../../assets/images/InnerImage4.jpg'
 import Feedback from './Feedback'
+import { showSuccessMessage } from '../../../components/UI/notification/Notification'
 
 const dataSlider = [
    {
@@ -33,7 +33,7 @@ const dataSlider = [
    },
 ]
 const UserHomeDetails = () => {
-   const [blocked, setBlocked] = useState(false)
+   const [blocked /* setBlocked */] = useState(false)
 
    return (
       <Wrapper>
@@ -83,29 +83,15 @@ const UserHomeDetails = () => {
                      <Button
                         width="196px"
                         className="btn"
-                        onClick={() => setBlocked(!blocked)}
+                        onClick={() => {
+                           showSuccessMessage({
+                              message: 'The house was successfully booked',
+                              title: 'Booked :)',
+                           })
+                        }}
                      >
                         {blocked ? 'Blocked' : 'Unblocked'}
                      </Button>
-                     {blocked ? (
-                        <PositionedSnackbar
-                           message="Moderation successfully dfja;sldjflk;adsj djflk;asdlk;fjd"
-                           title="Acceptedfbvnfbvnfvjdjfvjdfbvjdf :)"
-                           severity="success"
-                           open={blocked}
-                           onClose={() => setBlocked(false)}
-                           delay={blocked}
-                        />
-                     ) : (
-                        <PositionedSnackbar
-                           message="Mfdfdfdfddffdfdf"
-                           title="UnBlocked :)"
-                           severity="success"
-                           open={blocked}
-                           onClose={() => setBlocked(false)}
-                           delay={blocked}
-                        />
-                     )}
                   </Flex>
                </Flex>
             </RightContent>
