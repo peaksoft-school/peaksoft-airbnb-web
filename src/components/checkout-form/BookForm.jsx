@@ -7,6 +7,7 @@ import Title from '../UI/typography/Title'
 import Flex from '../UI/ui-for-positions/Flex'
 import styled from 'styled-components'
 import dateIcon from '../../assets/icons/payment.svg'
+import InputMask from 'react-input-mask'
 
 const BookForm = ({ onClose, isVisible }) => {
    return (
@@ -36,9 +37,30 @@ const BookForm = ({ onClose, isVisible }) => {
                <WrapperInput>
                   <Img src={dateIcon} />
                   <Flex width="100%">
-                     <InputBook width="70%" placeholder="Card Number" />
-                     <Input className="dd" width="70px" placeholder="dd/mm" />
-                     <Input className="cvc" width="70px" placeholder="CVC" />
+                     <InputMask
+                        maskChar="0"
+                        width="70%"
+                        placeholder="Card Number"
+                        mask="9999 9999 9999 9999"
+                     >
+                        {(inputProps) => <InputBook {...inputProps} />}
+                     </InputMask>
+                     <InputMask
+                        mask="99/99"
+                        className="dd"
+                        width="70px"
+                        placeholder="dd/mm"
+                     >
+                        {(inputProps) => <Input {...inputProps} />}
+                     </InputMask>
+                     <InputMask
+                        mask="999"
+                        className="cvc"
+                        width="70px"
+                        placeholder="CVC"
+                     >
+                        {(inputPops) => <Input {...inputPops} />}
+                     </InputMask>
                   </Flex>
                </WrapperInput>
             </Flex>
@@ -83,6 +105,14 @@ const WrapperInput = styled.div`
       border-bottom: 1px solid #c4c4c4;
       border-right: 1px solid #c4c4c4;
       box-shadow: none;
+   }
+   input {
+      ::-webkit-outer-spin-button,
+      ::-webkit-inner-spin-button {
+         display: none;
+         -webkit-appearance: none;
+         margin: 0;
+      }
    }
 `
 const InputBook = styled(Input)`

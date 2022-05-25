@@ -24,7 +24,9 @@ const Checkout = ({ price, onClick }) => {
          valueEndDate: value,
       })
    }
-
+   const num = 1215464565
+   const newNum = num.toString().match(/.{4}/g).join(' ')
+   console.log(newNum)
    return (
       <Wrapper>
          <Flex direction="column" align="center">
