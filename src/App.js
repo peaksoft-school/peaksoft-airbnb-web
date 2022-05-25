@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import Notification from './components/UI/notification/Notification'
 import AdminRoutes from './routes/AdminRoutes'
 import UserRoutes from './routes/UserRoutes'
 import { KEY_AUTH } from './utils/constants/general'
@@ -16,6 +17,7 @@ function App() {
       <div>
          <UserRoutes />
          <AdminRoutes />
+         <Notification />
       </div>
    )
 }
