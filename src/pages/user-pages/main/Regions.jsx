@@ -87,8 +87,8 @@ const Region = styled.div`
    }
 `
 const Container = styled.div`
-   padding: 170px 20px;
-   max-width: 1200px;
+   padding: 170px 15px;
+   max-width: 1262px;
    margin: auto;
    background-color: #f7f7f7;
 `
