@@ -1,5 +1,4 @@
 import { useState } from 'react'
-// import { Text } from 'gestalt'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import geo from '../../../assets/icons/IconGeo.svg'
@@ -12,7 +11,6 @@ import prevBlack from '../../../assets/icons/PrevButtonBlack.svg'
 import nextBlack from '../../../assets/icons/NextButtonBlack.svg'
 
 const Apartments = ({ users = [], lastest }) => {
-   console.log(users)
    const [homeIndex, setHomeIndex] = useState(0)
    const [secondHomeIndex, setSecondHomeIndex] = useState(1)
    const [thirdHomeIndex, setThirdHomeIndex] = useState(2)
@@ -21,10 +19,8 @@ const Apartments = ({ users = [], lastest }) => {
    const thirdApartments = users[thirdHomeIndex]
    const homeLenght = users.length - 1
    const [animation, setAnimation] = useState(false)
-   // console.log(apartments)
    const nextChangeHandler = () => {
       setAnimation(!animation)
-      // console.log(animation)
       if (homeIndex >= 0) {
          setHomeIndex(homeIndex + 1)
       }
