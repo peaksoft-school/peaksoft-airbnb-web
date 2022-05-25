@@ -57,12 +57,6 @@ export const SpanLength = styled.span`
    line-height: 130%;
    color: #ffffff;
 `
-
-export const Background = styled.div`
-   margin: 0 auto;
-   background: #4f7755;
-   overflow: hidden;
-`
 export const Container = styled.div`
    max-width: 1262px;
    width: 100%;
