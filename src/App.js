@@ -18,6 +18,7 @@ function App() {
          <Notification />
          <UserRoutes />
          <AdminRoutes />
+         <Notification />
       </div>
    )
 }

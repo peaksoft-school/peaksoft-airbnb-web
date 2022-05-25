@@ -8,7 +8,7 @@ export const USER_ROUTES = {
       label: 'MAIN',
    },
    REGION: {
-      path: '/main/:region',
+      path: '/main/regions',
       label: 'REGIONS',
    },
    HOUSE: {
