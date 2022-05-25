@@ -1,6 +1,6 @@
+import styled from 'styled-components'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import styled from 'styled-components'
 import media from '../../../utils/helpers/media'
 import Title from '../typography/Title'
 import Text from '../typography/Text'

@@ -89,7 +89,7 @@ const initialState = {
    isLoading: false,
    error: null,
    status: null,
-   searchValue: getParams('address') || '',
+   searchValue: getParams('search') || '',
 }
 
 const listingSlice = createSlice({

@@ -9,7 +9,7 @@ import ContentForProfile from '../../content-for-profile/ContentForProfile'
 // import { ReactComponent as SearchIcon } from '../../../../assets/icons/search.svg'
 import Nav from '../../header-menu/Nav'
 import NavBurger from '../../header-menu/NavBurger'
-import InputSearch from '../../../../components/search-bar'
+import SearchInput from '../../../../components/search-bar/SearchInput'
 
 const HeaderUserContent = ({
    isAuthorized,
@@ -29,7 +29,7 @@ const HeaderUserContent = ({
             <Nav dark />
          </Flex>
          <FlexSearch justify="end" align="center">
-            <InputSearch />
+            <SearchInput />
             {isAuthorized && (
                <Button onClick={navigateToForm} className="btnSubmit">
                   Submit an as

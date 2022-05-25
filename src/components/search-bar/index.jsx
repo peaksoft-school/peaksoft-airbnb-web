@@ -1,22 +1,14 @@
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { ReactComponent as SearchMainIcon } from '../../assets/icons/Frame.svg'
-import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg'
-import Input from '../UI/text-fields/Input'
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { listingActions } from '../../store/listingSlice'
 
 const InputSearch = () => {
    const dispatch = useDispatch()
-   const { pathname } = useLocation()
    const navigate = useNavigate()
-   const { searchValue } = useSelector((state) => state.listing)
-   const { register, handleSubmit } = useForm({
-      defaultValues: {
-         address: searchValue || '',
-      },
-   })
+   const { register, handleSubmit } = useForm()
    const searchInput = {
       search: {
          ...register('address', {
@@ -26,48 +18,20 @@ const InputSearch = () => {
    }
    const submitHandler = (filterBy) => {
       dispatch(listingActions.saveSearchValue({ ...filterBy }))
-      if (pathname !== '/main/regions') navigate('/main/regions')
+      navigate('/main/regions')
    }
 
-   let search = (
-      <FormUserSearch onSubmit={handleSubmit(submitHandler)}>
-         <SearchIconWrapper onClick={handleSubmit(submitHandler)}>
-            <SearchIconStyled />
-         </SearchIconWrapper>
-         <Search
-            defaultValue={searchValue}
+   return (
+      <Form onSubmit={handleSubmit(submitHandler)}>
+         <SearchMainIcon onClick={handleSubmit(submitHandler)} />
+         <InputSearchMain
             {...searchInput.search}
-            placeholder="Search"
+            placeholder="Region, city , apartment, house..."
          />
-      </FormUserSearch>
+      </Form>
    )
-
-   if (pathname === '/main') {
-      search = (
-         <Form onSubmit={handleSubmit(submitHandler)}>
-            <SearchMainIcon onClick={handleSubmit(submitHandler)} />
-            <InputSearchMain
-               {...searchInput.search}
-               placeholder="Region, city , apartment, house..."
-            />
-         </Form>
-      )
-   }
-   return search
 }
 
-const SearchIconWrapper = styled.div`
-   transform: translateY(-50%);
-   position: absolute;
-   top: 55%;
-   left: 15px;
-`
-const FormUserSearch = styled.form`
-   position: relative;
-   width: 100%;
-   height: 100%;
-   margin: 0 10px;
-`
 const Form = styled.form`
    max-width: 725px;
    width: 100%;
@@ -93,17 +57,5 @@ const InputSearchMain = styled.input`
    outline: none;
    color: #2c2c2c;
 `
-const Search = styled(Input)`
-   width: 100%;
-   margin: 0 10px 0 0;
-   padding-left: 45px;
-   font-family: 'Inter';
-   color: #464666;
-   :focus {
-      box-shadow: -1px 3px 12px rgba(187, 195, 197, 0.6);
-   }
-`
-const SearchIconStyled = styled(SearchIcon)`
-   cursor: pointer;
-`
+
 export default InputSearch

@@ -29,7 +29,6 @@ const Region = () => {
    const homeType = params.get('type')
    const price = params.get('price')
    const popular = params.get('popular')
-   const search = params.get('address')
    const page = Number(params.get('page'))
    const regionsIds = getDataFromLocalStorage('regions')
 
@@ -41,7 +40,6 @@ const Region = () => {
    const [filter, setFilter] = useState({
       regionIds: (state && [state]) || regionsIds || [],
       type: homeType || '',
-      address: search || '',
    })
 
    const filteredRegionIds = (id) => {
@@ -69,7 +67,7 @@ const Region = () => {
    useEffect(() => {
       const filterBy = {}
       const sortBy = {}
-      if (searchValue) filterBy.address = searchValue
+      if (searchValue) filterBy.search = searchValue
 
       if (filter.regionIds.length > 0) filterBy.regionIds = filter.regionIds
 
@@ -79,8 +77,8 @@ const Region = () => {
 
       if (sort.price) sortBy.price = sort.price
 
-      paramsSet(pagination, 'page   ', setParams, params)
-      paramsSet(searchValue, 'address', setParams, params)
+      paramsSet(pagination, 'page', setParams, params)
+      paramsSet(searchValue, 'search', setParams, params)
       paramsSet(sort.price, 'price', setParams, params)
       paramsSet(sort.popular, 'popular', setParams, params)
       paramsSet(filter.type, 'type', setParams, params)
@@ -100,7 +98,7 @@ const Region = () => {
          </Title>
       )
    }
-   if (!search && regionsIds.length > 0) {
+   if (!searchValue && filter.regionIds.length > 0) {
       content =
          filter.regionIds.length > 0 &&
          filter.regionIds.map((region) => (
