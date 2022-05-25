@@ -79,11 +79,11 @@ const Region = () => {
 
       if (sort.price) sortBy.price = sort.price
 
+      paramsSet(pagination, 'page   ', setParams, params)
       paramsSet(searchValue, 'address', setParams, params)
       paramsSet(sort.price, 'price', setParams, params)
       paramsSet(sort.popular, 'popular', setParams, params)
       paramsSet(filter.type, 'type', setParams, params)
-      paramsSet(pagination, 'page', setParams, params)
       dispatch(getListings({ pagination, filterBy, sortBy }))
    }, [filter, sort, searchValue, pagination])
 

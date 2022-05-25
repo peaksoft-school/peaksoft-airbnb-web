@@ -9,12 +9,12 @@ import { getParams } from '../../utils/helpers/general'
 const RequestNotFound = () => {
    const a = ['ASC', 'DESC', 'Popular', 'The lastest']
    const valuesParams = Array.from(getParams('', 'values'))
-   console.log(valuesParams)
    const filteredValue = valuesParams.filter(
       (value) => value !== a.find((el) => el === value)
    )
    filteredValue.shift()
    const searchText = filteredValue.join(',')
+
    return (
       <Container>
          <Flex margin="0 0 30px 0">
@@ -22,26 +22,23 @@ const RequestNotFound = () => {
                <b>Results for "{searchText}"</b>
             </Title>
          </Flex>
-         <TextStyle>
-            <Text className="text">
-               It appears that no listings have yet been created for
-               <Text className="searchText"> "{searchText}".</Text>
-            </Text>
-            <br />
-            <Text className="text">
-               Be the first person to create a &nbsp;
-               <Link className="link" to="/submit-an-ad">
-                  listing in this area!
-               </Link>
-            </Text>
-         </TextStyle>
+         <Text className="text">
+            It appears that no listings have yet been created for
+            <Text className="searchText"> "{searchText}".</Text>
+         </Text>
+         <br />
+         <Text className="text">
+            Be the first person to create a &nbsp;
+            <Link className="link" to="/submit-an-ad">
+               listing in this area!
+            </Link>
+         </Text>
       </Container>
    )
 }
 
 const Container = styled.div`
    max-width: 1200px;
-   /* margin: 0 auto; */
    padding: 30px 10px;
 
    .title {
@@ -79,5 +76,4 @@ const Container = styled.div`
    }
 `
 
-const TextStyle = styled.div``
 export default RequestNotFound

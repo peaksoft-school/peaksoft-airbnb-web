@@ -1,24 +1,22 @@
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { ReactComponent as SearchMainIcon } from '../../assets/icons/Frame.svg'
 import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg'
 import Input from '../UI/text-fields/Input'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { listingActions } from '../../store/listingSlice'
 
 const InputSearch = () => {
-   const [params, setParams] = useSearchParams()
    const dispatch = useDispatch()
    const { pathname } = useLocation()
    const navigate = useNavigate()
-   const searchValue = params.get('address')
+   const { searchValue } = useSelector((state) => state.listing)
    const { register, handleSubmit } = useForm({
       defaultValues: {
          address: searchValue || '',
       },
    })
-   console.log(setParams)
    const searchInput = {
       search: {
          ...register('address', {
@@ -28,7 +26,7 @@ const InputSearch = () => {
    }
    const submitHandler = (filterBy) => {
       dispatch(listingActions.saveSearchValue({ ...filterBy }))
-      if (pathname === '/main') navigate('/main/regions')
+      if (pathname !== '/main/regions') navigate('/main/regions')
    }
 
    let search = (
@@ -36,7 +34,11 @@ const InputSearch = () => {
          <SearchIconWrapper onClick={handleSubmit(submitHandler)}>
             <SearchIconStyled />
          </SearchIconWrapper>
-         <Search {...searchInput.search} placeholder="Search" />
+         <Search
+            defaultValue={searchValue}
+            {...searchInput.search}
+            placeholder="Search"
+         />
       </FormUserSearch>
    )
 
