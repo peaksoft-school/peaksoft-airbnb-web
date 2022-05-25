@@ -20,6 +20,7 @@ const initialState = {
    regions: [],
    isLoading: false,
    error: null,
+   status: null,
 }
 
 const regionSlice = createSlice({
@@ -29,11 +30,13 @@ const regionSlice = createSlice({
    extraReducers: {
       [getRegions.pending]: (state) => {
          state.isLoading = true
+         state.status = 'loading'
       },
       [getRegions.fulfilled]: (state, action) => {
          state.regions = action.payload.data
          state.isLoading = false
          state.error = null
+         state.status = 'success'
       },
       [getRegions.rejected]: (state, { error }) => {
          state.error = error.message
