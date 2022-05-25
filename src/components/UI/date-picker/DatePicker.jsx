@@ -14,6 +14,9 @@ const DateRangePicker = ({
    valueStartDate,
    valueEndDate,
    booking,
+   dates,
+   errorStartDate,
+   errorEndDate,
 }) => {
    const endDateInput = useRef(null)
    const startDateInput = useRef(null)
@@ -24,6 +27,7 @@ const DateRangePicker = ({
          <FlexDate width="167px">
             <Img src={dateIcon} />
             <DatePickerStyled
+               {...dates.startDate}
                excludeDates={getExcludedDates(booking)}
                minDate={new Date()}
                rangeStartDate={valueStartDate}
@@ -41,6 +45,7 @@ const DateRangePicker = ({
          <FlexDate>
             <Img src={dateIcon} />
             <DatePickerStyled
+               {...dates.endDate}
                minDate={new Date()}
                excludeDates={getExcludedDates(booking)}
                rangeStartDate={valueStartDate}
@@ -58,6 +63,7 @@ const DateRangePicker = ({
       </Flex>
    )
 }
+
 const Img = styled.img`
    position: absolute;
    top: 38px;

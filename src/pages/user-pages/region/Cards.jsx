@@ -19,7 +19,7 @@ const Cards = ({ listings = [] }) => {
                <ClientCard
                   onClick={() => transitionDetailListing(el.id)}
                   key={el.id}
-                  isViewed
+                  isViewed={el.isViewed}
                   price={el.price}
                   address={el.address}
                   title={el.title}

@@ -14,7 +14,7 @@ import {
    getDataFromLocalStorage,
    getSomeGiven,
 } from '../../../utils/helpers/general'
-import { getRegions } from '../../../store/bookingSlice'
+import { getRegions } from '../../../store/regionSlice'
 
 const Region = () => {
    const [params, setParams] = useSearchParams()

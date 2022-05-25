@@ -1,32 +1,50 @@
 import styled from 'styled-components'
-import { useState } from 'react'
 import Title from '../UI/typography/Title'
 import Text from '../UI/typography/Text'
 import Button from '../UI/buttons/Button'
 import Flex from '../UI/ui-for-positions/Flex'
 import DateRangePicker from '../UI/date-picker/DatePicker'
+import { useForm } from 'react-hook-form'
 
 const Checkout = ({ price, onClick }) => {
-   const [valueDatePicker, setValueDatePicker] = useState({
-      valueStartDate: null,
-      valueEndDate: null,
+   const {
+      register,
+      setValue,
+      handleSubmit,
+      getValues,
+      formState: { errors },
+   } = useForm({
+      defaultValues: {
+         startDate: '',
+         endDate: '',
+      },
    })
-   const onChangeStartDate = (value) => {
-      setValueDatePicker({
-         ...valueDatePicker,
-         valueStartDate: value,
-      })
+   const dates = {
+      startDate: {
+         ...register('startDate', {
+            required: 'fill in start date',
+         }),
+      },
+      endDate: {
+         ...register('endDate', {
+            required: 'fill in end date',
+         }),
+      },
+   }
+   const submitHandler = (data) => {
+      onClick(data)
    }
 
-   const onChangeEndDate = (value) => {
-      setValueDatePicker({
-         ...valueDatePicker,
-         valueEndDate: value,
-      })
-   }
-   const num = 1215464565
-   const newNum = num.toString().match(/.{4}/g).join(' ')
-   console.log(newNum)
+   const onChangeStartDate = (value) =>
+      setValue('startDate', value, { shouldValidate: true })
+
+   const onChangeEndDate = (value) =>
+      setValue('endDate', value, { shouldValidate: true })
+
+   const errorStartDate = (errors?.startDate && errors.startDate.message) || ''
+
+   const errorEndDate = (errors?.endDate && errors.endDate.message) || ''
+
    return (
       <Wrapper>
          <Flex direction="column" align="center">
@@ -39,15 +57,19 @@ const Checkout = ({ price, onClick }) => {
             </Flex>
             <DatePickerStyle>
                <DateRangePicker
+                  dates={dates}
+                  valueEndDate={getValues('endDate')}
+                  valueStartDate={getValues('startDate')}
                   onChangeStartDate={onChangeStartDate}
                   onChangeEndDate={onChangeEndDate}
-                  valueStartDate={valueDatePicker.valueStartDate}
-                  valueEndDate={valueDatePicker.valueEndDate}
                   booking={[]}
                />
+               <Flex justify="center" width="100%" margin="10px 0 0 0">
+                  <ErrorMessage>{errorStartDate || errorEndDate}</ErrorMessage>
+               </Flex>
             </DatePickerStyle>
 
-            <Button onClick={onClick} width="100%">
+            <Button onClick={handleSubmit(submitHandler)} width="100%">
                REQUEST TO BOOK
             </Button>
             <Flex margin="20px 0 0 0 ">
@@ -57,7 +79,13 @@ const Checkout = ({ price, onClick }) => {
       </Wrapper>
    )
 }
-
+const ErrorMessage = styled.h5`
+   color: tomato;
+   font-size: 12px;
+   font-family: 'Inter';
+   letter-spacing: 0.5px;
+   text-transform: uppercase;
+`
 const Wrapper = styled.div`
    max-width: 494px;
    width: 100%;

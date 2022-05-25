@@ -13,6 +13,7 @@ import Loader from '../../../components/UI/loader/Loader'
 import Checkout from '../../../components/checkout-form/Checkout'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
 import BookForm from '../../../components/checkout-form/BookForm'
+import { bookingListing } from '../../../store/bookingSlice'
 
 const HomeDetail = () => {
    const params = useParams()
@@ -25,7 +26,11 @@ const HomeDetail = () => {
       dispatch(getOneListing(params.house))
    }, [])
 
-   const showPaymentModal = () => setSearchParams({ payment: 'true' })
+   const showPaymentModal = (date) => {
+      setSearchParams({ payment: 'true' })
+      dispatch(bookingListing({ date, id: params.house }))
+      console.log(date)
+   }
    const hidePaymentModal = () => setSearchParams('')
 
    return isLoading ? (
