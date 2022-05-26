@@ -11,8 +11,8 @@ const Regions = () => {
    const navigate = useNavigate()
    const { regions } = useSelector((state) => state.booking)
 
-   const transitionToListingHandler = ({ title, id }) => {
-      navigate(`/main/${title}`, { state: id })
+   const transitionToListingHandler = ({ id }) => {
+      navigate(`/main/regions`, { state: id })
    }
    useEffect(() => {
       dispatch(getRegions())
@@ -29,6 +29,7 @@ const Regions = () => {
          <ContainerRegions>
             {regions.map((el) => (
                <Region
+                  key={el.id}
                   onClick={() =>
                      transitionToListingHandler({ title: el.title, id: el.id })
                   }
@@ -86,8 +87,8 @@ const Region = styled.div`
    }
 `
 const Container = styled.div`
-   padding: 170px 20px;
-   max-width: 1200px;
+   padding: 170px 15px;
+   max-width: 1262px;
    margin: auto;
    background-color: #f7f7f7;
 `
