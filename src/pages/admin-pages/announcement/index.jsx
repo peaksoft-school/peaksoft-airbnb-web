@@ -1,35 +1,28 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
-import AdminCard from '../../../components/admin-card/AdminCard'
 import { useDispatch, useSelector } from 'react-redux'
-import { getListing } from '../../../store/listingSlice'
+import Cards from './Cards'
+import { getListings } from '../../../store/listingSlice'
+import LoadingPage from '../../../components/UI/loader/LoadingPage'
 
 const Announcement = () => {
    const dispatch = useDispatch()
-   const { listings } = useSelector((state) => state.listing)
-   const { data } = listings
+   const { listings, isLoading } = useSelector((state) => state.listing)
+
    useEffect(() => {
-      dispatch(getListing())
+      dispatch(getListings({ filterBy: { status: 'PENDING' } }))
    }, [])
+
    return (
       <WrapperContainer>
          <TitleApplication>Announcement</TitleApplication>
          <Flex>
             <ContainerList>
                <Flex width="100%" gap="13px" wrap="wrap">
-                  {(data.length > 0 &&
-                     data.map((el) => (
-                        <AdminCard
-                           images={el.images}
-                           isViewed={el.isViewed}
-                           price={el.price}
-                           address={el.address}
-                           title={el.title}
-                           rating={el.region.title}
-                           maxNumberOfGuests={el.maxNumberOfGuests}
-                        />
-                     ))) || <div>loading</div>}
+                  {(isLoading && (
+                     <LoadingPage width="210px" height="270px" />
+                  )) || <Cards listings={listings.data} />}
                </Flex>
             </ContainerList>
          </Flex>

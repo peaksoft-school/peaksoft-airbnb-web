@@ -16,6 +16,7 @@ const AdminCard = ({
    maxNumberOfGuests,
    images,
    rating,
+   onClick,
 }) => {
    const [showMeetballs, setShowMeetballs] = useState(false)
    const meetballsHandler = () => setShowMeetballs(!showMeetballs)
@@ -29,7 +30,7 @@ const AdminCard = ({
       setShowMeetballs(false)
    }
    return (
-      <Wrapper isViewed={isViewed}>
+      <Wrapper onClick={onClick} isViewed={isViewed}>
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={images} />
@@ -87,6 +88,15 @@ const Wrapper = styled.div`
    border-radius: ${({ isViewed }) =>
       isViewed ? 'rgba(255, 0, 0, 0.18)' : ''};
    background-color: #f7f7f7;
+   animation: YES ease-out 0.4s;
+   @keyframes YES {
+      from {
+         opacity: 0;
+      }
+      to {
+         opacity: 1;
+      }
+   }
    :hover {
       box-shadow: 0px 4px 12px rgba(105, 105, 105, 0.08);
       background-color: #ffffff;

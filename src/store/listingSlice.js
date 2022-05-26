@@ -2,7 +2,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchFile } from '../api/fetchFile'
 import { fetchApi } from '../api/fetchApi'
-import store from './index'
 
 export const uploadImageListing = createAsyncThunk(
    'listing/uploadImageListing',
@@ -41,12 +40,11 @@ export const uploadImageListing = createAsyncThunk(
 export const addListing = createAsyncThunk(
    'listing/addListing',
    async ({ listingData, navigateAfterSuccessUpload }, { rejectWithValue }) => {
-      const { imagesId } = store.getState().listing
       try {
          const result = fetchApi({
             path: 'api/listings',
             method: 'POST',
-            body: { ...listingData, images: imagesId },
+            body: { ...listingData },
          })
          navigateAfterSuccessUpload()
          return result
@@ -55,9 +53,34 @@ export const addListing = createAsyncThunk(
       }
    }
 )
+export const getListings = createAsyncThunk(
+   'listing/getListings',
+   async ({ filterBy = {}, sortBy = {}, pagination }, { rejectWithValue }) => {
+      const params = {
+         page: Number(pagination) || 1,
+         limit: 16,
+      }
+      if (Object.values(filterBy).length > 0) {
+         params.filterBy = JSON.stringify(filterBy)
+      }
+      if (Object.values(sortBy).length > 0) {
+         params.sortBy = JSON.stringify(sortBy)
+      }
+      try {
+         const listings = fetchApi({
+            path: 'api/listings',
+            method: 'GET',
+            params,
+         })
+         return listings
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
 
 const initialState = {
-   listins: [],
+   listings: { data: [] },
    imagesId: [],
    isLoading: false,
    error: null,
@@ -86,6 +109,20 @@ const listingSlice = createSlice({
          state.status = 'success'
       },
       [addListing.rejected]: (state, { error }) => {
+         state.status = 'rejected'
+         state.isLoading = false
+         state.error = error.message
+      },
+      [getListings.pending]: (state) => {
+         state.isLoading = true
+         state.status = 'pending'
+      },
+      [getListings.fulfilled]: (state, { payload }) => {
+         state.isLoading = false
+         state.listings = payload
+         state.status = 'success'
+      },
+      [getListings.rejected]: (state, { error }) => {
          state.status = 'rejected'
          state.isLoading = false
          state.error = error.message

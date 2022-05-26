@@ -11,25 +11,24 @@ import Carousel from '../UI/carousel/Carousel'
 const ClientCard = ({
    width,
    title,
-   day,
+   price,
    starRange,
-   text,
    address,
    guest,
-   image,
+   images,
 }) => {
    return (
       <Wrapper width={width}>
-         <Flex direction="column" align="center">
+         <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
-               <Carousel dataSlider={image} />
+               <Carousel dataSlider={images} />
             </ImgWrapper>
 
             <ContentWrapper>
                <Flex margin="16px 0" justify="space-between" width="100%">
                   <Flex gap="3px" align="center">
-                     <Title>${title}/</Title>
-                     <Text size="16px">{day}</Text>
+                     <Title>${price}/</Title>
+                     <Text size="16px">day</Text>
                   </Flex>
                   <StarStyle>
                      <Stars />
@@ -37,8 +36,13 @@ const ClientCard = ({
                   </StarStyle>
                </Flex>
                <Flex direction="column" gap="8px">
-                  <Title className="text">{text}</Title>
-                  <Flex width="100%" align="flex-start" margin="0 0 18px 0">
+                  <Title className="text">{title}</Title>
+                  <Flex
+                     width="100%"
+                     align="center"
+                     gap="3px"
+                     margin="0 0 18px 0"
+                  >
                      <Geolocations />
                      <Text className="text">{address}</Text>
                   </Flex>
@@ -56,10 +60,19 @@ const ClientCard = ({
 const Wrapper = styled.div`
    width: ${({ width }) => width || '295px'};
    height: 362px;
+   animation: YES ease-in-out 0.5s;
+   @keyframes YES {
+      from {
+         opacity: 0;
+      }
+      to {
+         opacity: 1;
+      }
+   }
    @media (max-width: 425px) {
       width: 100%;
    }
-   background-color: #f7f7f7;
+   background-color: transparent;
    :hover {
       box-shadow: 0px 4px 12px rgba(105, 105, 105, 0.08);
       background-color: #ffffff;
@@ -96,8 +109,7 @@ const StarStyle = styled.div`
    align-items: center;
    border-radius: 2px;
    gap: 4.5px;
-   width: 62px;
-   height: 25px;
+   padding: 5px 11px;
 `
 
 export default ClientCard

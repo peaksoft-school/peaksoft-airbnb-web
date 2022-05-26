@@ -5,6 +5,9 @@ import styled from 'styled-components'
 import BtnCarousel, { StyledButton } from './BtnCarousel'
 import Flex from '../ui-for-positions/Flex'
 import { mergePhotosLinksIntoServerBaseUrl } from '../../../utils/helpers/general'
+import Title from '../typography/Title'
+import { MdImageNotSupported } from 'react-icons/md'
+import uuid from 'react-uuid'
 
 export default function Slider({ dataSlider = [] }) {
    const [slideIndex, setSlideIndex] = useState(1)
@@ -31,40 +34,65 @@ export default function Slider({ dataSlider = [] }) {
 
    return (
       <ContainerSlider StyledButton={StyledButton}>
-         <Flex>
-            {dataSlider.map((image, index) => {
-               return (
-                  <div
-                     key={index}
-                     className={
-                        slideIndex === index + 1 ? 'slide active-anim' : 'slide'
-                     }
-                  >
-                     <img
-                        src={mergePhotosLinksIntoServerBaseUrl(
-                           image.image.smallImagePath
-                        )}
-                        alt=""
-                     />
-                  </div>
-               )
-            })}
-            <BtnCarousel moveSlide={nextSlide} direction="next" />
-            <BtnCarousel moveSlide={prevSlide} direction="prev" />
+         {(dataSlider.length > 0 && (
+            <Flex>
+               {dataSlider.map((image, index) => {
+                  return (
+                     <div
+                        key={index}
+                        className={
+                           slideIndex === index + 1
+                              ? 'slide active-anim'
+                              : 'slide'
+                        }
+                     >
+                        <img
+                           src={mergePhotosLinksIntoServerBaseUrl(
+                              image.image.smallImagePath
+                           )}
+                           alt=""
+                        />
+                     </div>
+                  )
+               })}
+               <BtnCarousel moveSlide={nextSlide} direction="next" />
+               <BtnCarousel moveSlide={prevSlide} direction="prev" />
 
-            <ContainerDots>
-               {Array.from({ length: 4 }).map((item, index) => (
-                  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-                  <div
-                     onClick={() => moveDot(index + 1)}
-                     className={slideIndex === index + 1 ? 'dot active' : 'dot'}
-                  />
-               ))}
-            </ContainerDots>
-         </Flex>
+               <ContainerDots>
+                  {Array.from({ length: dataSlider.length }).map(
+                     (item, index) => (
+                        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+                        <div
+                           key={uuid()}
+                           onClick={() => moveDot(index + 1)}
+                           className={
+                              slideIndex === index + 1 ? 'dot active' : 'dot'
+                           }
+                        />
+                     )
+                  )}
+               </ContainerDots>
+            </Flex>
+         )) || (
+            <ContainerNotFoundPhotos>
+               <Title color="#2e3443" uppercase>
+                  <b>Not Found Photos</b>
+               </Title>
+               <MdImageNotSupported color="#2e3443" fontSize={50} />
+            </ContainerNotFoundPhotos>
+         )}
       </ContainerSlider>
    )
 }
+const ContainerNotFoundPhotos = styled(Flex)`
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   height: 100%;
+   flex-direction: column;
+   border: 1px solid #999999;
+   background: #f7f7f7;
+`
 const ContainerDots = styled.div`
    position: absolute;
    bottom: 10px;
