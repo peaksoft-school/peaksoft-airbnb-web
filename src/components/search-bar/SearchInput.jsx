@@ -1,36 +1,34 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { listingActions } from '../../store/listingSlice'
 import Input from '../UI/text-fields/Input'
 import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg'
+import useDebounce from '../../hooks/useDebounce'
 
 let blockedUseEffect = true
 const SearchInputRegionsPage = () => {
    const dispatch = useDispatch()
+   const debounceSearch = useDebounce(sendDataToStore, 600)
 
+   function sendDataToStore() {
+      const filterBy = { search }
+      return dispatch(listingActions.saveSearchValue({ ...filterBy }))
+   }
    const { searchValue } = useSelector((state) => state.listing)
    const [search, setSearch] = useState(searchValue)
 
-   const inputChangeHandler = useCallback(
-      (e) => {
-         setSearch(e.target.value)
-      },
-      [search]
-   )
+   const inputChangeHandler = (e) => {
+      setSearch(e.target.value)
+   }
+
    useEffect(() => {
       if (blockedUseEffect) {
          blockedUseEffect = false
-         return
       }
-      const timeOut = setTimeout(() => {
-         const filterBy = { search }
-         dispatch(listingActions.saveSearchValue({ ...filterBy }))
-      }, 600)
-      return () => {
-         clearTimeout(timeOut)
-      }
-   }, [search])
+      debounceSearch()
+   }, [debounceSearch])
+
    return (
       <FormUserSearch>
          <SearchIconWrapper>
