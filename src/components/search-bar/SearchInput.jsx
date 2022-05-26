@@ -1,24 +1,32 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { listingActions } from '../../store/listingSlice'
 import Input from '../UI/text-fields/Input'
 import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg'
-import { getParams } from '../../utils/helpers/general'
 
-const SearchInput = () => {
+let blockedUseEffect = true
+const SearchInputRegionsPage = () => {
    const dispatch = useDispatch()
-   const { searchValue } = useSelector((state) => state.listing)
-   const [search, setSearch] = useState(getParams('search') || '')
 
-   const inputChangeHandler = (e) => {
-      setSearch(e.target.value)
-   }
+   const { searchValue } = useSelector((state) => state.listing)
+   const [search, setSearch] = useState(searchValue)
+
+   const inputChangeHandler = useCallback(
+      (e) => {
+         setSearch(e.target.value)
+      },
+      [search]
+   )
    useEffect(() => {
+      if (blockedUseEffect) {
+         blockedUseEffect = false
+         return
+      }
       const timeOut = setTimeout(() => {
-         const filterBy = { address: search }
+         const filterBy = { search }
          dispatch(listingActions.saveSearchValue({ ...filterBy }))
-      }, 1000)
+      }, 600)
       return () => {
          clearTimeout(timeOut)
       }
@@ -29,7 +37,7 @@ const SearchInput = () => {
             <SearchIconStyled />
          </SearchIconWrapper>
          <Search
-            defaultValue={searchValue}
+            defaultValue={search}
             onChange={inputChangeHandler}
             placeholder="Search"
          />
@@ -61,4 +69,4 @@ const Search = styled(Input)`
 const SearchIconStyled = styled(SearchIcon)`
    cursor: pointer;
 `
-export default SearchInput
+export default SearchInputRegionsPage

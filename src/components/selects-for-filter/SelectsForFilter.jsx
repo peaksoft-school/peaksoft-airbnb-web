@@ -49,7 +49,7 @@ const SelectsForFilter = ({ setFilter, setSort, filter, sort }) => {
       setRegionsId([{ title: 'All', id: 'All' }, ...regions])
    }, [regions])
    return (
-      <Flex justify="end">
+      <>
          <SelectsForFilterMobile
             isVisible={showDrawer}
             onClose={() => setShowDrawer(false)}
@@ -59,13 +59,7 @@ const SelectsForFilter = ({ setFilter, setSort, filter, sort }) => {
             filter={filter}
             sort={sort}
          />
-         <Flex
-            gap="10px"
-            wrap="wrap"
-            align="center"
-            justify="space-between"
-            width="100%"
-         >
+         <Flex gap="10px" wrap="wrap" align="center">
             <FilterMenu onClick={() => setShowDrawer(true)}>
                <Text size="16px">Filter</Text>
                <MenuFilter />
@@ -117,7 +111,7 @@ const SelectsForFilter = ({ setFilter, setSort, filter, sort }) => {
                />
             </ContainerSelects>
          </Flex>
-      </Flex>
+      </>
    )
 }
 const ContainerSelects = styled(Flex)`

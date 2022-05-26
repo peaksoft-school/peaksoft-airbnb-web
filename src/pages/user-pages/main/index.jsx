@@ -2,9 +2,9 @@ import styled from 'styled-components'
 import BackgroundMain from '../../../assets/images/PageMain.png'
 import Regions from './Regions'
 import media from '../../../utils/helpers/media'
-import InputSearch from '../../../components/search-bar'
 import Apartments from './Apartments'
 import PopularHouse from './PopularHouse'
+import InputSearchMainPage from '../../../components/search-bar/InputSearchMainPage'
 
 const MainPage = () => {
    const users = [
@@ -42,7 +42,7 @@ const MainPage = () => {
          <MainPages>
             <div>
                <h1>FIND A PLACE YOU WILL LOVE TO STAY AT</h1>
-               <InputSearch />
+               <InputSearchMainPage />
             </div>
          </MainPages>
          <Regions />

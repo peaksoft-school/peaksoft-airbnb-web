@@ -97,7 +97,7 @@ const listingSlice = createSlice({
    initialState,
    reducers: {
       saveSearchValue(state, action) {
-         state.searchValue = action.payload.address
+         state.searchValue = action.payload.search
       },
    },
    extraReducers: {
@@ -107,7 +107,7 @@ const listingSlice = createSlice({
       },
       [uploadImageListing.fulfilled]: (state) => {
          state.isLoading = false
-         state.statues = 'success'
+         state.status = 'success'
       },
       [addListing.pending]: (state) => {
          state.isLoading = true

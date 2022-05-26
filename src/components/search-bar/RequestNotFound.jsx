@@ -5,38 +5,39 @@ import Text from '../UI/typography/Text'
 import { Link } from 'react-router-dom'
 import Flex from '../UI/ui-for-positions/Flex'
 import { getParams } from '../../utils/helpers/general'
+import NotFound from '../UI/not-found-content/NotFound'
 
 const RequestNotFound = () => {
-   const a = ['ASC', 'DESC', 'Popular', 'The lastest']
-   const valuesParams = Array.from(getParams('', 'values'))
-   const filteredValue = valuesParams.filter(
-      (value) => value !== a.find((el) => el === value)
-   )
-   filteredValue.shift()
-   const searchText = filteredValue.join(',')
+   const searchText = getParams('search')
 
    return (
-      <Container>
-         <Flex margin="0 0 30px 0">
-            <Title className="title" size="18px">
-               <b>Results for "{searchText}"</b>
-            </Title>
-         </Flex>
-         <Text className="text">
-            It appears that no listings have yet been created for
-            <Text className="searchText"> "{searchText}".</Text>
-         </Text>
-         <br />
-         <Text className="text">
-            Be the first person to create a &nbsp;
-            <Link className="link" to="/submit-an-ad">
-               listing in this area!
-            </Link>
-         </Text>
-      </Container>
+      <Wrapper>
+         {(searchText && (
+            <Container>
+               <Flex margin="0 0 30px 0">
+                  <Title className="title" size="18px">
+                     <b>Results for "{searchText}"</b>
+                  </Title>
+               </Flex>
+               <Text className="text">
+                  It appears that no listings have yet been created for
+                  <Text className="searchText"> "{searchText}".</Text>
+               </Text>
+               <br />
+               <Text className="text">
+                  Be the first person to create a &nbsp;
+                  <Link className="link" to="/submit-an-ad">
+                     listing in this area!
+                  </Link>
+               </Text>
+            </Container>
+         )) || <NotFound />}
+      </Wrapper>
    )
 }
-
+const Wrapper = styled.div`
+   width: 100%;
+`
 const Container = styled.div`
    max-width: 1200px;
    padding: 30px 10px;

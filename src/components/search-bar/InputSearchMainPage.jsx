@@ -5,13 +5,13 @@ import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { listingActions } from '../../store/listingSlice'
 
-const InputSearch = () => {
+const InputSearchMainPage = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const { register, handleSubmit } = useForm()
    const searchInput = {
       search: {
-         ...register('address', {
+         ...register('search', {
             required: false,
          }),
       },
@@ -58,4 +58,4 @@ const InputSearchMain = styled.input`
    color: #2c2c2c;
 `
 
-export default InputSearch
+export default InputSearchMainPage

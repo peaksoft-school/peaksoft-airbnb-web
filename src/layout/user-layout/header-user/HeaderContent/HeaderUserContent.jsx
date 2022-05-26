@@ -1,15 +1,14 @@
 import React from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../../../components/UI/buttons/Button'
 import LogoAirBnb from '../../../../components/UI/Logo/LogoAirBnb'
 import Flex from '../../../../components/UI/ui-for-positions/Flex'
 import media from '../../../../utils/helpers/media'
 import ContentForProfile from '../../content-for-profile/ContentForProfile'
-// import { ReactComponent as SearchIcon } from '../../../../assets/icons/search.svg'
 import Nav from '../../header-menu/Nav'
 import NavBurger from '../../header-menu/NavBurger'
-import SearchInput from '../../../../components/search-bar/SearchInput'
+import SearchInputRegionsPage from '../../../../components/search-bar/SearchInput'
 
 const HeaderUserContent = ({
    isAuthorized,
@@ -17,6 +16,7 @@ const HeaderUserContent = ({
    showSignInWithGoogle,
 }) => {
    const navigate = useNavigate()
+   const { pathname } = useLocation()
 
    const loginHandler = () => showSignInWithGoogle()
 
@@ -29,7 +29,7 @@ const HeaderUserContent = ({
             <Nav dark />
          </Flex>
          <FlexSearch justify="end" align="center">
-            <SearchInput />
+            {pathname === '/main/regions' && <SearchInputRegionsPage />}
             {isAuthorized && (
                <Button onClick={navigateToForm} className="btnSubmit">
                   Submit an as

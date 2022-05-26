@@ -8,7 +8,7 @@ import Cards from './Cards'
 import Tag from './Tags'
 import Pagination from '../../../components/pagination/Pagination'
 import { useDispatch, useSelector } from 'react-redux'
-import { getListings } from '../../../store/listingSlice'
+import { getListings, listingActions } from '../../../store/listingSlice'
 import { useLocation, useSearchParams } from 'react-router-dom'
 import LoadingPage from '../../../components/UI/loader/LoadingPage'
 import {
@@ -16,9 +16,9 @@ import {
    getSomeGiven,
    paramsSet,
 } from '../../../utils/helpers/general'
-import { getRegions } from '../../../store/bookingSlice'
 import Title from '../../../components/UI/typography/Title'
 
+let blockedUseEffect = true
 const Region = () => {
    const [params, setParams] = useSearchParams()
    const { state } = useLocation()
@@ -58,6 +58,7 @@ const Region = () => {
    const clearAllFilterAndSortHandler = () => {
       setFilter({ regionIds: [], type: '' })
       setSort({ popular: '', price: '' })
+      dispatch(listingActions.saveSearchValue({ search: '' }))
    }
 
    const paginationHandler = (event, value) => {
@@ -65,7 +66,10 @@ const Region = () => {
    }
 
    useEffect(() => {
-      const filterBy = {}
+      if (blockedUseEffect) {
+         blockedUseEffect = false
+      }
+      const filterBy = { status: 'ACCEPTED' }
       const sortBy = {}
       if (searchValue) filterBy.search = searchValue
 
@@ -84,10 +88,6 @@ const Region = () => {
       paramsSet(filter.type, 'type', setParams, params)
       dispatch(getListings({ pagination, filterBy, sortBy }))
    }, [filter, sort, searchValue, pagination])
-
-   useEffect(() => {
-      dispatch(getRegions())
-   }, [])
 
    let content = <Title>TOTAL</Title>
 
@@ -110,7 +110,13 @@ const Region = () => {
    return (
       <Container>
          <GlobalStyle />
-         <Flex width="100%" align="center" gap="10px" wrap="wrap">
+         <Flex
+            justify="space-between"
+            width="100%"
+            align="center"
+            gap="10px"
+            wrap="wrap"
+         >
             <Flex align="center" gap="5px">
                {content}
                <Text>({listings.total})</Text>
