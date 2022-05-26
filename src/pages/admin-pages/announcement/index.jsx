@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import Cards from './Cards'
 import { getListings } from '../../../store/listingSlice'
 import LoadingPage from '../../../components/UI/loader/LoadingPage'
+import { LISTING_STATUSES } from '../../../utils/constants/general'
 
 const Announcement = () => {
    const dispatch = useDispatch()
    const { listings, isLoading } = useSelector((state) => state.listing)
-
+   const { PENDING } = LISTING_STATUSES
    useEffect(() => {
-      dispatch(getListings({ filterBy: { status: 'PENDING' } }))
+      dispatch(getListings({ filterBy: { status: PENDING } }))
    }, [])
 
    return (

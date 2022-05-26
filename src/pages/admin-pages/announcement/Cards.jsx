@@ -11,6 +11,7 @@ const Cards = ({ listings = [] }) => {
       listings.length > 0 &&
       listings.map((el) => (
          <AdminCard
+            key={el.id}
             onClick={() => transitionInnerPage(el.id)}
             images={el.images}
             isViewed={el.isViewed}
