@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Select from '../UI/select/Select'
 import Text from '../UI/typography/Text'
-import Title from '../UI/typography/Title'
 import Flex from '../UI/ui-for-positions/Flex'
 import media from '../../utils/helpers/media'
 import { ReactComponent as MenuFilter } from '../../assets/icons/filtermenu.svg'
@@ -15,7 +14,7 @@ import {
 import { useSelector } from 'react-redux'
 import { getSomeGiven, saveToLocalStorage } from '../../utils/helpers/general'
 
-const SelectsForFilter = ({ total, setFilter, setSort, filter, sort }) => {
+const SelectsForFilter = ({ setFilter, setSort, filter, sort }) => {
    const [showDrawer, setShowDrawer] = useState(false)
    const [regionsId, setRegionsId] = useState([])
    const { regions } = useSelector((state) => state.region)
@@ -60,23 +59,7 @@ const SelectsForFilter = ({ total, setFilter, setSort, filter, sort }) => {
             filter={filter}
             sort={sort}
          />
-         <Flex
-            gap="10px"
-            wrap="wrap"
-            align="center"
-            justify="space-between"
-            width="100%"
-         >
-            <Flex align="center" gap="5px">
-               {(filter.regionIds.length > 0 &&
-                  filter.regionIds.map((region) => (
-                     <Title key={region} uppercase>
-                        {regions.length &&
-                           getSomeGiven(region, regions, 'id').title}
-                     </Title>
-                  ))) || <Title>TOTAL</Title>}
-               <Text>({total})</Text>
-            </Flex>
+         <Flex gap="10px" wrap="wrap" align="center">
             <FilterMenu onClick={() => setShowDrawer(true)}>
                <Text size="16px">Filter</Text>
                <MenuFilter />
