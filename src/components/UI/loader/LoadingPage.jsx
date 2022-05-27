@@ -6,9 +6,9 @@ import Flex from '../ui-for-positions/Flex'
 
 const LoadingPage = ({ width, height }) => {
    return (
-      <FlexCard gap="15px" wrap="wrap">
+      <FlexCard width="100%">
          {Array.from({ length: 10 }).map((_, i) => (
-            <Card width={width} height={height} key={i}>
+            <Card height={height} width={width} key={i}>
                <P />
                <Content>
                   <Flex width="100%" justify="space-between">
@@ -34,7 +34,7 @@ const FlexCard = styled(Flex)`
 
 const Card = styled.div`
    width: ${(props) => props.width || '290px'};
-   min-height: ${({ height }) => height || '360px'};
+   min-height: ${(props) => props.height || '362px'};
    position: relative;
    @media (max-width: 425px) {
       width: 100%;

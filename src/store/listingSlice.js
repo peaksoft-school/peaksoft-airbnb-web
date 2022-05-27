@@ -82,9 +82,7 @@ export const getListings = createAsyncThunk(
 )
 
 const initialState = {
-   listings: {
-      data: [],
-   },
+   listings: { data: [] },
    imagesId: [],
    isLoading: false,
    error: null,
