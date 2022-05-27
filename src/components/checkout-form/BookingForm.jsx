@@ -9,7 +9,7 @@ import styled from 'styled-components'
 import dateIcon from '../../assets/icons/payment.svg'
 import InputMask from 'react-input-mask'
 
-const BookForm = ({ onClose, isVisible }) => {
+const BookingForm = ({ onClose, isVisible }) => {
    return (
       <Modal width="475px" onClose={onClose} isVisible={isVisible}>
          <Flex justify="center" direction="column" align="center">
@@ -83,9 +83,6 @@ const Img = styled.img`
 `
 const WrapperInput = styled.div`
    position: relative;
-   /* width: 100%; */
-   /* border: 2px solid black; */
-
    .dd {
       border-left: none;
       border-right: none;
@@ -128,4 +125,4 @@ const InputBook = styled(Input)`
    }
 `
 
-export default BookForm
+export default BookingForm

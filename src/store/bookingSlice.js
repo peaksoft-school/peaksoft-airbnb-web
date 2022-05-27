@@ -3,8 +3,8 @@ import { fetchApi } from '../api/fetchApi'
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit')
 
-export const bookingListing = createAsyncThunk(
-   'booking/bookingListing',
+export const bookTheListing = createAsyncThunk(
+   'booking/bookTheListing',
    async ({ date, id }, { rejectWithValue }) => {
       try {
          return fetchApi({
@@ -31,10 +31,10 @@ const bookingSlice = createSlice({
    initialState: initState,
    reducers: {},
    extraReducers: {
-      [bookingListing.pending]: (state) => {
+      [bookTheListing.pending]: (state) => {
          state.isLoading = true
       },
-      [bookingListing.fulfilled]: (state) => {
+      [bookTheListing.fulfilled]: (state) => {
          state.isLoading = false
       },
    },

@@ -6,7 +6,7 @@ import Flex from '../UI/ui-for-positions/Flex'
 import DateRangePicker from '../UI/date-picker/DatePicker'
 import { useForm } from 'react-hook-form'
 
-const Checkout = ({ price, onClick }) => {
+const CheckoutForm = ({ price, getDates }) => {
    const {
       register,
       setValue,
@@ -19,6 +19,18 @@ const Checkout = ({ price, onClick }) => {
          endDate: '',
       },
    })
+   const errorStartDate = (errors?.startDate && errors.startDate.message) || ''
+
+   const errorEndDate = (errors?.endDate && errors.endDate.message) || ''
+
+   const onChangeStartDate = (value) =>
+      setValue('startDate', value, { shouldValidate: true })
+
+   const onChangeEndDate = (value) =>
+      setValue('endDate', value, { shouldValidate: true })
+
+   const submitHandler = (data) => getDates(data)
+
    const dates = {
       startDate: {
          ...register('startDate', {
@@ -31,22 +43,8 @@ const Checkout = ({ price, onClick }) => {
          }),
       },
    }
-   const submitHandler = (data) => {
-      onClick(data)
-   }
-
-   const onChangeStartDate = (value) =>
-      setValue('startDate', value, { shouldValidate: true })
-
-   const onChangeEndDate = (value) =>
-      setValue('endDate', value, { shouldValidate: true })
-
-   const errorStartDate = (errors?.startDate && errors.startDate.message) || ''
-
-   const errorEndDate = (errors?.endDate && errors.endDate.message) || ''
-
    return (
-      <Wrapper>
+      <CheckoutFormStyled onSubmit={handleSubmit(submitHandler)}>
          <Flex direction="column" align="center">
             <Flex align="center" gap="3px">
                <Title size="20px">${price} /</Title>
@@ -68,15 +66,12 @@ const Checkout = ({ price, onClick }) => {
                   <ErrorMessage>{errorStartDate || errorEndDate}</ErrorMessage>
                </Flex>
             </DatePickerStyle>
-
-            <Button onClick={handleSubmit(submitHandler)} width="100%">
-               REQUEST TO BOOK
-            </Button>
+            <Button width="100%">REQUEST TO BOOK</Button>
             <Flex margin="20px 0 0 0 ">
                <Text>You have to be signed in to book a listing</Text>
             </Flex>
          </Flex>
-      </Wrapper>
+      </CheckoutFormStyled>
    )
 }
 const ErrorMessage = styled.h5`
@@ -86,7 +81,7 @@ const ErrorMessage = styled.h5`
    letter-spacing: 0.5px;
    text-transform: uppercase;
 `
-const Wrapper = styled.div`
+const CheckoutFormStyled = styled.form`
    max-width: 494px;
    width: 100%;
    height: 269px;
@@ -104,4 +99,4 @@ const DatePickerStyle = styled.div`
    margin-bottom: 25px;
 `
 
-export default Checkout
+export default CheckoutForm

@@ -10,34 +10,30 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getOneListing } from '../../../store/listingSlice'
 import { useParams, useSearchParams } from 'react-router-dom'
 import Loader from '../../../components/UI/loader/Loader'
-import Checkout from '../../../components/checkout-form/Checkout'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
-import BookForm from '../../../components/checkout-form/BookForm'
-import { bookingListing } from '../../../store/bookingSlice'
+import BookingForm from '../../../components/checkout-form/BookingForm'
+import CheckoutForm from '../../../components/checkout-form/CheckoutForm'
 
 const HomeDetail = () => {
    const params = useParams()
    const [searchParams, setSearchParams] = useSearchParams()
    const valueParams = searchParams.get('payment')
    const dispatch = useDispatch()
-   const { listing, status, isLoading } = useSelector((state) => state.listing)
+   const { listing, isLoading } = useSelector((state) => state.listing)
 
    useEffect(() => {
       dispatch(getOneListing(params.house))
    }, [])
 
-   const showPaymentModal = (date) => {
-      setSearchParams({ payment: 'true' })
-      dispatch(bookingListing({ date, id: params.house }))
-      console.log(date)
-   }
+   const showPaymentModal = () => setSearchParams({ payment: 'true' })
+
    const hidePaymentModal = () => setSearchParams('')
 
    return isLoading ? (
       <Loader />
    ) : (
       <Wrapper>
-         <BookForm isVisible={valueParams} onClose={hidePaymentModal} />
+         <BookingForm isVisible={valueParams} onClose={hidePaymentModal} />
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>
             <Title>/</Title>
@@ -48,9 +44,7 @@ const HomeDetail = () => {
          </Flex>
          <Container>
             <LeftContent>
-               {status === 'success' && (
-                  <ReplaceImages dataSlider={listing.images} />
-               )}
+               <ReplaceImages dataSlider={listing.images} />
             </LeftContent>
             <RightContent>
                <Flex direction="column">
@@ -67,24 +61,25 @@ const HomeDetail = () => {
                      </Flex>
                      <Text color="#363636">{listing.description}</Text>
                   </Flex>
-                  {status === 'success' && (
-                     <Flex gap="16px" margin="32px 0 0 0 " align="center">
-                        <Avatar
-                           src={(listing?.user && listing.user.avatar) || ''}
-                        />
-                        <Flex direction="column">
-                           <Title color="#000000">
-                              {listing?.user && listing.user.name}
-                           </Title>
-                           <Text>
-                              {(listing?.user && listing.user.email) || ''}
-                           </Text>
-                        </Flex>
+                  <Flex gap="16px" margin="32px 0 0 0 " align="center">
+                     <Avatar
+                        src={(listing?.user && listing.user.avatar) || ''}
+                     />
+                     <Flex direction="column">
+                        <Title color="#000000">
+                           {listing?.user && listing.user.name}
+                        </Title>
+                        <Text>
+                           {(listing?.user && listing.user.email) || ''}
+                        </Text>
                      </Flex>
-                  )}
+                  </Flex>
                </Flex>
                <Flex margin="30px 0 0 0">
-                  <Checkout onClick={showPaymentModal} price={listing.price} />
+                  <CheckoutForm
+                     getDates={showPaymentModal}
+                     price={listing.price}
+                  />
                </Flex>
                <Flex margin="220px 0 0 0">
                   <RatingChart />
