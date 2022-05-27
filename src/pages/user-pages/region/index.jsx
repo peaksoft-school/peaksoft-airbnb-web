@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import Text from '../../../components/UI/typography/Text'
@@ -7,28 +8,31 @@ import Cards from './Cards'
 import Tag from './Tags'
 import Pagination from '../../../components/pagination/Pagination'
 import { useDispatch, useSelector } from 'react-redux'
-import { getListings } from '../../../store/listingSlice'
+import { getListings, listingActions } from '../../../store/listingSlice'
 import { useLocation, useSearchParams } from 'react-router-dom'
 import LoadingPage from '../../../components/UI/loader/LoadingPage'
 import {
    getDataFromLocalStorage,
    getSomeGiven,
+   paramsSet,
 } from '../../../utils/helpers/general'
-import { getRegions } from '../../../store/bookingSlice'
+import Title from '../../../components/UI/typography/Title'
 
+let blockedUseEffect = true
 const Region = () => {
    const [params, setParams] = useSearchParams()
    const { state } = useLocation()
    const dispatch = useDispatch()
    const { listing, region } = useSelector((state) => state)
-   const { listings, isLoading } = listing
+   const { listings, searchValue, isLoading } = listing
    const { regions } = region
    const homeType = params.get('type')
    const price = params.get('price')
    const popular = params.get('popular')
-   const page = params.get('page')
+   const page = Number(params.get('page'))
    const regionsIds = getDataFromLocalStorage('regions')
-   const [pagination, setPagination] = useState(Number(page) || 1)
+
+   const [pagination, setPagination] = useState(page || 1)
    const [sort, setSort] = useState({
       popular: popular || '',
       price: price || '',
@@ -37,12 +41,14 @@ const Region = () => {
       regionIds: (state && [state]) || regionsIds || [],
       type: homeType || '',
    })
+
    const filteredRegionIds = (id) => {
       const filteredRegions = filter.regionIds.filter(
          (regionId) => regionId !== id
       )
       setFilter({ ...filter, regionIds: filteredRegions })
    }
+
    const clearFilteredType = () => setFilter({ ...filter, type: '' })
 
    const clearSortPrice = () => setSort({ ...sort, price: '' })
@@ -52,47 +58,79 @@ const Region = () => {
    const clearAllFilterAndSortHandler = () => {
       setFilter({ regionIds: [], type: '' })
       setSort({ popular: '', price: '' })
+      dispatch(listingActions.saveSearchValue({ search: '' }))
    }
-   const paginationHandler = (event, value) => setPagination(value)
+
+   const paginationHandler = (event, value) => {
+      setPagination(value)
+   }
 
    useEffect(() => {
-      const filterBy = {}
+      if (blockedUseEffect) {
+         blockedUseEffect = false
+      }
+      const filterBy = { status: 'ACCEPTED' }
       const sortBy = {}
-      const queryParams = {}
-      if (filter.regionIds.length > 0) {
-         filterBy.regionIds = filter.regionIds
-      }
-      if (filter.type) {
-         filterBy.type = filter.type
-         queryParams.type = filter.type
-      }
-      if (sort.popular) {
-         sortBy.popular = sort.popular
-         queryParams.popular = sort.popular
-      }
-      if (sort.price) {
-         sortBy.price = sort.price
-         queryParams.price = sort.price
-      }
-      dispatch(getListings({ filterBy, sortBy, pagination }))
-      setParams({ page: pagination, ...queryParams })
-   }, [filter, sort, pagination])
+      if (searchValue) filterBy.search = searchValue
 
-   useEffect(() => {
-      dispatch(getRegions())
-   }, [])
+      if (filter.regionIds.length > 0) filterBy.regionIds = filter.regionIds
 
+      if (filter.type) filterBy.type = filter.type
+
+      if (sort.popular) sortBy.popular = sort.popular
+
+      if (sort.price) sortBy.price = sort.price
+
+      paramsSet(pagination, 'page', setParams, params)
+      paramsSet(searchValue, 'search', setParams, params)
+      paramsSet(sort.price, 'price', setParams, params)
+      paramsSet(sort.popular, 'popular', setParams, params)
+      paramsSet(filter.type, 'type', setParams, params)
+      dispatch(getListings({ pagination, filterBy, sortBy }))
+   }, [filter, sort, searchValue, pagination])
+
+   let content = <Title>TOTAL</Title>
+
+   if (searchValue !== '') {
+      content = (
+         <Title>
+            <Text>Search for :</Text> "{searchValue}"
+         </Title>
+      )
+   }
+   if (!searchValue && filter.regionIds.length > 0) {
+      content =
+         filter.regionIds.length > 0 &&
+         filter.regionIds.map((region) => (
+            <Title key={region} uppercase>
+               {regions.length && getSomeGiven(region, regions, 'id').title}
+            </Title>
+         ))
+   }
    return (
       <Container>
          <GlobalStyle />
-         <SelectsForFilter
-            regionIds={filter.regionIds}
-            total={listings.total}
-            setSort={setSort}
-            setFilter={setFilter}
-            filter={filter}
-            sort={sort}
-         />
+         <Flex
+            justify="space-between"
+            width="100%"
+            align="center"
+            gap="10px"
+            wrap="wrap"
+         >
+            <Flex align="center" gap="5px">
+               {content}
+               <Text>({listings.total})</Text>
+            </Flex>
+            <SelectsForFilter
+               regionIds={filter.regionIds}
+               total={listings.total}
+               setSort={setSort}
+               setFilter={setFilter}
+               filter={filter}
+               sort={sort}
+            />
+         </Flex>
+
          <Flex wrap="wrap" align="center" margin="40px 0" gap="13px">
             {filter.regionIds.map((regionId) => (
                <Tag

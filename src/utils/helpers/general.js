@@ -50,3 +50,23 @@ export const getSomeGiven = (example, data, value) => {
       console.log(error.message)
    }
 }
+
+export const paramsSet = (value, key, setParams, params) => {
+   params.set(key, value)
+   setParams(params)
+   if (value === '') {
+      params.delete(key)
+      setParams(params)
+   }
+}
+export const getParams = (key, mode = 'get') => {
+   const url = new URLSearchParams(window.location.search)
+   if (mode === 'values') {
+      const value = url.values()
+      return value
+   }
+   if (mode === 'get') {
+      const value = url.get(key)
+      return value
+   }
+}

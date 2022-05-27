@@ -2,6 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchFile } from '../api/fetchFile'
 import { fetchApi } from '../api/fetchApi'
+import { getParams } from '../utils/helpers/general'
 
 export const uploadImageListing = createAsyncThunk(
    'listing/uploadImageListing',
@@ -66,6 +67,7 @@ export const getListings = createAsyncThunk(
       if (Object.values(sortBy).length > 0) {
          params.sortBy = JSON.stringify(sortBy)
       }
+
       try {
          const listings = fetchApi({
             path: 'api/listings',
@@ -85,12 +87,17 @@ const initialState = {
    isLoading: false,
    error: null,
    status: null,
+   searchValue: getParams('search') || '',
 }
 
 const listingSlice = createSlice({
    name: 'listing',
    initialState,
-   reducers: {},
+   reducers: {
+      saveSearchValue(state, action) {
+         state.searchValue = action.payload.search
+      },
+   },
    extraReducers: {
       [uploadImageListing.pending]: (state) => {
          state.isLoading = true
@@ -98,7 +105,7 @@ const listingSlice = createSlice({
       },
       [uploadImageListing.fulfilled]: (state) => {
          state.isLoading = false
-         state.statues = 'success'
+         state.status = 'success'
       },
       [addListing.pending]: (state) => {
          state.isLoading = true
