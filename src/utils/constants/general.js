@@ -148,3 +148,9 @@ export const SORT_BY_PRICE = [
       value: 'DESC',
    },
 ]
+
+export const LISTING_STATUSES = {
+   PENDING: 'PENDING',
+   ACCEPTED: 'ACCEPTED',
+   REJECTED: 'REJECTED',
+}
