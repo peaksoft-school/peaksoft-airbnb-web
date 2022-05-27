@@ -3,8 +3,6 @@ import styled from 'styled-components'
 
 const StyledFlex = styled.div`
    width: ${(props) => props.width || ''};
-   max-width: ${(props) => props.width || ''};
-   min-width: ${(props) => props.width || ''};
    display: flex;
    flex-direction: ${(props) => props.direction || 'row'};
    align-items: ${(props) => props.align || 'stretch'};
@@ -13,8 +11,6 @@ const StyledFlex = styled.div`
    gap: ${(props) => props.gap || '0px'};
    margin: ${({ margin }) => margin || '0'};
    height: ${({ height }) => height || ''};
-   background: ${({ background }) => background || ''};
-   padding: ${({ padding }) => padding || '0px'};
 `
 
 const Flex = (props) => {

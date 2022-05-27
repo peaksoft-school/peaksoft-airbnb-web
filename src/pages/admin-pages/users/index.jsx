@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow'
 import { createTheme, ThemeProvider } from '@mui/material'
 import action from '../../../assets/icons/Action.svg'
 import Title from '../../../components/UI/typography/Title'
+import Flex from '../../../components/UI/ui-for-positions/Flex'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
@@ -69,14 +70,14 @@ const users = [
    },
    {
       id: 5,
-      name: 'Daniar Almazbekov',
+      name: 'Almazbekov Daniar Almazbekovich',
       contact: 'daniar@gmail.com',
       booking: 2,
       announcement: 4,
    },
 ]
 
-export default function Users() {
+const Users = () => {
    const [usersData, setUsersData] = useState(users)
 
    const actionHandler = (id) => {
@@ -86,15 +87,18 @@ export default function Users() {
       <ThemeProvider theme={customTheme}>
          <TableContainer
             sx={{
-               width: '97%',
+               width: '95%',
                margin: '0 auto',
-               minWidth: '810px',
-               padding: '10px',
+               paddingTop: '130px',
             }}
          >
-            <Title uppercase>Users</Title>
+            <Flex margin="0 0 20px 0">
+               <Title uppercase size="20px">
+                  Users
+               </Title>
+            </Flex>
             <Table>
-               <TableHead>
+               <TableHead sx={{ minWidth: '820px' }}>
                   <TableRow>
                      <StyledTableCell>№</StyledTableCell>
                      <StyledTableCell>Name</StyledTableCell>
@@ -104,11 +108,13 @@ export default function Users() {
                      <StyledTableCell align="center">Action</StyledTableCell>
                   </TableRow>
                </TableHead>
-               <TableBody>
+               <TableBody sx={{ minWidth: '820px' }}>
                   {usersData.map((user, index) => (
                      <StyledTableRow key={user.id}>
                         <StyledTableCell>{index + 1}</StyledTableCell>
-                        <StyledTableCell>{user.name}</StyledTableCell>
+                        <StyledTableCell sx={{ minWidth: '250px' }}>
+                           {user.name}
+                        </StyledTableCell>
                         <StyledTableCell>{user.contact}</StyledTableCell>
                         <StyledTableCell>{user.booking}</StyledTableCell>
                         <StyledTableCell>{user.announcement}</StyledTableCell>
@@ -126,3 +132,5 @@ export default function Users() {
       </ThemeProvider>
    )
 }
+
+export default Users
