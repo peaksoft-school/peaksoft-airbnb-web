@@ -16,11 +16,15 @@ const AdminCard = ({
    maxNumberOfGuests,
    images,
    rating,
-   onClick,
+   // onClick,
+   rejectHandler,
+   acceptHandler,
+   deleteHandler,
+   id,
 }) => {
    const [showMeetballs, setShowMeetballs] = useState(false)
    const meetballsHandler = () => setShowMeetballs(!showMeetballs)
-   const editBookHandler = () => {
+   /* const editBookHandler = () => {
       setShowMeetballs(false)
    }
    const deleteBookHandler = () => {
@@ -28,9 +32,9 @@ const AdminCard = ({
    }
    const acceptBookHandler = () => {
       setShowMeetballs(false)
-   }
+   } */
    return (
-      <Wrapper onClick={onClick} isViewed={isViewed}>
+      <Wrapper /* onClick={onClick} */ isViewed={isViewed}>
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={images} />
@@ -62,11 +66,13 @@ const AdminCard = ({
                   <Button onClick={meetballsHandler}>...</Button>
                   {showMeetballs && (
                      <Meetballs>
-                        <AboutItem onClick={editBookHandler}>Reject</AboutItem>
-                        <AboutItem onClick={deleteBookHandler}>
+                        <AboutItem onClick={() => rejectHandler(id)}>
+                           Reject
+                        </AboutItem>
+                        <AboutItem onClick={() => deleteHandler(id)}>
                            Delete
                         </AboutItem>
-                        <AboutItem onClick={acceptBookHandler}>
+                        <AboutItem onClick={() => acceptHandler(id)}>
                            Accept
                         </AboutItem>
                      </Meetballs>

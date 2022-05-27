@@ -79,6 +79,77 @@ export const getListings = createAsyncThunk(
    }
 )
 
+export const acceptListing = createAsyncThunk(
+   'listing/acceptListing',
+   async (id, { rejectWithValue }) => {
+      try {
+         const listing = fetchApi({
+            path: `api/listings/${id}/accept`,
+            method: 'PATCH',
+         })
+         return listing
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
+export const rejectListing = createAsyncThunk(
+   'listing/rejectListing',
+   async (id, { rejectWithValue }) => {
+      try {
+         const listing = fetchApi({
+            path: `api/listings/${id}/reject`,
+            method: 'PATCH',
+         })
+         return listing
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
+export const blockListing = createAsyncThunk(
+   'listing/blockListing',
+   async (id, { rejectWithValue }) => {
+      try {
+         const listing = fetchApi({
+            path: `api/listings/${id}/block`,
+            method: 'PATCH',
+         })
+         return listing
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
+export const unBlockListing = createAsyncThunk(
+   'listing/unBlockListing',
+   async (id, { rejectWithValue }) => {
+      try {
+         const listing = fetchApi({
+            path: `api/listings/${id}/unblock`,
+            method: 'PATCH',
+         })
+         return listing
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
+export const deleteListing = createAsyncThunk(
+   'listing/deleteListing',
+   async (id, { rejectWithValue }) => {
+      try {
+         const listing = fetchApi({
+            path: `api/listings/${id}`,
+            method: 'DELETE',
+         })
+         return listing
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
+
 const initialState = {
    listings: { data: [] },
    imagesId: [],
@@ -124,6 +195,11 @@ const listingSlice = createSlice({
       },
       [getListings.rejected]: (state, { error }) => {
          state.status = 'rejected'
+         state.isLoading = false
+         state.error = error.message
+      },
+      [deleteListings]: (state, { id }) => {
+         state.status = 'deleted'
          state.isLoading = false
          state.error = error.message
       },
