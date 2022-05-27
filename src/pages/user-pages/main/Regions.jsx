@@ -1,22 +1,22 @@
 import styled from 'styled-components'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+// import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { getRegions } from '../../../store/regionSlice'
+// import { getRegions } from '../../../store/regionSlice'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import { mergePhotosLinksIntoServerBaseUrl } from '../../../utils/helpers/general'
 
 const Regions = () => {
-   const dispatch = useDispatch()
+   // const dispatch = useDispatch()
    const navigate = useNavigate()
    const { regions } = useSelector((state) => state.booking)
 
    const transitionToListingHandler = ({ id }) => {
       navigate(`/main/regions`, { state: id })
    }
-   useEffect(() => {
-      dispatch(getRegions())
-   }, [])
+   // useEffect(() => {
+   //    dispatch(getRegions())
+   // }, [])
    return (
       <Container>
          <Flex direction="column" width="100%">
@@ -87,8 +87,8 @@ const Region = styled.div`
    }
 `
 const Container = styled.div`
-   padding: 170px 20px;
-   max-width: 1200px;
+   padding: 170px 15px;
+   max-width: 1262px;
    margin: auto;
    background-color: #f7f7f7;
 `
