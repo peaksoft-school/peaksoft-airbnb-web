@@ -3,11 +3,11 @@ import React from 'react'
 import styled from 'styled-components'
 import Flex from '../ui-for-positions/Flex'
 
-const LoadingPage = ({ width }) => {
+const LoadingPage = ({ width, height }) => {
    return (
-      <Flex width={width} gap="15px" wrap="wrap">
+      <Flex width="100%" gap={width ? '13px' : '15px'} wrap="wrap">
          {Array.from({ length: 10 }).map((_, i) => (
-            <Card key={i}>
+            <Card height={height} width={width} key={i}>
                <P />
                <Content>
                   <Flex width="100%" justify="space-between">
@@ -26,7 +26,7 @@ const LoadingPage = ({ width }) => {
 
 const Card = styled.div`
    width: ${(props) => props.width || '290px'};
-   min-height: 360px;
+   min-height: ${(props) => props.height || '362px'};
    position: relative;
    @media (max-width: 425px) {
       width: 100%;

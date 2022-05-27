@@ -55,7 +55,7 @@ export const addListing = createAsyncThunk(
 )
 export const getListings = createAsyncThunk(
    'listing/getListings',
-   async ({ filterBy, sortBy, pagination }, { rejectWithValue }) => {
+   async ({ filterBy = {}, sortBy = {}, pagination }, { rejectWithValue }) => {
       const params = {
          page: Number(pagination) || 1,
          limit: 16,
@@ -94,7 +94,7 @@ export const getOneListing = createAsyncThunk(
 )
 
 const initialState = {
-   listings: [],
+   listings: { data: [] },
    imagesId: [],
    listing: {},
    isLoading: false,
