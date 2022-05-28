@@ -5,6 +5,10 @@ import { authentication } from '../Firebase/firebase-config'
 import { fetchApi } from '../api/fetchApi'
 import { getDataFromLocalStorage } from '../utils/helpers/general'
 import { KEY_AUTH, ROLES } from '../utils/constants/general'
+import {
+   showErrorMessage,
+   showSuccessMessage,
+} from '../components/UI/notification/Notification'
 
 const provider = new GoogleAuthProvider()
 
@@ -39,15 +43,20 @@ export const googleAccountIntegration = createAsyncThunk(
       try {
          const response = await signInWithPopup(authentication, provider)
          const { idToken } = GoogleAuthProvider.credentialFromResult(response)
-         dispatch(
-            signInWithGoogle({
-               idToken,
+         dispatch(signInWithGoogle({ idToken }))
+            .unwrap()
+            .then(() => {
+               showSuccessMessage({
+                  title: 'Success)',
+                  message: 'Successfulli logged in',
+               })
             })
-         )
+            .catch((error) =>
+               showErrorMessage({ title: 'Error', message: error.message })
+            )
       } catch (error) {
-         return rejectWithValue(error.message)
+         rejectWithValue(error.message)
       }
-      return null
    }
 )
 export const signInWithGoogle = createAsyncThunk(
@@ -64,7 +73,16 @@ export const signInWithGoogle = createAsyncThunk(
       }
    }
 )
-
+const setPending = (state) => {
+   state.status = 'loading'
+   state.isLoading = true
+   state.error = null
+}
+const setRejected = (state, { error }) => {
+   state.status = 'rejected'
+   state.error = error.message
+   state.isLoading = false
+}
 const authSlice = createSlice({
    name: 'auth',
    initialState,
@@ -77,10 +95,7 @@ const authSlice = createSlice({
       },
    },
    extraReducers: {
-      [signInWithGoogle.pending]: (state) => {
-         state.status = 'loading'
-         state.isLoading = true
-      },
+      [signInWithGoogle.pending]: setPending,
       [signInWithGoogle.fulfilled]: (state, { payload }) => {
          state.status = 'success'
          state.isAuthorized = true
@@ -90,16 +105,9 @@ const authSlice = createSlice({
          state.error = null
          state.isLoading = false
       },
-      [signInWithGoogle.rejected]: (state, action) => {
-         state.status = 'rejected'
-         state.error = action.error.message
-         state.isLoading = false
-      },
+      [signInWithGoogle.rejected]: setRejected,
 
-      [signInAsAdmin.pending]: (state) => {
-         state.status = 'loading'
-         state.isLoading = true
-      },
+      [signInAsAdmin.pending]: setPending,
       [signInAsAdmin.fulfilled]: (state, { payload }) => {
          state.status = 'succes'
          state.role = ROLES.ADMIN
@@ -109,11 +117,7 @@ const authSlice = createSlice({
          state.error = null
          state.isLoading = false
       },
-      [signInAsAdmin.rejected]: (state, { error }) => {
-         state.status = 'rejected'
-         state.error = error.message
-         state.isLoading = false
-      },
+      [signInAsAdmin.rejected]: setRejected,
    },
 })
 export const authAction = authSlice.actions

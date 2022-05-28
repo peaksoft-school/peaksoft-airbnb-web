@@ -13,9 +13,7 @@ import Spinner from '../UI/loader/Spinner'
 const SignInWithGoogle = ({ showSignInAsAdminHandler }) => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const { isAuthorized, error, role, isLoading } = useSelector(
-      (state) => state.auth
-   )
+   const { isAuthorized, role, isLoading } = useSelector((state) => state.auth)
 
    useEffect(() => {
       if (isAuthorized && role === ROLES.VENDOR) navigate('/profile')
@@ -29,7 +27,6 @@ const SignInWithGoogle = ({ showSignInAsAdminHandler }) => {
             <Title uppercase>
                <b>Join us</b>
             </Title>
-            <p>{error}</p>
             <Text>
                Sign in with Google to start booking available listings!
             </Text>
