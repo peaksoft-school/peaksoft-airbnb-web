@@ -1,10 +1,10 @@
+/* eslint-disable max-len */
 import { useState } from 'react'
 import styled from 'styled-components'
 import Avatar from '@mui/material/Avatar'
 import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
-import PositionedSnackbar from '../../../components/UI/snackbar/Snackbar'
 import Button from '../../../components/UI/buttons/Button'
 import media from '../../../utils/helpers/media'
 import ReplaceImages from '../../../components/UI/replace-image/ReplaceImages'
@@ -13,6 +13,7 @@ import second from '../../../assets/images/InnerImage2.jpg'
 import third from '../../../assets/images/InnerImage3.jpg'
 import fourth from '../../../assets/images/InnerImage4.jpg'
 import Rejects from './Reject'
+import { showSuccessMessage } from '../../../components/UI/notification/Notification'
 
 const dataSlider = [
    {
@@ -34,21 +35,21 @@ const dataSlider = [
 ]
 const AnnouncementDetail = () => {
    const [showModal, setShowModal] = useState(false)
-   const [show, setShow] = useState(false)
    const rejectHandler = () => {
       setShowModal(true)
    }
+
    const cancelHandler = () => {
       setShowModal(false)
    }
    return (
       <>
-         {showModal && (
-            <Rejects
-               onClose={() => setShowModal(false)}
-               cancelHandler={cancelHandler}
-            />
-         )}
+         <Rejects
+            isVisible={showModal}
+            onClose={() => setShowModal(false)}
+            cancelHandler={cancelHandler}
+         />
+
          <Wrapper>
             <Flex align="center" gap="6px" margin="86px 0 0 0 ">
                <Text size="17">Announcement</Text>
@@ -101,18 +102,15 @@ const AnnouncementDetail = () => {
                         <Button
                            width="196px"
                            className="btn"
-                           onClick={() => setShow(true)}
+                           onClick={() => {
+                              showSuccessMessage({
+                                 message: 'The house was successfully booked',
+                                 title: 'Booked :)',
+                              })
+                           }}
                         >
                            ACCEPT
                         </Button>
-                        <PositionedSnackbar
-                           message="Moderation successfully passeasdflakjsdklfjaskldfjkl;asdjlfjlkasdjfjlsdjfas;ldfja;sldjflk;adsj lajsdlkfjlkasdjflkjasl;djf lajlks;djflk;asdlk;fjd"
-                           title="Accepted :)"
-                           severity="success"
-                           open={show}
-                           onClose={() => setShow(false)}
-                           delay={setShow}
-                        />
                      </Flex>
                   </Flex>
                </RightContent>

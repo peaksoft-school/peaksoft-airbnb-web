@@ -49,7 +49,7 @@ export const ADMIN_ROUTES = {
       label: 'Users',
    },
    USER: {
-      path: '/users:userId',
+      path: '/users/:userId',
       label: 'Announcement',
    },
    USER_HOUSE: {

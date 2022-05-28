@@ -1,28 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
-import AdminCard from '../../../components/admin-card/AdminCard'
+import { useDispatch, useSelector } from 'react-redux'
+import Cards from './Cards'
+import { getListings } from '../../../store/listingSlice'
+import LoadingPage from '../../../components/UI/loader/LoadingPage'
+import { LISTING_STATUSES } from '../../../utils/constants/general'
 
 const Announcement = () => {
-   const data = []
+   const dispatch = useDispatch()
+   const { listings, isLoading } = useSelector((state) => state.listing)
+   const { PENDING } = LISTING_STATUSES
+   useEffect(() => {
+      dispatch(getListings({ filterBy: { status: PENDING } }))
+   }, [])
+
    return (
       <WrapperContainer>
          <TitleApplication>Announcement</TitleApplication>
          <Flex>
             <ContainerList>
                <Flex width="100%" gap="13px" wrap="wrap">
-                  {data.map((el) => (
-                     <AdminCard
-                        images={el.Image}
-                        isViewed={false}
-                        day={el.day}
-                        text={el.text}
-                        address={el.address}
-                        title={el.title}
-                        starRange={el.starRange}
-                        guest={el.guest}
-                     />
-                  ))}
+                  {(isLoading && (
+                     <LoadingPage width="210px" height="270px" />
+                  )) || <Cards listings={listings.data} />}
                </Flex>
             </ContainerList>
          </Flex>
@@ -42,7 +43,7 @@ const WrapperContainer = styled.div`
    max-width: 1660px;
    width: 100%;
    margin: 0 auto;
-   padding: 10px;
+   padding: 130px 10px 10px 10px;
 `
 
 const ContainerList = styled.div`

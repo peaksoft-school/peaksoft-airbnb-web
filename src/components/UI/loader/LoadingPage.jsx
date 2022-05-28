@@ -1,13 +1,14 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react'
 import styled from 'styled-components'
+import media from '../../../utils/helpers/media'
 import Flex from '../ui-for-positions/Flex'
 
-const LoadingPage = ({ width }) => {
+const LoadingPage = ({ width, height }) => {
    return (
-      <Flex width={width} gap="15px" wrap="wrap">
+      <FlexCard width="100%">
          {Array.from({ length: 10 }).map((_, i) => (
-            <Card key={i}>
+            <Card height={height} width={width} key={i}>
                <P />
                <Content>
                   <Flex width="100%" justify="space-between">
@@ -20,13 +21,20 @@ const LoadingPage = ({ width }) => {
                </Content>
             </Card>
          ))}
-      </Flex>
+      </FlexCard>
    )
 }
+const FlexCard = styled(Flex)`
+   gap: ${({ width }) => (width ? '13px' : '15px')};
+   flex-wrap: wrap;
+   ${media.tablet`
+   justify-content:center;
+   `}
+`
 
 const Card = styled.div`
    width: ${(props) => props.width || '290px'};
-   min-height: 360px;
+   min-height: ${(props) => props.height || '362px'};
    position: relative;
    @media (max-width: 425px) {
       width: 100%;
