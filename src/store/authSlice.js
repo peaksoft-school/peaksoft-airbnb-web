@@ -52,7 +52,10 @@ export const googleAccountIntegration = createAsyncThunk(
                })
             })
             .catch((error) =>
-               showErrorMessage({ title: 'Error', message: error.message })
+               showErrorMessage({
+                  title: 'Uh oh! Something went wrong :(',
+                  message: error.message,
+               })
             )
       } catch (error) {
          rejectWithValue(error.message)
