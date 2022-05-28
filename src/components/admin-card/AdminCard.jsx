@@ -16,25 +16,31 @@ const AdminCard = ({
    maxNumberOfGuests,
    images,
    rating,
-   // onClick,
+   onClick,
    rejectHandler,
    acceptHandler,
    deleteHandler,
    id,
 }) => {
    const [showMeetballs, setShowMeetballs] = useState(false)
-   const meetballsHandler = () => setShowMeetballs(!showMeetballs)
-   /* const editBookHandler = () => {
-      setShowMeetballs(false)
+   const meetballsHandler = (e) => {
+      e.stopPropagation()
+      setShowMeetballs(!showMeetballs)
    }
-   const deleteBookHandler = () => {
-      setShowMeetballs(false)
+   const handlerReject = (e) => {
+      rejectHandler(id)
+      e.stopPropagation()
    }
-   const acceptBookHandler = () => {
-      setShowMeetballs(false)
-   } */
+   const handlerDelete = (e) => {
+      deleteHandler(id)
+      e.stopPropagation()
+   }
+   const handlerAccept = (e) => {
+      acceptHandler(id)
+      e.stopPropagation()
+   }
    return (
-      <Wrapper /* onClick={onClick} */ isViewed={isViewed}>
+      <Wrapper onClick={onClick} isViewed={isViewed}>
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={images} />
@@ -66,15 +72,9 @@ const AdminCard = ({
                   <Button onClick={meetballsHandler}>...</Button>
                   {showMeetballs && (
                      <Meetballs>
-                        <AboutItem onClick={() => rejectHandler(id)}>
-                           Reject
-                        </AboutItem>
-                        <AboutItem onClick={() => deleteHandler(id)}>
-                           Delete
-                        </AboutItem>
-                        <AboutItem onClick={() => acceptHandler(id)}>
-                           Accept
-                        </AboutItem>
+                        <AboutItem onClick={handlerReject}>Reject</AboutItem>
+                        <AboutItem onClick={handlerDelete}>Delete</AboutItem>
+                        <AboutItem onClick={handlerAccept}>Accept</AboutItem>
                      </Meetballs>
                   )}
                </Flex>
