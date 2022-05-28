@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Exo:wght@700&family=Inter&family=Montserrat:wght@500&display=swap');
 @import url('http://fonts.cdnfonts.com/css/jenriv-titling');
+@import url('https://fonts.googleapis.com/css2?family=Exo:wght@700&family=Inter:wght@400;500&family=Montserrat:wght@500&display=swap');
 * {
    margin: 0;
    padding: 0;
@@ -11,5 +12,5 @@ code {
       monospace;
 }
 body {
-   background-color: #f1f1f1;
+   background-color: #f7f7f7;
 }

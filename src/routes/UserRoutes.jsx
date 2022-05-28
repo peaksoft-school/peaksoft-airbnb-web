@@ -8,6 +8,7 @@ import UserLayout from '../layout/user-layout'
 import { ROLES } from '../utils/constants/general'
 import Bookings from '../components/user-profile/Bookings'
 import MyAnnouncements from '../components/user-profile/MyAnnouncement'
+import RequestNotFound from '../components/search-bar/RequestNotFound'
 
 const Region = React.lazy(() => import('../pages/user-pages/region'))
 const HomeDetail = React.lazy(() => import('../pages/user-pages/home-detail'))
@@ -61,6 +62,7 @@ const UserRoutes = () => {
                </Route>
             </Route>
          </Route>
+         <Route path="/not-found-data" element={<RequestNotFound />} />
       </Routes>
    )
 }
