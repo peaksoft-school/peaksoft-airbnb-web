@@ -15,6 +15,28 @@ export const getRegions = createAsyncThunk(
       }
    }
 )
+export const getRegionByСoordinates = createAsyncThunk(
+   'region/getRegionByСoordinates',
+   async ({ latitude, longitude }, { rejectWithValue }) => {
+      try {
+         if (latitude && longitude) {
+            const result = await fetchApi({
+               path: 'https://search-maps.yandex.ru/v1/',
+               method: 'GET',
+               params: {
+                  apikey: '68d9cc18-ecb1-44f5-9055-d282dd0b5446',
+                  lang: 'en_US',
+                  text: `${latitude},${longitude}`,
+               },
+               noBaseUrl: true,
+            })
+            return result.features[0].properties.description
+         }
+      } catch (error) {
+         rejectWithValue(error)
+      }
+   }
+)
 
 const initialState = {
    regions: [],
