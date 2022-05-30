@@ -33,7 +33,9 @@ const InputStyled = styled.input`
       border: ${({ isValid }) =>
          isValid ? '1px solid tomato' : '1px solid #ffffff'};
       box-shadow: ${({ isValid }) =>
-         isValid ? ' 0px 0px 5px tomato' : '0 0 0 4px rgba(255, 183, 0, 0.5)'};
+         isValid
+            ? '0 0 0 3px rgba(255, 8, 0, 0.5)'
+            : '0 0 0 3px rgba(74, 72, 68, 0.5)'};
    }
 `
 export default Input
