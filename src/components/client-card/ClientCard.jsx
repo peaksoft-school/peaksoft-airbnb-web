@@ -16,6 +16,7 @@ const ClientCard = ({
    address,
    guest,
    images,
+   onClick,
 }) => {
    return (
       <Wrapper width={width}>
@@ -49,7 +50,9 @@ const ClientCard = ({
                </Flex>
                <Flex width="100%" justify="space-between" align="center">
                   <Text>{guest} guests</Text>
-                  <Button padding="6px 8px">BOOK</Button>
+                  <Button onClick={onClick} padding="6px 8px">
+                     BOOK
+                  </Button>
                </Flex>
             </ContentWrapper>
          </Flex>

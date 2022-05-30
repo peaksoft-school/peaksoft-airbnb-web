@@ -1,12 +1,10 @@
 import styled from 'styled-components'
-import BackgroundMain from '../../../assets/images/PageMain.png'
-import frame from '../../../assets/icons/Frame.svg'
+import BackgroundMain from '../../../assets/images/piotr-burzynski-wvc9E16vIYY-unsplash.jpg'
 import Regions from './Regions'
-// import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
 import Apartments from './Apartments'
-// import Lastest from './Lastest'
 import PopularHouse from './PopularHouse'
+import InputSearchMainPage from '../../../components/search-bar/InputSearchMainPage'
 
 const MainPage = () => {
    const users = [
@@ -44,10 +42,7 @@ const MainPage = () => {
          <MainPages>
             <div>
                <h1>FIND A PLACE YOU WILL LOVE TO STAY AT</h1>
-               <DivInput>
-                  <img src={frame} alt="find" />
-                  <Input placeholder="Region, city , apartment, house..." />
-               </DivInput>
+               <InputSearchMainPage />
             </div>
          </MainPages>
          <Regions />
@@ -93,31 +88,6 @@ const MainPages = styled.div`
       ${media.tablet`
        font-size:26px;
      `}
-   }
-`
-
-const Input = styled.input`
-   width: 100%;
-   height: 34px;
-   border: none;
-   font-size: 17px;
-   outline: none;
-`
-
-const DivInput = styled.div`
-   max-width: 725px;
-   width: 100%;
-   height: 42px;
-   margin: 0 auto;
-   background-color: white;
-   display: flex;
-   align-items: center;
-   margin-top: 50px;
-   & img {
-      width: 18.62px;
-      height: 18.62px;
-      margin: 0 15px 0 15px;
-      color: #7d7d7d;
    }
 `
 

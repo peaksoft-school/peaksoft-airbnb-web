@@ -24,7 +24,7 @@ const DrawerStyled = styled.div`
       isVisible ? 'translateX(0)' : 'translateX(800px)'};
    max-height: 100%;
    overflow-y: auto;
-   background: white;
+   background: rgba(247, 247, 247, 0.9);
    transition: 0.2s;
    display: none;
    z-index: 2;

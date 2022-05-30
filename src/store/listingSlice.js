@@ -2,10 +2,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchFile } from '../api/fetchFile'
 import { fetchApi } from '../api/fetchApi'
-// import { LISTING_STATUSES } from '../utils/constants/general'
+import { getParams } from '../utils/helpers/general'
+import { LISTING_STATUSES } from '../utils/constants/general'
 
 export const uploadImageListing = createAsyncThunk(
-   'listing/uploadImageListing',
    async (
       { dataListing, imagesListing, navigateAfterSuccessUpload },
       { rejectWithValue, dispatch }
@@ -42,7 +42,7 @@ export const addListing = createAsyncThunk(
    'listing/addListing',
    async ({ listingData, navigateAfterSuccessUpload }, { rejectWithValue }) => {
       try {
-         const result = fetchApi({
+         const result = await fetchApi({
             path: 'api/listings',
             method: 'POST',
             body: { ...listingData },
@@ -67,6 +67,7 @@ export const getListings = createAsyncThunk(
       if (Object.values(sortBy).length > 0) {
          params.sortBy = JSON.stringify(sortBy)
       }
+
       try {
          const listings = fetchApi({
             path: 'api/listings',
@@ -79,17 +80,31 @@ export const getListings = createAsyncThunk(
       }
    }
 )
+export const getOneListing = createAsyncThunk(
+   'lsiting/getOneListing',
+   async (listingId, { rejectWithValue }) => {
+      try {
+         const listing = await fetchApi({
+            path: `api/listings/${listingId}`,
+            method: 'GET',
+         })
+         return listing
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
 
 export const acceptListing = createAsyncThunk(
    'listing/acceptListing',
-   async (id, { rejectWithValue /* dispatch */ }) => {
+   async (id, { rejectWithValue, dispatch }) => {
       try {
          fetchApi({
             path: `api/listings/${id}/accept`,
             method: 'PATCH',
          })
-         // const filterBy = { status: LISTING_STATUSES.PENDING }
-         // dispatch(getListings({ filterBy }))
+         const filterBy = { status: LISTING_STATUSES.PENDING }
+         dispatch(getListings({ filterBy }))
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -97,14 +112,14 @@ export const acceptListing = createAsyncThunk(
 )
 export const rejectListing = createAsyncThunk(
    'listing/rejectListing',
-   async (id, { rejectWithValue /* dispatch */ }) => {
+   async (id, { rejectWithValue, dispatch }) => {
       try {
          fetchApi({
             path: `api/listings/${id}/reject`,
             method: 'PATCH',
          })
-         // const filterBy = { status: LISTING_STATUSES.PENDING }
-         // dispatch(getListings({ filterBy }))
+         const filterBy = { status: LISTING_STATUSES.PENDING }
+         dispatch(getListings({ filterBy }))
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -140,14 +155,14 @@ export const unBlockListing = createAsyncThunk(
 )
 export const deleteListing = createAsyncThunk(
    'listing/deleteListing',
-   async (id, { rejectWithValue /* dispatch */ }) => {
+   async (id, { rejectWithValue, dispatch }) => {
       try {
          fetchApi({
             path: `api/listings/${id}`,
             method: 'DELETE',
          })
-         // const filterBy = { status: LISTING_STATUSES.PENDING }
-         // dispatch(getListings({ filterBy }))
+         const filterBy = { status: LISTING_STATUSES.PENDING }
+         dispatch(getListings({ filterBy }))
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -155,9 +170,12 @@ export const deleteListing = createAsyncThunk(
 )
 const initialState = {
    listings: { data: [] },
+   imagesId: [],
+   listing: {},
    isLoading: false,
    error: null,
    status: null,
+   searchValue: getParams('search') || '',
 }
 const setPending = (state) => {
    state.status = 'pending'
@@ -177,18 +195,44 @@ const setFulfilled = (state) => {
 const listingSlice = createSlice({
    name: 'listing',
    initialState,
-   reducers: {},
+   reducers: {
+      saveSearchValue(state, action) {
+         state.searchValue = action.payload.search
+      },
+   },
    extraReducers: {
-      [uploadImageListing.pending]: setPending,
       [uploadImageListing.fulfilled]: setFulfilled,
       [uploadImageListing.rejected]: setRejected,
       [addListing.pending]: setPending,
       [addListing.fulfilled]: setFulfilled,
       [addListing.rejected]: setRejected,
       [getListings.pending]: setPending,
-      [getListings.fulfilled]: (state, { payload }) => {
+      [uploadImageListing.pending]: (state) => {
+         state.status = 'pending'
+      },
+      [uploadImageListing.fulfilled]: (state) => {
          state.isLoading = false
-         state.listings = payload
+         state.status = 'success'
+      },
+      [addListing.pending]: (state) => {
+         state.isLoading = true
+         state.status = 'pending'
+      },
+      [addListing.fulfilled]: (state) => {
+         state.isLoading = false
+         state.status = 'success'
+      },
+      [addListing.rejected]: (state, { error }) => {
+         state.status = 'rejected'
+         state.isLoading = false
+         state.error = error.message
+      },
+      [getListings.pending]: (state) => {
+         state.isLoading = true
+         state.status = 'pending'
+      },
+      [getListings.fulfilled]: (state) => {
+         state.isLoading = false
          state.status = 'success'
       },
       [getListings.rejected]: setRejected,
@@ -201,6 +245,20 @@ const listingSlice = createSlice({
          )
       },
       [deleteListing.rejected]: setRejected,
+      [getOneListing.pending]: (state) => {
+         state.isLoading = true
+         state.status = 'pending'
+      },
+      [getOneListing.fulfilled]: (state, { payload }) => {
+         state.listing = payload.data
+         state.status = 'success'
+         state.isLoading = false
+      },
+      [getOneListing.rejected]: (state, { error }) => {
+         state.status = 'rejected'
+         state.isLoading = false
+         state.error = error.message
+      },
    },
 })
 export const listingActions = listingSlice.actions
