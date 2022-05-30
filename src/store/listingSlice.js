@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable import/no-cycle */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchFile } from '../api/fetchFile'
@@ -99,7 +100,7 @@ export const acceptListing = createAsyncThunk(
    'listing/acceptListing',
    async (id, { rejectWithValue, dispatch }) => {
       try {
-         fetchApi({
+         await fetchApi({
             path: `api/listings/${id}/accept`,
             method: 'PATCH',
          })
@@ -112,14 +113,13 @@ export const acceptListing = createAsyncThunk(
 )
 export const rejectListing = createAsyncThunk(
    'listing/rejectListing',
-   async (id, { rejectWithValue, dispatch }) => {
+   async (id, { rejectWithValue }) => {
       try {
          fetchApi({
             path: `api/listings/${id}/reject`,
             method: 'PATCH',
          })
-         const filterBy = { status: LISTING_STATUSES.PENDING }
-         dispatch(getListings({ filterBy }))
+         return id
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -155,14 +155,13 @@ export const unBlockListing = createAsyncThunk(
 )
 export const deleteListing = createAsyncThunk(
    'listing/deleteListing',
-   async (id, { rejectWithValue, dispatch }) => {
+   async (id, { rejectWithValue }) => {
       try {
          fetchApi({
             path: `api/listings/${id}`,
             method: 'DELETE',
          })
-         const filterBy = { status: LISTING_STATUSES.PENDING }
-         dispatch(getListings({ filterBy }))
+         return id
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -201,39 +200,17 @@ const listingSlice = createSlice({
       },
    },
    extraReducers: {
+      [uploadImageListing.pending]: setPending,
       [uploadImageListing.fulfilled]: setFulfilled,
       [uploadImageListing.rejected]: setRejected,
       [addListing.pending]: setPending,
       [addListing.fulfilled]: setFulfilled,
       [addListing.rejected]: setRejected,
       [getListings.pending]: setPending,
-      [uploadImageListing.pending]: (state) => {
-         state.status = 'pending'
-      },
-      [uploadImageListing.fulfilled]: (state) => {
+      [getListings.fulfilled]: (state, { payload }) => {
          state.isLoading = false
          state.status = 'success'
-      },
-      [addListing.pending]: (state) => {
-         state.isLoading = true
-         state.status = 'pending'
-      },
-      [addListing.fulfilled]: (state) => {
-         state.isLoading = false
-         state.status = 'success'
-      },
-      [addListing.rejected]: (state, { error }) => {
-         state.status = 'rejected'
-         state.isLoading = false
-         state.error = error.message
-      },
-      [getListings.pending]: (state) => {
-         state.isLoading = true
-         state.status = 'pending'
-      },
-      [getListings.fulfilled]: (state) => {
-         state.isLoading = false
-         state.status = 'success'
+         state.listings = payload
       },
       [getListings.rejected]: setRejected,
       [deleteListing.pending]: setPending,
@@ -245,20 +222,34 @@ const listingSlice = createSlice({
          )
       },
       [deleteListing.rejected]: setRejected,
-      [getOneListing.pending]: (state) => {
-         state.isLoading = true
-         state.status = 'pending'
-      },
+      [getOneListing.pending]: setPending,
       [getOneListing.fulfilled]: (state, { payload }) => {
          state.listing = payload.data
          state.status = 'success'
          state.isLoading = false
       },
-      [getOneListing.rejected]: (state, { error }) => {
-         state.status = 'rejected'
+      [getOneListing.rejected]: setRejected,
+      [blockListing.pending]: setPending,
+      [blockListing.fulfilled]: setFulfilled,
+      [blockListing.rejected]: setRejected,
+      [unBlockListing.pending]: setPending,
+      [unBlockListing.fulfilled]: setFulfilled,
+      [unBlockListing.rejected]: setRejected,
+      [acceptListing.pending]: setPending,
+      [acceptListing.fulfilled]: (state, { payload }) => {
          state.isLoading = false
-         state.error = error.message
+         console.log(payload)
+         // state.listings.data = state.listings.data.map((listing) => {
+         //    if (listing.id === payload.id) {
+         //       listing = payload.listing.data
+         //    }
+         //    return listing
+         // })
       },
+      [acceptListing.rejected]: setRejected,
+      [rejectListing.pending]: setPending,
+      [rejectListing.fulfilled]: setFulfilled,
+      [rejectListing.rejected]: setRejected,
    },
 })
 export const listingActions = listingSlice.actions
