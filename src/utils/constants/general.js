@@ -1,6 +1,3 @@
-export const SERVER_BASE_URL =
-   'http://ec2-54-175-233-244.compute-1.amazonaws.com:8000'
-
 export const KEY_AUTH = '@eyjsw6450k'
 export const ROLES = {
    ADMIN: 'ADMIN',
