@@ -70,3 +70,38 @@ export const getParams = (key, mode = 'get') => {
       return value
    }
 }
+export function getNumberOfDays(start, end) {
+   const startDate = new Date(start)
+   const endDate = new Date(end)
+
+   const oneDay = 1000 * 60 * 60 * 24
+
+   const diffInTime = endDate.getTime() - startDate.getTime()
+
+   const diffInDays = Math.round(diffInTime / oneDay)
+
+   return diffInDays
+}
+
+export const convertDateInToString = (date) => {
+   const month = date.toLocaleString('en-US', { month: 'long' })
+   const day = date.toLocaleString('en-US', { day: '2-digit' })
+   const year = date.getFullYear()
+   const dateString = `${month} ${day} ${year}`
+
+   return dateString
+}
+
+export const validateDateCreditCard = (value) => {
+   const currentDate = new Date()
+   const currentMonth = currentDate.getMonth() + 1
+   const currentYear = currentDate.getFullYear().toString().substr(-2)
+   const dateInput = value.split('/')
+   const expireMonth = Number(dateInput[0])
+   const expireYear = Number(dateInput[1])
+
+   if (Number(currentYear) <= expireYear && currentMonth <= expireMonth) {
+      return true
+   }
+   return 'enter a valid date'
+}

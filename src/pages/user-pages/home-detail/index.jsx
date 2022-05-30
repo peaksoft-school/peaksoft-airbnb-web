@@ -5,14 +5,18 @@ import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
 import ReplaceImages from '../../../components/UI/replace-image/ReplaceImages'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOneListing } from '../../../store/listingSlice'
 import { useParams, useSearchParams } from 'react-router-dom'
+import BookingForm from '../../../components/checkout-form/BookingForm'
 import Loader from '../../../components/UI/loader/Loader'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
-import BookingForm from '../../../components/checkout-form/BookingForm'
 import CheckoutForm from '../../../components/checkout-form/CheckoutForm'
+import {
+   getDataFromLocalStorage,
+   saveToLocalStorage,
+} from '../../../utils/helpers/general'
 
 const HomeDetail = () => {
    const params = useParams()
@@ -20,12 +24,20 @@ const HomeDetail = () => {
    const valueParams = searchParams.get('payment')
    const dispatch = useDispatch()
    const { listing, isLoading } = useSelector((state) => state.listing)
+   const [startAndEndDate, setStartAndEndDate] = useState(
+      getDataFromLocalStorage('dates') || {}
+   )
 
    useEffect(() => {
       dispatch(getOneListing(params.house))
    }, [])
-
-   const showPaymentModal = () => setSearchParams({ payment: 'true' })
+   useEffect(() => {
+      saveToLocalStorage('dates', startAndEndDate)
+   }, [startAndEndDate])
+   const showPaymentModal = (dates) => {
+      setSearchParams({ payment: 'true' })
+      setStartAndEndDate(dates)
+   }
 
    const hidePaymentModal = () => setSearchParams('')
 
@@ -33,7 +45,13 @@ const HomeDetail = () => {
       <Loader />
    ) : (
       <Wrapper>
-         <BookingForm isVisible={valueParams} onClose={hidePaymentModal} />
+         <BookingForm
+            id={params.house}
+            price={listing.price}
+            dates={startAndEndDate}
+            isVisible={valueParams}
+            onClose={hidePaymentModal}
+         />
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>
             <Title>/</Title>
@@ -117,8 +135,12 @@ const Wrapper = styled.div`
    padding: 4rem;
    margin: 0 auto;
    width: 100%;
+   ${media.tablet`
+   padding:1.5rem;
+  
+   `}
    ${media.mobile`
-   padding:0.5rem;
+   padding:1rem;
   
    `}
 

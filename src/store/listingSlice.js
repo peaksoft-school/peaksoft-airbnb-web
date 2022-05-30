@@ -154,7 +154,7 @@ const listingSlice = createSlice({
          state.status = 'pending'
       },
       [getOneListing.fulfilled]: (state, { payload }) => {
-         state.listing = payload.data
+         state.listing = payload?.data
          state.status = 'success'
          state.isLoading = false
       },
