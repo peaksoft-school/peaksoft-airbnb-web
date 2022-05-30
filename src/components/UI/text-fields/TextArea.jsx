@@ -29,10 +29,12 @@ const TextAreaStyled = styled.textarea`
       border: 1px solid #828282;
    }
    :focus {
+      border: ${({ isValid }) =>
+         isValid ? '1px solid tomato' : '1px solid #ffffff'};
       box-shadow: ${({ isValid }) =>
          isValid
-            ? ' 0px 0px 5px tomato'
-            : ' 0px 0px 5px rgba(79, 90, 97, 0.75)'};
+            ? '0 0 0 4px rgba(255, 8, 0, 0.5)'
+            : '0 0 0 4px rgba(74, 72, 68, 0.5)'};
    }
 `
 export default TextArea

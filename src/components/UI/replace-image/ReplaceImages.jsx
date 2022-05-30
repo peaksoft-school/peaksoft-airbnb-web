@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { mergePhotosLinksIntoServerBaseUrl } from '../../../utils/helpers/general'
 import Flex from '../ui-for-positions/Flex'
 
-const ReplaceImages = ({ dataSlider }) => {
-   const [selectedImg, setSelectedImg] = useState(dataSlider[0])
+const ReplaceImages = ({ dataSlider = [] }) => {
+   const [selectedImg, setSelectedImg] = useState(
+      (dataSlider && dataSlider[0]) || null
+   )
 
    const [filterImg, setFilterImg] = useState(
-      dataSlider.filter((img) => img.id !== selectedImg.id)
+      dataSlider.length > 0 &&
+         dataSlider.filter((img) => img.id !== selectedImg.id)
    )
 
    const imgHandler = (id, data) => {
@@ -16,17 +20,25 @@ const ReplaceImages = ({ dataSlider }) => {
    return (
       <Container>
          <Flex width="100%" gap="20px">
-            <img src={selectedImg.img} alt="Selected" />
+            <img
+               src={mergePhotosLinksIntoServerBaseUrl(
+                  (selectedImg?.image && selectedImg.image.largeImagePath) || ''
+               )}
+               alt="Selected"
+            />
          </Flex>
          <FlexImages>
-            {filterImg.map((data) => (
-               <Img
-                  key={data.id}
-                  src={data.img}
-                  alt="dog"
-                  onClick={() => imgHandler(data.id, data)}
-               />
-            ))}
+            {Array.isArray(filterImg) &&
+               filterImg.map((data) => (
+                  <Img
+                     key={data.id}
+                     src={mergePhotosLinksIntoServerBaseUrl(
+                        data.image.largeImagePath
+                     )}
+                     alt="dog"
+                     onClick={() => imgHandler(data.id, data)}
+                  />
+               ))}
          </FlexImages>
       </Container>
    )
@@ -41,7 +53,6 @@ const FlexImages = styled(Flex)`
 `
 const Container = styled.div`
    width: 100%;
-
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -53,7 +64,6 @@ const Container = styled.div`
       height: auto;
       aspect-ratio: 15/13;
       object-fit: cover;
-      margin-top: 10px;
    }
 `
 const Img = styled.img`

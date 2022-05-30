@@ -9,7 +9,7 @@ import { mergePhotosLinksIntoServerBaseUrl } from '../../../utils/helpers/genera
 const Regions = () => {
    // const dispatch = useDispatch()
    const navigate = useNavigate()
-   const { regions } = useSelector((state) => state.booking)
+   const { regions } = useSelector((state) => state.region)
 
    const transitionToListingHandler = ({ id }) => {
       navigate(`/main/regions`, { state: id })
