@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchFile } from '../api/fetchFile'
 import { fetchApi } from '../api/fetchApi'
-import { LISTING_STATUSES } from '../utils/constants/general'
+// import { LISTING_STATUSES } from '../utils/constants/general'
 
 export const uploadImageListing = createAsyncThunk(
    'listing/uploadImageListing',
@@ -82,14 +82,14 @@ export const getListings = createAsyncThunk(
 
 export const acceptListing = createAsyncThunk(
    'listing/acceptListing',
-   async (id, { rejectWithValue, dispatch }) => {
+   async (id, { rejectWithValue /* dispatch */ }) => {
       try {
          fetchApi({
             path: `api/listings/${id}/accept`,
             method: 'PATCH',
          })
-         const filterBy = { status: LISTING_STATUSES.PENDING }
-         dispatch(getListings({ filterBy }))
+         // const filterBy = { status: LISTING_STATUSES.PENDING }
+         // dispatch(getListings({ filterBy }))
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -97,14 +97,14 @@ export const acceptListing = createAsyncThunk(
 )
 export const rejectListing = createAsyncThunk(
    'listing/rejectListing',
-   async (id, { rejectWithValue, dispatch }) => {
+   async (id, { rejectWithValue /* dispatch */ }) => {
       try {
          fetchApi({
             path: `api/listings/${id}/reject`,
             method: 'PATCH',
          })
-         const filterBy = { status: LISTING_STATUSES.PENDING }
-         dispatch(getListings({ filterBy }))
+         // const filterBy = { status: LISTING_STATUSES.PENDING }
+         // dispatch(getListings({ filterBy }))
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -140,14 +140,14 @@ export const unBlockListing = createAsyncThunk(
 )
 export const deleteListing = createAsyncThunk(
    'listing/deleteListing',
-   async (id, { rejectWithValue, dispatch }) => {
+   async (id, { rejectWithValue /* dispatch */ }) => {
       try {
          fetchApi({
             path: `api/listings/${id}`,
             method: 'DELETE',
          })
-         const filterBy = { status: LISTING_STATUSES.PENDING }
-         dispatch(getListings({ filterBy }))
+         // const filterBy = { status: LISTING_STATUSES.PENDING }
+         // dispatch(getListings({ filterBy }))
       } catch (error) {
          rejectWithValue(error.message)
       }
