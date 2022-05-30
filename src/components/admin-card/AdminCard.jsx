@@ -7,6 +7,7 @@ import Text from '../UI/typography/Text'
 import Flex from '../UI/ui-for-positions/Flex'
 import Title from '../UI/typography/Title'
 import Carousel from '../UI/carousel/Carousel'
+import { LISTING_STATUSES } from '../../utils/constants/general'
 
 const AdminCard = ({
    isViewed,
@@ -17,6 +18,8 @@ const AdminCard = ({
    images,
    rating,
    onClick,
+   status,
+   isBlocked,
 }) => {
    const [showMeetballs, setShowMeetballs] = useState(false)
    const meetballsHandler = () => setShowMeetballs(!showMeetballs)
@@ -29,6 +32,7 @@ const AdminCard = ({
    const acceptBookHandler = () => {
       setShowMeetballs(false)
    }
+   const { ACCEPTED, PENDING } = LISTING_STATUSES
    return (
       <Wrapper onClick={onClick} isViewed={isViewed}>
          <Flex height="100%" direction="column" align="center">
@@ -60,7 +64,7 @@ const AdminCard = ({
                <Flex width="100%" align="center" justify="space-between">
                   <Text size="12px">{maxNumberOfGuests} guests</Text>
                   <Button onClick={meetballsHandler}>...</Button>
-                  {showMeetballs && (
+                  {showMeetballs && status === PENDING && (
                      <Meetballs>
                         <AboutItem onClick={editBookHandler}>Reject</AboutItem>
                         <AboutItem onClick={deleteBookHandler}>
@@ -68,6 +72,22 @@ const AdminCard = ({
                         </AboutItem>
                         <AboutItem onClick={acceptBookHandler}>
                            Accept
+                        </AboutItem>
+                     </Meetballs>
+                  )}
+                  {showMeetballs && status === ACCEPTED && !isBlocked && (
+                     <Meetballs>
+                        <AboutItem onClick={editBookHandler}>Block</AboutItem>
+                        <AboutItem onClick={deleteBookHandler}>
+                           Delete
+                        </AboutItem>
+                     </Meetballs>
+                  )}
+                  {showMeetballs && status === ACCEPTED && isBlocked && (
+                     <Meetballs>
+                        <AboutItem onClick={editBookHandler}>UnBlock</AboutItem>
+                        <AboutItem onClick={deleteBookHandler}>
+                           Delete
                         </AboutItem>
                      </Meetballs>
                   )}
@@ -154,7 +174,7 @@ const Meetballs = styled.div`
    background-color: white;
    position: absolute;
    bottom: 50px;
-   right: 20px;
+   right: 10px;
    animation: YES ease 0.2s;
    @keyframes YES {
       from {
@@ -166,7 +186,7 @@ const Meetballs = styled.div`
    }
 `
 const AboutItem = styled.div`
-   width: 200px;
+   width: 180px;
    padding: 0.4rem 1rem;
    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
    font-family: 'Inter';
