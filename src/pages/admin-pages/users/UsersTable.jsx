@@ -108,7 +108,7 @@ const TableNumber = styled(StyledTableCell)`
 `
 
 const TableName = styled(StyledTableCell)`
-   min-width: 260px;
+   min-width: 210px;
    font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
@@ -121,7 +121,7 @@ const TableName = styled(StyledTableCell)`
 `
 
 const TableContact = styled(StyledTableCell)`
-   min-width: 260px;
+   min-width: 210px;
    font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
