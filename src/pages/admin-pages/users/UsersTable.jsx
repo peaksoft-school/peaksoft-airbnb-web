@@ -121,7 +121,7 @@ const TableName = styled(StyledTableCell)`
 `
 
 const TableContact = styled(StyledTableCell)`
-   min-width: 210px;
+   min-width: 212px;
    font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
