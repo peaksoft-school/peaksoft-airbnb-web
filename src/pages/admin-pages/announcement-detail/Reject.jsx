@@ -6,9 +6,17 @@ import TextArea from '../../../components/UI/text-fields/TextArea'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import CancelButton from '../../../components/UI/buttons/CancelButton'
 import Button from '../../../components/UI/buttons/Button'
-import { showSuccessMessage } from '../../../components/UI/notification/Notification'
+import {
+   showErrorMessage,
+   showSuccessMessage,
+} from '../../../components/UI/notification/Notification'
+import { useDispatch } from 'react-redux'
+import { rejectListing } from '../../../store/listingSlice'
+import { useSearchParams } from 'react-router-dom'
 
-const Rejects = ({ onClose, cancelHandler, isVisible }) => {
+const Rejects = ({ onClose, isVisible }) => {
+   const [params, setParams] = useSearchParams()
+   const dispatch = useDispatch()
    const {
       formState: { errors, isValid },
       register,
@@ -17,18 +25,27 @@ const Rejects = ({ onClose, cancelHandler, isVisible }) => {
    } = useForm({ mode: 'onChange' })
    const input = {
       rejection: {
-         ...register('rejection', {
+         ...register('reason', {
             required: 'write something',
          }),
       },
    }
-   const submitHandler = () => {
-      showSuccessMessage({ message: 'hellooo' })
-      reset()
+   const idListing = params.get('rejectListing')
+   const submitHandler = (data) => {
+      dispatch(rejectListing({ data, id: idListing }))
+         .unwrap()
+         .then(() => {
+            showSuccessMessage({ title: 'Successfully sent :)' })
+            reset()
+            setParams('')
+         })
+         .catch(() => {
+            showErrorMessage({ title: 'Error', message: 'sdfasdfdsf' })
+         })
    }
    return (
       <Modal width="474px" onClose={onClose} isVisible={isVisible}>
-         <div>
+         <form onSubmit={handleSubmit(submitHandler)}>
             <Flex justify="center" margin="0 0 20px 0">
                <Title>REJECT</Title>
             </Flex>
@@ -42,16 +59,12 @@ const Rejects = ({ onClose, cancelHandler, isVisible }) => {
                {errors?.rejection ? errors.rejection.message : ''}
             </ErrorMessage>
             <Flex margin="20px 0 0 0" width="100%" gap="50px" justify="end">
-               <CancelButton width="100px" onClick={cancelHandler} />
-               <Button
-                  width="196px"
-                  disabled={!isValid}
-                  onClick={handleSubmit(submitHandler)}
-               >
+               <CancelButton width="100px" onClick={onClose} />
+               <Button width="196px" disabled={!isValid}>
                   SENT
                </Button>
             </Flex>
-         </div>
+         </form>
       </Modal>
    )
 }

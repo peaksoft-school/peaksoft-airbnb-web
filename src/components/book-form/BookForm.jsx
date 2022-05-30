@@ -33,7 +33,7 @@ const BookForm = () => {
       setValue,
       formState: { errors, isValid, isSubmitted },
       handleSubmit,
-      reset,
+      // reset,
    } = useForm({
       defaultValues: {
          type: '',
@@ -125,16 +125,16 @@ const BookForm = () => {
             navigateAfterSuccessUpload,
          })
       )
-      reset({
-         maxNumberOfGuests: '',
-         price: '',
-         town: '',
-         description: '',
-         address: '',
-         title: '',
-         type: '',
-         regionId: '',
-      })
+      // reset({
+      //    maxNumberOfGuests: '',
+      //    price: '',
+      //    town: '',
+      //    description: '',
+      //    address: '',
+      //    title: '',
+      //    type: '',
+      //    regionId: '',
+      // })
       setSelectedImages({
          images: [],
          files: [],

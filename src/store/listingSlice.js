@@ -7,6 +7,7 @@ import { getParams } from '../utils/helpers/general'
 import { LISTING_STATUSES } from '../utils/constants/general'
 
 export const uploadImageListing = createAsyncThunk(
+   'listing/uploadImageListing',
    async (
       { dataListing, imagesListing, navigateAfterSuccessUpload },
       { rejectWithValue, dispatch }
@@ -113,13 +114,15 @@ export const acceptListing = createAsyncThunk(
 )
 export const rejectListing = createAsyncThunk(
    'listing/rejectListing',
-   async (id, { rejectWithValue }) => {
+   async ({ id, data }, { rejectWithValue, dispatch }) => {
       try {
-         fetchApi({
+         await fetchApi({
             path: `api/listings/${id}/reject`,
             method: 'PATCH',
+            body: data,
          })
-         return id
+         const filterBy = { status: LISTING_STATUSES.PENDING }
+         dispatch(getListings({ filterBy }))
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -236,16 +239,7 @@ const listingSlice = createSlice({
       [unBlockListing.fulfilled]: setFulfilled,
       [unBlockListing.rejected]: setRejected,
       [acceptListing.pending]: setPending,
-      [acceptListing.fulfilled]: (state, { payload }) => {
-         state.isLoading = false
-         console.log(payload)
-         // state.listings.data = state.listings.data.map((listing) => {
-         //    if (listing.id === payload.id) {
-         //       listing = payload.listing.data
-         //    }
-         //    return listing
-         // })
-      },
+      [acceptListing.fulfilled]: setFulfilled,
       [acceptListing.rejected]: setRejected,
       [rejectListing.pending]: setPending,
       [rejectListing.fulfilled]: setFulfilled,

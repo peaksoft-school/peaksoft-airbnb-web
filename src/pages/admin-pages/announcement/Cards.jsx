@@ -1,25 +1,30 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import AdminCard from '../../../components/admin-card/AdminCard'
-import {
-   acceptListing,
-   deleteListing,
-   rejectListing,
-} from '../../../store/listingSlice'
+import { showSuccessMessage } from '../../../components/UI/notification/Notification'
+import { acceptListing, deleteListing } from '../../../store/listingSlice'
 
 const Cards = ({ listings = [] }) => {
-   const dispatch = useDispatch()
+   const [params, setParams] = useSearchParams()
+   console.log(params)
    const navigate = useNavigate()
+   const dispatch = useDispatch()
    const transitionInnerPage = (id) => {
       navigate(`${id}`)
    }
    const acceptListingHandler = (id) => {
       dispatch(acceptListing(id))
-      // console.log(acceptListing(id))
+         .unwrap()
+         .then(() =>
+            showSuccessMessage({
+               title: 'Accepted :)',
+               message: 'Moderation successfully passed',
+            })
+         )
    }
    const rejectListingHandler = (id) => {
-      dispatch(rejectListing(id))
+      setParams({ rejectListing: id })
    }
    const deleteListingHandler = (id) => {
       dispatch(deleteListing(id))
