@@ -71,6 +71,9 @@ const Container = styled.div`
    border: 1px solid #c4c4c4;
    border-radius: 16px;
    margin: 50px;
+   @media (max-width: 625px) {
+      margin: 0;
+   }
 `
 const Chart = styled.div`
    height: 1px;

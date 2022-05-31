@@ -71,3 +71,73 @@ export const getParams = (key, mode = 'get') => {
       return value
    }
 }
+export function getNumberOfDays(start, end) {
+   const startDate = new Date(start)
+   const endDate = new Date(end)
+
+   const oneDay = 1000 * 60 * 60 * 24
+
+   const diffInTime = endDate.getTime() - startDate.getTime()
+
+   const diffInDays = Math.round(diffInTime / oneDay)
+
+   return diffInDays
+}
+
+export const convertDateInToString = (date) => {
+   const month = date.toLocaleString('en-US', { month: 'long' })
+   const day = date.toLocaleString('en-US', { day: '2-digit' })
+   const year = date.getFullYear()
+   const dateString = `${month} ${day} ${year}`
+
+   return dateString
+}
+
+export const validateDateCreditCard = (value) => {
+   const currentDate = new Date()
+   const currentMonth = currentDate.getMonth() + 1
+   const currentYear = currentDate.getFullYear().toString().substr(-2)
+   const dateInput = value.split('/')
+   const expireMonth = Number(dateInput[0])
+   const expireYear = Number(dateInput[1])
+
+   if (
+      Number(currentYear) <= expireYear &&
+      currentMonth <= expireMonth &&
+      expireMonth <= 12
+   ) {
+      return true
+   }
+   return 'enter a valid date'
+}
+
+export const padTo2Digits = (value) => {
+   return value.toString().padStart(2, '0')
+}
+export const formatDate = {
+   DD_MM_YYYY: (date) => {
+      const newDate = new Date(date)
+      return [
+         padTo2Digits(newDate.getDate()),
+         padTo2Digits(newDate.getMonth() + 1),
+         date.getFullYear(),
+      ].join('-')
+   },
+   YYYY_MM_DD: (date) => {
+      const newDate = new Date(date)
+      return [
+         date.getFullYear(),
+         padTo2Digits(newDate.getMonth() + 1),
+         padTo2Digits(newDate.getDate()),
+      ].join('-')
+   },
+   MONTH_DD_YYYY: (date) => {
+      const newDate = new Date(date)
+      const month = newDate.toLocaleString('en-US', { month: 'long' })
+      const day = newDate.toLocaleString('en-US', { day: '2-digit' })
+      const year = newDate.getFullYear()
+      const dateString = `${month} ${day} ${year}`
+
+      return dateString
+   },
+}

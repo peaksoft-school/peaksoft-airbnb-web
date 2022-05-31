@@ -228,7 +228,8 @@ const listingSlice = createSlice({
       [deleteListing.rejected]: setRejected,
       [getOneListing.pending]: setPending,
       [getOneListing.fulfilled]: (state, { payload }) => {
-         state.listing = payload.data
+         state.listing = payload?.data
+         state.status = 'success'
          state.isLoading = false
       },
       [getOneListing.rejected]: setRejected,
