@@ -23,7 +23,7 @@ const Rejects = ({ onClose, cancelHandler, isVisible }) => {
       },
    }
    const submitHandler = () => {
-      showSuccessMessage({ message: 'hellooo' })
+      showSuccessMessage({ message: 'Successfully sent :)' })
       reset()
    }
    return (
