@@ -13,11 +13,14 @@ import Loader from '../../../components/UI/loader/Loader'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
 import BookingForm from '../../../components/checkout-form/BookingForm'
 import CheckoutForm from '../../../components/checkout-form/CheckoutForm'
+import LeaveFeedbackButton from '../../../components/UI/buttons/LeaveFeedbackButton'
+import FeedBack from '../../../components/feedback/FeedBack'
 
 const HomeDetail = () => {
    const params = useParams()
    const [searchParams, setSearchParams] = useSearchParams()
    const valueParams = searchParams.get('payment')
+   const Feedbackparams = searchParams.get('feedback')
    const dispatch = useDispatch()
    const { listing, isLoading } = useSelector((state) => state.listing)
 
@@ -29,11 +32,14 @@ const HomeDetail = () => {
 
    const hidePaymentModal = () => setSearchParams('')
 
+   // const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
+
    return isLoading ? (
       <Loader />
    ) : (
       <Wrapper>
          <BookingForm isVisible={valueParams} onClose={hidePaymentModal} />
+         <FeedBack isVisible={Feedbackparams} />
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>
             <Title>/</Title>
@@ -86,6 +92,9 @@ const HomeDetail = () => {
                </Flex>
             </RightContent>
          </Container>
+         <Flex width="630px">
+            <LeaveFeedbackButton />
+         </Flex>
       </Wrapper>
    )
 }

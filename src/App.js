@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import CheckInCheckOutDate from './components/UI/checkIn-checkOut-date/CheckInCheckOutDate'
 import Notification from './components/UI/notification/Notification'
 import AdminRoutes from './routes/AdminRoutes'
 import UserRoutes from './routes/UserRoutes'
@@ -24,7 +23,6 @@ function App() {
          <UserRoutes />
          <AdminRoutes />
          <Notification />
-         <CheckInCheckOutDate />
       </div>
    )
 }
