@@ -6,7 +6,7 @@ import Header from './Header/Header'
 import Modal from '../../components/UI/modal/Modal'
 import { modalActions } from '../../store/modalSlice'
 import LogOutModal from '../../components/login/LogOutModal'
-import Rejects from '../../pages/admin-pages/announcement-detail/RejectModal'
+import RejectModal from '../../pages/admin-pages/announcement-detail/RejectModal'
 
 const AdminLayout = () => {
    const dispatch = useDispatch()
@@ -17,7 +17,10 @@ const AdminLayout = () => {
    const closeRejectModalHandler = () => setParams('')
    return (
       <>
-         <Rejects isVisible={rejectModal} onClose={closeRejectModalHandler} />
+         <RejectModal
+            isVisible={rejectModal}
+            onClose={closeRejectModalHandler}
+         />
          <Modal
             width="420px"
             isVisible={modalLogOut}
