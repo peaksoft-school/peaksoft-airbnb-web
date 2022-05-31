@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { toast, ToastContainer } from 'react-toastify'
+// import 'react-toastify/dist/ReactToastify.css'
 import 'react-toastify/dist/ReactToastify.css'
 import media from '../../../utils/helpers/media'
 import Title from '../typography/Title'
@@ -20,7 +21,7 @@ export const showErrorMessage = (msg) =>
       </div>
    )
 const Notification = () => {
-   return <StyledToastContainer autoClose={5000} position="top-center" />
+   return <StyledToastContainer autoClose={1000} position="top-center" />
 }
 
 const StyledToastContainer = styled(ToastContainer)`
