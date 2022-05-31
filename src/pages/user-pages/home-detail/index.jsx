@@ -15,12 +15,13 @@ import BookingForm from '../../../components/checkout-form/BookingForm'
 import CheckoutForm from '../../../components/checkout-form/CheckoutForm'
 import LeaveFeedbackButton from '../../../components/UI/buttons/LeaveFeedbackButton'
 import FeedBack from '../../../components/feedback/FeedBack'
+import FeedbackList from '../../../components/feedback/FeedbackList'
 
 const HomeDetail = () => {
    const params = useParams()
    const [searchParams, setSearchParams] = useSearchParams()
    const valueParams = searchParams.get('payment')
-   const Feedbackparams = searchParams.get('feedback')
+   const feedbackParams = searchParams.get('feedback')
    const dispatch = useDispatch()
    const { listing, isLoading } = useSelector((state) => state.listing)
 
@@ -29,17 +30,16 @@ const HomeDetail = () => {
    }, [])
 
    const showPaymentModal = () => setSearchParams({ payment: 'true' })
+   const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
 
    const hidePaymentModal = () => setSearchParams('')
-
-   // const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
 
    return isLoading ? (
       <Loader />
    ) : (
       <Wrapper>
          <BookingForm isVisible={valueParams} onClose={hidePaymentModal} />
-         <FeedBack isVisible={Feedbackparams} />
+         <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>
             <Title>/</Title>
@@ -87,19 +87,26 @@ const HomeDetail = () => {
                      price={listing.price}
                   />
                </Flex>
-               <Flex margin="220px 0 0 0">
-                  <RatingChart />
-               </Flex>
             </RightContent>
          </Container>
-         <Flex width="630px">
-            <LeaveFeedbackButton />
-         </Flex>
+         <Container>
+            <LeftContent>
+               <FeedbackList feedbacks={listing.feedbacks} />
+               <Flex width="100%" margin="40px 0 0 0">
+                  <LeaveFeedbackButton onClick={showFeedbackModal} />
+               </Flex>
+            </LeftContent>
+            <RightContent>
+               <RatingChart />
+            </RightContent>
+         </Container>
       </Wrapper>
    )
 }
 const LeftContent = styled(Flex)`
    width: 50%;
+   display: flex;
+   flex-direction: column;
    ${media.desktop`
       width:100%;
    `}

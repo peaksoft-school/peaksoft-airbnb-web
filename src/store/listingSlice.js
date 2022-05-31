@@ -173,6 +173,7 @@ export const deleteListing = createAsyncThunk(
       }
    }
 )
+
 const initialState = {
    listings: { data: [] },
    imagesId: [],

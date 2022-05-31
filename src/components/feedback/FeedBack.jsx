@@ -8,28 +8,54 @@ import TextArea from '../UI/text-fields/TextArea'
 import Flex from '../UI/ui-for-positions/Flex'
 import CancelButton from '../UI/buttons/CancelButton'
 import Button from '../UI/buttons/Button'
+import uuid from 'react-uuid'
+import { useDispatch } from 'react-redux'
+import { uploadImageFeedback } from '../../store/feedbackSlice'
+import { useParams } from 'react-router-dom'
 
 const FeedBack = ({ onClose, isVisible }) => {
-   const [files, setFiles] = useState([])
+   const { house } = useParams()
+   console.log(house)
+   const dispatch = useDispatch()
+   const [selectedImages, setSelectedImages] = useState({
+      images: [],
+      files: [],
+   })
    const [value, setValue] = useState({
-      feedbackDescription: '',
+      comment: '',
       rating: 0,
-      photosFeedback: null,
    })
 
-   const onDrop = (file) => {
-      const img = URL.createObjectURL(file[0])
-      setFiles([...files, { img, id: Date.now() }])
+   const onDrop = (files) => {
+      const img = URL.createObjectURL(files[0])
+      setSelectedImages({
+         images: [...selectedImages.images, { img, id: uuid() }],
+         files: [...selectedImages.files, files[0]],
+      })
    }
 
-   const removePhotosHandler = (id) => {
-      setFiles(files.filter((element) => element.id !== id))
+   const removePhotosHandler = (index) => {
+      setSelectedImages({
+         ...selectedImages,
+         images: selectedImages.images.filter((image, i) => i !== index),
+         files: selectedImages.files.filter((file, i) => i !== index),
+      })
    }
 
    const textAreaChangeHandler = (e) =>
-      setValue({ ...value, feedbackDescription: e.target.value })
+      setValue({ ...value, comment: e.target.value })
    const changeRatingHandler = (ratingValue) =>
       setValue({ ...value, rating: ratingValue })
+
+   const submitFeedbackHandler = () => {
+      dispatch(
+         uploadImageFeedback({
+            dataFeedback: value,
+            imagesFeedback: selectedImages.files,
+            id: house,
+         })
+      )
+   }
    return (
       <Modal width="720px" onClose={onClose} isVisible={isVisible}>
          <ContainerFeedBack>
@@ -39,7 +65,7 @@ const FeedBack = ({ onClose, isVisible }) => {
             <Flex gap="20px" align="center">
                <ImagePicker
                   onDrop={onDrop}
-                  files={files}
+                  files={selectedImages.images}
                   deleteHandler={removePhotosHandler}
                />
             </Flex>
@@ -55,12 +81,12 @@ const FeedBack = ({ onClose, isVisible }) => {
             <TextArea
                placeholder="Share your impressions about this place"
                onChange={textAreaChangeHandler}
-               value={value.feedbackDescription}
+               value={value.comment}
             />
 
             <Flex margin="20px 0 0 0" width="100%" gap="50px" justify="end">
                <CancelButton width="100px" />
-               <Button>PUBLIC</Button>
+               <Button onClick={submitFeedbackHandler}>PUBLIC</Button>
             </Flex>
          </ContainerFeedBack>
       </Modal>
