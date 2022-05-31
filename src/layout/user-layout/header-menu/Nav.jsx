@@ -1,18 +1,34 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import {
+   NavLink,
+   useLocation,
+   useNavigate,
+   useSearchParams,
+} from 'react-router-dom'
 import styled from 'styled-components'
 import media from '../../../utils/helpers/media'
 
-const Nav = ({ dark }) => {
+const Nav = ({ dark, isAuthorized }) => {
+   const { pathname } = useLocation()
+   const navigate = useNavigate()
+   const [, setParams] = useSearchParams()
+   const leaveAnAd = () => {
+      if (!isAuthorized) setParams({ signIn: 'google' })
+      else navigate('/submit-an-ad')
+   }
    return (
       <NavStyled>
          <List dark={dark}>
             <Li>
                <NavLink to="/">Regions</NavLink>
             </Li>
-            <Li>
-               <NavLink to="/">Leave an ad</NavLink>
-            </Li>
+            {pathname !== '/submit-an-ad' && (
+               <Li>
+                  <p className="a" onClick={leaveAnAd} to="">
+                     Leave an ad
+                  </p>
+               </Li>
+            )}
          </List>
       </NavStyled>
    )
@@ -27,7 +43,9 @@ const List = styled.ul`
    list-style: none;
    display: flex;
    gap: 40px;
-   a {
+   a,
+   .a {
+      cursor: pointer;
       text-decoration: none;
       font-family: 'Inter';
       font-weight: 400;

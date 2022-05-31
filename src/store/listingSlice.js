@@ -5,6 +5,10 @@ import { fetchFile } from '../api/fetchFile'
 import { fetchApi } from '../api/fetchApi'
 import { getParams } from '../utils/helpers/general'
 import { LISTING_STATUSES } from '../utils/constants/general'
+import {
+   showErrorMessage,
+   showSuccessMessage,
+} from '../components/UI/notification/Notification'
 
 export const uploadImageListing = createAsyncThunk(
    'listing/uploadImageListing',
@@ -35,6 +39,16 @@ export const uploadImageListing = createAsyncThunk(
                navigateAfterSuccessUpload,
             })
          )
+            .unwrap()
+            .then((response) =>
+               showSuccessMessage({
+                  title: 'Success :)',
+                  message: response.message,
+               })
+            )
+            .catch((error) =>
+               showErrorMessage({ title: 'Uh! Oh!', message: error.message })
+            )
       } catch (error) {
          rejectWithValue(error.message)
       }

@@ -26,11 +26,11 @@ const HeaderUserContent = ({
          <GlobaStyle />
          <Flex gap="83px" align="center" width="100%">
             <LogoAirBnb color="dark" />
-            <Nav dark />
+            <Nav isAuthorized={isAuthorized} dark />
          </Flex>
          <FlexSearch justify="end" align="center">
             {pathname === '/main/regions' && <SearchInputRegionsPage />}
-            {isAuthorized && (
+            {isAuthorized && pathname !== '/submit-an-ad' && (
                <Button onClick={navigateToForm} className="btnSubmit">
                   Submit an as
                </Button>

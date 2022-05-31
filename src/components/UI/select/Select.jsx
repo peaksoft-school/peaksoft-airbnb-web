@@ -27,6 +27,7 @@ const Select = React.forwardRef(
             <SelectStyled
                {...props}
                ref={ref}
+               type="button"
                onBlur={() => setSelectToggle(false)}
                onClick={showSelect}
             >

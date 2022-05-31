@@ -22,13 +22,19 @@ const ContentForProfile = ({ isAuthorized }) => {
       navigate('/profile')
       setShowProfile(false)
    }
-
+   const visibleMyProfile = () => {
+      return (
+         pathname !== '/profile/bookings' &&
+         pathname !== '/profile/my-announcements'
+      )
+   }
    return (
       isAuthorized && (
          <Flex align="center" gap="20px">
             <Profile
                path={pathname}
                onClick={() => setShowProfile(!showProfile)}
+               onBlur={() => setShowProfile(false)}
             >
                <Flex align="center" gap="8px">
                   <UserAvatar src={Avatar} />
@@ -36,7 +42,7 @@ const ContentForProfile = ({ isAuthorized }) => {
                </Flex>
                {showProfile && (
                   <AboutProfile>
-                     {pathname !== '/profile' && (
+                     {visibleMyProfile() && (
                         <AboutItem onClick={profileHanlder}>
                            My Profile
                         </AboutItem>
@@ -96,6 +102,7 @@ const Profile = styled.button`
    ${media.tablet`
    display:${({ path }) => (path === '/main' ? 'block' : 'none')};
    `}
+   z-index: 11;
 `
 const UserAvatar = styled.img`
    width: 30px;
