@@ -7,6 +7,7 @@ import Text from '../UI/typography/Text'
 import Flex from '../UI/ui-for-positions/Flex'
 import Title from '../UI/typography/Title'
 import Carousel from '../UI/carousel/Carousel'
+import PopUp from '../UI/popup/PopUp'
 
 const AdminCard = ({
    isViewed,
@@ -17,25 +18,42 @@ const AdminCard = ({
    images,
    rating,
    onClick,
+   onReject,
+   onAccept,
+   onDelete,
+   id,
 }) => {
    const [showMeetballs, setShowMeetballs] = useState(false)
-   const meetballsHandler = () => setShowMeetballs(!showMeetballs)
-   const editBookHandler = () => {
+   const showMeetballsHandler = (e) => {
+      e.stopPropagation()
+      setShowMeetballs(!showMeetballs)
+   }
+   const rejectHandler = (e) => {
+      e.stopPropagation()
+      onReject(id)
       setShowMeetballs(false)
    }
-   const deleteBookHandler = () => {
+   const deleteHandler = (e) => {
+      e.stopPropagation()
+      onDelete(id)
       setShowMeetballs(false)
    }
-   const acceptBookHandler = () => {
+   const acceptHandler = (e) => {
+      e.stopPropagation()
+      onAccept(id)
+      setShowMeetballs(false)
+   }
+   const closeMeetballs = (e) => {
+      e.stopPropagation()
       setShowMeetballs(false)
    }
    return (
-      <Wrapper onClick={onClick} isViewed={isViewed}>
+      <Wrapper isViewed={isViewed}>
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={images} />
             </ImgWrapper>
-            <ContentWrapper>
+            <ContentWrapper onClick={onClick}>
                <Flex margin="8px 0 16px 0" justify="space-between" width="100%">
                   <Flex gap="3px" align="center">
                      <Title>${price}/</Title>
@@ -59,18 +77,12 @@ const AdminCard = ({
                </Flex>
                <Flex width="100%" align="center" justify="space-between">
                   <Text size="12px">{maxNumberOfGuests} guests</Text>
-                  <Button onClick={meetballsHandler}>...</Button>
-                  {showMeetballs && (
-                     <Meetballs>
-                        <AboutItem onClick={editBookHandler}>Reject</AboutItem>
-                        <AboutItem onClick={deleteBookHandler}>
-                           Delete
-                        </AboutItem>
-                        <AboutItem onClick={acceptBookHandler}>
-                           Accept
-                        </AboutItem>
-                     </Meetballs>
-                  )}
+                  <Button onClick={showMeetballsHandler}>...</Button>
+                  <PopUp isVisible={showMeetballs} onClose={closeMeetballs}>
+                     <AboutItem onClick={acceptHandler}>Accept</AboutItem>
+                     <AboutItem onClick={rejectHandler}>Reject</AboutItem>
+                     <AboutItem onClick={deleteHandler}>Delete</AboutItem>
+                  </PopUp>
                </Flex>
             </ContentWrapper>
          </Flex>
@@ -126,6 +138,7 @@ const ContentWrapper = styled.div`
    height: 50%;
    padding: 0 12px 12px 12px;
    position: relative;
+   cursor: pointer;
 `
 const StarStyle = styled.div`
    background: #828282;
@@ -148,35 +161,18 @@ const Button = styled.p`
    justify-content: center;
    padding-bottom: 10px;
 `
-const Meetballs = styled.div`
-   padding: 0.3rem;
-   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
-   background-color: white;
-   position: absolute;
-   bottom: 50px;
-   right: 20px;
-   animation: YES ease 0.2s;
-   @keyframes YES {
-      from {
-         opacity: 0;
-      }
-      to {
-         opacity: 1;
-      }
-   }
-`
+
 const AboutItem = styled.div`
-   width: 200px;
+   width: 100%;
    padding: 0.4rem 1rem;
-   box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
    font-family: 'Inter';
    font-weight: 400;
    font-size: 16px;
-   background-color: #ebebeb;
+   background-color: #ffffff;
    color: #5d5d5d;
    cursor: pointer;
    :hover {
-      background-color: #b8b8b888;
+      background-color: #f1f1f1;
    }
 `
 export default AdminCard

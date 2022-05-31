@@ -8,103 +8,107 @@ import Flex from '../../../components/UI/ui-for-positions/Flex'
 import Button from '../../../components/UI/buttons/Button'
 import media from '../../../utils/helpers/media'
 import ReplaceImages from '../../../components/UI/replace-image/ReplaceImages'
-import Rejects from './Reject'
 import Loader from '../../../components/UI/loader/Loader'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOneListing } from '../../../store/listingSlice'
-import { useParams, useSearchParams } from 'react-router-dom'
-import { showSuccessMessage } from '../../../components/UI/notification/Notification'
+import { getOneListing, acceptListing } from '../../../store/listingSlice'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import {
+   showSuccessMessage,
+   showErrorMessage,
+} from '../../../components/UI/notification/Notification'
+import { REJECT_LISTING } from '../../../utils/constants/general'
 
 const AnnouncementDetail = () => {
    const params = useParams()
-   const [searchParams, setSearchParams] = useSearchParams()
-   const valueParams = searchParams.get('rejects')
+   const navigate = useNavigate()
+   const [, setSearchParams] = useSearchParams()
    const dispatch = useDispatch()
    const { listing, isLoading } = useSelector((state) => state.listing)
-
+   const id = params.name
    useEffect(() => {
-      dispatch(getOneListing(params.name))
+      dispatch(getOneListing(id))
    }, [])
 
-   const showRejectModal = () => setSearchParams({ rejects: 'true' })
-
-   const hideRejectModal = () => setSearchParams('')
+   const acceptListingHandler = async () => {
+      try {
+         await dispatch(acceptListing(id)).unwrap()
+         showSuccessMessage({
+            title: 'Accepted :)',
+            message: 'Moderation successfully passed',
+         })
+         navigate('/announcement')
+      } catch (e) {
+         showErrorMessage({
+            title: 'Error',
+            message: 'Something went wrong',
+         })
+      }
+   }
+   const showRejectModal = () => setSearchParams({ [REJECT_LISTING]: id })
 
    return isLoading ? (
       <Loader />
    ) : (
-      <>
-         <Rejects
-            isVisible={valueParams}
-            onClose={hideRejectModal}
-            cancelHandler={hideRejectModal}
-         />
-         <Wrapper>
-            <Flex align="center" gap="6px" margin="86px 0 0 0 ">
-               <Text size="17">Announcement</Text>
-               <Title>/</Title>
-               <Title>Name</Title>
-            </Flex>
-            <Flex margin="30px 0 30px 0">
-               <Title size="20px">NAME</Title>
-            </Flex>
-            <Container>
-               <LeftContent>
-                  <ReplaceImages dataSlider={listing.images} />
-               </LeftContent>
-               <RightContent>
-                  <Flex direction="column">
-                     <Flex gap="14px">
-                        <Tag>{listing.type}</Tag>
-                        <Tag>{listing.maxNumberOfGuests}</Tag>
+      <Wrapper>
+         <Flex align="center" gap="6px" margin="86px 0 0 0 ">
+            <Text size="17">Announcement</Text>
+            <Title>/</Title>
+            <Title>Name</Title>
+         </Flex>
+         <Flex margin="30px 0 30px 0">
+            <Title size="20px">NAME</Title>
+         </Flex>
+         <Container>
+            <LeftContent>
+               <ReplaceImages dataSlider={listing.images} />
+            </LeftContent>
+            <RightContent>
+               <Flex direction="column">
+                  <Flex gap="14px">
+                     <Tag>{listing.type}</Tag>
+                     <Tag>{listing.maxNumberOfGuests}</Tag>
+                  </Flex>
+                  <Flex direction="column" margin="8px" gap="20px">
+                     <Flex direction="column" gap="10px">
+                        <Title> {listing.title}</Title>
+                        <Text>{listing.address}</Text>
                      </Flex>
-                     <Flex direction="column" margin="8px" gap="20px">
-                        <Flex direction="column" gap="10px">
-                           <Title> {listing.title}</Title>
-                           <Text>{listing.address}</Text>
-                        </Flex>
-                        <Text color="#363636">{listing.description}</Text>
-                     </Flex>
-                     <Flex gap="16px" margin="32px 0 0 0 " align="center">
-                        <Avatar
-                           src={(listing?.user && listing.user.avatar) || ''}
-                        />
-                        <Flex direction="column">
-                           <Title> {listing?.user && listing.user.name}</Title>
-                           <Text>
-                              {(listing?.user && listing.user.email) || ''}
-                           </Text>
-                        </Flex>
-                     </Flex>
-                     <Flex gap="10px" margin="40px 0 40px 0 " align="center">
-                        <Button
-                           padding="8px 16px"
-                           className="btn"
-                           width="196px"
-                           outline
-                           onClick={showRejectModal}
-                        >
-                           REJECT
-                        </Button>
-
-                        <Button
-                           width="196px"
-                           className="btn"
-                           onClick={() => {
-                              showSuccessMessage({
-                                 message: 'Moderation successfully passed',
-                                 title: 'Accepted :)',
-                              })
-                           }}
-                        >
-                           ACCEPT
-                        </Button>
+                     <Text color="#363636">{listing.description}</Text>
+                  </Flex>
+                  <Flex gap="16px" margin="32px 0 0 0 " align="center">
+                     <Avatar
+                        src={(listing?.user && listing.user.avatar) || ''}
+                     />
+                     <Flex direction="column">
+                        <Title> {listing?.user && listing.user.name}</Title>
+                        <Text>
+                           {(listing?.user && listing.user.email) || ''}
+                        </Text>
                      </Flex>
                   </Flex>
-               </RightContent>
-            </Container>
-         </Wrapper>
-      </>
+                  <Flex gap="10px" margin="40px 0 40px 0 " align="center">
+                     <Button
+                        padding="8px 16px"
+                        className="btn"
+                        width="196px"
+                        outline
+                        onClick={showRejectModal}
+                     >
+                        REJECT
+                     </Button>
+
+                     <Button
+                        width="196px"
+                        className="btn"
+                        onClick={acceptListingHandler}
+                     >
+                        ACCEPT
+                     </Button>
+                  </Flex>
+               </Flex>
+            </RightContent>
+         </Container>
+      </Wrapper>
    )
 }
 const LeftContent = styled(Flex)`
