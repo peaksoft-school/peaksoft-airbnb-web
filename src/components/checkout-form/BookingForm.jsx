@@ -38,8 +38,8 @@ const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
    const totalPrice = price * amountOfDays
    const onBook = async () => {
       const bookingData = {
-         checkInDate: dates.startDate,
-         checkoutDate: dates.endDate,
+         checkInDate: formatDate.YYYY_MM_DD(dates.startDate),
+         checkoutDate: formatDate.YYYY_MM_DD(dates.endDate),
          amount: totalPrice,
          id,
       }
@@ -84,10 +84,14 @@ const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
    }
    const errorCreditCard =
       (errors?.creditCard && errors.creditCard.message) || ''
-
    const errorDate = (errors?.date && errors.date.message) || ''
    const errorCvc = (errors?.cvc && errors.cvc.message) || ''
    const errorMessage = errorCreditCard || errorDate || errorCvc || ''
+
+   const isValidCreditCard = errors?.creditCard && !isValid
+   const isValidDate = !errors?.creditCard && errors?.date && !isValid
+   const isValidCvc =
+      !errors?.creditCard && !errors?.date && errors?.cvc && !isValid
    return (
       <Modal width="475px" onClose={onClose} isVisible={isVisible}>
          <GlobalStyle />
@@ -131,7 +135,7 @@ const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
                         placeholder="Card Number"
                         mask="9999999999999999"
                         {...checkOut.creditCard}
-                        isValid={errors?.creditCard && !isValid}
+                        isValid={isValidCreditCard}
                      >
                         {(inputProps) => <InputBook {...inputProps} />}
                      </InputMask>
@@ -141,9 +145,7 @@ const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
                         width="70px"
                         placeholder="dd/mm"
                         {...checkOut.date}
-                        isValid={
-                           !errors?.creditCard && errors?.date && !isValid
-                        }
+                        isValid={isValidDate}
                      >
                         {(inputProps) => <InputDate {...inputProps} />}
                      </InputMask>
@@ -153,12 +155,7 @@ const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
                         width="70px"
                         placeholder="CVC"
                         {...checkOut.cvc}
-                        isValid={
-                           !errors?.creditCard &&
-                           !errors?.date &&
-                           errors?.cvc &&
-                           !isValid
-                        }
+                        isValid={isValidCvc}
                      >
                         {(inputPops) => <InputCvc {...inputPops} />}
                      </InputMask>

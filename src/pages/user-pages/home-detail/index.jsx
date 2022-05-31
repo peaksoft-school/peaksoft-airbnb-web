@@ -31,9 +31,11 @@ const HomeDetail = () => {
    useEffect(() => {
       dispatch(getOneListing(params.house))
    }, [])
+
    useEffect(() => {
       saveToLocalStorage('dates', startAndEndDate)
    }, [startAndEndDate])
+
    const showPaymentModal = (dates) => {
       setSearchParams({ payment: 'true' })
       setStartAndEndDate(dates)

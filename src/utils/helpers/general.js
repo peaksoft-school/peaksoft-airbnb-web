@@ -116,17 +116,19 @@ export const padTo2Digits = (value) => {
 }
 export const formatDate = {
    DD_MM_YYYY: (date) => {
+      const newDate = new Date(date)
       return [
-         padTo2Digits(date.getDate()),
-         padTo2Digits(date.getMonth() + 1),
+         padTo2Digits(newDate.getDate()),
+         padTo2Digits(newDate.getMonth() + 1),
          date.getFullYear(),
-      ].join('/')
+      ].join('-')
    },
    YYYY_MM_DD: (date) => {
+      const newDate = new Date(date)
       return [
          date.getFullYear(),
-         padTo2Digits(date.getMonth() + 1),
-         padTo2Digits(date.getDate()),
+         padTo2Digits(newDate.getMonth() + 1),
+         padTo2Digits(newDate.getDate()),
       ].join('-')
    },
    MONTH_DD_YYYY: (date) => {
