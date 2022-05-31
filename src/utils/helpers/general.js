@@ -100,8 +100,41 @@ export const validateDateCreditCard = (value) => {
    const expireMonth = Number(dateInput[0])
    const expireYear = Number(dateInput[1])
 
-   if (Number(currentYear) <= expireYear && currentMonth <= expireMonth) {
+   if (
+      Number(currentYear) <= expireYear &&
+      currentMonth <= expireMonth &&
+      expireMonth <= 12
+   ) {
       return true
    }
    return 'enter a valid date'
+}
+
+export const padTo2Digits = (value) => {
+   return value.toString().padStart(2, '0')
+}
+export const formatDate = {
+   DD_MM_YYYY: (date) => {
+      return [
+         padTo2Digits(date.getDate()),
+         padTo2Digits(date.getMonth() + 1),
+         date.getFullYear(),
+      ].join('/')
+   },
+   YYYY_MM_DD: (date) => {
+      return [
+         date.getFullYear(),
+         padTo2Digits(date.getMonth() + 1),
+         padTo2Digits(date.getDate()),
+      ].join('-')
+   },
+   MONTH_DD_YYYY: (date) => {
+      const newDate = new Date(date)
+      const month = newDate.toLocaleString('en-US', { month: 'long' })
+      const day = newDate.toLocaleString('en-US', { day: '2-digit' })
+      const year = newDate.getFullYear()
+      const dateString = `${month} ${day} ${year}`
+
+      return dateString
+   },
 }

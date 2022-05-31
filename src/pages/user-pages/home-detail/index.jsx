@@ -110,6 +110,7 @@ const HomeDetail = () => {
 const LeftContent = styled(Flex)`
    width: 50%;
    ${media.desktop`
+   margin: 0 auto;
       width:100%;
    `}
 `

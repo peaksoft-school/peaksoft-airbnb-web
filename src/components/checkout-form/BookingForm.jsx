@@ -9,7 +9,7 @@ import styled, { createGlobalStyle } from 'styled-components'
 import dateIcon from '../../assets/icons/payment.svg'
 import InputMask from 'react-input-mask'
 import {
-   convertDateInToString,
+   formatDate,
    getNumberOfDays,
    validateDateCreditCard,
 } from '../../utils/helpers/general'
@@ -22,9 +22,12 @@ import {
 import Spinner from '../UI/loader/Spinner'
 import { useForm } from 'react-hook-form'
 import { Alert } from '@mui/material'
+import { useSearchParams } from 'react-router-dom'
 
 const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
+   const [, setParams] = useSearchParams()
    const {
+      reset,
       register,
       handleSubmit,
       formState: { errors, isValid },
@@ -46,6 +49,8 @@ const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
             title: 'Booked :)',
             message: 'The house was successfully booked',
          })
+         reset()
+         setParams('')
       } catch (e) {
          showErrorMessage({ title: 'Uh! Oh!', message: 'Something went wrong' })
       }
@@ -55,6 +60,10 @@ const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
       creditCard: {
          ...register('creditCard', {
             required: 'enter credit card',
+            pattern: {
+               value: /^4[0-9]{12}(?:[0-9]{3})?$/,
+               message: 'errrrrrrrroooooorrrr',
+            },
          }),
       },
       date: {
@@ -66,6 +75,10 @@ const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
       cvc: {
          ...register('cvc', {
             required: 'fill in cvc',
+            pattern: {
+               value: /[0-9]{3}/,
+               message: 'Error cvc',
+            },
          }),
       },
    }
@@ -92,9 +105,8 @@ const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
             <WrapperText width="100%" justify="center" margin="0 0  20px 0">
                <Text>
                   Enter your payment information to book the listing from the
-                  between {convertDateInToString(new Date(dates.startDate))} to
-                  &nbsp;
-                  {convertDateInToString(new Date(dates.endDate))} inclusive.
+                  between {formatDate.MONTH_DD_YYYY(dates.startDate)} to &nbsp;
+                  {formatDate.MONTH_DD_YYYY(dates.endDate)} inclusive.
                </Text>
             </WrapperText>
             <hr width="100%" color="#d3d3d3" />
@@ -117,7 +129,7 @@ const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
                         maskChar=""
                         width="70%"
                         placeholder="Card Number"
-                        mask="9999 9999 9999 9999"
+                        mask="9999999999999999"
                         {...checkOut.creditCard}
                         isValid={errors?.creditCard && !isValid}
                      >

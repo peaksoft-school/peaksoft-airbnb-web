@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-import { useState } from 'react'
 import styled from 'styled-components'
 import Avatar from '@mui/material/Avatar'
 import Text from '../../../components/UI/typography/Text'
@@ -12,8 +11,9 @@ import first from '../../../assets/images/InnerImage5.jpg'
 import second from '../../../assets/images/InnerImage2.jpg'
 import third from '../../../assets/images/InnerImage3.jpg'
 import fourth from '../../../assets/images/InnerImage4.jpg'
-import Rejects from './Reject'
 import { showSuccessMessage } from '../../../components/UI/notification/Notification'
+import { useSearchParams } from 'react-router-dom'
+import { REJECT_LISTING } from '../../../utils/constants/general'
 
 const dataSlider = [
    {
@@ -34,89 +34,78 @@ const dataSlider = [
    },
 ]
 const AnnouncementDetail = () => {
-   const [showModal, setShowModal] = useState(false)
-   const rejectHandler = () => {
-      setShowModal(true)
+   const [, setParams] = useSearchParams()
+   const rejectHandler = (id) => {
+      setParams({ [REJECT_LISTING]: id })
    }
-
-   const cancelHandler = () => {
-      setShowModal(false)
+   const successMessageHandler = () => {
+      showSuccessMessage({
+         message: 'The house was successfully booked',
+         title: 'Booked :)',
+      })
    }
    return (
-      <>
-         <Rejects
-            isVisible={showModal}
-            onClose={() => setShowModal(false)}
-            cancelHandler={cancelHandler}
-         />
-
-         <Wrapper>
-            <Flex align="center" gap="6px" margin="86px 0 0 0 ">
-               <Text size="17">Announcement</Text>
-               <Title>/</Title>
-               <Title>Name</Title>
-            </Flex>
-            <Flex margin="30px 0 30px 0">
-               <Title size="20px">NAME</Title>
-            </Flex>
-            <Container>
-               <LeftContent>
-                  <ReplaceImages dataSlider={dataSlider} />
-               </LeftContent>
-               <RightContent>
-                  <Flex direction="column">
-                     <Flex gap="14px">
-                        <Tag>Apartement</Tag>
-                        <Tag>2 Guests</Tag>
+      <Wrapper>
+         <Flex align="center" gap="6px" margin="86px 0 0 0 ">
+            <Text size="17">Announcement</Text>
+            <Title>/</Title>
+            <Title>Name</Title>
+         </Flex>
+         <Flex margin="30px 0 30px 0">
+            <Title size="20px">NAME</Title>
+         </Flex>
+         <Container>
+            <LeftContent>
+               <ReplaceImages dataSlider={dataSlider} />
+            </LeftContent>
+            <RightContent>
+               <Flex direction="column">
+                  <Flex gap="14px">
+                     <Tag>Apartement</Tag>
+                     <Tag>2 Guests</Tag>
+                  </Flex>
+                  <Flex direction="column" margin="8px" gap="20px">
+                     <Flex direction="column" gap="10px">
+                        <Title>Name of hotel</Title>
+                        <Text>12 Morris Ave, Toronto, ON, CA</Text>
                      </Flex>
-                     <Flex direction="column" margin="8px" gap="20px">
-                        <Flex direction="column" gap="10px">
-                           <Title>Name of hotel</Title>
-                           <Text>12 Morris Ave, Toronto, ON, CA</Text>
-                        </Flex>
-                        <Text color="#363636">
-                           The hotel will provide guests with air-conditioned
-                           rooms offering a desk, a kettle, a fridge, a minibar,
-                           a safety deposit box, a flat-screen TV and a shared
-                           bathroom with a shower. At Garden Hotel & SPA the
-                           rooms have bed linen and towels.
-                        </Text>
-                     </Flex>
-                     <Flex gap="16px" margin="32px 0 0 0 " align="center">
-                        <Avatar />
-                        <Flex direction="column">
-                           <Title>Anna Annova</Title>
-                           <Text>anna@gmail.com</Text>
-                        </Flex>
-                     </Flex>
-                     <Flex gap="10px" margin="40px 0 40px 0 " align="center">
-                        <Button
-                           className="btn"
-                           width="196px"
-                           outline
-                           onClick={rejectHandler}
-                        >
-                           REJECT
-                        </Button>
-
-                        <Button
-                           width="196px"
-                           className="btn"
-                           onClick={() => {
-                              showSuccessMessage({
-                                 message: 'The house was successfully booked',
-                                 title: 'Booked :)',
-                              })
-                           }}
-                        >
-                           ACCEPT
-                        </Button>
+                     <Text color="#363636">
+                        The hotel will provide guests with air-conditioned rooms
+                        offering a desk, a kettle, a fridge, a minibar, a safety
+                        deposit box, a flat-screen TV and a shared bathroom with
+                        a shower. At Garden Hotel & SPA the rooms have bed linen
+                        and towels.
+                     </Text>
+                  </Flex>
+                  <Flex gap="16px" margin="32px 0 0 0 " align="center">
+                     <Avatar />
+                     <Flex direction="column">
+                        <Title>Anna Annova</Title>
+                        <Text>anna@gmail.com</Text>
                      </Flex>
                   </Flex>
-               </RightContent>
-            </Container>
-         </Wrapper>
-      </>
+                  <Flex gap="10px" margin="40px 0 40px 0 " align="center">
+                     <Button
+                        className="btn"
+                        width="196px"
+                        outline
+                        onClick={rejectHandler}
+                     >
+                        REJECT
+                     </Button>
+
+                     <Button
+                        width="196px"
+                        className="btn"
+                        onClick={successMessageHandler}
+                     >
+                        ACCEPT
+                     </Button>
+                  </Flex>
+               </Flex>
+            </RightContent>
+         </Container>
+      </Wrapper>
    )
 }
 const LeftContent = styled(Flex)`
