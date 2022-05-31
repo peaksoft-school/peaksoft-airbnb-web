@@ -154,3 +154,5 @@ export const LISTING_STATUSES = {
    ACCEPTED: 'ACCEPTED',
    REJECTED: 'REJECTED',
 }
+
+export const REJECT_LISTING = 'rejectListing'

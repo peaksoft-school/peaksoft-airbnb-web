@@ -20,7 +20,7 @@ export const showErrorMessage = (msg) =>
       </div>
    )
 const Notification = () => {
-   return <StyledToastContainer autoClose={5000} position="top-center" />
+   return <StyledToastContainer autoClose={1000} position="top-center" />
 }
 
 const StyledToastContainer = styled(ToastContainer)`
