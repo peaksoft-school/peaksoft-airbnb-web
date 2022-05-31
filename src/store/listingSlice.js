@@ -128,6 +128,9 @@ export const rejectListing = createAsyncThunk(
       }
    }
 )
+
+// TODO: AFTER BLOCK functionality is ready call getListings action
+
 export const blockListing = createAsyncThunk(
    'listing/blockListing',
    async (id, { rejectWithValue }) => {
@@ -212,13 +215,11 @@ const listingSlice = createSlice({
       [getListings.pending]: setPending,
       [getListings.fulfilled]: (state, { payload }) => {
          state.isLoading = false
-         state.status = 'success'
          state.listings = payload
       },
       [getListings.rejected]: setRejected,
       [deleteListing.pending]: setPending,
       [deleteListing.fulfilled]: (state, { payload }) => {
-         state.status = 'success'
          state.isLoading = false
          state.listings.data = state.listings.data.filter(
             (listing) => listing.id !== payload
@@ -228,7 +229,6 @@ const listingSlice = createSlice({
       [getOneListing.pending]: setPending,
       [getOneListing.fulfilled]: (state, { payload }) => {
          state.listing = payload.data
-         state.status = 'success'
          state.isLoading = false
       },
       [getOneListing.rejected]: setRejected,

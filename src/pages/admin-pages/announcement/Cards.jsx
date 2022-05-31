@@ -4,10 +4,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import AdminCard from '../../../components/admin-card/AdminCard'
 import { showSuccessMessage } from '../../../components/UI/notification/Notification'
 import { acceptListing, deleteListing } from '../../../store/listingSlice'
+import { REJECT_LISTING } from '../../../utils/constants/general'
 
 const Cards = ({ listings = [] }) => {
-   const [params, setParams] = useSearchParams()
-   console.log(params)
+   const [, setParams] = useSearchParams()
    const navigate = useNavigate()
    const dispatch = useDispatch()
    const transitionInnerPage = (id) => {
@@ -24,7 +24,7 @@ const Cards = ({ listings = [] }) => {
          )
    }
    const rejectListingHandler = (id) => {
-      setParams({ rejectListing: id })
+      setParams({ [REJECT_LISTING]: id })
    }
    const deleteListingHandler = (id) => {
       dispatch(deleteListing(id))
@@ -43,9 +43,9 @@ const Cards = ({ listings = [] }) => {
             title={el.title}
             rating={el.rating}
             maxNumberOfGuests={el.maxNumberOfGuests}
-            acceptHandler={acceptListingHandler}
-            rejectHandler={rejectListingHandler}
-            deleteHandler={deleteListingHandler}
+            onAccept={acceptListingHandler}
+            onReject={rejectListingHandler}
+            onDelete={deleteListingHandler}
          />
       ))
    )

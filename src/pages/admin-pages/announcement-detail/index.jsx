@@ -13,7 +13,7 @@ import third from '../../../assets/images/InnerImage3.jpg'
 import fourth from '../../../assets/images/InnerImage4.jpg'
 import { showSuccessMessage } from '../../../components/UI/notification/Notification'
 import { useSearchParams } from 'react-router-dom'
-import { paramsSet } from '../../../utils/helpers/general'
+import { REJECT_LISTING } from '../../../utils/constants/general'
 
 const dataSlider = [
    {
@@ -34,10 +34,15 @@ const dataSlider = [
    },
 ]
 const AnnouncementDetail = () => {
-   const [params, setParams] = useSearchParams()
-   const rejectHandler = () => {
-      paramsSet(true, 'rejectListing', setParams, params)
-      setParams({ rejectedListing: 'true' })
+   const [, setParams] = useSearchParams()
+   const rejectHandler = (id) => {
+      setParams({ [REJECT_LISTING]: id })
+   }
+   const successMessageHandler = () => {
+      showSuccessMessage({
+         message: 'The house was successfully booked',
+         title: 'Booked :)',
+      })
    }
    return (
       <Wrapper>
@@ -92,12 +97,7 @@ const AnnouncementDetail = () => {
                      <Button
                         width="196px"
                         className="btn"
-                        onClick={() => {
-                           showSuccessMessage({
-                              message: 'The house was successfully booked',
-                              title: 'Booked :)',
-                           })
-                        }}
+                        onClick={successMessageHandler}
                      >
                         ACCEPT
                      </Button>

@@ -18,29 +18,29 @@ const AdminCard = ({
    images,
    rating,
    onClick,
-   rejectHandler,
-   acceptHandler,
-   deleteHandler,
+   onReject,
+   onAccept,
+   onDelete,
    id,
 }) => {
    const [showMeetballs, setShowMeetballs] = useState(false)
-   const meetballsHandler = (e) => {
+   const showMeetballsHandler = (e) => {
       e.stopPropagation()
       setShowMeetballs(!showMeetballs)
    }
-   const handlerReject = (e) => {
+   const rejectHandler = (e) => {
       e.stopPropagation()
-      rejectHandler(id)
+      onReject(id)
       setShowMeetballs(false)
    }
-   const handlerDelete = (e) => {
+   const deleteHandler = (e) => {
       e.stopPropagation()
-      deleteHandler(id)
+      onDelete(id)
       setShowMeetballs(false)
    }
-   const handlerAccept = (e) => {
+   const acceptHandler = (e) => {
       e.stopPropagation()
-      acceptHandler(id)
+      onAccept(id)
       setShowMeetballs(false)
    }
    const closeMeetballs = (e) => {
@@ -77,11 +77,11 @@ const AdminCard = ({
                </Flex>
                <Flex width="100%" align="center" justify="space-between">
                   <Text size="12px">{maxNumberOfGuests} guests</Text>
-                  <Button onClick={meetballsHandler}>...</Button>
+                  <Button onClick={showMeetballsHandler}>...</Button>
                   <PopUp isVisible={showMeetballs} onClose={closeMeetballs}>
-                     <AboutItem onClick={handlerAccept}>Accept</AboutItem>
-                     <AboutItem onClick={handlerReject}>Reject</AboutItem>
-                     <AboutItem onClick={handlerDelete}>Delete</AboutItem>
+                     <AboutItem onClick={acceptHandler}>Accept</AboutItem>
+                     <AboutItem onClick={rejectHandler}>Reject</AboutItem>
+                     <AboutItem onClick={deleteHandler}>Delete</AboutItem>
                   </PopUp>
                </Flex>
             </ContentWrapper>

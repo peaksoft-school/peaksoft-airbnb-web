@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux'
 import { rejectListing } from '../../../store/listingSlice'
 import { useSearchParams } from 'react-router-dom'
 
-const Rejects = ({ onClose, isVisible }) => {
+const RejectModal = ({ onClose, isVisible }) => {
    const [params, setParams] = useSearchParams()
    const dispatch = useDispatch()
    const {
@@ -40,7 +40,10 @@ const Rejects = ({ onClose, isVisible }) => {
             setParams('')
          })
          .catch(() => {
-            showErrorMessage({ title: 'Error', message: 'sdfasdfdsf' })
+            showErrorMessage({
+               title: 'Error',
+               message: 'Something went wrong',
+            })
          })
    }
    return (
@@ -73,4 +76,4 @@ const ErrorMessage = styled.p`
    font-size: 14px;
    color: tomato;
 `
-export default Rejects
+export default RejectModal

@@ -33,7 +33,6 @@ const BookForm = () => {
       setValue,
       formState: { errors, isValid, isSubmitted },
       handleSubmit,
-      // reset,
    } = useForm({
       defaultValues: {
          type: '',
@@ -81,11 +80,6 @@ const BookForm = () => {
             required: '🛑 Obligatory field',
          }),
       },
-      // images: {
-      //    ...register('images', {
-      //       required: '🛑 please add at least one photo',
-      //    }),
-      // },
    }
 
    const { isLoading } = listing
@@ -125,16 +119,7 @@ const BookForm = () => {
             navigateAfterSuccessUpload,
          })
       )
-      // reset({
-      //    maxNumberOfGuests: '',
-      //    price: '',
-      //    town: '',
-      //    description: '',
-      //    address: '',
-      //    title: '',
-      //    type: '',
-      //    regionId: '',
-      // })
+
       setSelectedImages({
          images: [],
          files: [],
