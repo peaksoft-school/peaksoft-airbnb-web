@@ -20,7 +20,6 @@ export const bookTheListing = createAsyncThunk(
       }
    }
 )
-
 const initState = {
    isLoading: false,
    status: null,
@@ -39,6 +38,5 @@ const bookingSlice = createSlice({
       },
    },
 })
-
 export const bookingActions = bookingSlice.actions
 export default bookingSlice
