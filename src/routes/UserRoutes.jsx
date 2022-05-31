@@ -35,7 +35,6 @@ const UserRoutes = () => {
                <Route path={MAIN.path} element={<Main />} />
                <Route path={REGION.path} element={<Region />} />
                <Route path={HOUSE.path} element={<HomeDetail />} />
-               <Route path={SUBMIT_AN_AD.path} element={<SubmitAnAd />} />
             </Route>
             <Route
                element={
@@ -44,6 +43,7 @@ const UserRoutes = () => {
                   />
                }
             >
+               <Route path={SUBMIT_AN_AD.path} element={<SubmitAnAd />} />
                <Route path={PROFILE.path} element={<Profile />}>
                   <Route
                      path={PROFILE.path}
