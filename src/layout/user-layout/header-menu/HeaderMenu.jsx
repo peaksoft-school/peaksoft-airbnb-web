@@ -72,7 +72,13 @@ const HeaderMenu = ({
                   <Button onClick={navigateToSubmitAnAd}>Submit an ad</Button>
                )
             ) : (
-               <Button onClick={() => showSignInWithGoogle()} width="100%">
+               <Button
+                  onClick={() => {
+                     showSignInWithGoogle()
+                     hideMenuHandler()
+                  }}
+                  width="100%"
+               >
                   JOIN AS
                </Button>
             )}

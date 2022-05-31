@@ -55,7 +55,7 @@ const HeaderStyled = styled.header`
 
    box-shadow: ${({ headerBackground }) =>
       headerBackground ? '0 3px 5px rgba(57, 63, 72, 0.3)' : ''};
-   z-index: 11;
+   z-index: 1;
    .btn {
       ${media.tablet`
       width:100px;
