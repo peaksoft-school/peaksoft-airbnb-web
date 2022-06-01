@@ -5,7 +5,7 @@ const BackDrop = (props) => {
    return (
       <>
          {ReactDOM.createPortal(
-            <BackDropStyle onClick={props.onClose} />,
+            <BackDropStyle {...props} onClick={props.onClose} />,
             document.getElementById('backdrop-root')
          )}
       </>
@@ -19,7 +19,7 @@ const BackDropStyle = styled.div`
    width: 100%;
    height: 100vh;
    z-index: 10;
-   background: rgba(0, 0, 0, 0.5);
+   background: ${({ background }) => background || 'rgba(0, 0, 0, 0.5)'};
    animation: BACKDROP ease-in 0.4s;
    @keyframes BACKDROP {
       0% {

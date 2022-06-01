@@ -33,7 +33,6 @@ const BookForm = () => {
       setValue,
       formState: { errors, isValid, isSubmitted },
       handleSubmit,
-      reset,
    } = useForm({
       defaultValues: {
          type: '',
@@ -81,11 +80,6 @@ const BookForm = () => {
             required: '🛑 Obligatory field',
          }),
       },
-      // images: {
-      //    ...register('images', {
-      //       required: '🛑 please add at least one photo',
-      //    }),
-      // },
    }
 
    const { isLoading } = listing
@@ -111,9 +105,10 @@ const BookForm = () => {
    const changeSelectHandler = (regionId) =>
       setValue('regionId', regionId, { shouldValidate: true })
    const navigateAfterSuccessUpload = () => {
-      navigate('/')
+      navigate('/main/regions')
    }
-   const submitHandler = (data) => {
+   const submitHandler = (data, e) => {
+      e.stopPropagation()
       dispatch(
          uploadImageListing({
             dataListing: {
@@ -125,16 +120,7 @@ const BookForm = () => {
             navigateAfterSuccessUpload,
          })
       )
-      reset({
-         maxNumberOfGuests: '',
-         price: '',
-         town: '',
-         description: '',
-         address: '',
-         title: '',
-         type: '',
-         regionId: '',
-      })
+
       setSelectedImages({
          images: [],
          files: [],
@@ -148,7 +134,7 @@ const BookForm = () => {
       dispatch(getRegions())
    }, [])
    return (
-      <FormContainer>
+      <FormContainer onSubmit={handleSubmit(submitHandler)}>
          <GlobalStyle />
          <Title uppercase>Hi! Let's get started listing your place.</Title>
          <Br />
@@ -293,14 +279,12 @@ const BookForm = () => {
             </ErrorMessage>
          </Label>
          <Flex margin="23px 0 0 0" justify="end">
-            <Button onClick={handleSubmit(submitHandler)} width="200px">
-               {isLoading ? <Spinner /> : 'submit'}
-            </Button>
+            <Button width="200px">{isLoading ? <Spinner /> : 'submit'}</Button>
          </Flex>
       </FormContainer>
    )
 }
-const FormContainer = styled.div`
+const FormContainer = styled.form`
    max-width: 610px;
    width: 100%;
    margin: 0 auto;
