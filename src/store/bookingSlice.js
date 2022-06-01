@@ -5,14 +5,15 @@ const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit')
 
 export const bookTheListing = createAsyncThunk(
    'booking/bookTheListing',
-   async ({ date, id }, { rejectWithValue }) => {
+   async ({ checkInDate, checkoutDate, amount, id }, { rejectWithValue }) => {
       try {
          return fetchApi({
             path: `api/listings/${id}/book`,
             method: 'POST',
             body: {
-               checkIn: date.startDate,
-               checkOut: date.endDate,
+               checkInDate,
+               checkoutDate,
+               amount,
             },
          })
       } catch (error) {
@@ -35,6 +36,9 @@ const bookingSlice = createSlice({
          state.isLoading = true
       },
       [bookTheListing.fulfilled]: (state) => {
+         state.isLoading = false
+      },
+      [bookTheListing.rejected]: (state) => {
          state.isLoading = false
       },
    },
