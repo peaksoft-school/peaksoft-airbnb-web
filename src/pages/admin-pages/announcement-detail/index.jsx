@@ -44,6 +44,7 @@ const AnnouncementDetail = () => {
          })
       }
    }
+
    const showRejectModal = () => setSearchParams({ [REJECT_LISTING]: id })
 
    return isLoading ? (

@@ -1,4 +1,3 @@
-/* eslint-disable import/named */
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
@@ -57,7 +56,7 @@ const AllHousing = () => {
       const filterBy = {
          status: LISTING_STATUSES.ACCEPTED,
       }
-      const sortBy = {}
+      const sortBy = { isBlocked: 'ASC' }
       const queryParams = {}
       if (filter.regionIds.length > 0) {
          filterBy.regionIds = filter.regionIds
@@ -104,7 +103,7 @@ const AllHousing = () => {
             align="center"
             gap="13px"
             width="100%"
-            margin="0 20px 0 0"
+            margin="0 20px 20px 0"
          >
             {filter.regionIds.map((regionId) => (
                <AdminTag

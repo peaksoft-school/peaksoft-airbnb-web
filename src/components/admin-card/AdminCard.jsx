@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import * as React from 'react'
 import styled from 'styled-components'
 import { useState } from 'react'
@@ -64,10 +63,15 @@ const AdminCard = ({
       e.stopPropagation()
       setShowMeetballs(false)
    }
-   const style = 'red'
+
    const { ACCEPTED, PENDING } = LISTING_STATUSES
    return (
-      <Wrapper isViewed={isViewed} isVisible={isBlocked && style}>
+      <Wrapper isViewed={isViewed} isBlocked={isBlocked}>
+         {isBlocked && (
+            <BlockedContent>
+               <Message>This application has been blocked</Message>
+            </BlockedContent>
+         )}
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={images} />
@@ -129,13 +133,29 @@ const AdminCard = ({
       </Wrapper>
    )
 }
-
+const BlockedContent = styled.div`
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   z-index: 1;
+   width: 100%;
+   height: 100%;
+   padding: 17px;
+   background-color: #d4d4d483;
+   @media (max-width: 525px) {
+      padding: 6px;
+   }
+`
 const Wrapper = styled.div`
+   position: relative;
    width: 210px;
    height: 275px;
    @media (max-width: 425px) {
       width: 100%;
    }
+   /* border: ${({ isBlocked }) => (isBlocked ? '3px solid #464040' : '')}; */
    border: ${({ isViewed }) => (!isViewed ? '3px solid #FF0000' : '')};
    border-radius: ${({ isViewed }) => (!isViewed ? '8px' : '4px')};
    border-radius: ${({ isViewed }) =>
@@ -201,6 +221,7 @@ const Button = styled.p`
    align-items: center;
    justify-content: center;
    padding-bottom: 10px;
+   z-index: 12;
 `
 
 const AboutItem = styled.div`
@@ -214,6 +235,21 @@ const AboutItem = styled.div`
    cursor: pointer;
    :hover {
       background-color: #f1f1f1;
+   }
+`
+const Message = styled.h5`
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 10px;
+   line-height: 12px;
+   color: #ffffff;
+   padding: 0.5em;
+   background: #646464;
+   border-radius: 4px;
+   margin-top: 10px;
+   @media (max-width: 525px) {
+      font-size: 8px;
    }
 `
 export default AdminCard
