@@ -16,7 +16,6 @@ import CheckoutForm from '../../../components/checkout-form/CheckoutForm'
 import LeaveFeedbackButton from '../../../components/UI/buttons/LeaveFeedbackButton'
 import FeedBack from '../../../components/feedback/FeedBack'
 import FeedbackList from '../../../components/feedback/FeedbackList'
-import LikeDislike from '../../../components/feedback/LikeDislike'
 import {
    getDataFromLocalStorage,
    saveToLocalStorage,
@@ -113,7 +112,6 @@ const HomeDetail = () => {
          <Container>
             <LeftContent>
                <FeedbackList feedbacks={listing.feedbacks} />
-               <LikeDislike />
                <Flex width="100%" margin="40px 0 0 0">
                   <LeaveFeedbackButton onClick={showFeedbackModal} />
                </Flex>

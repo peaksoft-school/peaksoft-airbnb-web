@@ -35,9 +35,14 @@ const FeedbackList = ({ feedbacks = [] }) => {
             />
          ))}
          <Flex align="center" justify="center" margin="35px 0 0 0 ">
-            <Title className="showMore" onClick={() => setShowMore(!showMore)}>
-               {showMore ? 'Show less' : 'Show  more'}
-            </Title>
+            {feedbacks.length > 3 && (
+               <Title
+                  className="showMore"
+                  onClick={() => setShowMore(!showMore)}
+               >
+                  {showMore ? 'Show less' : 'Show  more'}
+               </Title>
+            )}
          </Flex>
       </Container>
    )

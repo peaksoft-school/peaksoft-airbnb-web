@@ -5,10 +5,10 @@ import { useState } from 'react'
 import Title from '../UI/typography/Title'
 import Flex from '../UI/ui-for-positions/Flex'
 import Text from '../UI/typography/Text'
-import Like from '../../assets/icons/like.svg'
-import disLike from '../../assets/icons/disLike.svg'
 import Rating from './Rating'
 import ModalImage from './ModalImage'
+import LikeCheckbox from '../UI/checkbox/LikeCheckbox'
+import DisLikeCheckbox from '../UI/checkbox/DisLikeCheckbox'
 
 const FeedbackComment = ({
    user,
@@ -54,11 +54,11 @@ const FeedbackComment = ({
             </Flex>
             <Flex gap="20px">
                <Flex gap="10px">
-                  <img src={Like} alt="" />
+                  <LikeCheckbox />
                   <span className="Like">{likes}</span>
                </Flex>
                <Flex gap="10px">
-                  <img src={disLike} alt="" />
+                  <DisLikeCheckbox />
                   <span className="Like">{dislikes}</span>
                </Flex>
             </Flex>
