@@ -1,11 +1,28 @@
+/* eslint-disable no-param-reassign */
 import React from 'react'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
 import AdminCard from '../../../components/admin-card/AdminCard'
 import NotFound from '../../../components/UI/not-found-content/NotFound'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
+import {
+   blockListing,
+   deleteListing,
+   unBlockListing,
+} from '../../../store/listingSlice'
 
 const Cards = ({ listings = [] }) => {
+   const dispatch = useDispatch()
+   const deleteListingHandler = (id) => {
+      dispatch(deleteListing(id))
+   }
+   const blockListingHandler = (id) => {
+      dispatch(blockListing(id))
+   }
+   const unBlockListingHandler = (id) => {
+      dispatch(unBlockListing(id))
+   }
    return (
       <CardContainer>
          {(listings.length > 0 &&
@@ -21,6 +38,10 @@ const Cards = ({ listings = [] }) => {
                   status={el.status}
                   isBlocked={el.isBlocked}
                   isViewed
+                  onDelete={deleteListingHandler}
+                  onBlock={blockListingHandler}
+                  onUnBlock={unBlockListingHandler}
+                  id={el.id}
                />
             ))) || <NotFound />}
       </CardContainer>

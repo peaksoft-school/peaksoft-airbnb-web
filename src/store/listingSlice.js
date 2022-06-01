@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-cycle */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
@@ -133,13 +134,13 @@ export const rejectListing = createAsyncThunk(
 
 export const blockListing = createAsyncThunk(
    'listing/blockListing',
-   async (id, { rejectWithValue }) => {
+   async (id, { rejectWithValue, dispatch }) => {
       try {
-         const listing = fetchApi({
+         fetchApi({
             path: `api/listings/${id}/block`,
             method: 'PATCH',
          })
-         return listing
+         dispatch(listingActions.blockListing(id))
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -147,13 +148,13 @@ export const blockListing = createAsyncThunk(
 )
 export const unBlockListing = createAsyncThunk(
    'listing/unBlockListing',
-   async (id, { rejectWithValue }) => {
+   async (id, { rejectWithValue, dispatch }) => {
       try {
-         const listing = fetchApi({
+         fetchApi({
             path: `api/listings/${id}/unblock`,
             method: 'PATCH',
          })
-         return listing
+         dispatch(listingActions.unblockListing(id))
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -203,6 +204,22 @@ const listingSlice = createSlice({
    reducers: {
       saveSearchValue(state, action) {
          state.searchValue = action.payload.search
+      },
+      blockListing(state, { payload }) {
+         state.listings.data = state.listings?.data.map((listing) => {
+            if (listing.id === payload) {
+               listing.isBlocked = true
+            }
+            return listing
+         })
+      },
+      unblockListing(state, { payload }) {
+         state.listings.data = state.listings?.data.map((listing) => {
+            if (listing.id === payload) {
+               listing.isBlocked = false
+            }
+            return listing
+         })
       },
    },
    extraReducers: {

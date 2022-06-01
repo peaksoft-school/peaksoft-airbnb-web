@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import * as React from 'react'
 import styled from 'styled-components'
 import { useState } from 'react'
@@ -25,6 +26,8 @@ const AdminCard = ({
    onAccept,
    onDelete,
    id,
+   onBlock,
+   onUnBlock,
 }) => {
    const [showMeetballs, setShowMeetballs] = useState(false)
    const showMeetballsHandler = (e) => {
@@ -41,6 +44,17 @@ const AdminCard = ({
       onDelete(id)
       setShowMeetballs(false)
    }
+   const blockHandler = (e) => {
+      e.stopPropagation()
+      onBlock(id)
+      setShowMeetballs(false)
+   }
+   const unBlockHandler = (e) => {
+      e.stopPropagation()
+      onUnBlock(id)
+
+      setShowMeetballs(false)
+   }
    const acceptHandler = (e) => {
       e.stopPropagation()
       onAccept(id)
@@ -50,9 +64,10 @@ const AdminCard = ({
       e.stopPropagation()
       setShowMeetballs(false)
    }
+   const style = 'red'
    const { ACCEPTED, PENDING } = LISTING_STATUSES
    return (
-      <Wrapper isViewed={isViewed}>
+      <Wrapper isViewed={isViewed} isVisible={isBlocked && style}>
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={images} />
@@ -96,7 +111,7 @@ const AdminCard = ({
                      }
                      onClose={closeMeetballs}
                   >
-                     <AboutItem>Block</AboutItem>
+                     <AboutItem onClick={blockHandler}>Block</AboutItem>
                      <AboutItem onClick={deleteHandler}>Delete</AboutItem>
                   </PopUp>
                   <PopUp
@@ -105,7 +120,7 @@ const AdminCard = ({
                      }
                      onClose={closeMeetballs}
                   >
-                     <AboutItem>UnBlock</AboutItem>
+                     <AboutItem onClick={unBlockHandler}>UnBlock</AboutItem>
                      <AboutItem onClick={deleteHandler}>Delete</AboutItem>
                   </PopUp>
                </Flex>
@@ -114,6 +129,7 @@ const AdminCard = ({
       </Wrapper>
    )
 }
+
 const Wrapper = styled.div`
    width: 210px;
    height: 275px;

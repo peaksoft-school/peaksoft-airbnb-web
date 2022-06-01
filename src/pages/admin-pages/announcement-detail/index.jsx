@@ -66,7 +66,7 @@ const AnnouncementDetail = () => {
                <Flex direction="column">
                   <Flex gap="14px">
                      <Tag>{listing.type}</Tag>
-                     <Tag>{listing.maxNumberOfGuests}</Tag>
+                     <Tag>{listing.maxNumberOfGuests} guests</Tag>
                   </Flex>
                   <Flex direction="column" margin="8px" gap="20px">
                      <Flex direction="column" gap="10px">
