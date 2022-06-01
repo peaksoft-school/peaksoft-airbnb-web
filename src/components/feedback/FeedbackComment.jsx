@@ -18,6 +18,7 @@ const FeedbackComment = ({
    dislikes,
    images,
    rating,
+   avatar,
 }) => {
    const [seeMore, setSeeMore] = useState(false)
 
@@ -29,7 +30,7 @@ const FeedbackComment = ({
       <Div>
          <Flex width="100%" justify="space-between" align="center">
             <Flex align="center" gap="10px">
-               <Avatar />
+               <Avatar src={avatar} />
                <Title>{user}</Title>
             </Flex>
             <Flex align="center" gap="10px">

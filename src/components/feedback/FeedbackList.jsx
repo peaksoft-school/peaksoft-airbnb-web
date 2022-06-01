@@ -24,14 +24,14 @@ const FeedbackList = ({ feedbacks = [] }) => {
          {feedbackToggle.map((el) => (
             <FeedbackComment
                key={el.id}
-               avatar={el.listing.user.avatar}
-               user={el.listing.user.name}
+               avatar={el.user.avatar}
+               user={el.user.name}
                rating={el.rating}
                comment={el.comment}
                date="22.22.2022"
                likes={el.likes}
                dislikes={el.dislikes}
-               images={el.listing.images}
+               images={el.images}
             />
          ))}
          <Flex align="center" justify="center" margin="35px 0 0 0 ">

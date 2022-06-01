@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Gpp from './components/feedback/LikeDislike'
 import Notification from './components/UI/notification/Notification'
 import AdminRoutes from './routes/AdminRoutes'
 import UserRoutes from './routes/UserRoutes'
@@ -23,6 +24,7 @@ function App() {
          <UserRoutes />
          <AdminRoutes />
          <Notification />
+         <Gpp />
       </div>
    )
 }

@@ -85,7 +85,7 @@ const FeedBack = ({ onClose, isVisible }) => {
             />
 
             <Flex margin="20px 0 0 0" width="100%" gap="50px" justify="end">
-               <CancelButton width="100px" onClose={onClose} />
+               <CancelButton width="100px" onClick={onClose} />
                <Button onClick={submitFeedbackHandler}>PUBLIC</Button>
             </Flex>
          </ContainerFeedBack>
