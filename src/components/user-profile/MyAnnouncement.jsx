@@ -4,9 +4,11 @@ import { getUserProfileListingsAnnouncement } from '../../store/userProfileSlice
 import ProfileCard from '../cards/ProfileCard'
 import LoadingPage from '../UI/loader/LoadingPage'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 const MyAnnouncement = () => {
    const dispatch = useDispatch()
+   const navigate = useNavigate()
    const { userlistings, isLoading } = useSelector((state) => state.userProfile)
    useEffect(() => {
       dispatch(
@@ -15,12 +17,18 @@ const MyAnnouncement = () => {
          })
       )
    }, [])
+
+   const enterListingHandler = (id) => {
+      navigate(`${id}`)
+   }
    return isLoading ? (
       <LoadingPageStyled width="260px" height="320px" />
    ) : (
       userlistings?.data?.map((el) => (
          <ProfileCard
             key={el.id}
+            id={el.id}
+            onClick={enterListingHandler(el.id)}
             width="260px"
             images={el.images}
             title={el.title}

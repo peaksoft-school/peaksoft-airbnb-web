@@ -52,9 +52,25 @@ export const getUserProfileListingBookings = createAsyncThunk(
    }
 )
 
+export const getOneAnnouncements = createAsyncThunk(
+   'userProfile/getOneAnnouncements',
+   async (announcementsId, { rejectWithValue }) => {
+      try {
+         const announcementIdListing = await fetchApi({
+            path: `api/profile/${announcementsId}`,
+            method: 'GET',
+         })
+         return announcementIdListing
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
+
 const initialState = {
    userlistings: {},
-   myAnnouncementListing: {},
+   userBookingListings: {},
+   announcementIdListing: {},
    isLoading: false,
    error: null,
 }
@@ -81,12 +97,25 @@ const userProfileSlice = createSlice({
          state.error = null
       },
       [getUserProfileListingBookings.fulfilled]: (state, action) => {
-         state.userlistings = action.payload
+         state.userBookingListings = action.payload
          state.isLoading = false
       },
       [getUserProfileListingBookings.rejected]: (state, { error }) => {
          state.isLoading = false
          state.error = error.message
+      },
+      [getOneAnnouncements.pending]: (state) => {
+         state.isLoading = true
+         state.error = null
+      },
+      [getOneAnnouncements.rejected]: (state, { error }) => {
+         state.isLoading = false
+         state.error = error.message
+      },
+      [getOneAnnouncements.fulfilled]: (state, { payload }) => {
+         state.announcementIdListing = payload?.data
+         state.status = 'success'
+         state.isLoading = false
       },
    },
 })

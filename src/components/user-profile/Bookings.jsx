@@ -11,7 +11,6 @@ const Bookings = () => {
    const { userBookingListings, isLoading } = useSelector(
       (state) => state.userProfile
    )
-
    useEffect(() => {
       dispatch(
          getUserProfileListingBookings({
@@ -24,17 +23,17 @@ const Bookings = () => {
    ) : (
       userBookingListings?.data?.map((el) => (
          <ProfileCard
-            key={el.id}
+            key={el.listing.id}
             width="260px"
-            images={el.Image}
-            titess={el.address}
-            pricle={el.text}
-            addre={el.title}
-            starRange={el.starRange}
-            guest={el.guest}
-            blocked={el.isBlocked}
-            rejected={el.isRejected}
-            isViewed={el.isViewed}
+            images={el.listing.images}
+            title={el.listing.title}
+            address={el.listing.address}
+            price={el.listing.price}
+            rating={el.listing.rating}
+            blocked={el.listing.isBlocked}
+            rejected={el.listing.status}
+            isViewed={el.listing.isViewed}
+            maxNumberOfGuests={el.maxNumberOfGuests}
          />
       ))
    )
