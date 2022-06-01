@@ -5,13 +5,18 @@ import Button from '../UI/buttons/Button'
 import Flex from '../UI/ui-for-positions/Flex'
 import DateRangePicker from '../UI/date-picker/DatePicker'
 import { useForm } from 'react-hook-form'
+import { useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 
 const CheckoutForm = ({ price, getDates }) => {
+   const { isAuthorized } = useSelector((state) => state.auth)
+   const [, setParams] = useSearchParams()
    const {
       register,
       setValue,
       handleSubmit,
       getValues,
+      reset,
       formState: { errors },
    } = useForm({
       defaultValues: {
@@ -29,7 +34,14 @@ const CheckoutForm = ({ price, getDates }) => {
    const onChangeEndDate = (value) =>
       setValue('endDate', value, { shouldValidate: true })
 
-   const submitHandler = (data) => getDates(data)
+   const submitHandler = (data) => {
+      if (!isAuthorized) {
+         setParams({ signIn: 'google' })
+         return
+      }
+      getDates(data)
+      reset()
+   }
 
    const dates = {
       startDate: {

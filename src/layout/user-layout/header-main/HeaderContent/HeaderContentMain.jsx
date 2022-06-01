@@ -19,7 +19,7 @@ const HeaderContentMain = ({
    }
    return (
       <Flex justify="space-between" align="center" width="100%">
-         <Nav dark={headerStyle} />
+         <Nav isAuthorized={isAuthorized} dark={headerStyle} />
          <Content isAuthorized={isAuthorized}>
             <LogoAirBnb color={headerStyle ? 'dark' : 'light'} />
          </Content>

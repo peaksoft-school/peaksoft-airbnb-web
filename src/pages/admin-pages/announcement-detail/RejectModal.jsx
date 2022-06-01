@@ -12,11 +12,12 @@ import {
 } from '../../../components/UI/notification/Notification'
 import { useDispatch } from 'react-redux'
 import { rejectListing } from '../../../store/listingSlice'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const RejectModal = ({ onClose, isVisible }) => {
    const [params, setParams] = useSearchParams()
    const dispatch = useDispatch()
+   const navigate = useNavigate()
    const {
       formState: { errors, isValid },
       register,
@@ -38,6 +39,7 @@ const RejectModal = ({ onClose, isVisible }) => {
             showSuccessMessage({ title: 'Successfully sent :)' })
             reset()
             setParams('')
+            navigate('/announcement')
          })
          .catch(() => {
             showErrorMessage({
