@@ -15,12 +15,12 @@ import { useParams } from 'react-router-dom'
 
 const FeedBack = ({ onClose, isVisible }) => {
    const { house } = useParams()
-   console.log(house)
    const dispatch = useDispatch()
    const [selectedImages, setSelectedImages] = useState({
       images: [],
       files: [],
    })
+
    const [value, setValue] = useState({
       comment: '',
       rating: 0,
@@ -85,7 +85,7 @@ const FeedBack = ({ onClose, isVisible }) => {
             />
 
             <Flex margin="20px 0 0 0" width="100%" gap="50px" justify="end">
-               <CancelButton width="100px" />
+               <CancelButton width="100px" onClose={onClose} />
                <Button onClick={submitFeedbackHandler}>PUBLIC</Button>
             </Flex>
          </ContainerFeedBack>

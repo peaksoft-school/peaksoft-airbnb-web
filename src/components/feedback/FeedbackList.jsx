@@ -28,7 +28,7 @@ const FeedbackList = ({ feedbacks = [] }) => {
                user={el.listing.user.name}
                rating={el.rating}
                comment={el.comment}
-               date="22-22-2222"
+               date="22.22.2022"
                likes={el.likes}
                dislikes={el.dislikes}
                images={el.listing.images}
