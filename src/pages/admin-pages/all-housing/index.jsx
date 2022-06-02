@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
-import SelectsForFilter from '../../../components/selects-for-filter/SelectsForFilter'
+import Filters from '../../../components/selects-for-filter/SelectsForFilter'
 import AllHousingCards from './AllHousingCards'
 import AdminTag from './AdminTag'
 import Pagination from '../../../components/pagination/Pagination'
@@ -80,7 +80,8 @@ const AllHousing = () => {
    useEffect(() => {
       dispatch(getRegions())
    }, [])
-
+   const getContent = (regionId) =>
+      regions.length && getSomeGiven(regionId, regions, 'id').title
    return (
       <Container>
          <Flex width="100%" justify="space-between">
@@ -88,7 +89,7 @@ const AllHousing = () => {
                <Title size="19px">ALL HOUSING</Title>
             </Flex>
             <Flex margin="46px 0 40px 0">
-               <SelectsForFilter
+               <Filters
                   regionIds={filter.regionIds}
                   total={listings.total}
                   setSort={setSort}
@@ -109,10 +110,7 @@ const AllHousing = () => {
                <AdminTag
                   key={regionId}
                   onClick={() => filteredRegionIds(regionId)}
-                  content={
-                     regions.length &&
-                     getSomeGiven(regionId, regions, 'id').title
-                  }
+                  content={getContent(regionId)}
                   dark
                />
             ))}

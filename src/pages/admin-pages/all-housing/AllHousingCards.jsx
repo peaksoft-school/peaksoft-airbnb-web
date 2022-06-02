@@ -13,15 +13,17 @@ import {
 
 const Cards = ({ listings = [] }) => {
    const dispatch = useDispatch()
-   const deleteListingHandler = (id) => {
-      dispatch(deleteListing(id))
+
+   const deleteListingHandler = async (id) => {
+      dispatch(deleteListing(id)).unwrap()
    }
-   const blockListingHandler = (id) => {
-      dispatch(blockListing(id))
+   const blockListingHandler = async (id) => {
+      dispatch(blockListing(id)).unwrap()
    }
    const unBlockListingHandler = (id) => {
-      dispatch(unBlockListing(id))
+      dispatch(unBlockListing(id)).unwrap()
    }
+
    return (
       <CardContainer>
          {(listings.length > 0 &&

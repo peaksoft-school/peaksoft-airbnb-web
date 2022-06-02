@@ -6,6 +6,10 @@ import { fetchFile } from '../api/fetchFile'
 import { fetchApi } from '../api/fetchApi'
 import { getParams } from '../utils/helpers/general'
 import { LISTING_STATUSES } from '../utils/constants/general'
+import {
+   showErrorMessage,
+   showSuccessMessage,
+} from '../components/UI/notification/Notification'
 
 export const uploadImageListing = createAsyncThunk(
    'listing/uploadImageListing',
@@ -136,12 +140,17 @@ export const blockListing = createAsyncThunk(
    'listing/blockListing',
    async (id, { rejectWithValue, dispatch }) => {
       try {
-         fetchApi({
+         await fetchApi({
             path: `api/listings/${id}/block`,
             method: 'PATCH',
          })
          dispatch(listingActions.blockListing(id))
+         showSuccessMessage({
+            title: 'Blocked :)',
+            message: 'Successfully blocked',
+         })
       } catch (error) {
+         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
          rejectWithValue(error.message)
       }
    }
@@ -150,12 +159,17 @@ export const unBlockListing = createAsyncThunk(
    'listing/unBlockListing',
    async (id, { rejectWithValue, dispatch }) => {
       try {
-         fetchApi({
+         await fetchApi({
             path: `api/listings/${id}/unblock`,
             method: 'PATCH',
          })
          dispatch(listingActions.unblockListing(id))
+         showSuccessMessage({
+            title: 'unBlocked :)',
+            message: 'Successfully unblocked',
+         })
       } catch (error) {
+         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
          rejectWithValue(error.message)
       }
    }
@@ -164,12 +178,17 @@ export const deleteListing = createAsyncThunk(
    'listing/deleteListing',
    async (id, { rejectWithValue }) => {
       try {
-         fetchApi({
+         await fetchApi({
             path: `api/listings/${id}`,
             method: 'DELETE',
          })
+         showSuccessMessage({
+            title: 'Deleted :)',
+            message: 'Successfully deleted',
+         })
          return id
       } catch (error) {
+         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
          rejectWithValue(error)
       }
    }
