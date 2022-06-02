@@ -28,7 +28,7 @@ const MyAnnouncement = () => {
          <ProfileCard
             key={el.id}
             id={el.id}
-            onClick={enterListingHandler(el.id)}
+            onClick={enterListingHandler}
             width="260px"
             images={el.images}
             title={el.title}

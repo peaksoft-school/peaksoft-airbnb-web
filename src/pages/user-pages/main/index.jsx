@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import BackgroundMain from '../../../assets/images/piotr-burzynski-wvc9E16vIYY-unsplash.jpg'
+import BackgroundMain from '../../../assets/images/wallpaperflare.com_wallpaper.jpg'
 import Regions from './Regions'
 import media from '../../../utils/helpers/media'
 import Apartments from './Apartments'

@@ -5,43 +5,43 @@ import Flex from '../ui-for-positions/Flex'
 import Grid from '../ui-for-positions/Grid'
 import { ReactComponent as Star } from '../../../assets/icons/bigStar.svg'
 
-const data = {
-   allRating: '4.4',
-   ratings: [
-      {
-         star: '5',
-         percent: 21,
-      },
-      {
-         star: '4',
-         percent: 74,
-      },
-      {
-         star: '3',
-         percent: 10,
-      },
-      {
-         star: '2',
-         percent: 0,
-      },
-      {
-         star: '1',
-         percent: 0,
-      },
-   ],
-}
+// const data = {
+//    allRating: '4.4',
+//    ratings: [
+//       {
+//          star: '5',
+//          percent: 21,
+//       },
+//       {
+//          star: '4',
+//          percent: 74,
+//       },
+//       {
+//          star: '3',
+//          percent: 10,
+//       },
+//       {
+//          star: '2',
+//          percent: 0,
+//       },
+//       {
+//          star: '1',
+//          percent: 0,
+//       },
+//    ],
+// }
 
-const RatingChart = () => {
+const RatingChart = ({ rating, feedbacks }) => {
    return (
       <Container>
          <Flex width="100%" direction="column" gap="12px" height="100%">
             <Flex width="100%" align="center" gap="10px">
                <Title color="#363636" size="24px">
-                  <b>{data.allRating}</b>
+                  <b>{rating}</b>
                </Title>
                <Star />
             </Flex>
-            {data.ratings.map((rating) => (
+            {feedbacks.ratings.map((rating) => (
                <Grid
                   key={rating.star}
                   columns="0.4fr 10fr 2fr"
@@ -72,7 +72,8 @@ const Container = styled.div`
    border-radius: 16px;
    margin: 50px;
    @media (max-width: 625px) {
-      margin: 0;
+      margin: 30px 0 0 0;
+      width: 100%;
    }
 `
 const Chart = styled.div`

@@ -193,6 +193,7 @@ export const deleteListing = createAsyncThunk(
       }
    }
 )
+
 const initialState = {
    listings: { data: [] },
    imagesId: [],
@@ -223,6 +224,24 @@ const listingSlice = createSlice({
    reducers: {
       saveSearchValue(state, action) {
          state.searchValue = action.payload.search
+      },
+      updateFeedback(state, { payload }) {
+         const feedback = payload
+         const isFeedback = state.listing.feedbacks.some(
+            (el) => el.id === feedback.id
+         )
+         if (isFeedback) {
+            state.listing.feedbacks = state.listing.feedbacks.map(
+               (itemFeedback) => {
+                  if (itemFeedback.id === feedback.id) {
+                     itemFeedback = feedback
+                  }
+                  return itemFeedback
+               }
+            )
+         } else {
+            state.listing.feedbacks.push(feedback)
+         }
       },
       blockListing(state, { payload }) {
          state.listings.data = state.listings?.data.map((listing) => {

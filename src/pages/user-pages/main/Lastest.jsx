@@ -56,7 +56,6 @@ const Lastest = () => {
    const [animation, setAnimation] = useState(false)
    const nextChangeHandler = () => {
       setAnimation(!animation)
-      // console.log(animation)
       if (homeIndex >= 0) {
          setHomeIndex(homeIndex + 1)
       }
