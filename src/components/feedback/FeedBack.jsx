@@ -9,22 +9,47 @@ import Flex from '../UI/ui-for-positions/Flex'
 import CancelButton from '../UI/buttons/CancelButton'
 import Button from '../UI/buttons/Button'
 import uuid from 'react-uuid'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { uploadImageFeedback } from '../../store/feedbackSlice'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { Alert } from '@mui/material'
+import Spinner from '../UI/loader/Spinner'
 
 const FeedBack = ({ onClose, isVisible }) => {
+   const [, setParams] = useSearchParams()
    const { house } = useParams()
    const dispatch = useDispatch()
+   const { isLoading } = useSelector((state) => state.feedback)
    const [selectedImages, setSelectedImages] = useState({
       images: [],
       files: [],
    })
-
-   const [value, setValue] = useState({
-      comment: '',
-      rating: 0,
+   const [ratingValue, setRatingValue] = useState(0)
+   const {
+      handleSubmit,
+      setValue,
+      register,
+      reset,
+      formState: { errors, isValid },
+   } = useForm({
+      defaultValues: {
+         rating: 0,
+      },
    })
+
+   const feedback = {
+      comment: {
+         ...register('comment', {
+            required: 'Obligatory field',
+         }),
+      },
+      rating: {
+         ...register('rating', {
+            required: false,
+         }),
+      },
+   }
 
    const onDrop = (files) => {
       const img = URL.createObjectURL(files[0])
@@ -42,23 +67,39 @@ const FeedBack = ({ onClose, isVisible }) => {
       })
    }
 
-   const textAreaChangeHandler = (e) =>
-      setValue({ ...value, comment: e.target.value })
-   const changeRatingHandler = (ratingValue) =>
-      setValue({ ...value, rating: ratingValue })
+   const changeRatingHandler = (value) => {
+      setValue('rating', value)
+      setRatingValue(value)
+   }
 
-   const submitFeedbackHandler = () => {
+   const submitFeedbackHandler = (dataFeedback) => {
+      const feedbackSuccess = () => {
+         reset({ comment: '', rating: 0 })
+         setSelectedImages({
+            images: [],
+            files: [],
+         })
+         setParams('')
+         setRatingValue(0)
+      }
       dispatch(
          uploadImageFeedback({
-            dataFeedback: value,
+            dataFeedback,
             imagesFeedback: selectedImages.files,
             id: house,
+            feedbackSuccess,
          })
       )
    }
+   const isValidate = errors?.comment && !isValid
    return (
       <Modal width="720px" onClose={onClose} isVisible={isVisible}>
          <ContainerFeedBack>
+            {isValidate && (
+               <Alert className="alert" severity="error">
+                  {errors?.comment?.message}
+               </Alert>
+            )}
             <Flex justify="center" margin="0 0 20px 0">
                <Title>LEAVE FEEDBACK</Title>
             </Flex>
@@ -70,7 +111,8 @@ const FeedBack = ({ onClose, isVisible }) => {
                />
             </Flex>
             <RatingFeedBack
-               value={value.rating}
+               {...feedback.rating}
+               value={ratingValue}
                onChange={changeRatingHandler}
             />
             <Flex margin="10px 0 10px 0">
@@ -79,14 +121,16 @@ const FeedBack = ({ onClose, isVisible }) => {
                </Title>
             </Flex>
             <TextArea
+               isValid={isValidate}
+               {...feedback.comment}
                placeholder="Share your impressions about this place"
-               onChange={textAreaChangeHandler}
-               value={value.comment}
             />
 
             <Flex margin="20px 0 0 0" width="100%" gap="50px" justify="end">
                <CancelButton width="100px" onClick={onClose} />
-               <Button onClick={submitFeedbackHandler}>PUBLIC</Button>
+               <Button onClick={handleSubmit(submitFeedbackHandler)}>
+                  {isLoading ? <Spinner /> : 'PUBLIC'}
+               </Button>
             </Flex>
          </ContainerFeedBack>
       </Modal>
@@ -94,6 +138,33 @@ const FeedBack = ({ onClose, isVisible }) => {
 }
 const ContainerFeedBack = styled.div`
    max-width: 700px;
+   .alert {
+      position: absolute;
+      width: 100%;
+      top: -46px;
+      left: 0;
+      font-family: 'Inter';
+      letter-spacing: 0.5px;
+      animation: alert 600ms ease-out;
+   }
+
+   @keyframes alert {
+      0% {
+         transform: scale(1);
+      }
+      10% {
+         transform: scale(0.9);
+      }
+      30% {
+         transform: scale(1.1);
+      }
+      50% {
+         transform: scale(1.15);
+      }
+      100% {
+         transform: scale(1);
+      }
+   }
 `
 
 export default FeedBack

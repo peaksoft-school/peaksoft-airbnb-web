@@ -31,7 +31,6 @@ const HomeDetail = () => {
    const [startAndEndDate, setStartAndEndDate] = useState(
       getDataFromLocalStorage('dates') || {}
    )
-
    useEffect(() => {
       dispatch(getOneListing(params.house))
    }, [])
@@ -117,7 +116,7 @@ const HomeDetail = () => {
                </Flex>
             </LeftContent>
             <RightContent>
-               <RatingChart />
+               <RatingChart rating={listing?.rating} />
             </RightContent>
          </Container>
       </Wrapper>
@@ -176,6 +175,7 @@ const Tag = styled.span`
    border: 1px solid #ffcbe0;
    padding: 6px 8px;
    font-family: 'Inter';
+   text-transform: lowercase;
 `
 
 export default HomeDetail

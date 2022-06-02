@@ -9,6 +9,8 @@ import Rating from './Rating'
 import ModalImage from './ModalImage'
 import LikeCheckbox from '../UI/checkbox/LikeCheckbox'
 import DisLikeCheckbox from '../UI/checkbox/DisLikeCheckbox'
+import { useDispatch } from 'react-redux'
+import { disLikeFeedback, likeFeedback } from '../../store/feedbackSlice'
 
 const FeedbackComment = ({
    user,
@@ -19,19 +21,25 @@ const FeedbackComment = ({
    images,
    rating,
    avatar,
+   id,
 }) => {
+   const dispatch = useDispatch()
    const [seeMore, setSeeMore] = useState(false)
 
    const commentMoreOrSee = () => {
       return seeMore ? comment : `${comment.substring(0, 200)}`
    }
 
+   const likeHandler = () => dispatch(likeFeedback(id))
+
+   const disLikeHandler = () => dispatch(disLikeFeedback(id))
+
    return (
       <Div>
          <Flex width="100%" justify="space-between" align="center">
             <Flex align="center" gap="10px">
                <Avatar src={avatar} />
-               <Title>{user}</Title>
+               <Title className="useName">{user}</Title>
             </Flex>
             <Flex align="center" gap="10px">
                <Rating value={rating} />
@@ -48,22 +56,22 @@ const FeedbackComment = ({
                )}
             </Text>
          </Flex>
-         <Flex margin="23px 0 0 0" justify="space-between">
+         <ModalImage images={images} />
+         <Flex margin="23px 0 0 0" justify="space-between" align="center">
             <Flex>
                <Text>{date}</Text>
             </Flex>
-            <Flex gap="20px">
-               <Flex gap="10px">
-                  <LikeCheckbox />
+            <Flex gap="20px" align="center">
+               <Flex>
+                  <LikeCheckbox onChange={likeHandler} />
                   <span className="Like">{likes}</span>
                </Flex>
-               <Flex gap="10px">
-                  <DisLikeCheckbox />
+               <Flex>
+                  <DisLikeCheckbox onChange={disLikeHandler} />
                   <span className="Like">{dislikes}</span>
                </Flex>
             </Flex>
          </Flex>
-         <ModalImage images={images} />
       </Div>
    )
 }
@@ -76,7 +84,11 @@ const Div = styled.div`
       font-size: 16px;
       color: #000000;
    }
-
+   .useName {
+      @media (max-width: 500px) {
+         font-size: 14px;
+      }
+   }
    .longText {
       max-width: 550px;
       span {

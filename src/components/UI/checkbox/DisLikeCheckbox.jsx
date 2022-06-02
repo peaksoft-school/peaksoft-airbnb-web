@@ -14,10 +14,10 @@ const DisLikeCheckbox = ({ ...props }) => {
 
 const Span = styled.span`
    position: absolute;
-   top: 0;
+   top: 0px;
    left: 0;
-   height: 25px;
-   width: 25px;
+   height: 20px;
+   width: 20px;
    background: url(${dislike});
    background-repeat: no-repeat;
    background-size: contain;
@@ -47,7 +47,7 @@ const LikeInput = styled.input`
 const Label = styled.label`
    display: block;
    position: relative;
-   padding-left: 35px;
+   padding-left: 25px;
    margin-bottom: 12px;
    cursor: pointer;
    font-size: 22px;

@@ -1,6 +1,7 @@
 import { Box, Rating, Typography } from '@mui/material'
+import React from 'react'
 
-const RatingFeedBack = ({ onChange, value }) => {
+const RatingFeedBack = React.forwardRef(({ onChange, value }, ref) => {
    return (
       <Box
          sx={{
@@ -11,6 +12,7 @@ const RatingFeedBack = ({ onChange, value }) => {
             Rate
          </Typography>
          <Rating
+            ref={ref}
             name="simple-controlled"
             value={value}
             onChange={(event, newValue) => {
@@ -19,6 +21,6 @@ const RatingFeedBack = ({ onChange, value }) => {
          />
       </Box>
    )
-}
+})
 
 export default RatingFeedBack

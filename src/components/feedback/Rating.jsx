@@ -7,14 +7,12 @@ import Text from '../UI/typography/Text'
 const StarRating = ({ value }) => {
    return (
       <RatingContainer>
-         <Rating
+         <StarIconStyled
             name="text-feedback"
             value={value}
             readOnly
             precision={0.5}
-            emptyIcon={
-               <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-            }
+            emptyIcon={<StarEmptyStyled style={{ opacity: 0.55 }} />}
          />
          <Text className="text">{`(${value})`}</Text>
       </RatingContainer>
@@ -25,7 +23,20 @@ const RatingContainer = styled.div`
    display: flex;
    align-items: center;
    .text {
-      padding: 15px 15px 15px 10px;
+      margin-left: 3px;
+      @media (max-width: 500px) {
+         font-size: 11px;
+      }
+   }
+`
+const StarIconStyled = styled(Rating)`
+   @media (max-width: 500px) {
+      font-size: 14px !important;
+   }
+`
+const StarEmptyStyled = styled(StarIcon)`
+   @media (max-width: 500px) {
+      font-size: 14px !important;
    }
 `
 export default StarRating

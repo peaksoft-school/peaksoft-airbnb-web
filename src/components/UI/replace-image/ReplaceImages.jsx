@@ -21,6 +21,7 @@ const ReplaceImages = ({ dataSlider = [] }) => {
       <Container>
          <Flex width="100%" gap="20px">
             <img
+               className="img"
                src={mergePhotosLinksIntoServerBaseUrl(
                   (selectedImg?.image && selectedImg.image.largeImagePath) || ''
                )}
@@ -58,12 +59,15 @@ const Container = styled.div`
    align-items: center;
    position: relative;
 
-   & img {
+   & .img {
       max-width: 600px;
       width: 100%;
       height: auto;
       aspect-ratio: 15/13;
       object-fit: cover;
+      @media (max-width: 1000px) {
+         min-width: 100%;
+      }
    }
 `
 const Img = styled.img`

@@ -31,13 +31,13 @@ const data = {
    ],
 }
 
-const RatingChart = () => {
+const RatingChart = ({ rating }) => {
    return (
       <Container>
          <Flex width="100%" direction="column" gap="12px" height="100%">
             <Flex width="100%" align="center" gap="10px">
                <Title color="#363636" size="24px">
-                  <b>{data.allRating}</b>
+                  <b>{rating}</b>
                </Title>
                <Star />
             </Flex>
@@ -72,7 +72,8 @@ const Container = styled.div`
    border-radius: 16px;
    margin: 50px;
    @media (max-width: 625px) {
-      margin: 0;
+      margin: 30px 0 0 0;
+      width: 100%;
    }
 `
 const Chart = styled.div`

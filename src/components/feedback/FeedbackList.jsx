@@ -15,23 +15,24 @@ const FeedbackList = ({ feedbacks = [] }) => {
       } else {
          setFeedbackToggle(feedbacks.slice(0, 3))
       }
-   }, [showMore])
+   }, [showMore, feedbacks])
    return (
       <Container>
          <Flex margin="0 0 40px 0">
-            <Title>FEEDBACK</Title>
+            <Title size="20px">FEEDBACK</Title>
          </Flex>
          {feedbackToggle.map((el) => (
             <FeedbackComment
                key={el.id}
-               avatar={el.user.avatar}
-               user={el.user.name}
-               rating={el.rating}
-               comment={el.comment}
+               avatar={el?.user?.avatar}
+               user={el?.user?.name}
+               rating={el?.rating}
+               comment={el?.comment}
                date="22.22.2022"
-               likes={el.likes}
-               dislikes={el.dislikes}
-               images={el.images}
+               likes={el?.likes}
+               dislikes={el?.dislikes}
+               images={el?.images}
+               id={el?.id}
             />
          ))}
          <Flex align="center" justify="center" margin="35px 0 0 0 ">

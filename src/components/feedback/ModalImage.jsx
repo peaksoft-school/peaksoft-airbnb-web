@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { mergePhotosLinksIntoServerBaseUrl } from '../../utils/helpers/general'
 import Backdrop from '../UI/modal/BackDrop'
 
-const ModalImage = ({ images }) => {
+const ModalImage = ({ images = [] }) => {
    const [selectedImage, setSelectedImage] = useState(null)
    return (
       <ImageStyle>
