@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-cycle */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
@@ -39,16 +40,6 @@ export const uploadImageListing = createAsyncThunk(
                navigateAfterSuccessUpload,
             })
          )
-            .unwrap()
-            .then((response) =>
-               showSuccessMessage({
-                  title: 'Success :)',
-                  message: response.message,
-               })
-            )
-            .catch((error) =>
-               showErrorMessage({ title: 'Uh! Oh!', message: error.message })
-            )
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -147,28 +138,38 @@ export const rejectListing = createAsyncThunk(
 
 export const blockListing = createAsyncThunk(
    'listing/blockListing',
-   async (id, { rejectWithValue }) => {
+   async (id, { rejectWithValue, dispatch }) => {
       try {
-         const listing = fetchApi({
+         await fetchApi({
             path: `api/listings/${id}/block`,
             method: 'PATCH',
          })
-         return listing
+         dispatch(listingActions.blockListing(id))
+         showSuccessMessage({
+            title: 'Blocked :)',
+            message: 'Successfully blocked',
+         })
       } catch (error) {
+         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
          rejectWithValue(error.message)
       }
    }
 )
 export const unBlockListing = createAsyncThunk(
    'listing/unBlockListing',
-   async (id, { rejectWithValue }) => {
+   async (id, { rejectWithValue, dispatch }) => {
       try {
-         const listing = fetchApi({
+         await fetchApi({
             path: `api/listings/${id}/unblock`,
             method: 'PATCH',
          })
-         return listing
+         dispatch(listingActions.unblockListing(id))
+         showSuccessMessage({
+            title: 'unBlocked :)',
+            message: 'Successfully unblocked',
+         })
       } catch (error) {
+         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
          rejectWithValue(error.message)
       }
    }
@@ -177,13 +178,18 @@ export const deleteListing = createAsyncThunk(
    'listing/deleteListing',
    async (id, { rejectWithValue }) => {
       try {
-         fetchApi({
+         await fetchApi({
             path: `api/listings/${id}`,
             method: 'DELETE',
          })
+         showSuccessMessage({
+            title: 'Deleted :)',
+            message: 'Successfully deleted',
+         })
          return id
       } catch (error) {
-         rejectWithValue(error.message)
+         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
+         rejectWithValue(error)
       }
    }
 )
@@ -218,6 +224,22 @@ const listingSlice = createSlice({
       saveSearchValue(state, action) {
          state.searchValue = action.payload.search
       },
+      blockListing(state, { payload }) {
+         state.listings.data = state.listings?.data.map((listing) => {
+            if (listing.id === payload) {
+               listing.isBlocked = true
+            }
+            return listing
+         })
+      },
+      unblockListing(state, { payload }) {
+         state.listings.data = state.listings?.data.map((listing) => {
+            if (listing.id === payload) {
+               listing.isBlocked = false
+            }
+            return listing
+         })
+      },
    },
    extraReducers: {
       [uploadImageListing.pending]: setPending,
@@ -242,8 +264,7 @@ const listingSlice = createSlice({
       [deleteListing.rejected]: setRejected,
       [getOneListing.pending]: setPending,
       [getOneListing.fulfilled]: (state, { payload }) => {
-         state.listing = payload?.data
-         state.status = 'success'
+         state.listing = payload.data
          state.isLoading = false
       },
       [getOneListing.rejected]: setRejected,
