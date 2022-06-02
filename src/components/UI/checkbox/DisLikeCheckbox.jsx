@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import dislike from '../../../assets/icons/dislike.svg'
+import dislike from '../../../assets/icons/disLike.svg'
 import likeChecked from '../../../assets/icons/dislikeChecked.svg'
 
 const DisLikeCheckbox = ({ ...props }) => {

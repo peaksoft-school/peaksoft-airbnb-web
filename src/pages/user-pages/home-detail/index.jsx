@@ -20,6 +20,7 @@ import {
    getDataFromLocalStorage,
    saveToLocalStorage,
 } from '../../../utils/helpers/general'
+import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPercentRating'
 
 const HomeDetail = () => {
    const params = useParams()
@@ -116,7 +117,10 @@ const HomeDetail = () => {
                </Flex>
             </LeftContent>
             <RightContent>
-               <RatingChart rating={listing?.rating} />
+               <RatingChart
+                  feedbacks={ratingPercentageCalculator(listing?.feedbacks)}
+                  rating={listing?.rating}
+               />
             </RightContent>
          </Container>
       </Wrapper>
