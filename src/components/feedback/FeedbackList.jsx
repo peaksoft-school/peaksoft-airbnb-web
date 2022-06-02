@@ -5,6 +5,7 @@ import Title from '../UI/typography/Title'
 import media from '../../utils/helpers/media'
 import Flex from '../UI/ui-for-positions/Flex'
 import FeedbackComment from './FeedbackComment'
+import { formatDate } from '../../utils/helpers/general'
 
 const FeedbackList = ({ feedbacks = [] }) => {
    const [feedbackToggle, setFeedbackToggle] = useState(feedbacks || [])
@@ -16,6 +17,7 @@ const FeedbackList = ({ feedbacks = [] }) => {
          setFeedbackToggle(feedbacks.slice(0, 3))
       }
    }, [showMore, feedbacks])
+   const dateOfTheFeedback = (date) => formatDate.DD_MM_YYYY(date)
    return (
       <Container>
          <Flex margin="0 0 40px 0">
@@ -28,7 +30,7 @@ const FeedbackList = ({ feedbacks = [] }) => {
                user={el?.user?.name}
                rating={el?.rating}
                comment={el?.comment}
-               date="22.22.2022"
+               date={dateOfTheFeedback(el.date)}
                likes={el?.likes}
                dislikes={el?.dislikes}
                images={el?.images}

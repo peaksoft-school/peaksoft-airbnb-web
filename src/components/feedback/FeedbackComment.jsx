@@ -26,7 +26,7 @@ const FeedbackComment = ({
    const dispatch = useDispatch()
    const [seeMore, setSeeMore] = useState(false)
 
-   const commentMoreOrSee = () => {
+   const seeMoreComments = () => {
       return seeMore ? comment : `${comment.substring(0, 200)}`
    }
 
@@ -47,7 +47,7 @@ const FeedbackComment = ({
          </Flex>
          <Flex margin="20px 0 0 0 " direction="row">
             <Text feedback className="longText" direction="column">
-               {commentMoreOrSee()}
+               {seeMoreComments()}
                &nbsp;
                {comment.length > 200 && (
                   <span onClick={() => setSeeMore(!seeMore)}>

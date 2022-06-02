@@ -129,7 +129,7 @@ const FeedBack = ({ onClose, isVisible }) => {
             <Flex margin="20px 0 0 0" width="100%" gap="50px" justify="end">
                <CancelButton width="100px" onClick={onClose} />
                <Button onClick={handleSubmit(submitFeedbackHandler)}>
-                  {isLoading ? <Spinner /> : 'PUBLIC'}
+                  {isLoading ? <Spinner /> : 'Publish'}
                </Button>
             </Flex>
          </ContainerFeedBack>
