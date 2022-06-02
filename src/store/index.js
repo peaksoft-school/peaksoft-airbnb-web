@@ -5,6 +5,7 @@ import authSlice from './authSlice'
 import modalSlice from './modalSlice'
 import regionSlice from './regionSlice'
 import listingSlice from './listingSlice'
+import userProfileSlice from './userProfileSlice'
 
 const store = configureStore({
    reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
       modal: modalSlice.reducer,
       region: regionSlice.reducer,
       listing: listingSlice.reducer,
+      userProfile: userProfileSlice.reducer,
    },
 })
 

@@ -92,6 +92,11 @@ const ContainerNotFoundPhotos = styled(Flex)`
    flex-direction: column;
    border: 1px solid #999999;
    background: #f7f7f7;
+   b {
+      @media (max-width: 500px) {
+         font-size: 12px;
+      }
+   }
 `
 const ContainerDots = styled.div`
    position: absolute;
