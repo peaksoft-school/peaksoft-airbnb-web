@@ -2,6 +2,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchApi } from '../api/fetchApi'
 import { fetchFile } from '../api/fetchFile'
+import {
+   showErrorMessage,
+   showSuccessMessage,
+} from '../components/UI/notification/Notification'
 
 export const uploadImageFeedback = createAsyncThunk(
    'feedback/uploadImageFeedback',
@@ -9,7 +13,6 @@ export const uploadImageFeedback = createAsyncThunk(
       { dataFeedback, imagesFeedback, id },
       { rejectWithValue, dispatch }
    ) => {
-      console.log(imagesFeedback)
       const formData = new FormData()
       try {
          const promise = await Promise.all(
@@ -33,6 +36,19 @@ export const uploadImageFeedback = createAsyncThunk(
                id,
             })
          )
+            .unwrap()
+            .then(() => {
+               showSuccessMessage({
+                  title: 'Success:)',
+                  message: 'Your feedback successfully created',
+               })
+            })
+            .catch(() =>
+               showErrorMessage({
+                  title: 'Uh! Oh! :(',
+                  message: 'Something went wrong!',
+               })
+            )
       } catch (error) {
          rejectWithValue(error.message)
       }
