@@ -155,7 +155,6 @@ const Wrapper = styled.div`
    @media (max-width: 425px) {
       width: 100%;
    }
-   /* border: ${({ isBlocked }) => (isBlocked ? '3px solid #464040' : '')}; */
    border: ${({ isViewed }) => (!isViewed ? '3px solid #FF0000' : '')};
    border-radius: ${({ isViewed }) => (!isViewed ? '8px' : '4px')};
    border-radius: ${({ isViewed }) =>

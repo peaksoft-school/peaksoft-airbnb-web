@@ -35,7 +35,7 @@ export const fetchApi = async (options) => {
       const data = await response.json()
 
       if (!response.ok) {
-         let errorMessage = 'Some thing went wrong'
+         let errorMessage = 'Something went wrong'
          if (data && data.message) {
             errorMessage = data.message
          }
