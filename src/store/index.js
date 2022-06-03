@@ -7,6 +7,7 @@ import regionSlice from './regionSlice'
 import listingSlice from './listingSlice'
 import feedbackSlice from './feedbackSlice'
 import userProfileSlice from './userProfileSlice'
+import adminUsersSlice from './adminUsersSlice'
 
 const store = configureStore({
    reducer: {
@@ -17,6 +18,7 @@ const store = configureStore({
       listing: listingSlice.reducer,
       feedback: feedbackSlice.reducer,
       userProfile: userProfileSlice.reducer,
+      users: adminUsersSlice.reducer,
    },
 })
 
