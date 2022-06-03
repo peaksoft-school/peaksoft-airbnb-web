@@ -30,7 +30,7 @@ const FeedbackList = ({ feedbacks = [] }) => {
                user={el?.user?.name}
                rating={el?.rating}
                comment={el?.comment}
-               date={dateOfTheFeedback(el.date)}
+               date={dateOfTheFeedback(el?.createdAt)}
                likes={el?.likes}
                dislikes={el?.dislikes}
                images={el?.images}
