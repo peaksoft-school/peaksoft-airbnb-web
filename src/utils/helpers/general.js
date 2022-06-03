@@ -120,13 +120,13 @@ export const formatDate = {
       return [
          padTo2Digits(newDate.getDate()),
          padTo2Digits(newDate.getMonth() + 1),
-         date.getFullYear(),
+         newDate.getFullYear(),
       ].join('-')
    },
    YYYY_MM_DD: (date) => {
       const newDate = new Date(date)
       return [
-         date.getFullYear(),
+         newDate.getFullYear(),
          padTo2Digits(newDate.getMonth() + 1),
          padTo2Digits(newDate.getDate()),
       ].join('-')
