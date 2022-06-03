@@ -29,24 +29,29 @@ export const ratingPercentageCalculator = (data = []) => {
    const two = Math.round((100 / percentRatings) * ratings.two)
    const one = Math.round((100 / percentRatings) * ratings.one)
 
+   const isValidPercent = (percent) => {
+      if (data.length > 0) return percent
+      return 0
+   }
+
    return {
       ratings: [
-         { star: 5, percent: fife },
+         { star: 5, percent: isValidPercent(fife) },
          {
             star: 4,
-            percent: four,
+            percent: isValidPercent(four),
          },
          {
             star: 3,
-            percent: three,
+            percent: isValidPercent(three),
          },
          {
             star: 2,
-            percent: two,
+            percent: isValidPercent(two),
          },
          {
             star: 1,
-            percent: one,
+            percent: isValidPercent(one),
          },
       ],
    }
