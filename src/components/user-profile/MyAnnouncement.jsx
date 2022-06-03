@@ -1,15 +1,17 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserProfileListingsAnnouncement } from '../../store/userProfileSlice'
 import ProfileCard from '../cards/ProfileCard'
 import LoadingPage from '../UI/loader/LoadingPage'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import { getUserProfileListingsAnnouncement } from '../../store/listingSlice'
 
 const MyAnnouncement = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const { userlistings, isLoading } = useSelector((state) => state.userProfile)
+   const { userAnouncementlistings, isLoading } = useSelector(
+      (state) => state.listing
+   )
    useEffect(() => {
       dispatch(
          getUserProfileListingsAnnouncement({
@@ -24,7 +26,7 @@ const MyAnnouncement = () => {
    return isLoading ? (
       <LoadingPageStyled width="260px" height="320px" />
    ) : (
-      userlistings?.data?.map((el) => (
+      userAnouncementlistings?.data?.map((el) => (
          <ProfileCard
             key={el.id}
             id={el.id}

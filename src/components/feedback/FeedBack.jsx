@@ -18,7 +18,7 @@ import Spinner from '../UI/loader/Spinner'
 
 const FeedBack = ({ onClose, isVisible }) => {
    const [, setParams] = useSearchParams()
-   const { house } = useParams()
+   const { homeId } = useParams()
    const dispatch = useDispatch()
    const { isLoading } = useSelector((state) => state.feedback)
    const [selectedImages, setSelectedImages] = useState({
@@ -86,7 +86,7 @@ const FeedBack = ({ onClose, isVisible }) => {
          uploadImageFeedback({
             dataFeedback,
             imagesFeedback: selectedImages.files,
-            id: house,
+            id: homeId,
             feedbackSuccess,
          })
       )

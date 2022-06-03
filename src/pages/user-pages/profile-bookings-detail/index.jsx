@@ -3,47 +3,30 @@ import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOneListing } from '../../../store/listingSlice'
 import { useParams, useSearchParams } from 'react-router-dom'
-import BookingForm from '../../../components/checkout-form/BookingForm'
 import Loader from '../../../components/UI/loader/Loader'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
-import CheckoutForm from '../../../components/checkout-form/CheckoutForm'
 import LeaveFeedbackButton from '../../../components/UI/buttons/LeaveFeedbackButton'
 import FeedBack from '../../../components/feedback/FeedBack'
 import FeedbackList from '../../../components/feedback/FeedbackList'
-import {
-   getDataFromLocalStorage,
-   saveToLocalStorage,
-} from '../../../utils/helpers/general'
 import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPercentRating'
+import { getOneBookings } from '../../../store/listingSlice'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
 
-const HomeDetail = () => {
+const UserProfileBookingsDetail = () => {
    const params = useParams()
    const [searchParams, setSearchParams] = useSearchParams()
-   const valueParams = searchParams.get('payment')
    const feedbackParams = searchParams.get('feedback')
    const dispatch = useDispatch()
    const { listing, isLoading } = useSelector((state) => state.listing)
-   const [startAndEndDate, setStartAndEndDate] = useState(
-      getDataFromLocalStorage('dates') || {}
-   )
+
    useEffect(() => {
-      dispatch(getOneListing(params.homeId))
+      dispatch(getOneBookings(params.homeId))
    }, [])
 
    const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
-   useEffect(() => {
-      saveToLocalStorage('dates', startAndEndDate)
-   }, [startAndEndDate])
-
-   const showPaymentModal = (dates) => {
-      setSearchParams({ payment: 'true' })
-      setStartAndEndDate(dates)
-   }
 
    const hidePaymentModal = () => setSearchParams('')
 
@@ -52,13 +35,6 @@ const HomeDetail = () => {
    ) : (
       <Wrapper>
          <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
-         <BookingForm
-            id={params.house}
-            price={listing.price}
-            dates={startAndEndDate}
-            isVisible={valueParams}
-            onClose={hidePaymentModal}
-         />
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>
             <Title>/</Title>
@@ -68,14 +44,7 @@ const HomeDetail = () => {
             <Title size="20px">NAME</Title>
          </Flex>
          <Container>
-            <InnerPageContent listing={listing}>
-               <Flex margin="30px 0 0 0">
-                  <CheckoutForm
-                     getDates={showPaymentModal}
-                     price={listing.price}
-                  />
-               </Flex>
-            </InnerPageContent>
+            <InnerPageContent listing={listing} />
          </Container>
          <Container>
             <LeftContent>
@@ -142,4 +111,5 @@ const Wrapper = styled.div`
    `}
    }
 `
-export default HomeDetail
+
+export default UserProfileBookingsDetail

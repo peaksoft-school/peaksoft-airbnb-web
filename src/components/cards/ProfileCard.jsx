@@ -11,6 +11,7 @@ import { ReactComponent as WarningIcon } from '../../assets/icons/Warning.svg'
 import { LISTING_STATUSES } from '../../utils/constants/general'
 
 const ProfileCard = ({
+   id,
    price,
    rating,
    title,
@@ -19,6 +20,7 @@ const ProfileCard = ({
    images,
    blocked,
    rejected,
+   onClick,
 }) => {
    const [showWarningMessage, setShowWarningMessage] = React.useState(false)
    const showOrHideWarningMessageHandler = () => {
@@ -49,7 +51,7 @@ const ProfileCard = ({
             <ImgWrapper>
                <Carousel dataSlider={images} />
             </ImgWrapper>
-            <ContentWrapper>
+            <ContentWrapper onClick={() => onClick(id)}>
                <ContainerItem>
                   <Flex gap="3px" align="center">
                      <Title className="price">${price}/</Title>

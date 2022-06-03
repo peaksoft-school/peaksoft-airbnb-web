@@ -3,13 +3,15 @@ import { useEffect } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import ProfileCard from '../cards/ProfileCard'
-import { getUserProfileListingBookings } from '../../store/userProfileSlice'
 import LoadingPage from '../UI/loader/LoadingPage'
+import { getUserProfileListingBookings } from '../../store/listingSlice'
+import { useNavigate } from 'react-router-dom'
 
 const Bookings = () => {
    const dispatch = useDispatch()
+   const navigate = useNavigate()
    const { userBookingListings, isLoading } = useSelector(
-      (state) => state.userProfile
+      (state) => state.listing
    )
    useEffect(() => {
       dispatch(
@@ -18,6 +20,9 @@ const Bookings = () => {
          })
       )
    }, [])
+   const enterListingHandler = (id) => {
+      navigate(`${id}`)
+   }
    return isLoading ? (
       <LoadingPageStyled width="260px" height="320px" />
    ) : (
@@ -34,6 +39,7 @@ const Bookings = () => {
             rejected={el.listing.status}
             isViewed={el.listing.isViewed}
             maxNumberOfGuests={el.maxNumberOfGuests}
+            onClick={enterListingHandler}
          />
       ))
    )

@@ -193,9 +193,89 @@ export const deleteListing = createAsyncThunk(
       }
    }
 )
+export const getUserProfileListingsAnnouncement = createAsyncThunk(
+   'userProfile/getUserProfileListingsAnnouncement',
+   async ({ sortBy = {} }, { rejectWithValue }) => {
+      const params = {
+         page: 1,
+         limit: 10,
+      }
+
+      if (Object.values(sortBy).length > 0) {
+         params.sortBy = JSON.stringify(sortBy)
+      }
+
+      try {
+         const userlistings = fetchApi({
+            path: 'api/profile/announcements',
+            method: 'GET',
+            params,
+         })
+         return userlistings
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
+
+export const getUserProfileListingBookings = createAsyncThunk(
+   'userProfile/getUserProfileListingBookings',
+   async ({ sortBy = {} }, { rejectWithValue }) => {
+      const params = {
+         page: 1,
+         limit: 10,
+      }
+
+      if (Object.values(sortBy).length > 0) {
+         params.sortBy = JSON.stringify(sortBy)
+      }
+
+      try {
+         const userBookingListings = fetchApi({
+            path: 'api/profile/bookings',
+            method: 'GET',
+            params,
+         })
+         return userBookingListings
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
+
+export const getOneAnnouncements = createAsyncThunk(
+   'userProfile/getOneAnnouncements',
+   async (announcementsId, { rejectWithValue }) => {
+      try {
+         const announcementListing = await fetchApi({
+            path: `api/profile/announcements/${announcementsId}`,
+            method: 'GET',
+         })
+         return announcementListing
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
+export const getOneBookings = createAsyncThunk(
+   'userProfile/getOneAnnouncements',
+   async (announcementsId, { rejectWithValue }) => {
+      try {
+         const bookingListing = await fetchApi({
+            path: `api/profile/bookings/${announcementsId}`,
+            method: 'GET',
+         })
+         return bookingListing
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
 
 const initialState = {
    listings: { data: [] },
+   userAnouncementlistings: {},
+   userBookingListings: {},
    imagesId: [],
    listing: {},
    isLoading: false,
@@ -299,6 +379,32 @@ const listingSlice = createSlice({
       [rejectListing.pending]: setPending,
       [rejectListing.fulfilled]: setFulfilled,
       [rejectListing.rejected]: setRejected,
+      [getUserProfileListingsAnnouncement.pending]: setPending,
+      [getUserProfileListingsAnnouncement.fulfilled]: (state, action) => {
+         state.userAnouncementlistings = action.payload
+         state.isLoading = false
+      },
+      [getUserProfileListingsAnnouncement.rejected]: setRejected,
+      [getUserProfileListingBookings.pending]: setPending,
+      [getUserProfileListingBookings.fulfilled]: (state, action) => {
+         state.userBookingListings = action.payload
+         state.isLoading = false
+      },
+      [getUserProfileListingBookings.rejected]: setRejected,
+      [getOneAnnouncements.pending]: setPending,
+      [getOneAnnouncements.rejected]: setRejected,
+      [getOneAnnouncements.fulfilled]: (state, { payload }) => {
+         state.listing = payload?.data
+         state.status = 'success'
+         state.isLoading = false
+      },
+      [getOneBookings.pending]: setPending,
+      [getOneBookings.rejected]: setRejected,
+      [getOneBookings.fulfilled]: (state, { payload }) => {
+         state.listing = payload?.data
+         state.status = 'success'
+         state.isLoading = false
+      },
    },
 })
 export const listingActions = listingSlice.actions
