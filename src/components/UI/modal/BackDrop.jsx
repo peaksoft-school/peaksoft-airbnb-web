@@ -29,8 +29,5 @@ const BackDropStyle = styled.div`
          opacity: 1;
       }
    }
-   @media (max-width: 425px) {
-      display: none;
-   }
 `
 export default BackDrop

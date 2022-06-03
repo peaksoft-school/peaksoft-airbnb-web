@@ -7,6 +7,7 @@ import Text from '../UI/typography/Text'
 import Flex from '../UI/ui-for-positions/Flex'
 import Title from '../UI/typography/Title'
 import Carousel from '../UI/carousel/Carousel'
+import { LISTING_STATUSES } from '../../utils/constants/general'
 import PopUp from '../UI/popup/PopUp'
 
 const AdminCard = ({
@@ -18,10 +19,14 @@ const AdminCard = ({
    images,
    rating,
    onClick,
+   status,
+   isBlocked,
    onReject,
    onAccept,
    onDelete,
    id,
+   onBlock,
+   onUnBlock,
 }) => {
    const [showMeetballs, setShowMeetballs] = useState(false)
    const showMeetballsHandler = (e) => {
@@ -38,6 +43,17 @@ const AdminCard = ({
       onDelete(id)
       setShowMeetballs(false)
    }
+   const blockHandler = (e) => {
+      e.stopPropagation()
+      onBlock(id)
+      setShowMeetballs(false)
+   }
+   const unBlockHandler = (e) => {
+      e.stopPropagation()
+      onUnBlock(id)
+
+      setShowMeetballs(false)
+   }
    const acceptHandler = (e) => {
       e.stopPropagation()
       onAccept(id)
@@ -47,8 +63,15 @@ const AdminCard = ({
       e.stopPropagation()
       setShowMeetballs(false)
    }
+
+   const { ACCEPTED, PENDING } = LISTING_STATUSES
    return (
-      <Wrapper isViewed={isViewed}>
+      <Wrapper isViewed={isViewed} isBlocked={isBlocked}>
+         {isBlocked && (
+            <BlockedContent>
+               <Message>This application has been blocked</Message>
+            </BlockedContent>
+         )}
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={images} />
@@ -78,9 +101,30 @@ const AdminCard = ({
                <Flex width="100%" align="center" justify="space-between">
                   <Text size="12px">{maxNumberOfGuests} guests</Text>
                   <Button onClick={showMeetballsHandler}>...</Button>
-                  <PopUp isVisible={showMeetballs} onClose={closeMeetballs}>
-                     <AboutItem onClick={acceptHandler}>Accept</AboutItem>
+                  <PopUp
+                     isVisible={showMeetballs && status === PENDING}
+                     onClose={closeMeetballs}
+                  >
                      <AboutItem onClick={rejectHandler}>Reject</AboutItem>
+                     <AboutItem onClick={deleteHandler}>Delete</AboutItem>
+                     <AboutItem onClick={acceptHandler}>Accept</AboutItem>
+                  </PopUp>
+                  <PopUp
+                     isVisible={
+                        showMeetballs && status === ACCEPTED && !isBlocked
+                     }
+                     onClose={closeMeetballs}
+                  >
+                     <AboutItem onClick={blockHandler}>Block</AboutItem>
+                     <AboutItem onClick={deleteHandler}>Delete</AboutItem>
+                  </PopUp>
+                  <PopUp
+                     isVisible={
+                        showMeetballs && status === ACCEPTED && isBlocked
+                     }
+                     onClose={closeMeetballs}
+                  >
+                     <AboutItem onClick={unBlockHandler}>UnBlock</AboutItem>
                      <AboutItem onClick={deleteHandler}>Delete</AboutItem>
                   </PopUp>
                </Flex>
@@ -89,12 +133,29 @@ const AdminCard = ({
       </Wrapper>
    )
 }
+const BlockedContent = styled.div`
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   z-index: 1;
+   width: 100%;
+   height: 100%;
+   padding: 17px;
+   background-color: #d4d4d483;
+   @media (max-width: 525px) {
+      padding: 6px;
+   }
+`
 const Wrapper = styled.div`
+   position: relative;
    width: 210px;
    height: 275px;
    @media (max-width: 425px) {
       width: 100%;
    }
+   /* border: ${({ isBlocked }) => (isBlocked ? '3px solid #464040' : '')}; */
    border: ${({ isViewed }) => (!isViewed ? '3px solid #FF0000' : '')};
    border-radius: ${({ isViewed }) => (!isViewed ? '8px' : '4px')};
    border-radius: ${({ isViewed }) =>
@@ -160,6 +221,7 @@ const Button = styled.p`
    align-items: center;
    justify-content: center;
    padding-bottom: 10px;
+   z-index: 12;
 `
 
 const AboutItem = styled.div`
@@ -173,6 +235,21 @@ const AboutItem = styled.div`
    cursor: pointer;
    :hover {
       background-color: #f1f1f1;
+   }
+`
+const Message = styled.h5`
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 10px;
+   line-height: 12px;
+   color: #ffffff;
+   padding: 0.5em;
+   background: #646464;
+   border-radius: 4px;
+   margin-top: 10px;
+   @media (max-width: 525px) {
+      font-size: 8px;
    }
 `
 export default AdminCard

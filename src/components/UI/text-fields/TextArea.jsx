@@ -9,7 +9,10 @@ const TextAreaStyled = styled.textarea`
    width: ${({ width }) => width || '100%'};
    padding: 10px 8px;
    border-radius: 2px;
-   color: #c4c4c4;
+   font-family: 'Inter';
+   letter-spacing: 0.6px;
+   color: #29264e90;
+   font-weight: bold;
    border: ${({ isValid }) =>
       isValid ? '1px solid tomato' : '1px solid #c4c4c4'};
    font-size: 16px;

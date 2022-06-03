@@ -7,12 +7,13 @@ import Modal from '../../components/UI/modal/Modal'
 import { modalActions } from '../../store/modalSlice'
 import LogOutModal from '../../components/login/LogOutModal'
 import RejectModal from '../../pages/admin-pages/announcement-detail/RejectModal'
+import { REJECT_LISTING } from '../../utils/constants/general'
 
 const AdminLayout = () => {
    const dispatch = useDispatch()
    const { modalLogOut } = useSelector((state) => state.modal)
    const [params, setParams] = useSearchParams()
-   const rejectModal = params.get('rejectListing')
+   const rejectModal = params.get([REJECT_LISTING])
 
    const closeRejectModalHandler = () => setParams('')
    return (

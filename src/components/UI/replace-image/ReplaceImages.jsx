@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { mergePhotosLinksIntoServerBaseUrl } from '../../../utils/helpers/general'
+import { getImageFullUrl } from '../../../utils/helpers/general'
 import Flex from '../ui-for-positions/Flex'
 
 const ReplaceImages = ({ dataSlider = [] }) => {
@@ -21,7 +21,8 @@ const ReplaceImages = ({ dataSlider = [] }) => {
       <Container>
          <Flex width="100%" gap="20px">
             <img
-               src={mergePhotosLinksIntoServerBaseUrl(
+               className="img"
+               src={getImageFullUrl(
                   (selectedImg?.image && selectedImg.image.largeImagePath) || ''
                )}
                alt="Selected"
@@ -32,9 +33,7 @@ const ReplaceImages = ({ dataSlider = [] }) => {
                filterImg.map((data) => (
                   <Img
                      key={data.id}
-                     src={mergePhotosLinksIntoServerBaseUrl(
-                        data.image.largeImagePath
-                     )}
+                     src={getImageFullUrl(data.image.largeImagePath)}
                      alt="dog"
                      onClick={() => imgHandler(data.id, data)}
                   />
@@ -58,12 +57,15 @@ const Container = styled.div`
    align-items: center;
    position: relative;
 
-   & img {
+   & .img {
       max-width: 600px;
       width: 100%;
       height: auto;
       aspect-ratio: 15/13;
       object-fit: cover;
+      @media (max-width: 1000px) {
+         min-width: 100%;
+      }
    }
 `
 const Img = styled.img`

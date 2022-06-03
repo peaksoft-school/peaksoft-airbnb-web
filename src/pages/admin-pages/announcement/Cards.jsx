@@ -35,6 +35,7 @@ const Cards = ({ listings = [] }) => {
          <AdminCard
             key={el.id}
             id={el.id}
+            status={el.status}
             onClick={() => transitionInnerPage(el.id)}
             images={el.images}
             isViewed={el.isViewed}

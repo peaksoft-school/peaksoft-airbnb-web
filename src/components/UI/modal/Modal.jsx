@@ -51,24 +51,7 @@ const ModalStyle = styled.div`
    }
    z-index: 11;
    @media (max-width: 425px) {
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      width: 100%;
-      height: 100%;
-      padding: 4rem 1rem;
-      transform: translate(0%, 0%);
-      animation: MOBILE_MODAL ease-in-out 0.5s;
-   }
-   @keyframes MOBILE_MODAL {
-      0% {
-         opacity: 0;
-      }
-      100% {
-         opacity: 1;
-      }
+      width: 95%;
    }
 `
 const Close = styled.button`

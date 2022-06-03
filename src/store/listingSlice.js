@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-cycle */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
@@ -5,6 +6,10 @@ import { fetchFile } from '../api/fetchFile'
 import { fetchApi } from '../api/fetchApi'
 import { getParams } from '../utils/helpers/general'
 import { LISTING_STATUSES } from '../utils/constants/general'
+import {
+   showErrorMessage,
+   showSuccessMessage,
+} from '../components/UI/notification/Notification'
 
 export const uploadImageListing = createAsyncThunk(
    'listing/uploadImageListing',
@@ -133,28 +138,38 @@ export const rejectListing = createAsyncThunk(
 
 export const blockListing = createAsyncThunk(
    'listing/blockListing',
-   async (id, { rejectWithValue }) => {
+   async (id, { rejectWithValue, dispatch }) => {
       try {
-         const listing = fetchApi({
+         await fetchApi({
             path: `api/listings/${id}/block`,
             method: 'PATCH',
          })
-         return listing
+         dispatch(listingActions.blockListing(id))
+         showSuccessMessage({
+            title: 'Blocked :)',
+            message: 'Successfully blocked',
+         })
       } catch (error) {
+         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
          rejectWithValue(error.message)
       }
    }
 )
 export const unBlockListing = createAsyncThunk(
    'listing/unBlockListing',
-   async (id, { rejectWithValue }) => {
+   async (id, { rejectWithValue, dispatch }) => {
       try {
-         const listing = fetchApi({
+         await fetchApi({
             path: `api/listings/${id}/unblock`,
             method: 'PATCH',
          })
-         return listing
+         dispatch(listingActions.unblockListing(id))
+         showSuccessMessage({
+            title: 'unBlocked :)',
+            message: 'Successfully unblocked',
+         })
       } catch (error) {
+         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
          rejectWithValue(error.message)
       }
    }
@@ -163,16 +178,22 @@ export const deleteListing = createAsyncThunk(
    'listing/deleteListing',
    async (id, { rejectWithValue }) => {
       try {
-         fetchApi({
+         await fetchApi({
             path: `api/listings/${id}`,
             method: 'DELETE',
          })
+         showSuccessMessage({
+            title: 'Deleted :)',
+            message: 'Successfully deleted',
+         })
          return id
       } catch (error) {
-         rejectWithValue(error.message)
+         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
+         rejectWithValue(error)
       }
    }
 )
+
 const initialState = {
    listings: { data: [] },
    imagesId: [],
@@ -203,6 +224,40 @@ const listingSlice = createSlice({
    reducers: {
       saveSearchValue(state, action) {
          state.searchValue = action.payload.search
+      },
+      updateFeedback(state, { payload }) {
+         const feedback = payload
+         const isFeedback = state.listing.feedbacks.some(
+            (el) => el.id === feedback.id
+         )
+         if (isFeedback) {
+            state.listing.feedbacks = state.listing.feedbacks.map(
+               (itemFeedback) => {
+                  if (itemFeedback.id === feedback.id) {
+                     itemFeedback = feedback
+                  }
+                  return itemFeedback
+               }
+            )
+         } else {
+            state.listing.feedbacks.push(feedback)
+         }
+      },
+      blockListing(state, { payload }) {
+         state.listings.data = state.listings?.data.map((listing) => {
+            if (listing.id === payload) {
+               listing.isBlocked = true
+            }
+            return listing
+         })
+      },
+      unblockListing(state, { payload }) {
+         state.listings.data = state.listings?.data.map((listing) => {
+            if (listing.id === payload) {
+               listing.isBlocked = false
+            }
+            return listing
+         })
       },
    },
    extraReducers: {

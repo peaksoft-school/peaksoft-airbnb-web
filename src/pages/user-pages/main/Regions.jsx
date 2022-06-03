@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 // import { getRegions } from '../../../store/regionSlice'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
-import { mergePhotosLinksIntoServerBaseUrl } from '../../../utils/helpers/general'
+import { getImageFullUrl } from '../../../utils/helpers/general'
 
 const Regions = () => {
    // const dispatch = useDispatch()
@@ -33,12 +33,8 @@ const Regions = () => {
                   onClick={() =>
                      transitionToListingHandler({ title: el.title, id: el.id })
                   }
-                  image={mergePhotosLinksIntoServerBaseUrl(
-                     el.image.largeImagePath
-                  )}
-                  smallImage={mergePhotosLinksIntoServerBaseUrl(
-                     el.image.smallImagePath
-                  )}
+                  image={getImageFullUrl(el.image.largeImagePath)}
+                  smallImage={getImageFullUrl(el.image.smallImagePath)}
                   className={el.title}
                >
                   <TitleRegion>{el.title}</TitleRegion>

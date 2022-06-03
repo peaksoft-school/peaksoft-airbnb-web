@@ -56,6 +56,9 @@ const Wrapper = styled.div`
    flex-direction: column;
    align-items: center;
    position: relative;
+   ${media.tablet`
+   margin:0 auto;
+   `}
    ${media.mobile`
    width:100%;
    `}
