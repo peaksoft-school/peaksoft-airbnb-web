@@ -40,7 +40,7 @@ export const getExcludedDates = (bookings) => {
    }
    return selectedDays
 }
-export const mergePhotosLinksIntoServerBaseUrl = (linkPhoto) => {
+export const getImageFullUrl = (linkPhoto) => {
    return `${SERVER_BASE_URL}/${linkPhoto}`
 }
 export const getSomeGiven = (example, data, value) => {

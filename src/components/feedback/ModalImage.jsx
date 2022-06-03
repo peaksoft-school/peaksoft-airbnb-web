@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { mergePhotosLinksIntoServerBaseUrl } from '../../utils/helpers/general'
+import { getImageFullUrl } from '../../utils/helpers/general'
 import Backdrop from '../UI/modal/BackDrop'
 
 const ModalImage = ({ images = [] }) => {
@@ -11,16 +11,10 @@ const ModalImage = ({ images = [] }) => {
             <img
                className="img"
                onClick={() =>
-                  setSelectedImage(
-                     mergePhotosLinksIntoServerBaseUrl(
-                        image.image.largeImagePath
-                     )
-                  )
+                  setSelectedImage(getImageFullUrl(image.image.largeImagePath))
                }
                key={image.id}
-               src={mergePhotosLinksIntoServerBaseUrl(
-                  image.image.smallImagePath
-               )}
+               src={getImageFullUrl(image.image.smallImagePath)}
                alt="home"
             />
          ))}
