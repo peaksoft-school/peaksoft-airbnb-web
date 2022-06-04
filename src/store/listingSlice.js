@@ -274,11 +274,10 @@ export const getOneBookings = createAsyncThunk(
 
 const initialState = {
    listings: { data: [] },
-   userAnouncementlistings: {},
-   userBookingListings: {},
    imagesId: [],
    listing: {},
    isLoading: false,
+   isLoadingDelete: false,
    error: null,
    status: null,
    searchValue: getParams('search') || '',
@@ -353,14 +352,20 @@ const listingSlice = createSlice({
          state.listings = payload
       },
       [getListings.rejected]: setRejected,
-      [deleteListing.pending]: setPending,
+      [deleteListing.pending]: (state) => {
+         state.isLoadingDelete = true
+         state.error = null
+      },
       [deleteListing.fulfilled]: (state, { payload }) => {
-         state.isLoading = false
+         state.isLoadingDelete = false
          state.listings.data = state.listings.data.filter(
             (listing) => listing.id !== payload
          )
       },
-      [deleteListing.rejected]: setRejected,
+      [deleteListing.rejected]: (state, { error }) => {
+         state.isLoadingDelete = false
+         state.error = error.message
+      },
       [getOneListing.pending]: setPending,
       [getOneListing.fulfilled]: (state, { payload }) => {
          state.listing = payload.data
@@ -381,13 +386,13 @@ const listingSlice = createSlice({
       [rejectListing.rejected]: setRejected,
       [getUserProfileListingsAnnouncement.pending]: setPending,
       [getUserProfileListingsAnnouncement.fulfilled]: (state, action) => {
-         state.userAnouncementlistings = action.payload
+         state.listings = action.payload
          state.isLoading = false
       },
       [getUserProfileListingsAnnouncement.rejected]: setRejected,
       [getUserProfileListingBookings.pending]: setPending,
       [getUserProfileListingBookings.fulfilled]: (state, action) => {
-         state.userBookingListings = action.payload
+         state.listings = action.payload
          state.isLoading = false
       },
       [getUserProfileListingBookings.rejected]: setRejected,

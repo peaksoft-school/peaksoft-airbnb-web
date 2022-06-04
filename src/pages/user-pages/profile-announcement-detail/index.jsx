@@ -3,9 +3,9 @@ import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import Loader from '../../../components/UI/loader/Loader'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
 import LeaveFeedbackButton from '../../../components/UI/buttons/LeaveFeedbackButton'
@@ -15,17 +15,23 @@ import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPer
 import DatesOfBooking from './DatesOfBooking'
 import { getOneAnnouncements } from '../../../store/listingSlice'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
+import Button from '../../../components/UI/buttons/Button'
+import DeleteModal from '../../../components/delete-listing-modal/DeleteModal'
 
 const UserProfileAnnouncementsDetail = () => {
+   const navigate = useNavigate()
    const params = useParams()
    const [searchParams, setSearchParams] = useSearchParams()
    const feedbackParams = searchParams.get('feedback')
    const dispatch = useDispatch()
    const { listing, isLoading } = useSelector((state) => state.listing)
+   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
    useEffect(() => {
       dispatch(getOneAnnouncements(params.homeId))
    }, [])
+
+   const navigateToProfile = () => navigate('/profile/my-announcements')
 
    const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
 
@@ -35,6 +41,12 @@ const UserProfileAnnouncementsDetail = () => {
       <Loader />
    ) : (
       <Wrapper>
+         <DeleteModal
+            id={params.homeId}
+            func={navigateToProfile}
+            isVisible={showDeleteModal}
+            onClose={() => setShowDeleteModal(false)}
+         />
          <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>
@@ -45,9 +57,22 @@ const UserProfileAnnouncementsDetail = () => {
             <Title size="20px">NAME</Title>
          </Flex>
          <Container>
-            <InnerPageContent listing={listing} />
+            <InnerPageContent listing={listing}>
+               <Flex width="100%" gap="20px" margin="60px 0 0 0">
+                  <Button
+                     onClick={() => setShowDeleteModal(true)}
+                     width="200px"
+                     outline
+                  >
+                     DELETE
+                  </Button>
+                  <Button width="200px">EDIT</Button>
+               </Flex>
+            </InnerPageContent>
          </Container>
-         <DatesOfBooking bookings={listing.bookings} />
+         {listing?.bookings?.length && (
+            <DatesOfBooking bookings={listing.bookings} />
+         )}
          <Container>
             <LeftContent>
                <FeedbackList feedbacks={listing.feedbacks} />

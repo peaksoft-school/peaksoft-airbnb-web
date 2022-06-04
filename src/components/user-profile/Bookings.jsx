@@ -6,13 +6,13 @@ import ProfileCard from '../cards/ProfileCard'
 import LoadingPage from '../UI/loader/LoadingPage'
 import { getUserProfileListingBookings } from '../../store/listingSlice'
 import { useNavigate } from 'react-router-dom'
+import Flex from '../UI/ui-for-positions/Flex'
+import NotFound from '../UI/not-found-content/NotFound'
 
 const Bookings = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const { userBookingListings, isLoading } = useSelector(
-      (state) => state.listing
-   )
+   const { listings, isLoading } = useSelector((state) => state.listing)
    useEffect(() => {
       dispatch(
          getUserProfileListingBookings({
@@ -26,22 +26,28 @@ const Bookings = () => {
    return isLoading ? (
       <LoadingPageStyled width="260px" height="320px" />
    ) : (
-      userBookingListings?.data?.map((el) => (
-         <ProfileCard
-            key={el.listing.id}
-            width="260px"
-            images={el.listing.images}
-            title={el.listing.title}
-            address={el.listing.address}
-            price={el.listing.price}
-            rating={el.listing.rating}
-            blocked={el.listing.isBlocked}
-            rejected={el.listing.status}
-            isViewed={el.listing.isViewed}
-            maxNumberOfGuests={el.maxNumberOfGuests}
-            onClick={enterListingHandler}
-         />
-      ))
+      (listings?.data?.length &&
+         listings?.data?.map((el) => (
+            <ProfileCard
+               key={el?.listing?.id}
+               id={el?.listing?.id}
+               width="260px"
+               images={el?.listing?.images}
+               title={el?.listing?.title}
+               address={el?.listing?.address}
+               price={el?.listing?.price}
+               rating={el?.listing?.rating}
+               blocked={el?.listing?.isBlocked}
+               rejected={el?.listing?.status}
+               isViewed={el?.listing?.isViewed}
+               maxNumberOfGuests={el?.listing?.maxNumberOfGuests}
+               onClick={enterListingHandler}
+            />
+         ))) || (
+         <Flex margin="40px 0" width="100%" justify="centers">
+            <NotFound />
+         </Flex>
+      )
    )
 }
 

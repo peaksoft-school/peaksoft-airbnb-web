@@ -5,13 +5,13 @@ import LoadingPage from '../UI/loader/LoadingPage'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { getUserProfileListingsAnnouncement } from '../../store/listingSlice'
+import NotFound from '../UI/not-found-content/NotFound'
+import Flex from '../UI/ui-for-positions/Flex'
 
 const MyAnnouncement = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const { userAnouncementlistings, isLoading } = useSelector(
-      (state) => state.listing
-   )
+   const { listings, isLoading } = useSelector((state) => state.listing)
    useEffect(() => {
       dispatch(
          getUserProfileListingsAnnouncement({
@@ -23,26 +23,30 @@ const MyAnnouncement = () => {
    const enterListingHandler = (id) => {
       navigate(`${id}`)
    }
-   return isLoading ? (
-      <LoadingPageStyled width="260px" height="320px" />
-   ) : (
-      userAnouncementlistings?.data?.map((el) => (
-         <ProfileCard
-            key={el.id}
-            id={el.id}
-            onClick={enterListingHandler}
-            width="260px"
-            images={el.images}
-            title={el.title}
-            address={el.address}
-            price={el.price}
-            rating={el.rating}
-            blocked={el.isBlocked}
-            rejected={el.status}
-            isViewed={el.isViewed}
-            maxNumberOfGuests={el.maxNumberOfGuests}
-         />
-      ))
+   return (
+      (isLoading && <LoadingPageStyled width="260px" height="320px" />) ||
+      (listings?.data?.length &&
+         listings?.data?.map((el) => (
+            <ProfileCard
+               key={el?.id}
+               id={el?.id}
+               onClick={enterListingHandler}
+               width="260px"
+               images={el?.images}
+               title={el?.title}
+               address={el?.address}
+               price={el?.price}
+               rating={el?.rating}
+               blocked={el?.isBlocked}
+               rejected={el?.status}
+               isViewed={el?.isViewed}
+               maxNumberOfGuests={el?.maxNumberOfGuests}
+            />
+         ))) || (
+         <Flex margin="40px 0" width="100%" justify="centers">
+            <NotFound />
+         </Flex>
+      )
    )
 }
 const LoadingPageStyled = styled(LoadingPage)`
