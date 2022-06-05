@@ -104,7 +104,8 @@ const HomeDetail = () => {
                <Flex margin="30px 0 0 0">
                   <CheckoutForm
                      getDates={showPaymentModal}
-                     price={listing.price}
+                     price={listing?.price}
+                     bookings={listing?.bookings}
                   />
                </Flex>
             </RightContent>

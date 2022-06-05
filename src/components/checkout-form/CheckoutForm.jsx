@@ -72,7 +72,7 @@ const CheckoutForm = ({ price, getDates }) => {
                   valueStartDate={getValues('startDate')}
                   onChangeStartDate={onChangeStartDate}
                   onChangeEndDate={onChangeEndDate}
-                  booking={[]}
+                  bookings={[]}
                />
                <Flex justify="center" width="100%" margin="10px 0 0 0">
                   <ErrorMessage>{errorStartDate || errorEndDate}</ErrorMessage>

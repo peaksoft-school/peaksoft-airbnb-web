@@ -21,6 +21,7 @@ export const removeWithKeyFromLocalStorage = (key) => {
 }
 /* eslint-disable no-plusplus */
 export const getExcludedDates = (bookings) => {
+   console.log(bookings)
    function getDatesRange(startDate, stopDate) {
       const ONE_DAY = 24 * 3600 * 1000
       const days = []
