@@ -37,6 +37,10 @@ export const USER_ROUTES = {
       path: '/profile/bookings/:homeId',
       label: 'bookings',
    },
+   LISTING_EDIT: {
+      path: '/profile/my-announcements/:homeId/edit',
+      label: 'edit',
+   },
    SUBMIT_AN_AD: {
       path: '/submit-an-ad',
       label: 'Submit-an-ad',

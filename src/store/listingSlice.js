@@ -14,7 +14,7 @@ import {
 export const uploadImageListing = createAsyncThunk(
    'listing/uploadImageListing',
    async (
-      { dataListing, imagesListing, navigateAfterSuccessUpload },
+      { dataListing, imagesListing, navigateAfterSuccessUpload, isUpdate, id },
       { rejectWithValue, dispatch }
    ) => {
       const formData = new FormData()
@@ -30,16 +30,15 @@ export const uploadImageListing = createAsyncThunk(
                return images
             })
          )
-         const images = promise.map((image) => image.imageId)
-         dispatch(
-            addListing({
-               listingData: {
-                  ...dataListing,
-                  images,
-               },
-               navigateAfterSuccessUpload,
-            })
-         )
+         const imagesId = promise.map((image) => image.imageId)
+         const data = {
+            listingData: {
+               ...dataListing,
+               images: [...(dataListing?.images || []), ...imagesId],
+            },
+         }
+         if (isUpdate) dispatch(updateListing({ id, ...data }))
+         else dispatch(addListing({ ...data, navigateAfterSuccessUpload }))
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -271,7 +270,21 @@ export const getOneBookings = createAsyncThunk(
       }
    }
 )
-
+export const updateListing = createAsyncThunk(
+   'userProfile/updateListing',
+   async ({ id, listingData }, { rejectWithValue }) => {
+      try {
+         const bookingListing = await fetchApi({
+            path: `api/listings/${id}`,
+            method: 'PUT',
+            body: listingData,
+         })
+         return bookingListing
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
 const initialState = {
    listings: { data: [] },
    imagesId: [],
@@ -337,6 +350,14 @@ const listingSlice = createSlice({
             }
             return listing
          })
+      },
+      clearListing(state) {
+         state.listing = {}
+      },
+      deleteImageListing(state, { payload: id }) {
+         state.listing.images = state.listing.images.filter(
+            (image) => image.id !== id
+         )
       },
    },
    extraReducers: {

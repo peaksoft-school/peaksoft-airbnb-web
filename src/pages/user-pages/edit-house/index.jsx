@@ -4,12 +4,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 import BookForm from '../../../components/book-form/BookForm'
 import { uploadImageListing } from '../../../store/listingSlice'
 
-const SubmitAnAd = () => {
+const EditListing = () => {
    const { homeId } = useParams()
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
-   const navigateAfterSuccessUpload = () => navigate('/main/regions')
+   const navigateAfterSuccessUpload = () => navigate(-1)
 
    const getDataHandler = (data, files) => {
       const listing = {
@@ -21,10 +21,12 @@ const SubmitAnAd = () => {
          imagesListing: files,
          navigateAfterSuccessUpload,
          id: homeId,
+         isUpdate: true,
       }
       dispatch(uploadImageListing(listing))
    }
-   return <BookForm onGetData={getDataHandler} />
+
+   return <BookForm isUpdate onGetData={getDataHandler} />
 }
 
-export default SubmitAnAd
+export default EditListing

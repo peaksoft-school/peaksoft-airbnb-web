@@ -141,3 +141,15 @@ export const formatDate = {
       return dateString
    },
 }
+
+export const getImagesAndIds = (listing) => {
+   if (listing) {
+      const images = listing?.images?.map((el) => {
+         return { img: getImageFullUrl(el.image.smallImagePath), id: el.id }
+      })
+      const imageIds = listing?.images?.map((el) => {
+         return el.id
+      })
+      return { imageIds, images }
+   }
+}

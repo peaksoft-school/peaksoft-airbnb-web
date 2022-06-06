@@ -11,6 +11,7 @@ import MyAnnouncements from '../components/user-profile/MyAnnouncement'
 import RequestNotFound from '../components/search-bar/RequestNotFound'
 import UserProfileAnnouncementsDetail from '../pages/user-pages/profile-announcement-detail'
 import UserProfileBookingsDetail from '../pages/user-pages/profile-bookings-detail'
+import EditListing from '../pages/user-pages/edit-house'
 
 const Region = React.lazy(() => import('../pages/user-pages/region'))
 const HomeDetail = React.lazy(() => import('../pages/user-pages/home-detail'))
@@ -30,6 +31,7 @@ const UserRoutes = () => {
       PROFILE_TABS,
       PROFILE_BOOKINGS_HOME_DETAIL,
       PROFILE_ANNOUNCEMENTS_HOME_DETAIL,
+      LISTING_EDIT,
    } = USER_ROUTES
    return (
       <Routes>
@@ -79,6 +81,7 @@ const UserRoutes = () => {
                   path={PROFILE_BOOKINGS_HOME_DETAIL.path}
                   element={<UserProfileBookingsDetail />}
                />
+               <Route path={LISTING_EDIT.path} element={<EditListing />} />
             </Route>
          </Route>
          <Route path="/not-found-data" element={<RequestNotFound />} />

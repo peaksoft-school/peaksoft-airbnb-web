@@ -13,13 +13,19 @@ import Input from '../UI/text-fields/Input'
 import TextArea from '../UI/text-fields/TextArea'
 import media from '../../utils/helpers/media'
 import Select from '../UI/select/Select'
-import { getOneListing, listingActions } from '../../store/listingSlice'
+import {
+   getOneListing,
+   listingActions,
+   uploadImageListing,
+} from '../../store/listingSlice'
 import uuid from 'react-uuid'
 import Spinner from '../UI/loader/Spinner'
-import { useParams } from 'react-router-dom'
-import { getImagesAndIds } from '../../utils/helpers/general'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { getImageFullUrl } from '../../utils/helpers/general'
 
-const BookForm = ({ isUpdate, onGetData }) => {
+const BookForm = () => {
+   const navigate = useNavigate()
+   const { pathname } = useLocation()
    const dispatch = useDispatch()
    const { homeId: id } = useParams()
    const { listing, region } = useSelector((state) => state)
@@ -89,15 +95,12 @@ const BookForm = ({ isUpdate, onGetData }) => {
          files: [...selectedImages.files, files[0]],
       })
    }
-   const deleteImgHandler = (index, id) => {
+   const deleteImgHandler = (index) =>
       setSelectedImages({
          ...selectedImages,
          images: selectedImages.images.filter((image, i) => i !== index),
          files: selectedImages.files.filter((file, i) => i !== index),
       })
-
-      if (isUpdate) dispatch(listingActions.deleteImageListing(id))
-   }
 
    const changeRadionButtonHandler = (e) =>
       setValue('type', e.target.value, { shouldValidate: true })
@@ -105,17 +108,38 @@ const BookForm = ({ isUpdate, onGetData }) => {
    const changeSelectHandler = (regionId) =>
       setValue('regionId', regionId, { shouldValidate: true })
 
-   const { imageIds } = getImagesAndIds(oneListing || null)
+   const navigateAfterSuccessUpload = () => navigate('/main/regions')
+
+   const isUpdate = pathname !== '/submit-an-ad'
 
    const submitHandler = (data, e) => {
       e.stopPropagation()
-      onGetData({ ...data, images: imageIds || [] }, selectedImages.files)
-      // setSelectedImages({ images: [], files: [] })
+      const listing = {
+         dataListing: {
+            ...data,
+            price: Number(data.price),
+            maxNumberOfGuests: Number(data.maxNumberOfGuests),
+         },
+         imagesListing: selectedImages.files,
+         navigateAfterSuccessUpload,
+         id,
+         isUpdate,
+      }
+      dispatch(uploadImageListing(listing))
+
+      setSelectedImages({
+         images: [],
+         files: [],
+      })
    }
-
-   const images =
-      getImagesAndIds(oneListing || null).images || selectedImages.images
-
+   const images = () => {
+      if (oneListing) {
+         return oneListing?.images?.map((el) => {
+            return { img: getImageFullUrl(el.image.smallImagePath), id: el.id }
+         })
+      }
+      return selectedImages.images
+   }
    useEffect(() => {
       if (oneListing) {
          setValue('title', oneListing?.title)
@@ -126,17 +150,15 @@ const BookForm = ({ isUpdate, onGetData }) => {
          setValue('maxNumberOfGuests', oneListing?.maxNumberOfGuests)
          setValue('type', oneListing?.type)
          setValue('regionId', oneListing?.region?.id)
-         setSelectedImages({ ...selectedImages, images })
+         setSelectedImages({ ...selectedImages, images: images() })
       }
    }, [oneListing])
-
    useEffect(() => {
       if (isUpdate) dispatch(getOneListing(id))
       return () => {
          dispatch(listingActions.clearListing())
       }
    }, [])
-
    return (
       <FormContainer onSubmit={handleSubmit(submitHandler)}>
          <GlobalStyle />

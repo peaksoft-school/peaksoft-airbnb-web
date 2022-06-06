@@ -66,7 +66,9 @@ const UserProfileAnnouncementsDetail = () => {
                   >
                      DELETE
                   </Button>
-                  <Button width="200px">EDIT</Button>
+                  <Button onClick={() => navigate('edit')} width="200px">
+                     EDIT
+                  </Button>
                </Flex>
             </InnerPageContent>
          </Container>
