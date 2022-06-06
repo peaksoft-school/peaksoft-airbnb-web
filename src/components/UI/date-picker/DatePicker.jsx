@@ -13,7 +13,7 @@ const DateRangePicker = ({
    onChangeEndDate,
    valueStartDate,
    valueEndDate,
-   booking,
+   bookings,
    dates,
    errorStartDate,
    errorEndDate,
@@ -28,7 +28,7 @@ const DateRangePicker = ({
             <Img src={dateIcon} />
             <DatePickerStyled
                {...dates.startDate}
-               excludeDates={getExcludedDates(booking)}
+               excludeDates={getExcludedDates(bookings)}
                minDate={new Date()}
                rangeStartDate={valueStartDate}
                rangeEndDate={valueEndDate}
@@ -47,7 +47,7 @@ const DateRangePicker = ({
             <DatePickerStyled
                {...dates.endDate}
                minDate={new Date()}
-               excludeDates={getExcludedDates(booking)}
+               excludeDates={getExcludedDates(bookings)}
                rangeStartDate={valueStartDate}
                rangeEndDate={valueEndDate}
                id="example-end-date"

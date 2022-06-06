@@ -32,7 +32,7 @@ export const getExcludedDates = (bookings) => {
       return days
    }
    const newDate = bookings.map((el) => {
-      return getDatesRange(new Date(el.startDate), new Date(el.endDate))
+      return getDatesRange(new Date(el.checkInDate), new Date(el.checkOutDate))
    })
    const selectedDays = []
    for (let i = 0; i < newDate.length; i++) {
