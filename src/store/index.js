@@ -5,6 +5,7 @@ import authSlice from './authSlice'
 import modalSlice from './modalSlice'
 import regionSlice from './regionSlice'
 import listingSlice from './listingSlice'
+import feedbackSlice from './feedbackSlice'
 import userProfileSlice from './userProfileSlice'
 
 const store = configureStore({
@@ -14,6 +15,7 @@ const store = configureStore({
       modal: modalSlice.reducer,
       region: regionSlice.reducer,
       listing: listingSlice.reducer,
+      feedback: feedbackSlice.reducer,
       userProfile: userProfileSlice.reducer,
    },
 })

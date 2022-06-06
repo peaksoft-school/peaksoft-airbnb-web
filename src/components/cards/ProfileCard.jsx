@@ -116,6 +116,10 @@ const Wrapper = styled.div`
       width: 40vmin;
       height: 55vmin;
    }
+   @media (max-width: 425px) {
+      width: 45vmin;
+      height: 55vmin;
+   }
    background-color: transparent;
    border: ${({ isViewed }) => (!isViewed ? '3px solid yellow' : '')};
    border: ${({ rejected }) => (rejected ? '3px solid tomato' : 'none')};
@@ -155,7 +159,7 @@ const Div = styled.p`
 const ImgWrapper = styled.div`
    min-width: 100%;
    min-height: 50%;
-   background-color: red;
+   background-color: #000;
 `
 const ContentWrapper = styled.div`
    width: 100%;

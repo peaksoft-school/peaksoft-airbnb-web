@@ -23,7 +23,7 @@ const Cards = ({ listings = [] }) => {
                   price={el.price}
                   address={el.address}
                   title={el.title}
-                  starRange={el.region.title}
+                  starRange={el.rating}
                   guest={el.maxNumberOfGuests}
                   images={el.images}
                />

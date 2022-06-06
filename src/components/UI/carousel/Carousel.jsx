@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import BtnCarousel, { StyledButton } from './BtnCarousel'
 import Flex from '../ui-for-positions/Flex'
-import { mergePhotosLinksIntoServerBaseUrl } from '../../../utils/helpers/general'
+import { getImageFullUrl } from '../../../utils/helpers/general'
 import Title from '../typography/Title'
 import { MdImageNotSupported } from 'react-icons/md'
 import uuid from 'react-uuid'
@@ -47,9 +47,7 @@ export default function Slider({ dataSlider = [] }) {
                         }
                      >
                         <img
-                           src={mergePhotosLinksIntoServerBaseUrl(
-                              image.image.smallImagePath
-                           )}
+                           src={getImageFullUrl(image.image.smallImagePath)}
                            alt=""
                         />
                      </div>
