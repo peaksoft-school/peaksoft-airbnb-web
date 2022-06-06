@@ -21,7 +21,6 @@ export const removeWithKeyFromLocalStorage = (key) => {
 }
 /* eslint-disable no-plusplus */
 export const getExcludedDates = (bookings) => {
-   console.log(bookings)
    function getDatesRange(startDate, stopDate) {
       const ONE_DAY = 24 * 3600 * 1000
       const days = []
@@ -33,7 +32,7 @@ export const getExcludedDates = (bookings) => {
       return days
    }
    const newDate = bookings.map((el) => {
-      return getDatesRange(new Date(el.startDate), new Date(el.endDate))
+      return getDatesRange(new Date(el.checkInDate), new Date(el.checkOutDate))
    })
    const selectedDays = []
    for (let i = 0; i < newDate.length; i++) {
