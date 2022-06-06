@@ -1,51 +1,18 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAdminUsersPanel } from '../../../store/adminUsersSlice'
+
 import UsersTable from './UsersTable'
 
-const users = [
-   {
-      id: 1,
-      name: 'Daniar Almazbekov',
-      contact: 'daniar@gmail.com',
-      booking: 2,
-      announcement: 4,
-   },
-   {
-      id: 2,
-      name: 'Daniar Almazbekov',
-      contact: 'daniar@gmail.com',
-      booking: 2,
-      announcement: 5,
-   },
-   {
-      id: 3,
-      name: 'Daniar Almazbekov',
-      contact: 'daniar@gmail.com',
-      booking: 2,
-      announcement: 4,
-   },
-   {
-      id: 4,
-      name: 'Daniar Almazbekov',
-      contact: 'daniar@gmail.com',
-      booking: 2,
-      announcement: 4,
-   },
-   {
-      id: 5,
-      name: 'Almazbekov Daniar Almazbekovich',
-      contact: 'daniar@gmail.com',
-      booking: 2,
-      announcement: 4,
-   },
-]
-
 const Users = () => {
-   const [usersData, setUsersData] = useState(users)
+   const { users } = useSelector((state) => state.users)
+   const dispatch = useDispatch()
 
-   const deleteChangeHandler = (id) => {
-      setUsersData(usersData.filter((el) => el.id !== id))
-   }
-   return <UsersTable users={usersData} delete={deleteChangeHandler} />
+   useEffect(() => {
+      dispatch(getAdminUsersPanel())
+   }, [])
+
+   return <UsersTable users={users} />
 }
 
 export default Users

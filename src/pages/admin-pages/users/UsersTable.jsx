@@ -35,9 +35,6 @@ const StyledTableRow = styled(TableRow)(() => ({
    },
 }))
 const UsersTable = (props) => {
-   const deleteHandler = (id) => {
-      props.delete(id)
-   }
    return (
       <Container>
          <Flex margin="0 0 20px 0">
@@ -61,13 +58,10 @@ const UsersTable = (props) => {
                   <StyledTableRow key={user.id}>
                      <TableNumber>{index + 1}</TableNumber>
                      <TableName>{user.name}</TableName>
-                     <TableContact>{user.contact}</TableContact>
-                     <TableBooking>{user.booking}</TableBooking>
-                     <TableAnnouncement>{user.announcement}</TableAnnouncement>
-                     <StyledTableCell
-                        onClick={() => deleteHandler(user.id)}
-                        align="center"
-                     >
+                     <TableContact>{user.email}</TableContact>
+                     <TableBooking>0</TableBooking>
+                     <TableAnnouncement>0</TableAnnouncement>
+                     <StyledTableCell align="center">
                         <img src={DeleteIcon} alt="action" />
                      </StyledTableCell>
                   </StyledTableRow>
