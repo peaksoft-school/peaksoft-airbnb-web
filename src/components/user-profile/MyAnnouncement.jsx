@@ -5,6 +5,7 @@ import ProfileCard from '../cards/ProfileCard'
 import LoadingPage from '../UI/loader/LoadingPage'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import { LISTING_STATUSES } from '../../utils/constants/general'
 
 const MyAnnouncement = () => {
    const dispatch = useDispatch()
@@ -37,7 +38,7 @@ const MyAnnouncement = () => {
             rating={el.rating}
             blocked={el.isBlocked}
             rejected={el.status}
-            isViewed={el.isViewed}
+            isViewed={el.status === LISTING_STATUSES.ACCEPTED}
             maxNumberOfGuests={el.maxNumberOfGuests}
          />
       ))
