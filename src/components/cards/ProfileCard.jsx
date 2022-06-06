@@ -19,11 +19,13 @@ const ProfileCard = ({
    images,
    blocked,
    rejected,
+   isViewed,
 }) => {
    const [showWarningMessage, setShowWarningMessage] = React.useState(false)
    const showOrHideWarningMessageHandler = () => {
       setShowWarningMessage(!showWarningMessage)
    }
+
    let content = null
    const isRejected = rejected === LISTING_STATUSES.REJECTED
    if (isRejected || blocked) {
@@ -43,7 +45,7 @@ const ProfileCard = ({
       )
    }
    return (
-      <Wrapper blocked={blocked} rejected={isRejected}>
+      <Wrapper blocked={blocked} rejected={isRejected} isViewed={isViewed}>
          {content}
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
@@ -115,6 +117,7 @@ const Wrapper = styled.div`
       height: 55vmin;
    }
    background-color: transparent;
+   border: ${({ isViewed }) => (!isViewed ? '3px solid yellow' : '')};
    border: ${({ rejected }) => (rejected ? '3px solid tomato' : 'none')};
    :hover {
       box-shadow: 0px 4px 12px rgba(105, 105, 105, 0.08);
@@ -235,4 +238,5 @@ const Warning = styled(Button)`
       width: auto;
    }
 `
+
 export default ProfileCard
