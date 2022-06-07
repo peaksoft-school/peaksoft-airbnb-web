@@ -21,7 +21,7 @@ const ProfileCard = ({
    images,
    blocked,
    rejected,
-   isBooking,
+   isBooked,
 }) => {
    const [showWarningMessage, setShowWarningMessage] = React.useState(false)
    const showOrHideWarningMessageHandler = () => {
@@ -47,7 +47,7 @@ const ProfileCard = ({
    }
    return (
       <Wrapper
-         isBooking={isBooking}
+         isBooked={isBooked}
          blocked={blocked}
          rejected={isRejected}
          isViewed={isViewed}
@@ -127,10 +127,10 @@ const Wrapper = styled.div`
       height: 55vmin;
    }
    background-color: transparent;
-   border: ${({ isViewed, rejected, isBooking }) =>
+   border: ${({ isViewed, rejected, isBooked }) =>
       rejected
          ? '3px solid red'
-         : !isViewed && !isBooking
+         : !isViewed && !isBooked
          ? '3px solid orange'
          : 'none'};
    :hover {

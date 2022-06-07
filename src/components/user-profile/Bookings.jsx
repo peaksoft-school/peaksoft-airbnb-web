@@ -14,7 +14,7 @@ const Bookings = () => {
    useEffect(() => {
       dispatch(
          getUserProfileListingBookings({
-            sortBy: { createdAt: 'DESC', updatedAt: 'DESC', isBlocked: 'ASC' },
+            sortBy: { createdAt: 'DESC', updatedAt: 'DESC' },
          })
       )
    }, [])
@@ -32,7 +32,7 @@ const Bookings = () => {
             rating={el.listing.rating}
             blocked={el.listing.isBlocked}
             maxNumberOfGuests={el.maxNumberOfGuests}
-            isBooking
+            isBooked
          />
       ))
    )

@@ -38,8 +38,9 @@ const MyAnnouncement = () => {
             rating={el.rating}
             blocked={el.isBlocked}
             rejected={el.status}
-            isViewed={el.status === LISTING_STATUSES.ACCEPTED}
+            isViewed={el.isViewed}
             maxNumberOfGuests={el.maxNumberOfGuests}
+            isBooked={el.status === LISTING_STATUSES.ACCEPTED}
          />
       ))
    )
