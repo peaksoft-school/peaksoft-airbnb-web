@@ -7,6 +7,8 @@ import Text from '../UI/typography/Text'
 import Flex from '../UI/ui-for-positions/Flex'
 import Title from '../UI/typography/Title'
 import Carousel from '../UI/carousel/Carousel'
+import { LISTING_STATUSES } from '../../utils/constants/general'
+import PopUp from '../UI/popup/PopUp'
 
 const AdminCard = ({
    isViewed,
@@ -17,25 +19,64 @@ const AdminCard = ({
    images,
    rating,
    onClick,
+   status,
+   isBlocked,
+   onReject,
+   onAccept,
+   onDelete,
+   id,
+   onBlock,
+   onUnBlock,
 }) => {
    const [showMeetballs, setShowMeetballs] = useState(false)
-   const meetballsHandler = () => setShowMeetballs(!showMeetballs)
-   const editBookHandler = () => {
+   const showMeetballsHandler = (e) => {
+      e.stopPropagation()
+      setShowMeetballs(!showMeetballs)
+   }
+   const rejectHandler = (e) => {
+      e.stopPropagation()
+      onReject(id)
       setShowMeetballs(false)
    }
-   const deleteBookHandler = () => {
+   const deleteHandler = (e) => {
+      e.stopPropagation()
+      onDelete(id)
       setShowMeetballs(false)
    }
-   const acceptBookHandler = () => {
+   const blockHandler = (e) => {
+      e.stopPropagation()
+      onBlock(id)
       setShowMeetballs(false)
    }
+   const unBlockHandler = (e) => {
+      e.stopPropagation()
+      onUnBlock(id)
+
+      setShowMeetballs(false)
+   }
+   const acceptHandler = (e) => {
+      e.stopPropagation()
+      onAccept(id)
+      setShowMeetballs(false)
+   }
+   const closeMeetballs = (e) => {
+      e.stopPropagation()
+      setShowMeetballs(false)
+   }
+
+   const { ACCEPTED, PENDING } = LISTING_STATUSES
    return (
-      <Wrapper onClick={onClick} isViewed={isViewed}>
+      <Wrapper isViewed={isViewed} isBlocked={isBlocked}>
+         {isBlocked && (
+            <BlockedContent>
+               <Message>This application has been blocked</Message>
+            </BlockedContent>
+         )}
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={images} />
             </ImgWrapper>
-            <ContentWrapper>
+            <ContentWrapper onClick={onClick}>
                <Flex margin="8px 0 16px 0" justify="space-between" width="100%">
                   <Flex gap="3px" align="center">
                      <Title>${price}/</Title>
@@ -59,30 +100,62 @@ const AdminCard = ({
                </Flex>
                <Flex width="100%" align="center" justify="space-between">
                   <Text size="12px">{maxNumberOfGuests} guests</Text>
-                  <Button onClick={meetballsHandler}>...</Button>
-                  {showMeetballs && (
-                     <Meetballs>
-                        <AboutItem onClick={editBookHandler}>Reject</AboutItem>
-                        <AboutItem onClick={deleteBookHandler}>
-                           Delete
-                        </AboutItem>
-                        <AboutItem onClick={acceptBookHandler}>
-                           Accept
-                        </AboutItem>
-                     </Meetballs>
-                  )}
+                  <Button onClick={showMeetballsHandler}>...</Button>
+                  <PopUp
+                     isVisible={showMeetballs && status === PENDING}
+                     onClose={closeMeetballs}
+                  >
+                     <AboutItem onClick={rejectHandler}>Reject</AboutItem>
+                     <AboutItem onClick={deleteHandler}>Delete</AboutItem>
+                     <AboutItem onClick={acceptHandler}>Accept</AboutItem>
+                  </PopUp>
+                  <PopUp
+                     isVisible={
+                        showMeetballs && status === ACCEPTED && !isBlocked
+                     }
+                     onClose={closeMeetballs}
+                  >
+                     <AboutItem onClick={blockHandler}>Block</AboutItem>
+                     <AboutItem onClick={deleteHandler}>Delete</AboutItem>
+                  </PopUp>
+                  <PopUp
+                     isVisible={
+                        showMeetballs && status === ACCEPTED && isBlocked
+                     }
+                     onClose={closeMeetballs}
+                  >
+                     <AboutItem onClick={unBlockHandler}>UnBlock</AboutItem>
+                     <AboutItem onClick={deleteHandler}>Delete</AboutItem>
+                  </PopUp>
                </Flex>
             </ContentWrapper>
          </Flex>
       </Wrapper>
    )
 }
+const BlockedContent = styled.div`
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   z-index: 1;
+   width: 100%;
+   height: 100%;
+   padding: 17px;
+   background-color: #d4d4d483;
+   @media (max-width: 525px) {
+      padding: 6px;
+   }
+`
 const Wrapper = styled.div`
+   position: relative;
    width: 210px;
    height: 275px;
    @media (max-width: 425px) {
       width: 100%;
    }
+   /* border: ${({ isBlocked }) => (isBlocked ? '3px solid #464040' : '')}; */
    border: ${({ isViewed }) => (!isViewed ? '3px solid #FF0000' : '')};
    border-radius: ${({ isViewed }) => (!isViewed ? '8px' : '4px')};
    border-radius: ${({ isViewed }) =>
@@ -126,6 +199,7 @@ const ContentWrapper = styled.div`
    height: 50%;
    padding: 0 12px 12px 12px;
    position: relative;
+   cursor: pointer;
 `
 const StarStyle = styled.div`
    background: #828282;
@@ -147,36 +221,35 @@ const Button = styled.p`
    align-items: center;
    justify-content: center;
    padding-bottom: 10px;
+   z-index: 12;
 `
-const Meetballs = styled.div`
-   padding: 0.3rem;
-   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
-   background-color: white;
-   position: absolute;
-   bottom: 50px;
-   right: 20px;
-   animation: YES ease 0.2s;
-   @keyframes YES {
-      from {
-         opacity: 0;
-      }
-      to {
-         opacity: 1;
-      }
-   }
-`
+
 const AboutItem = styled.div`
-   width: 200px;
+   width: 100%;
    padding: 0.4rem 1rem;
-   box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
    font-family: 'Inter';
    font-weight: 400;
    font-size: 16px;
-   background-color: #ebebeb;
+   background-color: #ffffff;
    color: #5d5d5d;
    cursor: pointer;
    :hover {
-      background-color: #b8b8b888;
+      background-color: #f1f1f1;
+   }
+`
+const Message = styled.h5`
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 10px;
+   line-height: 12px;
+   color: #ffffff;
+   padding: 0.5em;
+   background: #646464;
+   border-radius: 4px;
+   margin-top: 10px;
+   @media (max-width: 525px) {
+      font-size: 8px;
    }
 `
 export default AdminCard

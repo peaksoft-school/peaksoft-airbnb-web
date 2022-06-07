@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import Text from '../../../components/UI/typography/Text'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
-import SelectsForFilter from '../../../components/selects-for-filter/SelectsForFilter'
+import Filters from '../../../components/selects-for-filter/SelectsForFilter'
 import Cards from './Cards'
 import Tag from './Tags'
 import Pagination from '../../../components/pagination/Pagination'
@@ -121,7 +121,7 @@ const Region = () => {
                {content}
                <Text>({listings.total})</Text>
             </Flex>
-            <SelectsForFilter
+            <Filters
                regionIds={filter.regionIds}
                total={listings.total}
                setSort={setSort}

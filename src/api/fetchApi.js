@@ -2,7 +2,7 @@
 import store from '../store'
 
 export const SERVER_BASE_URL =
-   'http://ec2-54-83-251-79.compute-1.amazonaws.com:8000'
+   'http://ec2-54-175-233-244.compute-1.amazonaws.com:8000'
 
 export const fetchApi = async (options) => {
    const { role, token } = store.getState().auth

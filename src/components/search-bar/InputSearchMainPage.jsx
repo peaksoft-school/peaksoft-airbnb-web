@@ -25,6 +25,7 @@ const InputSearchMainPage = () => {
       <Form onSubmit={handleSubmit(submitHandler)}>
          <SearchMainIcon onClick={handleSubmit(submitHandler)} />
          <InputSearchMain
+            autoComplete="off"
             {...searchInput.search}
             placeholder="Region, city , apartment, house..."
          />
@@ -40,7 +41,7 @@ const Form = styled.form`
    background-color: white;
    display: flex;
    align-items: center;
-   margin-top: 100px;
+   margin-top: 50px;
    & svg {
       width: 18.62px;
       height: 18.62px;
@@ -56,6 +57,8 @@ const InputSearchMain = styled.input`
    font-size: 17px;
    outline: none;
    color: #2c2c2c;
+   font-family: 'Inter';
+   letter-spacing: 0.5px;
 `
 
 export default InputSearchMainPage

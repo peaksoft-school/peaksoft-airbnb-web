@@ -3,23 +3,27 @@ import { fetchApi } from '../api/fetchApi'
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit')
 
-export const getRegions = createAsyncThunk(
-   'region/getRegions',
-   async (_, { rejectWithValue }) => {
+export const bookTheListing = createAsyncThunk(
+   'booking/bookTheListing',
+   async ({ checkInDate, checkoutDate, amount, id }, { rejectWithValue }) => {
       try {
          return fetchApi({
-            path: 'api/regions',
-            method: 'GET',
+            path: `api/listings/${id}/book`,
+            method: 'POST',
+            body: {
+               checkInDate,
+               checkoutDate,
+               amount,
+            },
          })
       } catch (error) {
          rejectWithValue(error.message)
       }
    }
 )
-
 const initState = {
-   booking: [],
-   regions: [],
+   isLoading: false,
+   status: null,
 }
 
 const bookingSlice = createSlice({
@@ -27,11 +31,16 @@ const bookingSlice = createSlice({
    initialState: initState,
    reducers: {},
    extraReducers: {
-      [getRegions.fulfilled]: (state, { payload }) => {
-         state.regions = payload.data
+      [bookTheListing.pending]: (state) => {
+         state.isLoading = true
+      },
+      [bookTheListing.fulfilled]: (state) => {
+         state.isLoading = false
+      },
+      [bookTheListing.rejected]: (state) => {
+         state.isLoading = false
       },
    },
 })
-
 export const bookingActions = bookingSlice.actions
 export default bookingSlice

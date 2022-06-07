@@ -16,15 +16,23 @@ const Profile = () => {
                   firstPath="/profile/bookings"
                   secondPath="/profile/my-announcements"
                />
-               <Flex width="100%" gap="20px" wrap="wrap">
+               <WrapperCards>
                   <Outlet />
-               </Flex>
+               </WrapperCards>
             </ContainerList>
          </ContentWrapper>
       </WrapperContainer>
    )
 }
-
+const WrapperCards = styled(Flex)`
+   width: 100%;
+   gap: 20px;
+   flex-wrap: wrap;
+   @media (max-width: 769px) {
+      justify-content: center;
+      gap: 10px;
+   }
+`
 const UserProfile = styled.div`
    font-family: 'Inter';
    font-style: normal;
@@ -33,6 +41,9 @@ const UserProfile = styled.div`
    padding-top: 30px;
    text-transform: uppercase;
    color: #363636;
+   ${media.tablet`
+      margin-bottom:20px;
+   `}
 `
 const WrapperContainer = styled.div`
    max-width: 1340px;

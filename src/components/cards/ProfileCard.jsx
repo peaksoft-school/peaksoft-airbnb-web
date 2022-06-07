@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import * as React from 'react'
 import styled from 'styled-components'
 import { ReactComponent as Stars } from '../../assets/icons/Star.svg'
@@ -8,22 +9,27 @@ import Flex from '../UI/ui-for-positions/Flex'
 import Title from '../UI/typography/Title'
 import Carousel from '../UI/carousel/Carousel'
 import { ReactComponent as WarningIcon } from '../../assets/icons/Warning.svg'
+import { LISTING_STATUSES } from '../../utils/constants/general'
 
 const ProfileCard = ({
+   isViewed,
    price,
-   starRange,
+   rating,
    title,
    address,
-   guest,
+   maxNumberOfGuests,
    images,
    blocked,
    rejected,
+   isBooked,
 }) => {
    const [showWarningMessage, setShowWarningMessage] = React.useState(false)
-   const showOrHideWarningMessageHandler = () =>
+   const showOrHideWarningMessageHandler = () => {
       setShowWarningMessage(!showWarningMessage)
+   }
    let content = null
-   if (rejected || blocked) {
+   const isRejected = rejected === LISTING_STATUSES.REJECTED
+   if (isRejected || blocked) {
       content = (
          <BlockedContent>
             <Flex justify="end">
@@ -40,7 +46,12 @@ const ProfileCard = ({
       )
    }
    return (
-      <Wrapper blocked={blocked} rejected={rejected}>
+      <Wrapper
+         isBooked={isBooked}
+         blocked={blocked}
+         rejected={isRejected}
+         isViewed={isViewed}
+      >
          {content}
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
@@ -56,7 +67,7 @@ const ProfileCard = ({
                   </Flex>
                   <StarStyle>
                      <Stars />
-                     <Div>{starRange}</Div>
+                     <Div>{rating}</Div>
                   </StarStyle>
                </ContainerItem>
                <Flex className="flex" direction="column" gap="7px">
@@ -67,9 +78,9 @@ const ProfileCard = ({
                   </Flex>
                </Flex>
                <FlexText>
-                  <Text className="address">{guest} guests</Text>
+                  <Text className="address">{maxNumberOfGuests} guests</Text>
                   {blocked && <Warning>Blocked</Warning>}
-                  {rejected && !blocked && <Warning>Rejected</Warning>}
+                  {isRejected && !blocked && <Warning>Rejected</Warning>}
                </FlexText>
             </ContentWrapper>
          </Flex>
@@ -82,6 +93,9 @@ const FlexText = styled(Flex)`
    align-items: center;
    margin-top: 15px;
    @media (max-width: 525px) {
+      margin-top: 12px;
+   }
+   @media (max-width: 445px) {
       margin-top: 6px;
    }
 `
@@ -91,7 +105,10 @@ const ContainerItem = styled(Flex)`
    align-items: center;
    margin: 8px 0 16px 0;
    @media (max-width: 500px) {
-      margin: 10px 0 2px 0;
+      margin: 10px 0 10px 0;
+   }
+   @media (max-width: 440px) {
+      margin: 3px 0 4px 0;
    }
    @media (max-width: 400px) {
       margin: 3px 0 0px 0;
@@ -105,8 +122,17 @@ const Wrapper = styled.div`
       width: 40vmin;
       height: 55vmin;
    }
+   @media (max-width: 425px) {
+      width: 45vmin;
+      height: 55vmin;
+   }
    background-color: transparent;
-   border: ${({ rejected }) => (rejected ? '3px solid tomato' : 'none')};
+   border: ${({ isViewed, rejected, isBooked }) =>
+      rejected
+         ? '3px solid red'
+         : !isViewed && !isBooked
+         ? '3px solid orange'
+         : 'none'};
    :hover {
       box-shadow: 0px 4px 12px rgba(105, 105, 105, 0.08);
    }
@@ -143,7 +169,7 @@ const Div = styled.p`
 const ImgWrapper = styled.div`
    min-width: 100%;
    min-height: 50%;
-   background-color: red;
+   background-color: #000;
 `
 const ContentWrapper = styled.div`
    width: 100%;
@@ -151,11 +177,8 @@ const ContentWrapper = styled.div`
    .flex {
       @media (max-width: 470px) {
          gap: 0px;
-         padding: 0 6px 6px 6px;
+         padding: 0 0 6px 0;
       }
-   }
-   @media (max-width: 525px) {
-      padding: 0 6px 6px 6px;
    }
 `
 const StarStyle = styled.div`
@@ -229,4 +252,5 @@ const Warning = styled(Button)`
       width: auto;
    }
 `
+
 export default ProfileCard

@@ -14,7 +14,7 @@ import {
 import { useSelector } from 'react-redux'
 import { getSomeGiven, saveToLocalStorage } from '../../utils/helpers/general'
 
-const SelectsForFilter = ({ setFilter, setSort, filter, sort }) => {
+const Filters = ({ setFilter, setSort, filter, sort }) => {
    const [showDrawer, setShowDrawer] = useState(false)
    const [regionsId, setRegionsId] = useState([])
    const { regions } = useSelector((state) => state.region)
@@ -141,4 +141,4 @@ const FilterMenu = styled.div`
      display:flex;
   `}
 `
-export default SelectsForFilter
+export default Filters

@@ -9,7 +9,10 @@ const TextAreaStyled = styled.textarea`
    width: ${({ width }) => width || '100%'};
    padding: 10px 8px;
    border-radius: 2px;
-   color: #c4c4c4;
+   font-family: 'Inter';
+   letter-spacing: 0.6px;
+   color: #29264e90;
+   font-weight: bold;
    border: ${({ isValid }) =>
       isValid ? '1px solid tomato' : '1px solid #c4c4c4'};
    font-size: 16px;
@@ -29,10 +32,12 @@ const TextAreaStyled = styled.textarea`
       border: 1px solid #828282;
    }
    :focus {
+      border: ${({ isValid }) =>
+         isValid ? '1px solid tomato' : '1px solid #ffffff'};
       box-shadow: ${({ isValid }) =>
          isValid
-            ? ' 0px 0px 5px tomato'
-            : ' 0px 0px 5px rgba(79, 90, 97, 0.75)'};
+            ? '0 0 0 4px rgba(255, 8, 0, 0.5)'
+            : '0 0 0 4px rgba(74, 72, 68, 0.5)'};
    }
 `
 export default TextArea
