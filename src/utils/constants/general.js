@@ -3,39 +3,15 @@ export const ROLES = {
    ADMIN: 'ADMIN',
    VENDOR: 'USER',
 }
-export const SORT_BY_REGION_FOR_MOBILE = [
-   {
-      label: 'Osh',
-      value: 'Osh',
-   },
-   {
-      label: ' Bishkek',
-      value: 'Bishkek',
-   },
-   {
-      label: 'Chui',
-      value: 'Chui',
-   },
-   {
-      label: 'Naryn',
-      value: 'Naryn',
-   },
-   {
-      label: 'Jalalabat',
-      value: 'Jalalabat',
-   },
-   {
-      label: 'Issyk-Kul',
-      value: 'Issyk-Kul',
-   },
-   {
-      label: 'Talas',
-      value: 'Talas',
-   },
-   {
-      label: 'Batken',
-      value: 'Batken',
-   },
+export const REGIONS = [
+   'Osh',
+   'Bishkek',
+   'Chui',
+   'Naryn',
+   'Jalalabat',
+   'Issyk-Kul',
+   'Talas',
+   'Batken',
 ]
 export const SORT_BY_TYPE_FOR_MOBILE = [
    {

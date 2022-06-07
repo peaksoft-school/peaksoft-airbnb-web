@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import styled from 'styled-components'
 import BackgroundMain from '../../../assets/images/piotr-burzynski-wvc9E16vIYY-unsplash.jpg'
 import Regions from './Regions'
@@ -6,9 +5,6 @@ import media from '../../../utils/helpers/media'
 import Apartments from './Apartments'
 import PopularHouse from './PopularHouse'
 import InputSearchMainPage from '../../../components/search-bar/InputSearchMainPage'
-import { usePosition } from '../../../hooks/usePosition'
-import { useDispatch } from 'react-redux'
-import { getRegionByСoordinates } from '../../../store/regionSlice'
 
 const users = [
    {
@@ -41,12 +37,6 @@ const users = [
    },
 ]
 const MainPage = () => {
-   const dispatch = useDispatch()
-   const { latitude, longitude } = usePosition()
-   useEffect(() => {
-      dispatch(getRegionByСoordinates({ latitude, longitude }))
-   }, [latitude, longitude])
-
    return (
       <Container>
          <MainPages>

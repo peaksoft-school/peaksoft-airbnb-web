@@ -17,6 +17,7 @@ import {
    paramsSet,
 } from '../../../utils/helpers/general'
 import Title from '../../../components/UI/typography/Title'
+import LocationSearch from './LocationSearch'
 
 let blockedUseEffect = true
 const Region = () => {
@@ -30,6 +31,7 @@ const Region = () => {
    const price = params.get('price')
    const popular = params.get('popular')
    const page = Number(params.get('page'))
+   const location = params.get('location')
    const regionsIds = getDataFromLocalStorage('regions')
 
    const [pagination, setPagination] = useState(page || 1)
@@ -40,6 +42,7 @@ const Region = () => {
    const [filter, setFilter] = useState({
       regionIds: (state && [state]) || regionsIds || [],
       type: homeType || '',
+      location: location || '',
    })
 
    const filteredRegionIds = (id) => {
@@ -61,9 +64,7 @@ const Region = () => {
       dispatch(listingActions.saveSearchValue({ search: '' }))
    }
 
-   const paginationHandler = (event, value) => {
-      setPagination(value)
-   }
+   const paginationHandler = (event, value) => setPagination(value)
 
    useEffect(() => {
       if (blockedUseEffect) {
@@ -73,9 +74,11 @@ const Region = () => {
       const sortBy = {}
       if (searchValue) filterBy.search = searchValue
 
-      if (filter.regionIds.length > 0) filterBy.regionIds = filter.regionIds
+      if (filter?.regionIds?.length > 0) filterBy.regionIds = filter.regionIds
 
       if (filter.type) filterBy.type = filter.type
+
+      if (filter.location) filterBy.search = filter.location
 
       if (sort.popular) sortBy.popular = sort.popular
 
@@ -86,6 +89,7 @@ const Region = () => {
       paramsSet(sort.price, 'price', setParams, params)
       paramsSet(sort.popular, 'popular', setParams, params)
       paramsSet(filter.type, 'type', setParams, params)
+      paramsSet(filter.location, 'location', setParams, params)
       dispatch(getListings({ pagination, filterBy, sortBy }))
    }, [filter, sort, searchValue, pagination])
 
@@ -98,10 +102,17 @@ const Region = () => {
          </Title>
       )
    }
-   if (!searchValue && filter.regionIds.length > 0) {
+   if (!searchValue && filter.location) {
+      content = (
+         <Title>
+            Your location : <Text>{location}</Text>
+         </Title>
+      )
+   }
+   if (!searchValue && filter?.regionIds?.length > 0) {
       content =
          filter.regionIds.length > 0 &&
-         filter.regionIds.map((region) => (
+         filter?.regionIds?.map((region) => (
             <Title key={region} uppercase>
                {regions.length && getSomeGiven(region, regions, 'id').title}
             </Title>
@@ -117,6 +128,7 @@ const Region = () => {
             gap="10px"
             wrap="wrap"
          >
+            <LocationSearch setFilter={setFilter} filter={filter} />
             <Flex align="center" gap="5px">
                {content}
                <Text>({listings.total})</Text>
@@ -132,7 +144,7 @@ const Region = () => {
          </Flex>
 
          <Flex wrap="wrap" align="center" margin="40px 0" gap="13px">
-            {filter.regionIds.map((regionId) => (
+            {filter?.regionIds?.map((regionId) => (
                <Tag
                   key={regionId}
                   onClick={() => filteredRegionIds(regionId)}
@@ -184,5 +196,4 @@ const GlobalStyle = createGlobalStyle`
       background: #f7f7f7;
    }
 `
-
 export default Region
