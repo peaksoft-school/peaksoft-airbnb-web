@@ -5,6 +5,7 @@ import media from '../../../utils/helpers/media'
 import Apartments from './Apartments'
 import PopularHouse from './PopularHouse'
 import InputSearchMainPage from '../../../components/search-bar/InputSearchMainPage'
+import Flex from '../../../components/UI/ui-for-positions/Flex'
 
 const users = [
    {
@@ -40,10 +41,10 @@ const MainPage = () => {
    return (
       <Container>
          <MainPages>
-            <div>
+            <Flex direction="column">
                <h1>FIND A PLACE YOU WILL LOVE TO STAY AT</h1>
                <InputSearchMainPage />
-            </div>
+            </Flex>
          </MainPages>
          <Regions />
          <Apartments users={users} />

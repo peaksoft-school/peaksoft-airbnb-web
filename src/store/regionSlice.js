@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchApi } from '../api/fetchApi'
-// import { REGIONS } from '../utils/constants/general'
+import { getRegionByCoordinates } from '../utils/helpers/general'
 
 export const getRegions = createAsyncThunk(
    'region/getRegions',
@@ -31,18 +31,7 @@ export const getRegionByСoordinates = createAsyncThunk(
                },
                noBaseUrl: true,
             })
-            // console.log(result)
-            // const location = Object.values(result.features[0].properties)
-            // const a = REGIONS.find((el) =>
-            //    el.includes(location.find((d) => d === el))
-            // )
-            // console.log(a)
-            const location = result.features[0].properties.description
-               .split(' ')[0]
-               .split('')
-               .filter((el) => el !== ',')
-               .join('')
-            return location
+            return getRegionByCoordinates(result)
          }
       } catch (error) {
          rejectWithValue(error)

@@ -6,9 +6,9 @@ export const ROLES = {
 export const REGIONS = [
    'Osh',
    'Bishkek',
-   'Chui',
+   'Chuy',
    'Naryn',
-   'Jalalabat',
+   'Jalal-Abad',
    'Issyk-Kul',
    'Talas',
    'Batken',
