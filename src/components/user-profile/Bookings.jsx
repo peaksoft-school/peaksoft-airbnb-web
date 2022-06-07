@@ -14,7 +14,7 @@ const Bookings = () => {
    useEffect(() => {
       dispatch(
          getUserProfileListingBookings({
-            sortBy: { createdAt: 'DESC', updatedAt: 'DESC' },
+            sortBy: { createdAt: 'DESC', updatedAt: 'DESC', isBlocked: 'ASC' },
          })
       )
    }, [])
