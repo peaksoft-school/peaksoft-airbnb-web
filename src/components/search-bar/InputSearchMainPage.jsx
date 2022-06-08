@@ -23,7 +23,7 @@ const InputSearchMainPage = () => {
    }
 
    return (
-      <Form onSubmit={handleSubmit(submitHandler)}>
+      <Form orm onSubmit={handleSubmit(submitHandler)}>
          <SearchMainIcon
             className=".svg"
             onClick={handleSubmit(submitHandler)}
@@ -51,6 +51,7 @@ const Form = styled.form`
    height: 42px;
    position: relative;
    margin: 0 auto;
+   padding: 0 1rem;
    background-color: white;
    display: flex;
    align-items: center;
@@ -69,6 +70,7 @@ const InputSearchMain = styled.input`
    border: none;
    font-size: 17px;
    outline: none;
+   padding: 0 0.8rem;
    color: #2c2c2c;
    font-family: 'Inter';
    letter-spacing: 0.5px;

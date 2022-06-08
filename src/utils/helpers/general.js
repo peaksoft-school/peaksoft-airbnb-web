@@ -144,10 +144,11 @@ export const formatDate = {
 }
 
 export const getRegionByCoordinates = (locations) => {
+   console.log(locations)
    const location = Object.values(locations.features[0].properties).filter(
       (el) => typeof el === 'string'
    )
-
+   console.log(location)
    const name = (el) => location.find((d) => d.includes(el))
 
    const findedRegion = REGIONS.find((el) => name(el))
