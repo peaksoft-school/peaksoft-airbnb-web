@@ -4,23 +4,22 @@ import { fetchApi } from '../api/fetchApi'
 
 export const getUserProfileListingsAnnouncement = createAsyncThunk(
    'userProfile/getUserProfileListingsAnnouncement',
-   async ({ sortBy = {} }, { rejectWithValue }) => {
+   async ({ sortBy = {}, pagination }, { rejectWithValue }) => {
       const params = {
-         page: 1,
-         limit: 10,
+         page: Number(pagination) || 1,
+         limit: 6,
       }
-
       if (Object.values(sortBy).length > 0) {
          params.sortBy = JSON.stringify(sortBy)
       }
 
       try {
-         const userlistings = fetchApi({
+         const userAnnouncementListings = fetchApi({
             path: 'api/profile/announcements',
             method: 'GET',
             params,
          })
-         return userlistings
+         return userAnnouncementListings
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -29,10 +28,10 @@ export const getUserProfileListingsAnnouncement = createAsyncThunk(
 
 export const getUserProfileListingBookings = createAsyncThunk(
    'userProfile/getUserProfileListingBookings',
-   async ({ sortBy = {} }, { rejectWithValue }) => {
+   async ({ sortBy = {}, pagination }, { rejectWithValue }) => {
       const params = {
-         page: 1,
-         limit: 10,
+         page: Number(pagination) || 1,
+         limit: 6,
       }
 
       if (Object.values(sortBy).length > 0) {
@@ -68,7 +67,7 @@ export const getOneAnnouncements = createAsyncThunk(
 )
 
 const initialState = {
-   userlistings: {},
+   userAnnouncementListings: {},
    userBookingListings: {},
    announcementIdListing: {},
    isLoading: false,
@@ -85,7 +84,7 @@ const userProfileSlice = createSlice({
          state.error = null
       },
       [getUserProfileListingsAnnouncement.fulfilled]: (state, action) => {
-         state.userlistings = action.payload
+         state.userAnnouncementListings = action.payload
          state.isLoading = false
       },
       [getUserProfileListingsAnnouncement.rejected]: (state, { error }) => {
