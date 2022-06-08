@@ -12,11 +12,8 @@ import { ReactComponent as WarningIcon } from '../../assets/icons/Warning.svg'
 import { LISTING_STATUSES } from '../../utils/constants/general'
 
 const ProfileCard = ({
-<<<<<<< HEAD
    id,
-=======
    isViewed,
->>>>>>> 28b2a63bcc46506732cfa4b362527a8735bc11fd
    price,
    rating,
    title,
@@ -25,11 +22,8 @@ const ProfileCard = ({
    images,
    blocked,
    rejected,
-<<<<<<< HEAD
    onClick,
-=======
-   isBooked,
->>>>>>> 28b2a63bcc46506732cfa4b362527a8735bc11fd
+   isAccepted,
 }) => {
    const [showWarningMessage, setShowWarningMessage] = React.useState(false)
    const showOrHideWarningMessageHandler = () => {
@@ -55,7 +49,7 @@ const ProfileCard = ({
    }
    return (
       <Wrapper
-         isBooked={isBooked}
+         isAccepted={isAccepted}
          blocked={blocked}
          rejected={isRejected}
          isViewed={isViewed}
@@ -135,10 +129,10 @@ const Wrapper = styled.div`
       height: 55vmin;
    }
    background-color: transparent;
-   border: ${({ isViewed, rejected, isBooked }) =>
+   border: ${({ isViewed, rejected, isAccepted }) =>
       rejected
          ? '3px solid red'
-         : !isViewed && !isBooked
+         : !isViewed && !isAccepted
          ? '3px solid orange'
          : 'none'};
    :hover {

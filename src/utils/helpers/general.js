@@ -143,7 +143,6 @@ export const formatDate = {
    },
 }
 
-<<<<<<< HEAD
 export const getImagesAndIds = (listing) => {
    if (listing) {
       const images = listing?.images?.map((el) => {
@@ -154,7 +153,7 @@ export const getImagesAndIds = (listing) => {
       })
       return { imageIds, images }
    }
-=======
+}
 export const getRegionByCoordinates = (locations) => {
    console.log(locations)
    const location = Object.values(locations.features[0].properties).filter(
@@ -168,5 +167,4 @@ export const getRegionByCoordinates = (locations) => {
    const result = REGIONS.find((el) => findedRegion.includes(el))
 
    return result
->>>>>>> 28b2a63bcc46506732cfa4b362527a8735bc11fd
 }

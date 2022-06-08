@@ -1,5 +1,3 @@
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable import/no-named-as-default-member */
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import LoadingPage from '../UI/loader/LoadingPage'
@@ -10,6 +8,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import Pagination from '../pagination/Pagination'
 import Flex from '../UI/ui-for-positions/Flex'
 import ProfileCard from '../cards/ProfileCard'
+import { LISTING_STATUSES } from '../../utils/constants/general'
 
 const MyAnnouncement = () => {
    const dispatch = useDispatch()
@@ -34,39 +33,43 @@ const MyAnnouncement = () => {
    const paginationHandler = (event, value) => setPagination(value)
    const countOfPages = total / 6
 
-   const enterListingHandler = (id) => {
-      navigate(`${id}`)
-   }
+   const enterListingHandler = (id) => navigate(`${id}`)
+
+   const isAccepted = (el) => el.status === LISTING_STATUSES.ACCEPTED
+
    return (
-      (isLoading && <LoadingPageStyled width="260px" height="320px" />) || (
+      (isLoading && <LoadingPageStyled width="260px" height="320px" />) ||
+      (listings?.data?.length && (
          <>
-            {listings?.data?.length &&
-               listings?.data?.map((el) => (
-                  <ProfileCard
-                     key={el?.id}
-                     id={el?.id}
-                     onClick={enterListingHandler}
-                     width="260px"
-                     images={el?.images}
-                     title={el?.title}
-                     address={el?.address}
-                     price={el?.price}
-                     rating={el?.rating}
-                     blocked={el?.isBlocked}
-                     rejected={el?.status}
-                     isViewed={el?.isViewed}
-                     maxNumberOfGuests={el?.maxNumberOfGuests}
-                  />
-               ))}
-            <Flex margin="40px 0 150px 0" width="100%" justify="center">
-               <Pagination
-                  onChange={paginationHandler}
-                  count={Math.ceil(countOfPages)}
-                  page={pagination}
+            {listings?.data?.map((el) => (
+               <ProfileCard
+                  key={el?.id}
+                  id={el?.id}
+                  onClick={enterListingHandler}
+                  width="260px"
+                  images={el?.images}
+                  title={el?.title}
+                  address={el?.address}
+                  price={el?.price}
+                  rating={el?.rating}
+                  blocked={el?.isBlocked}
+                  rejected={el?.status}
+                  isViewed={el?.isViewed}
+                  maxNumberOfGuests={el?.maxNumberOfGuests}
+                  isAccepted={isAccepted(el)}
                />
-            </Flex>
+            ))}
+            {countOfPages > 1 && (
+               <Flex margin="40px 0 150px 0" width="100%" justify="center">
+                  <Pagination
+                     onChange={paginationHandler}
+                     count={Math.ceil(countOfPages)}
+                     page={pagination}
+                  />
+               </Flex>
+            )}
          </>
-      ) || (
+      )) || (
          <Flex margin="40px 0" width="100%" justify="centers">
             <NotFound />
          </Flex>
