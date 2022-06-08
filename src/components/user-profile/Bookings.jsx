@@ -31,9 +31,8 @@ const Bookings = () => {
             price={el.listing.price}
             rating={el.listing.rating}
             blocked={el.listing.isBlocked}
-            rejected={el.listing.status}
-            isViewed={el.listing.isViewed}
             maxNumberOfGuests={el.maxNumberOfGuests}
+            isBooked
          />
       ))
    )

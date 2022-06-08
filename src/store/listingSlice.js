@@ -101,7 +101,6 @@ export const getOneListing = createAsyncThunk(
       }
    }
 )
-
 export const acceptListing = createAsyncThunk(
    'listing/acceptListing',
    async (id, { rejectWithValue, dispatch }) => {
@@ -133,9 +132,6 @@ export const rejectListing = createAsyncThunk(
       }
    }
 )
-
-// TODO: AFTER BLOCK functionality is ready call getListings action
-
 export const blockListing = createAsyncThunk(
    'listing/blockListing',
    async (id, { rejectWithValue, dispatch }) => {
