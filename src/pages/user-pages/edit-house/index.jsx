@@ -9,7 +9,8 @@ const EditListing = () => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
-   const navigateAfterSuccessUpload = () => navigate(-1)
+   const navigateAfterSuccessUpload = () =>
+      navigate(`/profile/my-announcements/${homeId}`)
 
    const getDataHandler = (data, files) => {
       const listing = {

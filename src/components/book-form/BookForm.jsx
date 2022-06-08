@@ -1,5 +1,6 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,10 +15,11 @@ import TextArea from '../UI/text-fields/TextArea'
 import media from '../../utils/helpers/media'
 import Select from '../UI/select/Select'
 import { getOneListing, listingActions } from '../../store/listingSlice'
-import uuid from 'react-uuid'
 import Spinner from '../UI/loader/Spinner'
 import { useParams } from 'react-router-dom'
 import { getImagesAndIds } from '../../utils/helpers/general'
+
+let isDelete = false
 
 const BookForm = ({ isUpdate, onGetData }) => {
    const dispatch = useDispatch()
@@ -82,21 +84,25 @@ const BookForm = ({ isUpdate, onGetData }) => {
          }),
       },
    }
-   const onDrop = (files) => {
-      const img = URL.createObjectURL(files[0])
+   const onDrop = (file) => {
+      const img = URL.createObjectURL(file[0])
+      const { files, images } = selectedImages
       setSelectedImages({
-         images: [...selectedImages.images, { img, id: uuid() }],
-         files: [...selectedImages.files, files[0]],
+         images: [...images, { img, id: files.length }],
+         files: [...files, { file: file[0], id: files.length }],
       })
    }
-   const deleteImgHandler = (index, id) => {
+
+   const deleteImgHandler = (id) => {
+      const { files, images } = selectedImages
       setSelectedImages({
          ...selectedImages,
-         images: selectedImages.images.filter((image, i) => i !== index),
-         files: selectedImages.files.filter((file, i) => i !== index),
+         images: images.filter((image) => image.id !== id),
+         files: files.filter((file) => file.id !== id),
       })
 
       if (isUpdate) dispatch(listingActions.deleteImageListing(id))
+      isDelete = true
    }
 
    const changeRadionButtonHandler = (e) =>
@@ -110,14 +116,17 @@ const BookForm = ({ isUpdate, onGetData }) => {
    const submitHandler = (data, e) => {
       e.stopPropagation()
       onGetData({ ...data, images: imageIds || [] }, selectedImages.files)
-      // setSelectedImages({ images: [], files: [] })
+      setSelectedImages({ images: [], files: [] })
+      isDelete = false
    }
-
-   const images =
-      getImagesAndIds(oneListing || null).images || selectedImages.images
+   const images = useCallback(() => {
+      if (oneListing?.images?.length) {
+         return getImagesAndIds(oneListing).images
+      }
+   })
 
    useEffect(() => {
-      if (oneListing) {
+      if (oneListing && !isDelete) {
          setValue('title', oneListing?.title)
          setValue('description', oneListing?.description)
          setValue('address', oneListing?.address)
@@ -126,7 +135,7 @@ const BookForm = ({ isUpdate, onGetData }) => {
          setValue('maxNumberOfGuests', oneListing?.maxNumberOfGuests)
          setValue('type', oneListing?.type)
          setValue('regionId', oneListing?.region?.id)
-         setSelectedImages({ ...selectedImages, images })
+         setSelectedImages({ ...selectedImages, images: images() || [] })
       }
    }, [oneListing])
 

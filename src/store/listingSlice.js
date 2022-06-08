@@ -21,7 +21,7 @@ export const uploadImageListing = createAsyncThunk(
       try {
          const promise = await Promise.all(
             imagesListing.map((image) => {
-               formData.set('image', image)
+               formData.set('image', image.file)
                const images = fetchFile({
                   path: 'api/listings/upload/image',
                   body: formData,
@@ -37,7 +37,8 @@ export const uploadImageListing = createAsyncThunk(
                images: [...(dataListing?.images || []), ...imagesId],
             },
          }
-         if (isUpdate) dispatch(updateListing({ id, ...data }))
+         if (isUpdate)
+            dispatch(updateListing({ id, ...data, navigateAfterSuccessUpload }))
          else dispatch(addListing({ ...data, navigateAfterSuccessUpload }))
       } catch (error) {
          rejectWithValue(error.message)
@@ -54,8 +55,10 @@ export const addListing = createAsyncThunk(
             body: { ...listingData },
          })
          navigateAfterSuccessUpload()
+         showSuccessMessage({ title: 'Success', message: result.message })
          return result
       } catch (error) {
+         showErrorMessage({ title: 'Uh! Oh!', message: error.message })
          rejectWithValue(error)
       }
    }
@@ -272,15 +275,24 @@ export const getOneBookings = createAsyncThunk(
 )
 export const updateListing = createAsyncThunk(
    'userProfile/updateListing',
-   async ({ id, listingData }, { rejectWithValue }) => {
+   async (
+      { id, listingData, navigateAfterSuccessUpload },
+      { rejectWithValue }
+   ) => {
       try {
          const bookingListing = await fetchApi({
             path: `api/listings/${id}`,
             method: 'PUT',
             body: listingData,
          })
+         showSuccessMessage({
+            title: 'Success',
+            message: bookingListing.message,
+         })
+         navigateAfterSuccessUpload()
          return bookingListing
       } catch (error) {
+         showErrorMessage({ title: 'Uh! Oh!', message: error.message })
          rejectWithValue(error.message)
       }
    }

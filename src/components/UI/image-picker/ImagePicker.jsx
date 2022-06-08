@@ -16,10 +16,10 @@ const ImagePicker = React.forwardRef(
       return (
          <Flex align="center" gap="16px">
             <Flex gap="5px" wrap="wrap">
-               {files.map((img, index) => (
+               {files.map((img) => (
                   <GroupImg key={img.id}>
                      <Image src={img.img} />
-                     <DeleteBtn onClick={() => deleteHandler(index, img.id)}>
+                     <DeleteBtn onClick={() => deleteHandler(img.id)}>
                         DELETE
                      </DeleteBtn>
                   </GroupImg>
