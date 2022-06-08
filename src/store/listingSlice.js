@@ -103,7 +103,6 @@ export const getOneListing = createAsyncThunk(
       }
    }
 )
-
 export const acceptListing = createAsyncThunk(
    'listing/acceptListing',
    async (id, { rejectWithValue, dispatch }) => {
@@ -135,9 +134,6 @@ export const rejectListing = createAsyncThunk(
       }
    }
 )
-
-// TODO: AFTER BLOCK functionality is ready call getListings action
-
 export const blockListing = createAsyncThunk(
    'listing/blockListing',
    async (id, { rejectWithValue, dispatch }) => {
@@ -299,13 +295,12 @@ export const updateListing = createAsyncThunk(
 )
 const initialState = {
    listings: { data: [] },
-   imagesId: [],
    listing: {},
    isLoading: false,
    isLoadingDelete: false,
    error: null,
-   status: null,
    searchValue: getParams('search') || '',
+   location: getParams('location') || '',
 }
 const setPending = (state) => {
    state.status = 'pending'
@@ -370,6 +365,9 @@ const listingSlice = createSlice({
          state.listing.images = state.listing.images.filter(
             (image) => image.id !== id
          )
+      },
+      locationValue(state, action) {
+         state.location = action.payload
       },
    },
    extraReducers: {

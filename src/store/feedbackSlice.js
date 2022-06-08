@@ -70,7 +70,6 @@ export const addFeedback = createAsyncThunk(
       }
    }
 )
-
 export const likeFeedback = createAsyncThunk(
    'feedback/likeFeedback',
    async (id, { rejectWithValue, dispatch }) => {

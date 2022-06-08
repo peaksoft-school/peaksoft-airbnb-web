@@ -9,6 +9,7 @@ import ContentForProfile from '../../content-for-profile/ContentForProfile'
 import Nav from '../../header-menu/Nav'
 import NavBurger from '../../header-menu/NavBurger'
 import SearchInputRegionsPage from '../../../../components/search-bar/SearchInput'
+import Location from '../../../../components/location/Location'
 
 const HeaderUserContent = ({
    isAuthorized,
@@ -20,16 +21,25 @@ const HeaderUserContent = ({
 
    const loginHandler = () => showSignInWithGoogle()
 
+   const isMain = pathname === '/main/regions'
+
    const navigateToForm = () => navigate('/submit-an-ad')
    return (
       <>
          <GlobaStyle />
-         <Flex gap="83px" align="center" width="100%">
+         <Flex gap="40px" align="center" width="100%">
             <LogoAirBnb color="dark" />
             <Nav isAuthorized={isAuthorized} dark />
          </Flex>
          <FlexSearch justify="end" align="center">
-            {pathname === '/main/regions' && <SearchInputRegionsPage />}
+            {isMain && (
+               <>
+                  <LocationContainer>
+                     <Location />
+                  </LocationContainer>
+                  <SearchInputRegionsPage />
+               </>
+            )}
             {isAuthorized && pathname !== '/submit-an-ad' && (
                <Button onClick={navigateToForm} className="btnSubmit">
                   Submit an as
@@ -62,5 +72,10 @@ const GlobaStyle = createGlobalStyle`
          display:none;
       `}
 }
+`
+const LocationContainer = styled(Flex)`
+   ${media.tablet`
+      display:none;
+   `}
 `
 export default HeaderUserContent

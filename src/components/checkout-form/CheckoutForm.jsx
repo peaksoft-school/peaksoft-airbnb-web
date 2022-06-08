@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
 
-const CheckoutForm = ({ price, getDates }) => {
+const CheckoutForm = ({ price, getDates, bookings = [] }) => {
    const { isAuthorized } = useSelector((state) => state.auth)
    const [, setParams] = useSearchParams()
    const {
@@ -72,7 +72,7 @@ const CheckoutForm = ({ price, getDates }) => {
                   valueStartDate={getValues('startDate')}
                   onChangeStartDate={onChangeStartDate}
                   onChangeEndDate={onChangeEndDate}
-                  booking={[]}
+                  bookings={bookings}
                />
                <Flex justify="center" width="100%" margin="10px 0 0 0">
                   <ErrorMessage>{errorStartDate || errorEndDate}</ErrorMessage>
