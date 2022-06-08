@@ -1,7 +1,6 @@
 /* eslint-disable no-alert */
 /* eslint-disable import/no-cycle */
 import { SERVER_BASE_URL } from '../../api/fetchApi'
-import { REGIONS } from '../constants/general'
 
 export const saveToLocalStorage = (key, data) => {
    try {
@@ -47,7 +46,7 @@ export const getImageFullUrl = (linkPhoto) => {
 export const getSomeGiven = (example, data, value) => {
    try {
       const item = data && data.find((el) => el[value] === example)
-      return item || null
+      return item
    } catch (error) {
       console.log(error.message)
    }
@@ -141,19 +140,4 @@ export const formatDate = {
 
       return dateString
    },
-}
-
-export const getRegionByCoordinates = (locations) => {
-   console.log(locations)
-   const location = Object.values(locations.features[0].properties).filter(
-      (el) => typeof el === 'string'
-   )
-   console.log(location)
-   const name = (el) => location.find((d) => d.includes(el))
-
-   const findedRegion = REGIONS.find((el) => name(el))
-
-   const result = REGIONS.find((el) => findedRegion.includes(el))
-
-   return result
 }

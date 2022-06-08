@@ -81,7 +81,7 @@ const Filters = ({ setFilter, setSort, filter, sort }) => {
                   value="value"
                   label="label"
                   defaultValue={
-                     getSomeGiven(filter.type, SORT_BY_TYPE, 'value')?.label ||
+                     getSomeGiven(filter.type, SORT_BY_TYPE, 'value').label ||
                      ''
                   }
                />

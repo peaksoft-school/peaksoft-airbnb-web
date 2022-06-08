@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import React from 'react'
 import styled from 'styled-components'
 import Drawer from '../UI/drawer/Drawer'
@@ -14,7 +13,6 @@ import {
    SORT_BY_TYPE,
 } from '../../utils/constants/general'
 import { useSelector } from 'react-redux'
-import Location from '../location/Location'
 
 const SelectsForFilterMobile = ({
    setFilter,
@@ -61,9 +59,6 @@ const SelectsForFilterMobile = ({
             </ClearAll>
          </Flex>
          <Flex gap="12px" direction="column">
-            <Flex width="100%" margin="20px 0">
-               <Location />
-            </Flex>
             <Title>Sort by</Title>
             <Flex margin="0 0 20px 0" direction="column">
                {SORT_BY_POPULAR.map((el) => (

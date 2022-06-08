@@ -31,10 +31,7 @@ export const fetchApi = async (options) => {
          path = `${path}?${queryParamsStringValue}`
       }
 
-      const response =
-         options?.noBaseUrl && options?.noBaseUrl
-            ? await fetch(`${path}`, requestOptions)
-            : await fetch(`${SERVER_BASE_URL}/${path}`, requestOptions)
+      const response = await fetch(`${SERVER_BASE_URL}/${path}`, requestOptions)
       const data = await response.json()
 
       if (!response.ok) {

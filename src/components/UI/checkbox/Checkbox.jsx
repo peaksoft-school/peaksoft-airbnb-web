@@ -17,8 +17,8 @@ const Checkbox = (props) => {
 const Label = styled.label`
    user-select: none;
    cursor: pointer;
-   height: 22px;
    margin-bottom: 0;
+
    input:checked + .checkbox {
       border-color: #dd8a08;
    }

@@ -192,11 +192,12 @@ export const deleteListing = createAsyncThunk(
 
 const initialState = {
    listings: { data: [] },
+   imagesId: [],
    listing: {},
    isLoading: false,
    error: null,
+   status: null,
    searchValue: getParams('search') || '',
-   location: getParams('location') || '',
 }
 const setPending = (state) => {
    state.status = 'pending'
@@ -253,9 +254,6 @@ const listingSlice = createSlice({
             }
             return listing
          })
-      },
-      locationValue(state, action) {
-         state.location = action.payload
       },
    },
    extraReducers: {

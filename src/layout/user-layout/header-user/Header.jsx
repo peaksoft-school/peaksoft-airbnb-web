@@ -44,9 +44,6 @@ const HeaderStyled = styled.header`
       display:none;      
    `}
    }
-   @media (max-width: 880px) {
-      padding: 15px 10px;
-   }
    ${media.tablet`
       padding:15px 30px;
    `}

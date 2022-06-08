@@ -24,7 +24,7 @@ const Region = () => {
    const { state } = useLocation()
    const dispatch = useDispatch()
    const { listing, region } = useSelector((state) => state)
-   const { listings, searchValue, isLoading, location } = listing
+   const { listings, searchValue, isLoading } = listing
    const { regions } = region
    const homeType = params.get('type')
    const price = params.get('price')
@@ -40,8 +40,8 @@ const Region = () => {
    const [filter, setFilter] = useState({
       regionIds: (state && [state]) || regionsIds || [],
       type: homeType || '',
-      location: location || '',
    })
+
    const filteredRegionIds = (id) => {
       const filteredRegions = filter.regionIds.filter(
          (regionId) => regionId !== id
@@ -61,23 +61,19 @@ const Region = () => {
       dispatch(listingActions.saveSearchValue({ search: '' }))
    }
 
-   const paginationHandler = (event, value) => setPagination(value)
+   const paginationHandler = (event, value) => {
+      setPagination(value)
+   }
 
    useEffect(() => {
-      if (location) setFilter({ ...filter, regionIds: [] })
-   }, [location])
-
-   useEffect(() => {
-      if (blockedUseEffect) blockedUseEffect = false
-
+      if (blockedUseEffect) {
+         blockedUseEffect = false
+      }
       const filterBy = { status: 'ACCEPTED' }
-
       const sortBy = {}
       if (searchValue) filterBy.search = searchValue
 
-      if (location) filterBy.search = location
-
-      if (filter?.regionIds?.length > 0) filterBy.regionIds = filter.regionIds
+      if (filter.regionIds.length > 0) filterBy.regionIds = filter.regionIds
 
       if (filter.type) filterBy.type = filter.type
 
@@ -90,9 +86,8 @@ const Region = () => {
       paramsSet(sort.price, 'price', setParams, params)
       paramsSet(sort.popular, 'popular', setParams, params)
       paramsSet(filter.type, 'type', setParams, params)
-      paramsSet(location, 'location', setParams, params)
       dispatch(getListings({ pagination, filterBy, sortBy }))
-   }, [filter, sort, searchValue, pagination, location])
+   }, [filter, sort, searchValue, pagination])
 
    let content = <Title>TOTAL</Title>
 
@@ -103,16 +98,10 @@ const Region = () => {
          </Title>
       )
    }
-   if (!searchValue && location) {
-      content = (
-         <Title>
-            Your location : <Text>{location}</Text>
-         </Title>
-      )
-   } else if (!searchValue && filter?.regionIds?.length > 0) {
+   if (!searchValue && filter.regionIds.length > 0) {
       content =
          filter.regionIds.length > 0 &&
-         filter?.regionIds?.map((region) => (
+         filter.regionIds.map((region) => (
             <Title key={region} uppercase>
                {regions.length && getSomeGiven(region, regions, 'id').title}
             </Title>
@@ -143,7 +132,7 @@ const Region = () => {
          </Flex>
 
          <Flex wrap="wrap" align="center" margin="40px 0" gap="13px">
-            {filter?.regionIds?.map((regionId) => (
+            {filter.regionIds.map((regionId) => (
                <Tag
                   key={regionId}
                   onClick={() => filteredRegionIds(regionId)}
@@ -195,4 +184,5 @@ const GlobalStyle = createGlobalStyle`
       background: #f7f7f7;
    }
 `
+
 export default Region
