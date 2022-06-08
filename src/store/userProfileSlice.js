@@ -14,12 +14,12 @@ export const getUserProfileListingsAnnouncement = createAsyncThunk(
       }
 
       try {
-         const userlistings = fetchApi({
+         const userAnnouncementListings = fetchApi({
             path: 'api/profile/announcements',
             method: 'GET',
             params,
          })
-         return userlistings
+         return userAnnouncementListings
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -67,7 +67,7 @@ export const getOneAnnouncements = createAsyncThunk(
 )
 
 const initialState = {
-   userlistings: {},
+   userAnnouncementListings: {},
    userBookingListings: {},
    announcementIdListing: {},
    isLoading: false,
@@ -84,7 +84,7 @@ const userProfileSlice = createSlice({
          state.error = null
       },
       [getUserProfileListingsAnnouncement.fulfilled]: (state, action) => {
-         state.userlistings = action.payload
+         state.userAnnouncementListings = action.payload
          state.isLoading = false
       },
       [getUserProfileListingsAnnouncement.rejected]: (state, { error }) => {

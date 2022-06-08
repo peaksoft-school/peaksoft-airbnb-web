@@ -52,7 +52,7 @@ const Bookings = () => {
                />
             ))
          )}
-         <Flex margin="0 0 150px 0" width="100%" justify="center">
+         <Flex margin="40px 0 150px 0" width="100%" justify="center">
             <Pagination
                onChange={paginationHandler}
                count={Math.ceil(countOfPages)}

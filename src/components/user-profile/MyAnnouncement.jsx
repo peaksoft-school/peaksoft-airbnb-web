@@ -15,9 +15,11 @@ const MyAnnouncement = () => {
    const [params, setParams] = useSearchParams()
    const page = params.get('page')
    const [pagination, setPagination] = useState(Number(page) || 1)
-   const { userlistings, isLoading } = useSelector((state) => state.userProfile)
+   const { userAnnouncementListings, isLoading } = useSelector(
+      (state) => state.userProfile
+   )
 
-   const { total } = userlistings
+   const { total } = userAnnouncementListings
 
    useEffect(() => {
       dispatch(
@@ -40,7 +42,7 @@ const MyAnnouncement = () => {
          {isLoading ? (
             <LoadingPageStyled width="260px" height="320px" />
          ) : (
-            userlistings?.data?.map((el) => (
+            userAnnouncementListings?.data?.map((el) => (
                <ProfileCard
                   key={el.id}
                   id={el.id}
@@ -59,7 +61,7 @@ const MyAnnouncement = () => {
                />
             ))
          )}
-         <Flex margin="0 0 150px 0" width="100%" justify="center">
+         <Flex margin="40px 0 150px 0" width="100%" justify="center">
             <Pagination
                onChange={paginationHandler}
                count={Math.ceil(countOfPages)}
