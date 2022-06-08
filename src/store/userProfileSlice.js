@@ -4,12 +4,11 @@ import { fetchApi } from '../api/fetchApi'
 
 export const getUserProfileListingsAnnouncement = createAsyncThunk(
    'userProfile/getUserProfileListingsAnnouncement',
-   async ({ sortBy = {} }, { rejectWithValue }) => {
+   async ({ sortBy = {}, pagination }, { rejectWithValue }) => {
       const params = {
-         page: 1,
-         limit: 10,
+         page: Number(pagination) || 1,
+         limit: 6,
       }
-
       if (Object.values(sortBy).length > 0) {
          params.sortBy = JSON.stringify(sortBy)
       }
@@ -29,10 +28,10 @@ export const getUserProfileListingsAnnouncement = createAsyncThunk(
 
 export const getUserProfileListingBookings = createAsyncThunk(
    'userProfile/getUserProfileListingBookings',
-   async ({ sortBy = {} }, { rejectWithValue }) => {
+   async ({ sortBy = {}, pagination }, { rejectWithValue }) => {
       const params = {
-         page: 1,
-         limit: 10,
+         page: Number(pagination) || 1,
+         limit: 6,
       }
 
       if (Object.values(sortBy).length > 0) {
