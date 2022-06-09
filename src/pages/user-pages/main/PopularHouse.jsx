@@ -1,69 +1,72 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Title from '../../../components/UI/typography/Title'
 import geo from '../../../assets/icons/IconGeo.svg'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import star from '../../../assets/icons/Star.svg'
 import media from '../../../utils/helpers/media'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getListings } from '../../../store/listingSlice'
+import { getImageFullUrl } from '../../../utils/helpers/general'
 
 const PopularHouse = () => {
-   const homes = [
-      {
-         id: 1,
-         url: 'https://media.architecturaldigest.com/photos/59f1e7eab56ff84bcaa873e7/master/w_4600,h_3067,c_limit/Oregon%20-%20Courtesy%20CIRE_Luxe%20Platinum%20Properties.jpg',
-         main: 'Asman guest house',
-         geo: '723510 Osh Muzurbek Alimbekov 9/7',
-         money: 26,
-         star: 4.4,
-      },
-      {
-         id: 2,
-         url: 'https://res.akamaized.net/domain/image/upload/t_web/c_crop,h_658,w_1024,x_0,y_110/c_fill,w_1200,h_630/v1637126360/10_Wentworth_St_Dover_Heights_NSW_1_1_okrvos.jpg',
-         main: 'Asman guest house',
-         geo: '723510 Osh Muzurbek Alimbekov 9/7',
-         money: 53,
-         star: 4.6,
-      },
-      {
-         id: 3,
-         url: 'https://i.pinimg.com/originals/21/70/34/217034611f44eaa0e2782da4263006cd.jpg',
-         main: 'Asman guest house',
-         geo: '723510 Osh Muzurbek Alimbekov 9/7',
-         money: 48,
-         star: 4.9,
-      },
-   ]
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
+   const { listings } = useSelector((state) => state.listing)
 
+   const filterBy = { type: 'HOUSE' }
+   const sortBy = { popular: 'DESC' }
+
+   useEffect(() => {
+      dispatch(getListings({ filterBy, sortBy, limit: 3 }))
+   }, [])
+
+   const navigateToDetailListing = (id) => {
+      navigate(`/main/regions/${id}`)
+   }
    return (
       <Container>
          <Flex justify="space-between" width="98%" margin="170px 0 0 0">
             <Title size="20px" uppercase color="#363636" weight="700">
                Popular House
             </Title>
-            <LinkStyled to="/">View all</LinkStyled>
+            <LinkStyled
+               to={{
+                  pathname: '/main/regions',
+                  search: '?popular=Popular&type=HOUSE',
+               }}
+            >
+               View all
+            </LinkStyled>
          </Flex>
          <TextMain>
             Helping you make the best decisions in buying, selling, & renting
             your last minute locations.
          </TextMain>
          <MainDiv>
-            {homes.map((home) => {
+            {listings?.data?.map((home) => {
                return (
                   <HomeDiv key={home.id}>
-                     <DivHouse>
-                        <ImgHomeInDiv src={home.url} alt="home" />
+                     <DivHouse onClick={() => navigateToDetailListing(home.id)}>
+                        <ImgHomeInDiv
+                           src={getImageFullUrl(
+                              home.images[0].image.largeImagePath
+                           )}
+                           alt="home"
+                        />
                         <DivStar>
                            <img src={star} alt="star" />
-                           <h3>{home.star}</h3>
+                           <h3>{home.rating}</h3>
                         </DivStar>
                      </DivHouse>
-                     <MainTitle>{home.main}</MainTitle>
+                     <MainTitle>{home.title}</MainTitle>
                      <Flex>
                         <ImgGeo src={geo} alt="geo" />
-                        <AdressTitle>{home.geo}</AdressTitle>
+                        <AdressTitle>{home.address}</AdressTitle>
                      </Flex>
                      <Flex>
-                        <PriceTitle>${home.money}</PriceTitle>
+                        <PriceTitle>${home.price}</PriceTitle>
                         <AdressTitle>/ day</AdressTitle>
                      </Flex>
                   </HomeDiv>

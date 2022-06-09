@@ -9,16 +9,18 @@ import next from '../../../assets/icons/NextButton.svg'
 import media from '../../../utils/helpers/media'
 import prevBlack from '../../../assets/icons/PrevButtonBlack.svg'
 import nextBlack from '../../../assets/icons/NextButtonBlack.svg'
+import { getImageFullUrl } from '../../../utils/helpers/general'
 
-const Apartments = ({ users = [], lastest }) => {
+const Apartments = ({ listings = [], lastest }) => {
    const [homeIndex, setHomeIndex] = useState(0)
    const [secondHomeIndex, setSecondHomeIndex] = useState(1)
    const [thirdHomeIndex, setThirdHomeIndex] = useState(2)
-   const apartments = users[homeIndex]
-   const secondApartments = users[secondHomeIndex]
-   const thirdApartments = users[thirdHomeIndex]
-   const homeLenght = users.length - 1
+   const apartments = listings[homeIndex]
+   const secondApartments = listings[secondHomeIndex]
+   const thirdApartments = listings[thirdHomeIndex]
+   const homeLenght = listings.length - 1
    const [animation, setAnimation] = useState(false)
+
    const nextChangeHandler = () => {
       setAnimation(!animation)
       if (homeIndex >= 0) {
@@ -61,6 +63,9 @@ const Apartments = ({ users = [], lastest }) => {
          setThirdHomeIndex(homeLenght)
       }
    }
+   const search = !lastest
+      ? '?popular=Popular&type=APARTMENT'
+      : '?popular=The lastest'
 
    return (
       <Background lastest={lastest}>
@@ -74,7 +79,13 @@ const Apartments = ({ users = [], lastest }) => {
                >
                   Popular Apartments
                </Title>
-               <StyledLink lastest={lastest} to="/">
+               <StyledLink
+                  lastest={lastest}
+                  to={{
+                     pathname: '/main/regions',
+                     search,
+                  }}
+               >
                   View All
                </StyledLink>
             </Flex>
@@ -82,23 +93,26 @@ const Apartments = ({ users = [], lastest }) => {
                <Apart>
                   <MainApartment animation={animation} gap="40px">
                      <HomeImg
-                        src={(apartments?.url && apartments.url) || ''}
+                        src={getImageFullUrl(
+                           apartments?.images?.[0].image.largeImagePath
+                        )}
                         alt="home"
                      />
                      <div>
                         <TitleHeader lastest={lastest}>
-                           {(apartments?.header && apartments.header) || ''}
+                           {apartments?.title}
                         </TitleHeader>
                         <TitleApartment lastest={lastest}>
-                           {(apartments?.title && apartments.title) || ''}
+                           {apartments?.description}
                         </TitleApartment>
                         <DivAddress>
                            <ImgGeo src={geo} alt="iconGeo" />
-                           <TitleAdress>
-                              {(apartments?.geo && apartments.geo) || ''}
-                           </TitleAdress>
+                           <TitleAdress>{apartments?.address}</TitleAdress>
                         </DivAddress>
-                        <StyledLink lastest={lastest} to="/">
+                        <StyledLink
+                           lastest={lastest}
+                           to={`/main/regions/${apartments?.id}`}
+                        >
                            Read More
                         </StyledLink>
                      </div>
@@ -107,18 +121,16 @@ const Apartments = ({ users = [], lastest }) => {
                      <Flex>
                         <ImgHome1
                            animation={animation}
-                           src={
-                              (secondApartments?.url && secondApartments.url) ||
-                              ''
-                           }
+                           src={getImageFullUrl(
+                              secondApartments?.images?.[0].image.largeImagePath
+                           )}
                            alt="page"
                         />
                         <ImgHome2
                            animation={animation}
-                           src={
-                              (thirdApartments?.url && thirdApartments.url) ||
-                              ''
-                           }
+                           src={getImageFullUrl(
+                              thirdApartments?.images?.[0].image.largeImagePath
+                           )}
                            alt="page"
                         />
                      </Flex>
@@ -130,7 +142,7 @@ const Apartments = ({ users = [], lastest }) => {
                            <img src={lastest ? prevBlack : prev} alt="prev" />
                         </ButtonSlide>
                         <SpanLength lastest={lastest}>{`${homeIndex + 1}/${
-                           users.length
+                           listings.length
                         }`}</SpanLength>
                         <ButtonSlide onClick={nextChangeHandler}>
                            <img src={lastest ? nextBlack : next} alt="next" />

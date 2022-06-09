@@ -1,22 +1,17 @@
 import styled from 'styled-components'
-// import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-// import { getRegions } from '../../../store/regionSlice'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import { getImageFullUrl } from '../../../utils/helpers/general'
 
 const Regions = () => {
-   // const dispatch = useDispatch()
    const navigate = useNavigate()
    const { regions } = useSelector((state) => state.region)
 
    const transitionToListingHandler = ({ id }) => {
       navigate(`/main/regions`, { state: id })
    }
-   // useEffect(() => {
-   //    dispatch(getRegions())
-   // }, [])
+
    return (
       <Container>
          <Flex direction="column" width="100%">
