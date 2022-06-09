@@ -29,7 +29,7 @@ const Bookings = () => {
          })
       )
       setParams({ page: pagination })
-   }, [])
+   }, [pagination])
    const enterListingHandler = (id) => {
       navigate(`${id}`)
    }
