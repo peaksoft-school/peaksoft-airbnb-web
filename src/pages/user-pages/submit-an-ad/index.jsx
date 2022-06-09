@@ -24,7 +24,7 @@ const SubmitAnAd = () => {
       }
       dispatch(uploadImageListing(listing))
    }
-   return <BookForm submitHandler={formSubmitHandler} />
+   return <BookForm onSubmit={formSubmitHandler} />
 }
 
 export default SubmitAnAd
