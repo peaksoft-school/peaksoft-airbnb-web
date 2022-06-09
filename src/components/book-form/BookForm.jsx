@@ -21,7 +21,7 @@ import { getImagesAndIds } from '../../utils/helpers/general'
 
 let isDelete = false
 
-const BookForm = ({ isUpdate, onGetData }) => {
+const BookForm = ({ isUpdate, onSubmit }) => {
    const dispatch = useDispatch()
    const { homeId: id } = useParams()
    const { listing, region } = useSelector((state) => state)
@@ -115,7 +115,7 @@ const BookForm = ({ isUpdate, onGetData }) => {
 
    const submitHandler = (data, e) => {
       e.stopPropagation()
-      onGetData({ ...data, images: imageIds || [] }, selectedImages.files)
+      onSubmit({ ...data, images: imageIds || [] }, selectedImages.files)
       setSelectedImages({ images: [], files: [] })
       isDelete = false
    }

@@ -11,7 +11,7 @@ const SubmitAnAd = () => {
 
    const navigateAfterSuccessUpload = () => navigate('/main/regions')
 
-   const getDataHandler = (data, files) => {
+   const formSubmitHandler = (data, files) => {
       const listing = {
          dataListing: {
             ...data,
@@ -24,7 +24,7 @@ const SubmitAnAd = () => {
       }
       dispatch(uploadImageListing(listing))
    }
-   return <BookForm onGetData={getDataHandler} />
+   return <BookForm submitHandler={formSubmitHandler} />
 }
 
 export default SubmitAnAd

@@ -12,7 +12,7 @@ const EditListing = () => {
    const navigateAfterSuccessUpload = () =>
       navigate(`/profile/my-announcements/${homeId}`)
 
-   const getDataHandler = (data, files) => {
+   const formSubmitHandler = (data, files) => {
       const listing = {
          dataListing: {
             ...data,
@@ -27,7 +27,7 @@ const EditListing = () => {
       dispatch(uploadImageListing(listing))
    }
 
-   return <BookForm isUpdate onGetData={getDataHandler} />
+   return <BookForm isUpdate onSubmit={formSubmitHandler} />
 }
 
 export default EditListing
