@@ -12,6 +12,7 @@ import DeleteIcon from '../../../assets/icons/Action.svg'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
+import { useNavigate } from 'react-router-dom'
 
 const StyledTableCell = styled(TableCell)(() => ({
    [`&.${tableCellClasses.head}`]: {
@@ -35,6 +36,10 @@ const StyledTableRow = styled(TableRow)(() => ({
    },
 }))
 const UsersTable = (props) => {
+   const navigate = useNavigate()
+   const transitionToInnerPage = (id) => {
+      navigate(`${id}`)
+   }
    return (
       <Container>
          <Flex margin="0 0 20px 0">
@@ -55,7 +60,10 @@ const UsersTable = (props) => {
             </Head>
             <Body>
                {props.users.map((user, index) => (
-                  <StyledTableRow key={user.id}>
+                  <StyledTableRow
+                     onClick={() => transitionToInnerPage(user.id)}
+                     key={user.id}
+                  >
                      <TableNumber>{index + 1}</TableNumber>
                      <TableName>{user.name}</TableName>
                      <TableContact>{user.email}</TableContact>
