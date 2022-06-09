@@ -5,6 +5,8 @@ import { listingActions } from '../../store/listingSlice'
 import Input from '../UI/text-fields/Input'
 import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg'
 import useDebounce from '../../hooks/useDebounce'
+import Flex from '../UI/ui-for-positions/Flex'
+import media from '../../utils/helpers/media'
 
 let blockedUseEffect = true
 const SearchInputRegionsPage = () => {
@@ -30,18 +32,27 @@ const SearchInputRegionsPage = () => {
    }, [debounceSearch])
 
    return (
-      <FormUserSearch>
-         <SearchIconWrapper>
-            <SearchIconStyled />
-         </SearchIconWrapper>
-         <Search
-            defaultValue={search}
-            onChange={inputChangeHandler}
-            placeholder="Search"
-         />
-      </FormUserSearch>
+      <Container>
+         <FormUserSearch>
+            <SearchIconWrapper>
+               <SearchIconStyled />
+            </SearchIconWrapper>
+            <Search
+               defaultValue={search}
+               onChange={inputChangeHandler}
+               placeholder="Search"
+            />
+         </FormUserSearch>
+      </Container>
    )
 }
+const Container = styled(Flex)`
+   width: 100%;
+   align-items: center;
+   ${media.tablet`
+      width : 100%;
+   `}
+`
 const SearchIconWrapper = styled.div`
    transform: translateY(-50%);
    position: absolute;

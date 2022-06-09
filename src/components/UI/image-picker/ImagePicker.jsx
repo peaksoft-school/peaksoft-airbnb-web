@@ -7,7 +7,7 @@ import Text from '../typography/Text'
 import Title from '../typography/Title'
 
 const ImagePicker = React.forwardRef(
-   ({ onDrop, files, deleteHandler }, ref) => {
+   ({ onDrop, files = [], deleteHandler }, ref) => {
       const { getRootProps, getInputProps } = useDropzone({
          onDrop,
          accept: 'image/*',
@@ -16,10 +16,10 @@ const ImagePicker = React.forwardRef(
       return (
          <Flex align="center" gap="16px">
             <Flex gap="5px" wrap="wrap">
-               {files.map((img, index) => (
+               {files.map((img) => (
                   <GroupImg key={img.id}>
                      <Image src={img.img} />
-                     <DeleteBtn onClick={() => deleteHandler(index)}>
+                     <DeleteBtn onClick={() => deleteHandler(img.id)}>
                         DELETE
                      </DeleteBtn>
                   </GroupImg>

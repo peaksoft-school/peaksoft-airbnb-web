@@ -5,45 +5,35 @@ import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOneListing } from '../../../store/listingSlice'
-import { useParams, useSearchParams } from 'react-router-dom'
-import BookingForm from '../../../components/checkout-form/BookingForm'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import Loader from '../../../components/UI/loader/Loader'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
-import CheckoutForm from '../../../components/checkout-form/CheckoutForm'
 import LeaveFeedbackButton from '../../../components/UI/buttons/LeaveFeedbackButton'
 import FeedBack from '../../../components/feedback/FeedBack'
 import FeedbackList from '../../../components/feedback/FeedbackList'
-import {
-   getDataFromLocalStorage,
-   saveToLocalStorage,
-} from '../../../utils/helpers/general'
 import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPercentRating'
+import DatesOfBooking from './DatesOfBooking'
+import { getOneAnnouncements } from '../../../store/listingSlice'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
+import Button from '../../../components/UI/buttons/Button'
+import DeleteModal from '../../../components/delete-listing-modal/DeleteModal'
 
-const HomeDetail = () => {
+const UserProfileAnnouncementsDetail = () => {
+   const navigate = useNavigate()
    const params = useParams()
    const [searchParams, setSearchParams] = useSearchParams()
-   const valueParams = searchParams.get('payment')
    const feedbackParams = searchParams.get('feedback')
    const dispatch = useDispatch()
    const { listing, isLoading } = useSelector((state) => state.listing)
-   const [startAndEndDate, setStartAndEndDate] = useState(
-      getDataFromLocalStorage('dates') || {}
-   )
+   const [showDeleteModal, setShowDeleteModal] = useState(false)
+
    useEffect(() => {
-      dispatch(getOneListing(params.homeId))
+      dispatch(getOneAnnouncements(params.homeId))
    }, [])
 
-   const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
-   useEffect(() => {
-      saveToLocalStorage('dates', startAndEndDate)
-   }, [startAndEndDate])
+   const navigateToProfile = () => navigate('/profile/my-announcements')
 
-   const showPaymentModal = (dates) => {
-      setSearchParams({ payment: 'true' })
-      setStartAndEndDate(dates)
-   }
+   const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
 
    const hidePaymentModal = () => setSearchParams('')
 
@@ -51,14 +41,13 @@ const HomeDetail = () => {
       <Loader />
    ) : (
       <Wrapper>
-         <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
-         <BookingForm
-            id={params.house}
-            price={listing.price}
-            dates={startAndEndDate}
-            isVisible={valueParams}
-            onClose={hidePaymentModal}
+         <DeleteModal
+            id={params.homeId}
+            func={navigateToProfile}
+            isVisible={showDeleteModal}
+            onClose={() => setShowDeleteModal(false)}
          />
+         <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>
             <Title>/</Title>
@@ -69,15 +58,23 @@ const HomeDetail = () => {
          </Flex>
          <Container>
             <InnerPageContent listing={listing}>
-               <Flex margin="30px 0 0 0">
-                  <CheckoutForm
-                     getDates={showPaymentModal}
-                     price={listing?.price}
-                     bookings={listing?.bookings}
-                  />
+               <Flex width="100%" gap="20px" margin="60px 0 0 0">
+                  <Button
+                     onClick={() => setShowDeleteModal(true)}
+                     width="200px"
+                     outline
+                  >
+                     DELETE
+                  </Button>
+                  <Button onClick={() => navigate('edit')} width="200px">
+                     EDIT
+                  </Button>
                </Flex>
             </InnerPageContent>
          </Container>
+         {listing?.bookings?.length && (
+            <DatesOfBooking bookings={listing.bookings} />
+         )}
          <Container>
             <LeftContent>
                <FeedbackList feedbacks={listing.feedbacks} />
@@ -143,4 +140,5 @@ const Wrapper = styled.div`
    `}
    }
 `
-export default HomeDetail
+
+export default UserProfileAnnouncementsDetail

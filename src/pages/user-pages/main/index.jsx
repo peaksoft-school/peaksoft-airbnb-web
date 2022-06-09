@@ -32,8 +32,6 @@ const MainPage = () => {
       )
    }, [])
 
-   console.log(popularApartments)
-
    return (
       <Container>
          <MainPages>

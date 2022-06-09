@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import * as React from 'react'
 import styled from 'styled-components'
 import { ReactComponent as Stars } from '../../assets/icons/Star.svg'
@@ -11,6 +12,8 @@ import { ReactComponent as WarningIcon } from '../../assets/icons/Warning.svg'
 import { LISTING_STATUSES } from '../../utils/constants/general'
 
 const ProfileCard = ({
+   id,
+   isViewed,
    price,
    rating,
    title,
@@ -19,6 +22,8 @@ const ProfileCard = ({
    images,
    blocked,
    rejected,
+   onClick,
+   isAccepted,
 }) => {
    const [showWarningMessage, setShowWarningMessage] = React.useState(false)
    const showOrHideWarningMessageHandler = () => {
@@ -43,13 +48,18 @@ const ProfileCard = ({
       )
    }
    return (
-      <Wrapper blocked={blocked} rejected={isRejected}>
+      <Wrapper
+         isAccepted={isAccepted}
+         blocked={blocked}
+         rejected={isRejected}
+         isViewed={isViewed}
+      >
          {content}
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={images} />
             </ImgWrapper>
-            <ContentWrapper>
+            <ContentWrapper onClick={() => onClick(id)}>
                <ContainerItem>
                   <Flex gap="3px" align="center">
                      <Title className="price">${price}/</Title>
@@ -119,7 +129,12 @@ const Wrapper = styled.div`
       height: 55vmin;
    }
    background-color: transparent;
-   border: ${({ rejected }) => (rejected ? '3px solid tomato' : 'none')};
+   border: ${({ isViewed, rejected, isAccepted }) =>
+      rejected
+         ? '3px solid red'
+         : !isViewed && !isAccepted
+         ? '3px solid orange'
+         : 'none'};
    :hover {
       box-shadow: 0px 4px 12px rgba(105, 105, 105, 0.08);
    }
@@ -239,4 +254,5 @@ const Warning = styled(Button)`
       width: auto;
    }
 `
+
 export default ProfileCard

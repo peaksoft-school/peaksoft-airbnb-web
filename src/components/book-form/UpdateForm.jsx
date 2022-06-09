@@ -1,6 +1,5 @@
-/* eslint-disable no-plusplus */
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,14 +13,19 @@ import Input from '../UI/text-fields/Input'
 import TextArea from '../UI/text-fields/TextArea'
 import media from '../../utils/helpers/media'
 import Select from '../UI/select/Select'
-import { getOneListing, listingActions } from '../../store/listingSlice'
+import {
+   getOneListing,
+   listingActions,
+   uploadImageListing,
+} from '../../store/listingSlice'
+import uuid from 'react-uuid'
 import Spinner from '../UI/loader/Spinner'
-import { useParams } from 'react-router-dom'
-import { getImagesAndIds } from '../../utils/helpers/general'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { getImageFullUrl } from '../../utils/helpers/general'
 
-let isDelete = false
-
-const BookForm = ({ isUpdate, onSubmit }) => {
+const BookForm = () => {
+   const navigate = useNavigate()
+   const { pathname } = useLocation()
    const dispatch = useDispatch()
    const { homeId: id } = useParams()
    const { listing, region } = useSelector((state) => state)
@@ -84,26 +88,19 @@ const BookForm = ({ isUpdate, onSubmit }) => {
          }),
       },
    }
-   const onDrop = (file) => {
-      const img = URL.createObjectURL(file[0])
-      const { files, images } = selectedImages
+   const onDrop = (files) => {
+      const img = URL.createObjectURL(files[0])
       setSelectedImages({
-         images: [...images, { img, id: files.length }],
-         files: [...files, { file: file[0], id: files.length }],
+         images: [...selectedImages.images, { img, id: uuid() }],
+         files: [...selectedImages.files, files[0]],
       })
    }
-
-   const deleteImgHandler = (id) => {
-      const { files, images } = selectedImages
+   const deleteImgHandler = (index) =>
       setSelectedImages({
          ...selectedImages,
-         images: images.filter((image) => image.id !== id),
-         files: files.filter((file) => file.id !== id),
+         images: selectedImages.images.filter((image, i) => i !== index),
+         files: selectedImages.files.filter((file, i) => i !== index),
       })
-
-      if (isUpdate) dispatch(listingActions.deleteImageListing(id))
-      isDelete = true
-   }
 
    const changeRadionButtonHandler = (e) =>
       setValue('type', e.target.value, { shouldValidate: true })
@@ -111,22 +108,40 @@ const BookForm = ({ isUpdate, onSubmit }) => {
    const changeSelectHandler = (regionId) =>
       setValue('regionId', regionId, { shouldValidate: true })
 
-   const { imageIds } = getImagesAndIds(oneListing || null)
+   const navigateAfterSuccessUpload = () => navigate('/main/regions')
+
+   const isUpdate = pathname !== '/submit-an-ad'
 
    const submitHandler = (data, e) => {
       e.stopPropagation()
-      onSubmit({ ...data, images: imageIds || [] }, selectedImages.files)
-      setSelectedImages({ images: [], files: [] })
-      isDelete = false
-   }
-   const images = useCallback(() => {
-      if (oneListing?.images?.length) {
-         return getImagesAndIds(oneListing).images
+      const listing = {
+         dataListing: {
+            ...data,
+            price: Number(data.price),
+            maxNumberOfGuests: Number(data.maxNumberOfGuests),
+         },
+         imagesListing: selectedImages.files,
+         navigateAfterSuccessUpload,
+         id,
+         isUpdate,
       }
-   })
+      dispatch(uploadImageListing(listing))
 
+      setSelectedImages({
+         images: [],
+         files: [],
+      })
+   }
+   const images = () => {
+      if (oneListing) {
+         return oneListing?.images?.map((el) => {
+            return { img: getImageFullUrl(el.image.smallImagePath), id: el.id }
+         })
+      }
+      return selectedImages.images
+   }
    useEffect(() => {
-      if (oneListing && !isDelete) {
+      if (oneListing) {
          setValue('title', oneListing?.title)
          setValue('description', oneListing?.description)
          setValue('address', oneListing?.address)
@@ -135,17 +150,15 @@ const BookForm = ({ isUpdate, onSubmit }) => {
          setValue('maxNumberOfGuests', oneListing?.maxNumberOfGuests)
          setValue('type', oneListing?.type)
          setValue('regionId', oneListing?.region?.id)
-         setSelectedImages({ ...selectedImages, images: images() || [] })
+         setSelectedImages({ ...selectedImages, images: images() })
       }
    }, [oneListing])
-
    useEffect(() => {
       if (isUpdate) dispatch(getOneListing(id))
       return () => {
          dispatch(listingActions.clearListing())
       }
    }, [])
-
    return (
       <FormContainer onSubmit={handleSubmit(submitHandler)}>
          <GlobalStyle />

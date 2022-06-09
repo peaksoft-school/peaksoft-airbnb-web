@@ -19,7 +19,7 @@ const ButtonStyled = styled.button`
    padding: ${({ padding }) => padding || '10px 16px'};
    :hover {
       background: #bb7200;
-      border: #bb7200;
+      border-color: #bb7200;
       color: #f7f7f7;
    }
    :active {

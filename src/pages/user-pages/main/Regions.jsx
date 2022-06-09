@@ -8,9 +8,8 @@ const Regions = () => {
    const navigate = useNavigate()
    const { regions } = useSelector((state) => state.region)
 
-   const transitionToListingHandler = ({ id }) => {
+   const transitionToListingHandler = ({ id }) =>
       navigate(`/main/regions`, { state: id })
-   }
 
    return (
       <Container>

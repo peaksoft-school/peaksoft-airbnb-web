@@ -9,6 +9,9 @@ import { ROLES } from '../utils/constants/general'
 import Bookings from '../components/user-profile/Bookings'
 import MyAnnouncements from '../components/user-profile/MyAnnouncement'
 import RequestNotFound from '../components/search-bar/RequestNotFound'
+import UserProfileAnnouncementsDetail from '../pages/user-pages/profile-announcement-detail'
+import UserProfileBookingsDetail from '../pages/user-pages/profile-bookings-detail'
+import EditListing from '../pages/user-pages/edit-house'
 
 const Region = React.lazy(() => import('../pages/user-pages/region'))
 const HomeDetail = React.lazy(() => import('../pages/user-pages/home-detail'))
@@ -18,8 +21,18 @@ const SubmitAnAd = React.lazy(() => import('../pages/user-pages/submit-an-ad'))
 const UserRoutes = () => {
    const { isAuthorized, role } = useSelector((state) => state.auth)
 
-   const { INDEX, MAIN, REGION, HOUSE, PROFILE, SUBMIT_AN_AD, PROFILE_TABS } =
-      USER_ROUTES
+   const {
+      INDEX,
+      MAIN,
+      REGION,
+      HOUSE,
+      PROFILE,
+      SUBMIT_AN_AD,
+      PROFILE_TABS,
+      PROFILE_BOOKINGS_HOME_DETAIL,
+      PROFILE_ANNOUNCEMENTS_HOME_DETAIL,
+      LISTING_EDIT,
+   } = USER_ROUTES
    return (
       <Routes>
          <Route element={<UserLayout />}>
@@ -60,6 +73,15 @@ const UserRoutes = () => {
                      element={<MyAnnouncements />}
                   />
                </Route>
+               <Route
+                  path={PROFILE_ANNOUNCEMENTS_HOME_DETAIL.path}
+                  element={<UserProfileAnnouncementsDetail />}
+               />
+               <Route
+                  path={PROFILE_BOOKINGS_HOME_DETAIL.path}
+                  element={<UserProfileBookingsDetail />}
+               />
+               <Route path={LISTING_EDIT.path} element={<EditListing />} />
             </Route>
          </Route>
          <Route path="/not-found-data" element={<RequestNotFound />} />
