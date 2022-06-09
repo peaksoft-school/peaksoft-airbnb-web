@@ -53,7 +53,7 @@ const HomeDetail = () => {
       <Wrapper>
          <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
          <BookingForm
-            id={params.house}
+            id={params.homeId}
             price={listing.price}
             dates={startAndEndDate}
             isVisible={valueParams}
