@@ -12,6 +12,7 @@ import { ReactComponent as WarningIcon } from '../../assets/icons/Warning.svg'
 import { LISTING_STATUSES } from '../../utils/constants/general'
 
 const ProfileCard = ({
+   id,
    isViewed,
    price,
    rating,
@@ -21,7 +22,8 @@ const ProfileCard = ({
    images,
    blocked,
    rejected,
-   isBooked,
+   onClick,
+   isAccepted,
 }) => {
    const [showWarningMessage, setShowWarningMessage] = React.useState(false)
    const showOrHideWarningMessageHandler = () => {
@@ -47,7 +49,7 @@ const ProfileCard = ({
    }
    return (
       <Wrapper
-         isBooked={isBooked}
+         isAccepted={isAccepted}
          blocked={blocked}
          rejected={isRejected}
          isViewed={isViewed}
@@ -57,7 +59,7 @@ const ProfileCard = ({
             <ImgWrapper>
                <Carousel dataSlider={images} />
             </ImgWrapper>
-            <ContentWrapper>
+            <ContentWrapper onClick={() => onClick(id)}>
                <ContainerItem>
                   <Flex gap="3px" align="center">
                      <Title className="price">${price}/</Title>
@@ -127,10 +129,10 @@ const Wrapper = styled.div`
       height: 55vmin;
    }
    background-color: transparent;
-   border: ${({ isViewed, rejected, isBooked }) =>
+   border: ${({ isViewed, rejected, isAccepted }) =>
       rejected
          ? '3px solid red'
-         : !isViewed && !isBooked
+         : !isViewed && !isAccepted
          ? '3px solid orange'
          : 'none'};
    :hover {

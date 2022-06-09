@@ -68,6 +68,7 @@ const ContentWrapper = styled.div`
 `
 const ContainerList = styled.div`
    max-width: 850px;
+   width: 100%;
    padding-bottom: 8rem;
 `
 
