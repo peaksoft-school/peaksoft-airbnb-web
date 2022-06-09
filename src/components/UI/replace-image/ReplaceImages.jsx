@@ -69,11 +69,17 @@ const Container = styled.div`
    }
 `
 const Img = styled.img`
+   aspect-ratio: 17/13;
    min-width: 100px;
    width: 100%;
-   min-height: 100px;
+   min-height: 70px;
    height: auto;
    object-fit: cover;
+   cursor: pointer;
+   transition: 0.1s;
+   :hover {
+      opacity: 0.7;
+   }
 `
 
 export default ReplaceImages

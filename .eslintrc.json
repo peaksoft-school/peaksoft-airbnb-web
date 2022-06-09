@@ -71,6 +71,7 @@
       ],
       "func-names": ["off", "always"],
       "import/no-cycle": [2, { "ignoreExternal": true }],
-      "import/order": ["off", { "newlines-between": "never" }]
+      "import/order": ["off", { "newlines-between": "never" }],
+      "no-unsafe-optional-chaining": "off"
    }
 }
