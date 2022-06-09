@@ -12,7 +12,7 @@ export const USER_ROUTES = {
       label: 'REGIONS',
    },
    HOUSE: {
-      path: '/main/:region/:house',
+      path: '/main/:region/:homeId',
       label: 'Hause',
    },
    PROFILE: {
@@ -28,6 +28,18 @@ export const USER_ROUTES = {
          path: '/profile/my-announcements',
          label: 'my-announcements',
       },
+   },
+   PROFILE_ANNOUNCEMENTS_HOME_DETAIL: {
+      path: '/profile/my-announcements/:homeId',
+      label: 'my-announcements',
+   },
+   PROFILE_BOOKINGS_HOME_DETAIL: {
+      path: '/profile/bookings/:homeId',
+      label: 'bookings',
+   },
+   LISTING_EDIT: {
+      path: '/profile/my-announcements/:homeId/edit',
+      label: 'edit',
    },
    SUBMIT_AN_AD: {
       path: '/submit-an-ad',

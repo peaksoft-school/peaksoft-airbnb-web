@@ -17,7 +17,6 @@ const UserDetail = React.lazy(() => import('../pages/admin-pages/user-detail'))
 const UserHouseDetail = React.lazy(
    () => import('../pages/admin-pages/user-home-details')
 )
-const EditHouse = React.lazy(() => import('../pages/admin-pages/edit-house'))
 const AllHousing = React.lazy(() => import('../pages/admin-pages/all-housing'))
 
 const AdminRoutes = () => {
@@ -28,7 +27,6 @@ const AdminRoutes = () => {
       USERS,
       USER,
       USER_HOUSE,
-      USER_HOUSE_EDIT,
       ALL_HOUSING,
    } = ADMIN_ROUTES
    return (
@@ -49,7 +47,6 @@ const AdminRoutes = () => {
                <Route path={USERS.path} element={<Users />} />
                <Route path={USER.path} element={<UserDetail />} />
                <Route path={USER_HOUSE.path} element={<UserHouseDetail />} />
-               <Route path={USER_HOUSE_EDIT.path} element={<EditHouse />} />
                <Route path={ALL_HOUSING.path} element={<AllHousing />} />
             </Route>
          </Route>
