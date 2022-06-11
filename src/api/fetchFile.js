@@ -1,7 +1,9 @@
 /* eslint-disable import/no-cycle */
 import store from '../store'
 
-const SERVER_BASE_URL = 'http://ec2-54-175-233-244.compute-1.amazonaws.com:8000'
+const SERVER_BASE_URL =
+   'http://ec2-52-57-79-69.eu-central-1.compute.amazonaws.com:8000'
+
 export const fetchFile = async (options) => {
    const { token, role } = store.getState().auth
    try {
