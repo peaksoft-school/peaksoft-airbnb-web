@@ -19,7 +19,7 @@ import Title from '../../../components/UI/typography/Title'
 import useFilterListings from '../../../hooks/useFilterListings'
 
 const Region = () => {
-   const { loadedData } = useFilterListings()
+   const { memoizeFiltersAndSortings } = useFilterListings()
    const [params] = useSearchParams()
    const { state } = useLocation()
    const dispatch = useDispatch()
@@ -68,8 +68,14 @@ const Region = () => {
    }, [location])
 
    useEffect(() => {
-      const result = loadedData(sort, filter, pagination, location, searchValue)
-      if (result) dispatch(getListings(result))
+      const filterAndSortingParams = memoizeFiltersAndSortings(
+         sort,
+         filter,
+         pagination,
+         location,
+         searchValue
+      )
+      if (filterAndSortingParams) dispatch(getListings(filterAndSortingParams))
    }, [filter, sort, searchValue, pagination, location])
 
    let content = <Title>TOTAL</Title>

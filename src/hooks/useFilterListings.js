@@ -3,10 +3,10 @@ import { shallowEqual } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
 import { paramsSet } from '../utils/helpers/general'
 
-const useFilterListings = () => {
+const useMemoizedListingFiltersAndSortings = () => {
    const [params, setParams] = useSearchParams()
 
-   const loadedData = useMemo(() => {
+   const memoizeFiltersAndSortings = useMemo(() => {
       const filterBy = { status: 'ACCEPTED' }
       const sortBy = {}
       let prevFilters
@@ -48,8 +48,8 @@ const useFilterListings = () => {
    }, [])
 
    return {
-      loadedData,
+      memoizeFiltersAndSortings,
    }
 }
 
-export default useFilterListings
+export default useMemoizedListingFiltersAndSortings

@@ -18,7 +18,7 @@ import { getRegions } from '../../../store/regionSlice'
 import useFilterListings from '../../../hooks/useFilterListings'
 
 const AllHousing = () => {
-   const { loadedData } = useFilterListings()
+   const { memoizeFiltersAndSortings } = useFilterListings()
    const [params] = useSearchParams()
    const { state } = useLocation()
    const dispatch = useDispatch()
@@ -54,11 +54,14 @@ const AllHousing = () => {
    const paginationHandler = (event, value) => setPagination(value)
 
    useEffect(() => {
-      const result = loadedData(sort, filter, pagination)
-
-      if (result) {
-         result.sortBy.isBlocked = 'ASC'
-         dispatch(getListings(result))
+      const filterAndSortingParams = memoizeFiltersAndSortings(
+         sort,
+         filter,
+         pagination
+      )
+      if (filterAndSortingParams) {
+         filterAndSortingParams.sortBy.isBlocked = 'ASC'
+         dispatch(getListings(filterAndSortingParams))
       }
    }, [filter, sort, pagination])
 
