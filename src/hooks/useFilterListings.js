@@ -37,13 +37,15 @@ const useMemoizedListingFiltersAndSortings = () => {
          if (shallowEqual(filters, prevFilters)) return false
          prevFilters = filters
          paramsSet(pagination, 'page', setParams, params)
-         if (searchValue) paramsSet(searchValue, 'search', setParams, params)
+         if (searchValue !== undefined)
+            paramsSet(searchValue, 'search', setParams, params)
          paramsSet(sort.price, 'price', setParams, params)
          paramsSet(sort.popular, 'popular', setParams, params)
          paramsSet(filter.type, 'type', setParams, params)
-         if (location) paramsSet(location, 'location', setParams, params)
+         if (location !== undefined)
+            paramsSet(location, 'location', setParams, params)
 
-         return { filterBy, sortBy }
+         return { filterBy, sortBy, pagination }
       }
    }, [])
 
