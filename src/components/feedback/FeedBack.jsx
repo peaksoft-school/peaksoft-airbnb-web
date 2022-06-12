@@ -59,11 +59,12 @@ const FeedBack = ({ onClose, isVisible }) => {
       })
    }
 
-   const removePhotosHandler = (index) => {
+   const removePhotosHandler = (id) => {
+      const { files, images } = selectedImages
       setSelectedImages({
          ...selectedImages,
-         images: selectedImages.images.filter((image, i) => i !== index),
-         files: selectedImages.files.filter((file, i) => i !== index),
+         images: images.filter((image) => image.id !== id),
+         files: files.filter((file) => file.id !== id),
       })
    }
 

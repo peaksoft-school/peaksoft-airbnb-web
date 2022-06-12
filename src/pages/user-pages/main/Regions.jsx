@@ -95,37 +95,37 @@ const ContainerRegions = styled.div`
       display: flex;
       flex-direction: column;
    }
-   .chui {
+   .Chuy {
       grid-area: 1 / 1 / 3 / 3;
       grid-auto-rows: min-content;
    }
 
-   .batken {
+   .Batken {
       grid-area: 1 / 3 / 2 / 4;
       grid-auto-columns: min-content;
    }
 
-   .jalalabat {
+   .Jalal-Abad {
       grid-area: 1 / 4 / 2 / 5;
    }
 
-   .naryn {
+   .Naryn {
       grid-area: 2 / 3 / 3 / 5;
    }
 
-   .osh {
+   .Osh {
       grid-area: 3 / 3 / 5 / 5;
    }
 
-   .issyk-kul {
+   .Issyk-Kul {
       grid-area: 3 / 1 / 4 / 2;
    }
 
-   .talas {
+   .Talas {
       grid-area: 3 / 2 / 4 / 3;
    }
 
-   .bishkek {
+   .Bishkek {
       grid-area: 4 / 1 / 5 / 3;
    }
 `
