@@ -14,13 +14,13 @@ import LoadingPage from '../../../components/UI/loader/LoadingPage'
 import {
    getDataFromLocalStorage,
    getSomeGiven,
-   paramsSet,
 } from '../../../utils/helpers/general'
 import Title from '../../../components/UI/typography/Title'
+import useFilterListings from '../../../hooks/useFilterListings'
 
-let blockedUseEffect = true
 const Region = () => {
-   const [params, setParams] = useSearchParams()
+   const { memoizeFiltersAndSortings } = useFilterListings()
+   const [params] = useSearchParams()
    const { state } = useLocation()
    const dispatch = useDispatch()
    const { listing, region } = useSelector((state) => state)
@@ -68,30 +68,14 @@ const Region = () => {
    }, [location])
 
    useEffect(() => {
-      if (blockedUseEffect) blockedUseEffect = false
-
-      const filterBy = { status: 'ACCEPTED' }
-
-      const sortBy = {}
-      if (searchValue) filterBy.search = searchValue
-
-      if (location) filterBy.search = location
-
-      if (filter?.regionIds?.length > 0) filterBy.regionIds = filter.regionIds
-
-      if (filter.type) filterBy.type = filter.type
-
-      if (sort.popular) sortBy.popular = sort.popular
-
-      if (sort.price) sortBy.price = sort.price
-
-      paramsSet(pagination, 'page', setParams, params)
-      paramsSet(searchValue, 'search', setParams, params)
-      paramsSet(sort.price, 'price', setParams, params)
-      paramsSet(sort.popular, 'popular', setParams, params)
-      paramsSet(filter.type, 'type', setParams, params)
-      paramsSet(location, 'location', setParams, params)
-      dispatch(getListings({ pagination, filterBy, sortBy }))
+      const filterAndSortingParams = memoizeFiltersAndSortings(
+         sort,
+         filter,
+         pagination,
+         location,
+         searchValue
+      )
+      if (filterAndSortingParams) dispatch(getListings(filterAndSortingParams))
    }, [filter, sort, searchValue, pagination, location])
 
    let content = <Title>TOTAL</Title>

@@ -15,10 +15,11 @@ import {
    getSomeGiven,
 } from '../../../utils/helpers/general'
 import { getRegions } from '../../../store/regionSlice'
-import { LISTING_STATUSES } from '../../../utils/constants/general'
+import useFilterListings from '../../../hooks/useFilterListings'
 
 const AllHousing = () => {
-   const [params, setParams] = useSearchParams()
+   const { memoizeFiltersAndSortings } = useFilterListings()
+   const [params] = useSearchParams()
    const { state } = useLocation()
    const dispatch = useDispatch()
    const { listing, region } = useSelector((state) => state)
@@ -53,28 +54,15 @@ const AllHousing = () => {
    const paginationHandler = (event, value) => setPagination(value)
 
    useEffect(() => {
-      const filterBy = {
-         status: LISTING_STATUSES.ACCEPTED,
+      const filterAndSortingParams = memoizeFiltersAndSortings(
+         sort,
+         filter,
+         pagination
+      )
+      if (filterAndSortingParams) {
+         filterAndSortingParams.sortBy.isBlocked = 'ASC'
+         dispatch(getListings(filterAndSortingParams))
       }
-      const sortBy = { isBlocked: 'ASC' }
-      const queryParams = {}
-      if (filter.regionIds.length > 0) {
-         filterBy.regionIds = filter.regionIds
-      }
-      if (filter.type) {
-         filterBy.type = filter.type
-         queryParams.type = filter.type
-      }
-      if (sort.popular) {
-         sortBy.popular = sort.popular
-         queryParams.popular = sort.popular
-      }
-      if (sort.price) {
-         sortBy.price = sort.price
-         queryParams.price = sort.price
-      }
-      dispatch(getListings({ filterBy, sortBy, pagination }))
-      setParams({ page: pagination, ...queryParams })
    }, [filter, sort, pagination])
 
    useEffect(() => {
