@@ -25,6 +25,9 @@ const ProfileCard = ({
    rejected,
    onClick,
    isAccepted,
+   checkIn,
+   checkOut,
+   onChangeDate,
 }) => {
    const { pathname } = useLocation()
    const [showWarningMessage, setShowWarningMessage] = React.useState(false)
@@ -34,7 +37,6 @@ const ProfileCard = ({
    let content = null
    const isRejected = rejected === LISTING_STATUSES.REJECTED
    const isBooking = pathname === '/profile/bookings'
-   console.log(isBooking)
    if (isRejected || blocked) {
       content = (
          <BlockedContent>
@@ -97,16 +99,20 @@ const ProfileCard = ({
                         <Flex width="100%" justify="space-between">
                            <Flex direction="column">
                               <Text className="textChange">Check in</Text>
-                              <Title className="textChange">Check out</Title>
+                              <Title className="textChange">{checkIn}</Title>
                            </Flex>
                            <Flex direction="column">
                               <Text className="textChange">Check in</Text>
-                              <Title className="textChange">Check out</Title>
+                              <Title className="textChange">{checkOut}</Title>
                            </Flex>
                         </Flex>
                      </ContentWrapper>
                      <Flex margin="10px 0" width="100%">
-                        <Button className="changeBtn" width="100%">
+                        <Button
+                           onClick={() => onChangeDate(id)}
+                           className="changeBtn"
+                           width="100%"
+                        >
                            CHANGE
                         </Button>
                      </Flex>
@@ -225,7 +231,7 @@ const ContentWrapper = styled.div`
    }
    .textChange {
       @media (max-width: 525px) {
-         font-size: 12px;
+         font-size: 11px;
       }
    }
 `

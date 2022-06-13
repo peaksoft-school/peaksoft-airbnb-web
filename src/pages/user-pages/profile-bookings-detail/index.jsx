@@ -15,20 +15,20 @@ import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPer
 import { getOneBookings } from '../../../store/listingSlice'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
 import ChangeDate from './ChangeDate'
-import Modal from '../../../components/UI/modal/Modal'
-import ChangeDateModal from '../../../components/UI/booking-modal/BookingModal'
+import ChangeDateBooking from '../../../components/change-date/ChangeDateBooking'
 
 const UserProfileBookingsDetail = () => {
    const params = useParams()
    const [searchParams, setSearchParams] = useSearchParams()
    const feedbackParams = searchParams.get('feedback')
-   const changeDate = searchParams.get('changeDate')
    const dispatch = useDispatch()
-   const { listing, isLoading } = useSelector((state) => state.listing)
+   const { listing: booking, isLoading } = useSelector((state) => state.listing)
+
+   const { checkInDate, checkOutDate, listing } = booking
 
    useEffect(() => {
       dispatch(getOneBookings(params.homeId))
-   }, [])
+   }, [dispatch])
 
    const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
 
@@ -38,13 +38,7 @@ const UserProfileBookingsDetail = () => {
       <Loader />
    ) : (
       <Wrapper>
-         <Modal
-            width="490px"
-            isVisible={!!changeDate}
-            onClose={hidePaymentModal}
-         >
-            <ChangeDateModal bookings={listing?.bookings} />
-         </Modal>
+         <ChangeDateBooking booking={booking} />
          <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>
@@ -56,20 +50,16 @@ const UserProfileBookingsDetail = () => {
          </Flex>
          <Container>
             <InnerPageContent listing={listing}>
-               {listing?.bookings?.map((el) => (
-                  <ChangeDate
-                     key={el.id}
-                     checkIn={el.checkInDate}
-                     checkOut={el.checkInDate}
-                     price={listing?.price}
-                     id={el.id}
-                  />
-               ))}
+               <ChangeDate
+                  checkIn={checkInDate}
+                  checkOut={checkOutDate}
+                  price={listing?.price}
+               />
             </InnerPageContent>
          </Container>
          <Container>
             <LeftContent>
-               <FeedbackList feedbacks={listing.feedbacks} />
+               <FeedbackList feedbacks={listing?.feedbacks} />
                <Flex width="100%" margin="40px 0 0 0">
                   <LeaveFeedbackButton onClick={showFeedbackModal} />
                </Flex>

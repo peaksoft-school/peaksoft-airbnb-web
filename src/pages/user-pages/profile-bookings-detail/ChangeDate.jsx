@@ -57,7 +57,6 @@ const Container = styled(Flex)`
    width: 100%;
    flex-direction: column;
    align-items: center;
-   height: 157px;
    background-color: #ffffff;
    padding: 20px;
 `

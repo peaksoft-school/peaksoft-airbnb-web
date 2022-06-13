@@ -112,6 +112,10 @@ export const validateDateCreditCard = (value) => {
    return 'enter a valid date'
 }
 
+export function compareTwoDate(currentDate, date) {
+   return new Date(currentDate) < new Date(date)
+}
+
 export const padTo2Digits = (value) => {
    return value.toString().padStart(2, '0')
 }

@@ -1,35 +1,35 @@
 import styled from 'styled-components'
-import Title from '../typography/Title'
-import Text from '../typography/Text'
-import Button from '../buttons/Button'
-import Flex from '../ui-for-positions/Flex'
-import DateRangePicker from '../date-picker/DatePicker'
+import Title from '../UI/typography/Title'
+import Text from '../UI/typography/Text'
+import Button from '../UI/buttons/Button'
+import Flex from '../UI/ui-for-positions/Flex'
+import DateRangePicker from '../UI/date-picker/DatePicker'
 import { useForm } from 'react-hook-form'
-import { useSearchParams } from 'react-router-dom'
-import { formatDate } from '../../../utils/helpers/general'
+import { compareTwoDate, formatDate } from '../../utils/helpers/general'
 
-const ChangeDateModal = ({ price, getDates, bookings = [] }) => {
-   const [params] = useSearchParams()
-   const id = params.get('changeDate')
-   const booking = bookings.find((el) => el.id === id)
-   const checkIn = formatDate.MM_DD_YYYY(booking.checkInDate)
-   const checkOut = formatDate.MM_DD_YYYY(booking.checkOutDate)
-   console.log(checkIn)
-   console.log(checkOut)
+const ChangeDateForm = ({
+   price,
+   getDates,
+   checkInDate,
+   checkOutDate,
+   bookings,
+}) => {
+   const checkIn = checkInDate && formatDate.MM_DD_YYYY(checkInDate)
+   const checkOut = checkOutDate && formatDate.MM_DD_YYYY(checkOutDate)
+
    const {
       register,
       setValue,
       handleSubmit,
       getValues,
       reset,
-      formState: { errors },
+      formState: { errors, isValid },
    } = useForm({
       defaultValues: {
          startDate: new Date(checkIn) || '',
          endDate: new Date(checkOut) || '',
       },
    })
-
    const errorStartDate = (errors?.startDate && errors.startDate.message) || ''
 
    const errorEndDate = (errors?.endDate && errors.endDate.message) || ''
@@ -44,7 +44,6 @@ const ChangeDateModal = ({ price, getDates, bookings = [] }) => {
       getDates(data)
       reset()
    }
-
    const dates = {
       startDate: {
          ...register('startDate', {
@@ -54,9 +53,11 @@ const ChangeDateModal = ({ price, getDates, bookings = [] }) => {
       endDate: {
          ...register('endDate', {
             required: 'fill in end date',
+            validate: (value) => compareTwoDate(checkOut, value),
          }),
       },
    }
+
    return (
       <CheckoutFormStyled onSubmit={handleSubmit(submitHandler)}>
          <Flex direction="column" align="center">
@@ -69,7 +70,7 @@ const ChangeDateModal = ({ price, getDates, bookings = [] }) => {
             </Flex>
             <DatePickerStyle>
                <DateRangePicker
-                  disabled
+                  disabledStartDate
                   dates={dates}
                   valueEndDate={getValues('endDate')}
                   valueStartDate={getValues('startDate')}
@@ -81,7 +82,9 @@ const ChangeDateModal = ({ price, getDates, bookings = [] }) => {
                   <ErrorMessage>{errorStartDate || errorEndDate}</ErrorMessage>
                </Flex>
             </DatePickerStyle>
-            <Button width="100%">REQUEST TO BOOK</Button>
+            <Button disabled={!isValid} width="100%">
+               REQUEST TO BOOK
+            </Button>
          </Flex>
       </CheckoutFormStyled>
    )
@@ -109,4 +112,4 @@ const DatePickerStyle = styled.div`
    margin-bottom: 25px;
 `
 
-export default ChangeDateModal
+export default ChangeDateForm
