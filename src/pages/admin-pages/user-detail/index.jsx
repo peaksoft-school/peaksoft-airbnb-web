@@ -22,11 +22,15 @@ const Profile = () => {
          <Flex align="center" gap="6px" margin="86px 0 0 0 ">
             <Text size="17">Users</Text>
             <Title>/</Title>
-            <Title>{user?.name}</Title>
+            <Title>{user?.user.name}</Title>
          </Flex>
-         <UserProfile>{user?.name || 'LOADING...'} </UserProfile>
+         <UserProfile>{user?.user.name || 'LOADING...'} </UserProfile>
          <ContentWrapper>
-            <AdminUserCard id={userId} user={user} />
+            <AdminUserCard
+               id={userId}
+               user={user?.user}
+               isAllAnnouncementsAreBlocked={user?.isAllAnnouncementsAreBlocked}
+            />
 
             <ContainerList>
                <ProjectTabs

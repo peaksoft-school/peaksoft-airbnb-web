@@ -90,7 +90,7 @@ const AdminCard = ({
             <ImgWrapper>
                <Carousel dataSlider={images} />
             </ImgWrapper>
-            <ContentWrapper onClick={onClick}>
+            <ContentWrapper onClick={() => onClick(id)}>
                <Flex margin="8px 0 16px 0" justify="space-between" width="100%">
                   <Flex gap="3px" align="center">
                      <Title>${price}/</Title>

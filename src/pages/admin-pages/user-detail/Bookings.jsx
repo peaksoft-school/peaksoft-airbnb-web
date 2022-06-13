@@ -33,8 +33,8 @@ const Bookings = () => {
    const paginationHandler = (event, value) => setPagination(value)
    const countOfPages = total / 8
 
-   const enterListingHandler = (id) => {
-      navigate(`${id}`)
+   const enterListingHandler = (listingId) => {
+      navigate(`${listingId}`)
    }
    const deleteListingHandler = async (id) => {
       dispatch(deleteListing(id)).unwrap()

@@ -36,8 +36,8 @@ const MyAnnouncement = () => {
    const paginationHandler = (event, value) => setPagination(value)
    const countOfPages = total / 8
 
-   const enterListingHandler = (id) => {
-      navigate(`${id}`)
+   const enterListingHandler = (listingId) => {
+      navigate(`${listingId}`)
    }
    const blockListingHandler = async (id) => {
       dispatch(blockListing(id)).unwrap()

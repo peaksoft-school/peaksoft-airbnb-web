@@ -10,7 +10,7 @@ import {
    blockAllListings,
 } from '../../../store/adminUsersSlice'
 
-const AdminUserCard = ({ user, id }) => {
+const AdminUserCard = ({ user, id, isAllAnnouncementsAreBlocked }) => {
    const { pathname } = useLocation()
    const dispatch = useDispatch()
    const visibleAllBlockedButton = pathname === `/users/${id}/my-announcements`
@@ -38,7 +38,7 @@ const AdminUserCard = ({ user, id }) => {
                </Title>
             </Flex>
          </Wrapper>
-         {visibleAllBlockedButton && (
+         {visibleAllBlockedButton && !isAllAnnouncementsAreBlocked && (
             <Button
                className="buttonStyle"
                onClick={() => blockAllAnouncement(user.id)}
@@ -46,7 +46,7 @@ const AdminUserCard = ({ user, id }) => {
                Block all Announcement
             </Button>
          )}
-         {visibleAllBlockedButton && (
+         {visibleAllBlockedButton && isAllAnnouncementsAreBlocked && (
             <Button
                className="buttonStyle"
                onClick={() => unBlockAllAnouncement(user.id)}

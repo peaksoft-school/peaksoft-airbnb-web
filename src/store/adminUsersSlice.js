@@ -222,12 +222,14 @@ const adminUsersSlice = createSlice({
          })
       },
       blockAllAnnouncement(state) {
+         state.user.data.isAllAnnouncementsAreBlocked = true
          state.userListings.data = state.userListings?.data.map((listing) => {
             listing.isBlocked = true
             return listing
          })
       },
       unBlockAllAnnouncement(state) {
+         state.user.data.isAllAnnouncementsAreBlocked = false
          state.userListings.data = state.userListings?.data.map((listing) => {
             listing.isBlocked = false
             return listing
