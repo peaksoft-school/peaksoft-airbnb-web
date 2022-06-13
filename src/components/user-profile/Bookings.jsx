@@ -53,6 +53,7 @@ const Bookings = () => {
                   isViewed={el?.listing?.isViewed}
                   maxNumberOfGuests={el?.listing?.maxNumberOfGuests}
                   onClick={enterListingHandler}
+                  isAccepted
                />
             ))}
             {countOfPages > 1 && (

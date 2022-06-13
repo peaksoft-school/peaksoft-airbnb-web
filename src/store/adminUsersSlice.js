@@ -7,7 +7,7 @@ export const getAdminUsersPanel = createAsyncThunk(
    async (_, { rejectWithValue }) => {
       try {
          const users = await fetchApi({
-            path: 'api/users',
+            path: 'api/users/',
             method: 'GET',
          })
          return users

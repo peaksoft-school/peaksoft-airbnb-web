@@ -10,6 +10,7 @@ import Title from '../UI/typography/Title'
 import Carousel from '../UI/carousel/Carousel'
 import { ReactComponent as WarningIcon } from '../../assets/icons/Warning.svg'
 import { LISTING_STATUSES } from '../../utils/constants/general'
+import { useLocation } from 'react-router-dom'
 
 const ProfileCard = ({
    id,
@@ -25,12 +26,15 @@ const ProfileCard = ({
    onClick,
    isAccepted,
 }) => {
+   const { pathname } = useLocation()
    const [showWarningMessage, setShowWarningMessage] = React.useState(false)
    const showOrHideWarningMessageHandler = () => {
       setShowWarningMessage(!showWarningMessage)
    }
    let content = null
    const isRejected = rejected === LISTING_STATUSES.REJECTED
+   const isBooking = pathname === '/profile/bookings'
+   console.log(isBooking)
    if (isRejected || blocked) {
       content = (
          <BlockedContent>
@@ -49,6 +53,7 @@ const ProfileCard = ({
    }
    return (
       <Wrapper
+         isBooking={isBooking}
          isAccepted={isAccepted}
          blocked={blocked}
          rejected={isRejected}
@@ -56,39 +61,73 @@ const ProfileCard = ({
       >
          {content}
          <Flex height="100%" direction="column" align="center">
-            <ImgWrapper>
+            <ImgWrapper isBooking={isBooking}>
                <Carousel dataSlider={images} />
             </ImgWrapper>
-            <ContentWrapper onClick={() => onClick(id)}>
-               <ContainerItem>
-                  <Flex gap="3px" align="center">
-                     <Title className="price">${price}/</Title>
-                     <Text className="price" size="16px">
-                        day
-                     </Text>
+            <Container>
+               <ContentWrapper onClick={() => onClick(id)}>
+                  <ContainerItem>
+                     <Flex gap="3px" align="center">
+                        <Title className="price">${price}/</Title>
+                        <Text className="price" size="16px">
+                           day
+                        </Text>
+                     </Flex>
+                     <StarStyle>
+                        <Stars />
+                        <Div>{rating}</Div>
+                     </StarStyle>
+                  </ContainerItem>
+                  <Flex className="flex" direction="column" gap="7px">
+                     <Title className="text">{title}</Title>
+                     <Flex width="100%" align="center" gap="3px">
+                        <Geolocations />
+                        <Text className="text address">{address}</Text>
+                     </Flex>
                   </Flex>
-                  <StarStyle>
-                     <Stars />
-                     <Div>{rating}</Div>
-                  </StarStyle>
-               </ContainerItem>
-               <Flex className="flex" direction="column" gap="7px">
-                  <Title className="text">{title}</Title>
-                  <Flex width="100%" align="center" gap="3px">
-                     <Geolocations />
-                     <Text className="text address">{address}</Text>
+                  <FlexText>
+                     <Text className="address">{maxNumberOfGuests} guests</Text>
+                     {blocked && <Warning>Blocked</Warning>}
+                     {isRejected && !blocked && <Warning>Rejected</Warning>}
+                  </FlexText>
+               </ContentWrapper>
+               {isBooking && (
+                  <Flex direction="column" width="100%">
+                     <ContentWrapper>
+                        <Flex width="100%" justify="space-between">
+                           <Flex direction="column">
+                              <Text className="textChange">Check in</Text>
+                              <Title className="textChange">Check out</Title>
+                           </Flex>
+                           <Flex direction="column">
+                              <Text className="textChange">Check in</Text>
+                              <Title className="textChange">Check out</Title>
+                           </Flex>
+                        </Flex>
+                     </ContentWrapper>
+                     <Flex margin="10px 0" width="100%">
+                        <Button className="changeBtn" width="100%">
+                           CHANGE
+                        </Button>
+                     </Flex>
                   </Flex>
-               </Flex>
-               <FlexText>
-                  <Text className="address">{maxNumberOfGuests} guests</Text>
-                  {blocked && <Warning>Blocked</Warning>}
-                  {isRejected && !blocked && <Warning>Rejected</Warning>}
-               </FlexText>
-            </ContentWrapper>
+               )}
+            </Container>
          </Flex>
       </Wrapper>
    )
 }
+const Container = styled.div`
+   width: 100%;
+   height: 300px;
+   .changeBtn {
+      @media (max-width: 525px) {
+         padding: 6px;
+         font-size: 14px;
+      }
+   }
+`
+
 const FlexText = styled(Flex)`
    width: 100%;
    justify-content: space-between;
@@ -119,14 +158,16 @@ const ContainerItem = styled(Flex)`
 const Wrapper = styled.div`
    position: relative;
    width: 260px;
-   height: 332px;
+   height: ${({ isBooking }) => (isBooking ? '410px' : '332px')};
    @media (max-width: 525px) {
       width: 40vmin;
-      height: 55vmin;
+      /* height: 75vmin; */
+      height: ${({ isBooking }) => (isBooking ? '65vmin' : '55vmin')};
    }
    @media (max-width: 425px) {
       width: 45vmin;
-      height: 55vmin;
+      /* height: 55vmin; */
+      height: ${({ isBooking }) => (isBooking ? '65vmin' : '55vmin')};
    }
    background-color: transparent;
    border: ${({ isViewed, rejected, isAccepted }) =>
@@ -170,7 +211,7 @@ const Div = styled.p`
 `
 const ImgWrapper = styled.div`
    min-width: 100%;
-   min-height: 50%;
+   min-height: ${({ isBooking }) => (isBooking ? '36%' : '50%')};
    background-color: #000;
 `
 const ContentWrapper = styled.div`
@@ -180,6 +221,11 @@ const ContentWrapper = styled.div`
       @media (max-width: 470px) {
          gap: 0px;
          padding: 0 0 6px 0;
+      }
+   }
+   .textChange {
+      @media (max-width: 525px) {
+         font-size: 12px;
       }
    }
 `
