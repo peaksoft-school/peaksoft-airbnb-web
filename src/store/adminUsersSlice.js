@@ -86,7 +86,7 @@ export const getAdminUserListingAnnouncement = createAsyncThunk(
 )
 
 export const blockListing = createAsyncThunk(
-   'listing/blockListing',
+   'adminUsers/blockListing',
    async (id, { rejectWithValue, dispatch }) => {
       try {
          await fetchApi({
@@ -104,8 +104,9 @@ export const blockListing = createAsyncThunk(
       }
    }
 )
+
 export const unBlockListing = createAsyncThunk(
-   'listing/unBlockListing',
+   'adminUsers/unBlockListing',
    async (id, { rejectWithValue, dispatch }) => {
       try {
          await fetchApi({
@@ -139,6 +140,45 @@ export const deleteListing = createAsyncThunk(
       } catch (error) {
          showErrorMessage({ title: 'Error', message: 'Something went wrong' })
          rejectWithValue(error)
+      }
+   }
+)
+export const blockAllListings = createAsyncThunk(
+   'adminUsers/blockAlllistings',
+   async (userId, { rejectWithValue, dispatch }) => {
+      try {
+         await fetchApi({
+            path: `api/users/${userId}/blockAllAnnouncements`,
+            method: 'PATCH',
+         })
+         dispatch(adminUsersActions.blockAllAnnouncement(userId))
+         showSuccessMessage({
+            title: 'Blocked :)',
+            message: 'Successfully blocked all announcements',
+         })
+      } catch (error) {
+         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
+         rejectWithValue(error.message)
+      }
+   }
+)
+
+export const unBlockAllListings = createAsyncThunk(
+   'adminUsers/unBlockAllAnnouncements',
+   async (userId, { rejectWithValue, dispatch }) => {
+      try {
+         await fetchApi({
+            path: `api/users/${userId}/unBlockAllAnnouncements`,
+            method: 'PATCH',
+         })
+         dispatch(adminUsersActions.unBlockAllAnnouncement(userId))
+         showSuccessMessage({
+            title: 'UnBlocked :)',
+            message: 'Successfully unblocked all announcements',
+         })
+      } catch (error) {
+         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
+         rejectWithValue(error.message)
       }
    }
 )
@@ -178,6 +218,18 @@ const adminUsersSlice = createSlice({
             if (listing.id === payload) {
                listing.isBlocked = false
             }
+            return listing
+         })
+      },
+      blockAllAnnouncement(state) {
+         state.userListings.data = state.userListings?.data.map((listing) => {
+            listing.isBlocked = true
+            return listing
+         })
+      },
+      unBlockAllAnnouncement(state) {
+         state.userListings.data = state.userListings?.data.map((listing) => {
+            listing.isBlocked = false
             return listing
          })
       },

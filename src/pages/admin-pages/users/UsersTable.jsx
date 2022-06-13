@@ -61,14 +61,14 @@ const UsersTable = (props) => {
             <Body>
                {props.users.map((user, index) => (
                   <StyledTableRow
-                     onClick={() => transitionToInnerPage(user.id)}
+                     onClick={() => transitionToInnerPage(user.user.id)}
                      key={user.id}
                   >
                      <TableNumber>{index + 1}</TableNumber>
-                     <TableName>{user.name}</TableName>
-                     <TableContact>{user.email}</TableContact>
-                     <TableBooking>0</TableBooking>
-                     <TableAnnouncement>0</TableAnnouncement>
+                     <TableName>{user.user.name}</TableName>
+                     <TableContact>{user.user.email}</TableContact>
+                     <TableBooking>{user.bookings}</TableBooking>
+                     <TableAnnouncement>{user.announcements}</TableAnnouncement>
                      <StyledTableCell align="center">
                         <img src={DeleteIcon} alt="action" />
                      </StyledTableCell>

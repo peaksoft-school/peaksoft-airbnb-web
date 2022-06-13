@@ -4,12 +4,23 @@ import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
 import Button from '../../../components/UI/buttons/Button'
 import { useLocation } from 'react-router-dom'
+import { useDispatch } from 'react-redux/es/exports'
+import {
+   unBlockAllListings,
+   blockAllListings,
+} from '../../../store/adminUsersSlice'
 
 const AdminUserCard = ({ user, id }) => {
    const { pathname } = useLocation()
-
+   const dispatch = useDispatch()
    const visibleAllBlockedButton = pathname === `/users/${id}/my-announcements`
 
+   const blockAllAnouncement = async (userId) => {
+      dispatch(blockAllListings(userId)).unwrap()
+   }
+   const unBlockAllAnouncement = (userId) => {
+      dispatch(unBlockAllListings(userId)).unwrap()
+   }
    return (
       <ContainerWrapper>
          <Wrapper>
@@ -28,11 +39,25 @@ const AdminUserCard = ({ user, id }) => {
             </Flex>
          </Wrapper>
          {visibleAllBlockedButton && (
-            <Button className="buttonStyle">Block all Announcement</Button>
+            <Button
+               className="buttonStyle"
+               onClick={() => blockAllAnouncement(user.id)}
+            >
+               Block all Announcement
+            </Button>
+         )}
+         {visibleAllBlockedButton && (
+            <Button
+               className="buttonStyle"
+               onClick={() => unBlockAllAnouncement(user.id)}
+            >
+               unBlock all Announcement
+            </Button>
          )}
       </ContainerWrapper>
    )
 }
+
 const ContainerWrapper = styled.div`
    display: flex;
    flex-direction: column;
