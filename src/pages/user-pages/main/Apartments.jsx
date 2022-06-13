@@ -94,7 +94,7 @@ const Apartments = ({ listings = [], lastest }) => {
                   <MainApartment animation={animation} gap="40px">
                      <HomeImg
                         src={getImageFullUrl(
-                           apartments?.images?.[0].image.largeImagePath
+                           apartments?.images?.[0]?.image?.largeImagePath
                         )}
                         alt="home"
                      />
@@ -122,14 +122,16 @@ const Apartments = ({ listings = [], lastest }) => {
                         <ImgHome1
                            animation={animation}
                            src={getImageFullUrl(
-                              secondApartments?.images?.[0].image.largeImagePath
+                              secondApartments?.images?.[0]?.image
+                                 ?.largeImagePath
                            )}
                            alt="page"
                         />
                         <ImgHome2
                            animation={animation}
                            src={getImageFullUrl(
-                              thirdApartments?.images?.[0].image.largeImagePath
+                              thirdApartments?.images?.[0]?.image
+                                 ?.largeImagePath
                            )}
                            alt="page"
                         />
@@ -263,6 +265,7 @@ export const ImgHome1 = styled.img`
    ${media.desktop`
       width: 0px;
       height: 0px;
+      display:none;
    `}
    animation: ${({ animation }) => (animation ? 'yes 3s' : 'no 3s')};
    @keyframes yes {
@@ -292,6 +295,7 @@ export const ImgHome2 = styled.img`
    ${media.desktop`
       width: 0px;
       height: 0px;
+      display:none;
    `}
    animation: ${({ animation }) => (animation ? 'yes 3s' : 'no 3s')};
    @keyframes yes {
