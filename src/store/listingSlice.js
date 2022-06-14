@@ -372,6 +372,15 @@ const listingSlice = createSlice({
       locationValue(state, action) {
          state.location = action.payload
       },
+      changeTheDatesOfTheBooking(state, { payload }) {
+         state.listing = payload.data
+         state.listings.data = state.listings.data.map((listing) => {
+            if (listing.id === payload.data.id) {
+               listing = payload.data
+            }
+            return listing
+         })
+      },
    },
    extraReducers: {
       [uploadImageListing.pending]: setPending,

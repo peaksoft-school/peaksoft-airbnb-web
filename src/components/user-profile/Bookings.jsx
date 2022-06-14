@@ -27,7 +27,10 @@ const Bookings = () => {
 
    const enterListingHandler = (id) => navigate(`${id}`)
 
-   const showChangeDateModal = (id) => setParams({ changeDate: id })
+   const showChangeDateModal = (e, id) => {
+      e.stopPropagation()
+      setParams({ changeDate: id })
+   }
 
    useEffect(() => {
       dispatch(

@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOneListing } from '../../../store/listingSlice'
 import { useParams, useSearchParams } from 'react-router-dom'
-import BookingForm from '../../../components/checkout-form/BookingForm'
 import Loader from '../../../components/UI/loader/Loader'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
 import CheckoutForm from '../../../components/checkout-form/CheckoutForm'
@@ -20,6 +19,7 @@ import {
 } from '../../../utils/helpers/general'
 import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPercentRating'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
+import BookingHome from './BookingHome'
 
 const HomeDetail = () => {
    const params = useParams()
@@ -44,7 +44,6 @@ const HomeDetail = () => {
       setSearchParams({ payment: 'true' })
       setStartAndEndDate(dates)
    }
-
    const hidePaymentModal = () => setSearchParams('')
 
    return isLoading ? (
@@ -52,12 +51,13 @@ const HomeDetail = () => {
    ) : (
       <Wrapper>
          <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
-         <BookingForm
-            id={params.homeId}
-            price={listing.price}
-            dates={startAndEndDate}
+         <BookingHome
+            checkInDate={startAndEndDate.startDate}
+            checkOutDate={startAndEndDate.endDate}
             isVisible={valueParams}
             onClose={hidePaymentModal}
+            id={params.homeId}
+            price={listing?.price}
          />
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>

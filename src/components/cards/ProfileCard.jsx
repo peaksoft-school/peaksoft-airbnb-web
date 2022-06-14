@@ -66,8 +66,8 @@ const ProfileCard = ({
             <ImgWrapper isBooking={isBooking}>
                <Carousel dataSlider={images} />
             </ImgWrapper>
-            <Container>
-               <ContentWrapper onClick={() => onClick(id)}>
+            <Container onClick={() => onClick(id)}>
+               <ContentWrapper>
                   <ContainerItem>
                      <Flex gap="3px" align="center">
                         <Title className="price">${price}/</Title>
@@ -99,17 +99,21 @@ const ProfileCard = ({
                         <Flex width="100%" justify="space-between">
                            <Flex direction="column">
                               <Text className="textChange">Check in</Text>
-                              <Title className="textChange">{checkIn}</Title>
+                              <Title size="14px" className="textChange">
+                                 {checkIn}
+                              </Title>
                            </Flex>
                            <Flex direction="column">
                               <Text className="textChange">Check in</Text>
-                              <Title className="textChange">{checkOut}</Title>
+                              <Title size="14px" className="textChange">
+                                 {checkOut}
+                              </Title>
                            </Flex>
                         </Flex>
                      </ContentWrapper>
                      <Flex margin="10px 0" width="100%">
                         <Button
-                           onClick={() => onChangeDate(id)}
+                           onClick={(e) => onChangeDate(e, id)}
                            className="changeBtn"
                            width="100%"
                         >

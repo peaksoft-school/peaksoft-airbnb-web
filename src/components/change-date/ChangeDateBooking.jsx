@@ -1,24 +1,25 @@
 import React, { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import BookingForm from '../checkout-form/BookingForm'
 import ChangeDateForm from './ChangeDateForm'
 import Modal from '../UI/modal/Modal'
+import ChangeDatePayment from './ChangeDatePayment'
+import { paramsSet } from '../../utils/helpers/general'
 
 const ChangeDateBooking = ({ booking }) => {
    const [params, setParams] = useSearchParams()
    const changeDate = params.get('changeDate')
    const bookingChangedDate = params.get('booking')
+   const [dates, setDates] = useState({})
 
-   const [dates, setDates] = useState('')
    const bookingChangedDateHandler = (dates) => {
-      setParams({ booking: true })
+      paramsSet(booking.id, 'booking', setParams, params)
       setDates(dates)
    }
    return (
       <>
          <Modal
             width="490px"
-            isVisible={!!changeDate}
+            isVisible={!!changeDate && !bookingChangedDate}
             onClose={() => setParams('')}
          >
             <ChangeDateForm
@@ -29,7 +30,17 @@ const ChangeDateBooking = ({ booking }) => {
                getDates={bookingChangedDateHandler}
             />
          </Modal>
-         <BookingForm dates={dates} isVisible={bookingChangedDate} />
+         <ChangeDatePayment
+            previousCheckInDate={booking?.checkInDate}
+            previousCheckOutDate={booking?.checkOutDate}
+            checkInDate={dates.startDate}
+            checkOutDate={dates.endDate}
+            isVisible={bookingChangedDate}
+            onClose={() => setParams('')}
+            price={booking?.listing?.price}
+            id={booking?.id}
+            amount={booking?.amount}
+         />
       </>
    )
 }

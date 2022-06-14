@@ -40,8 +40,8 @@ const ChangeDateForm = ({
    const onChangeEndDate = (value) =>
       setValue('endDate', value, { shouldValidate: true })
 
-   const submitHandler = (data) => {
-      getDates(data)
+   const submitHandler = (dates) => {
+      getDates(dates)
       reset()
    }
    const dates = {
