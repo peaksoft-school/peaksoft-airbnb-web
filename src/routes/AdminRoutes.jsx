@@ -2,6 +2,8 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Routes, Route } from 'react-router-dom'
 import AdminLayout from '../layout/admin-layout'
+import AdminProfileAnnouncementDetail from '../pages/admin-pages/admin-profile-announcement-detail'
+import AdminProfileBookingDetail from '../pages/admin-pages/admin-profile-bookings-detail'
 import { ROLES } from '../utils/constants/general'
 import { ADMIN_ROUTES } from '../utils/constants/routes'
 import ProtectedRoute from './ProtectedRoute'
@@ -28,6 +30,8 @@ const AdminRoutes = () => {
       USER,
       USER_HOUSE,
       ALL_HOUSING,
+      ADMIN_PROFILE_ANNOUNCEMENTS_HOME_DETAIL,
+      ADMIN_PROFILE_BOOKINGS_HOME_DETAIL,
    } = ADMIN_ROUTES
    return (
       <Routes>
@@ -48,6 +52,14 @@ const AdminRoutes = () => {
                <Route path={USER.path} element={<UserDetail />} />
                <Route path={USER_HOUSE.path} element={<UserHouseDetail />} />
                <Route path={ALL_HOUSING.path} element={<AllHousing />} />
+               <Route
+                  path={ADMIN_PROFILE_ANNOUNCEMENTS_HOME_DETAIL.path}
+                  element={<AdminProfileAnnouncementDetail />}
+               />
+               <Route
+                  path={ADMIN_PROFILE_BOOKINGS_HOME_DETAIL.path}
+                  element={<AdminProfileBookingDetail />}
+               />
             </Route>
          </Route>
       </Routes>
