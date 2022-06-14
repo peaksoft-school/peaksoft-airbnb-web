@@ -1,3 +1,4 @@
+/* eslint-disable import/no-duplicates */
 import styled from 'styled-components'
 import { Outlet, useParams } from 'react-router-dom'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
@@ -8,15 +9,20 @@ import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { getSingleUser } from '../../../store/adminUsersSlice'
 
 const Profile = () => {
    const { userId } = useParams()
+   const { pathname } = useLocation()
    const { data: user } = useSelector((state) => state.users.user)
    const dispatch = useDispatch()
    useEffect(() => {
       dispatch(getSingleUser(userId))
    }, [])
+
+   const visibleAllBlockedButton =
+      pathname === `/users/${userId}/my-announcements`
    return (
       <WrapperContainer>
          <Flex align="center" gap="6px" margin="86px 0 0 0 ">
@@ -30,6 +36,7 @@ const Profile = () => {
                id={userId}
                user={user?.user}
                isAllAnnouncementsAreBlocked={user?.isAllAnnouncementsAreBlocked}
+               visibleAllBlockedButton={visibleAllBlockedButton}
             />
 
             <ContainerList>

@@ -9,7 +9,6 @@ import Title from '../UI/typography/Title'
 import Carousel from '../UI/carousel/Carousel'
 import { LISTING_STATUSES } from '../../utils/constants/general'
 import PopUp from '../UI/popup/PopUp'
-import { useLocation } from 'react-router-dom'
 
 const AdminCard = ({
    isViewed,
@@ -28,9 +27,9 @@ const AdminCard = ({
    id,
    onBlock,
    onUnBlock,
-   userId,
+   isAnnouncements,
+   isBookings,
 }) => {
-   const { pathname } = useLocation()
    const [showMeetballs, setShowMeetballs] = useState(false)
    const showMeetballsHandler = (e) => {
       e.stopPropagation()
@@ -66,8 +65,7 @@ const AdminCard = ({
       e.stopPropagation()
       setShowMeetballs(false)
    }
-   const isAnnouncments = pathname === `/users/${userId}/my-announcements`
-   const isBookings = pathname === `/users/${userId}/bookings`
+
    const { ACCEPTED, PENDING } = LISTING_STATUSES
    const isRejected = status === LISTING_STATUSES.REJECTED
    const visibleDisabledContent = isBlocked || isRejected
@@ -122,7 +120,7 @@ const AdminCard = ({
                   </Button>
                   <PopUp
                      isVisible={
-                        showMeetballs && status === PENDING && !isAnnouncments
+                        showMeetballs && status === PENDING && !isAnnouncements
                      }
                      onClose={closeMeetballs}
                   >
@@ -135,7 +133,7 @@ const AdminCard = ({
                         showMeetballs &&
                         status === ACCEPTED &&
                         !isBlocked &&
-                        !isAnnouncments
+                        !isAnnouncements
                      }
                      onClose={closeMeetballs}
                   >
@@ -147,7 +145,7 @@ const AdminCard = ({
                         showMeetballs &&
                         status === ACCEPTED &&
                         isBlocked &&
-                        !isAnnouncments
+                        !isAnnouncements
                      }
                      onClose={closeMeetballs}
                   >
@@ -155,13 +153,13 @@ const AdminCard = ({
                      <AboutItem onClick={deleteHandler}>Delete</AboutItem>
                   </PopUp>
                   <PopUp
-                     isVisible={showMeetballs && isAnnouncments && isBlocked}
+                     isVisible={showMeetballs && isAnnouncements && isBlocked}
                      onClose={closeMeetballs}
                   >
                      <AboutItem onClick={unBlockHandler}>UnBlock</AboutItem>
                   </PopUp>
                   <PopUp
-                     isVisible={showMeetballs && isAnnouncments && !isBlocked}
+                     isVisible={showMeetballs && isAnnouncements && !isBlocked}
                      onClose={closeMeetballs}
                   >
                      <AboutItem onClick={blockHandler}>block</AboutItem>

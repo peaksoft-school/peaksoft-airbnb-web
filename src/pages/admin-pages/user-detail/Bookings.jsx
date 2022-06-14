@@ -39,6 +39,7 @@ const Bookings = () => {
    const deleteListingHandler = async (id) => {
       dispatch(deleteListing(id)).unwrap()
    }
+
    return (
       <>
          {isLoading && <LoadingPage width="210px" height="270px" />}
@@ -60,6 +61,7 @@ const Bookings = () => {
                   maxNumberOfGuests={el?.listing?.maxNumberOfGuests}
                   isBooked="true"
                   onDelete={deleteListingHandler}
+                  isBookings
                />
             ))
          ) : (

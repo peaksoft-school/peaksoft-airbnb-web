@@ -67,6 +67,7 @@ const MyAnnouncement = () => {
                   maxNumberOfGuests={el.maxNumberOfGuests}
                   onBlock={blockListingHandler}
                   onUnBlock={unBlockListingHandler}
+                  isAnnouncements
                />
             ))
          ) : (
