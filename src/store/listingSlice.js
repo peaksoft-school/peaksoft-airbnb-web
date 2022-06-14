@@ -317,7 +317,7 @@ const setRejected = (state, { error }) => {
 }
 const setFulfilled = (state) => {
    state.isLoading = false
-   state.statues = 'success'
+   state.status = 'success'
 }
 
 const listingSlice = createSlice({
