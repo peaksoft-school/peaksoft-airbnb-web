@@ -1,9 +1,8 @@
-/* eslint-disable import/no-unresolved */
 import React from 'react'
 import styled from 'styled-components'
 import { useLocation, useSearchParams, Outlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import Footer from './Footer/Footer'
+import Footer from './footer/Footer'
 import Header from './header-user/Header'
 import HeaderMain from './header-main/Header'
 import SignInWithGoogle from '../../components/login/SignInWithGoogle'

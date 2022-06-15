@@ -41,14 +41,14 @@ const ChangeDatePayment = ({
       const bookingData = {
          checkInDate: formatDate.YYYY_MM_DD(checkInDate),
          checkoutDate: formatDate.YYYY_MM_DD(checkOutDate),
-         amount: currentTotalPrice,
+         amount: totalPrice,
          id,
       }
       try {
          await dispatch(changeTheDatesOfTheBooking({ ...bookingData })).unwrap()
          showSuccessMessage({
             title: 'Booked :)',
-            message: 'The house was successfully booked',
+            message: 'You have successfully changed your booking dates.',
          })
          setParams('')
          reset()
