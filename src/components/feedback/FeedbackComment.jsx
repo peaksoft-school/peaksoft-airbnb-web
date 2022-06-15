@@ -22,6 +22,7 @@ const FeedbackComment = ({
    rating,
    avatar,
    id,
+   disabledLikeDisLike,
 }) => {
    const dispatch = useDispatch()
    const [seeMore, setSeeMore] = useState(false)
@@ -63,11 +64,17 @@ const FeedbackComment = ({
             </Flex>
             <Flex gap="20px" align="center">
                <Flex>
-                  <LikeCheckbox onChange={likeHandler} />
+                  <LikeCheckbox
+                     disabled={disabledLikeDisLike}
+                     onChange={likeHandler}
+                  />
                   <span className="Like">{likes}</span>
                </Flex>
                <Flex>
-                  <DisLikeCheckbox onChange={disLikeHandler} />
+                  <DisLikeCheckbox
+                     disabled={disabledLikeDisLike}
+                     onChange={disLikeHandler}
+                  />
                   <span className="Like">{dislikes}</span>
                </Flex>
             </Flex>

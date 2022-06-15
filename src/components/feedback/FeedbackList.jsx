@@ -7,7 +7,7 @@ import Flex from '../UI/ui-for-positions/Flex'
 import FeedbackComment from './FeedbackComment'
 import { formatDate } from '../../utils/helpers/general'
 
-const FeedbackList = ({ feedbacks = [] }) => {
+const FeedbackList = ({ disabledLikeDisLike = null, feedbacks = [] }) => {
    const [feedbackToggle, setFeedbackToggle] = useState(feedbacks || [])
    const [showMore, setShowMore] = useState(false)
    useEffect(() => {
@@ -35,6 +35,7 @@ const FeedbackList = ({ feedbacks = [] }) => {
                dislikes={el?.dislikes}
                images={el?.images}
                id={el?.id}
+               disabledLikeDisLike={disabledLikeDisLike}
             />
          ))}
          <Flex align="center" justify="center" margin="35px 0 0 0 ">

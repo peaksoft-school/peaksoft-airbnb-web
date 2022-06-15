@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import like from '../../../assets/icons/like.svg'
 import likeChecked from '../../../assets/icons/likeChecked.svg'
 
-const LikeCheckbox = ({ ...props }) => {
+const LikeCheckbox = ({ disabled, ...props }) => {
    return (
       <Label>
-         <LikeInput {...props} type="checkbox" />
+         <LikeInput disabled={disabled} {...props} type="checkbox" />
          <Span />
       </Label>
    )
@@ -22,10 +22,6 @@ const Span = styled.span`
    background-repeat: no-repeat;
    background-size: contain;
    transition: 0.3s;
-   :active {
-      width: 27px;
-      height: 27px;
-   }
 `
 const LikeInput = styled.input`
    position: absolute;

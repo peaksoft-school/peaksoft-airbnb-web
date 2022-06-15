@@ -87,4 +87,12 @@ export const ADMIN_ROUTES = {
       path: '/all-housing',
       label: 'All-housing',
    },
+   ADMIN_PROFILE_ANNOUNCEMENTS_HOME_DETAIL: {
+      path: '/users/:userId/my-announcements/:homeId',
+      label: 'my-announcements',
+   },
+   ADMIN_PROFILE_BOOKINGS_HOME_DETAIL: {
+      path: '/users/:userId/bookings/:homeId',
+      label: 'bookings',
+   },
 }
