@@ -112,6 +112,10 @@ export const validateDateCreditCard = (value) => {
    return 'enter a valid date'
 }
 
+export function compareTwoDate(currentDate, date) {
+   return new Date(currentDate) < new Date(date)
+}
+
 export const padTo2Digits = (value) => {
    return value.toString().padStart(2, '0')
 }
@@ -122,7 +126,15 @@ export const formatDate = {
          padTo2Digits(newDate.getDate()),
          padTo2Digits(newDate.getMonth() + 1),
          newDate.getFullYear(),
-      ].join('-')
+      ].join('/')
+   },
+   MM_DD_YYYY: (date) => {
+      const newDate = new Date(date)
+      return [
+         padTo2Digits(newDate.getMonth() + 1),
+         padTo2Digits(newDate.getDate()),
+         newDate.getFullYear(),
+      ].join('/')
    },
    YYYY_MM_DD: (date) => {
       const newDate = new Date(date)
@@ -155,11 +167,9 @@ export const getImagesAndIds = (listing) => {
    }
 }
 export const getRegionByCoordinates = (locations) => {
-   console.log(locations)
    const location = Object.values(locations.features[0].properties).filter(
       (el) => typeof el === 'string'
    )
-   console.log(location)
    const name = (el) => location.find((d) => d.includes(el))
 
    const findedRegion = REGIONS.find((el) => name(el))
