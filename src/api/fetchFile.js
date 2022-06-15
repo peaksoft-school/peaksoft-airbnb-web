@@ -2,7 +2,7 @@
 import store from '../store'
 
 const SERVER_BASE_URL =
-   'http://ec2-52-57-79-69.eu-central-1.compute.amazonaws.com:8000'
+   'http://ec2-3-73-85-80.eu-central-1.compute.amazonaws.com:8000'
 
 export const fetchFile = async (options) => {
    const { token, role } = store.getState().auth
