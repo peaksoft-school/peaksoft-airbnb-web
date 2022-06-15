@@ -12,6 +12,7 @@ import {
    getOneListing,
    acceptListing,
    viewedListing,
+   listingActions,
 } from '../../../store/listingSlice'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
@@ -28,10 +29,14 @@ const AnnouncementDetail = () => {
    const dispatch = useDispatch()
    const { listing, isLoading } = useSelector((state) => state.listing)
    const id = params.name
+
    useEffect(() => {
       dispatch(getOneListing(id))
-      if (!listing.isViewed) {
+      if (!listing?.isViewed) {
          dispatch(viewedListing(id))
+      }
+      return () => {
+         dispatch(listingActions.clearListing())
       }
    }, [])
    const acceptListingHandler = async () => {
