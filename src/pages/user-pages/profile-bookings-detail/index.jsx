@@ -14,17 +14,21 @@ import FeedbackList from '../../../components/feedback/FeedbackList'
 import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPercentRating'
 import { getOneBookings } from '../../../store/listingSlice'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
+import ChangeDate from './ChangeDate'
+import ChangeDateBooking from '../../../components/change-date/ChangeDateBooking'
 
 const UserProfileBookingsDetail = () => {
    const params = useParams()
    const [searchParams, setSearchParams] = useSearchParams()
    const feedbackParams = searchParams.get('feedback')
    const dispatch = useDispatch()
-   const { listing, isLoading } = useSelector((state) => state.listing)
+   const { listing: booking, isLoading } = useSelector((state) => state.listing)
+
+   const { checkInDate, checkOutDate, listing } = booking
 
    useEffect(() => {
       dispatch(getOneBookings(params.homeId))
-   }, [])
+   }, [dispatch])
 
    const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
 
@@ -34,6 +38,7 @@ const UserProfileBookingsDetail = () => {
       <Loader />
    ) : (
       <Wrapper>
+         <ChangeDateBooking booking={booking} />
          <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>
@@ -44,11 +49,17 @@ const UserProfileBookingsDetail = () => {
             <Title size="20px">NAME</Title>
          </Flex>
          <Container>
-            <InnerPageContent listing={listing} />
+            <InnerPageContent listing={listing}>
+               <ChangeDate
+                  checkIn={checkInDate}
+                  checkOut={checkOutDate}
+                  price={listing?.price}
+               />
+            </InnerPageContent>
          </Container>
          <Container>
             <LeftContent>
-               <FeedbackList feedbacks={listing.feedbacks} />
+               <FeedbackList feedbacks={listing?.feedbacks} />
                <Flex width="100%" margin="40px 0 0 0">
                   <LeaveFeedbackButton onClick={showFeedbackModal} />
                </Flex>

@@ -8,18 +8,29 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import Flex from '../UI/ui-for-positions/Flex'
 import NotFound from '../UI/not-found-content/NotFound'
 import Pagination from '../pagination/Pagination'
+import ChangeDateBooking from '../change-date/ChangeDateBooking'
 
 const Bookings = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const { listings, isLoading } = useSelector((state) => state.listing)
    const [params, setParams] = useSearchParams()
+   const { listings, isLoading } = useSelector((state) => state.listing)
+   const { total, data } = listings
    const page = params.get('page')
+   const changeDate = params.get('changeDate')
+   const booking = data.find((el) => el.id === changeDate) || {}
+
    const [pagination, setPagination] = useState(Number(page) || 1)
-   const { total } = listings
 
    const paginationHandler = (event, value) => setPagination(value)
    const countOfPages = total / 6
+
+   const enterListingHandler = (id) => navigate(`${id}`)
+
+   const showChangeDateModal = (e, id) => {
+      e.stopPropagation()
+      setParams({ changeDate: id })
+   }
 
    useEffect(() => {
       dispatch(
@@ -30,18 +41,17 @@ const Bookings = () => {
       )
       setParams({ page: pagination })
    }, [])
-   const enterListingHandler = (id) => {
-      navigate(`${id}`)
-   }
+
    return isLoading ? (
       <LoadingPageStyled width="260px" height="320px" />
    ) : (
       (listings?.data?.length && (
          <>
-            {listings?.data?.map((el) => (
+            <ChangeDateBooking booking={booking} />
+            {data?.map((el) => (
                <ProfileCard
-                  key={el?.listing?.id}
-                  id={el?.listing?.id}
+                  key={el?.id}
+                  id={el?.id}
                   width="260px"
                   images={el?.listing?.images}
                   title={el?.listing?.title}
@@ -53,6 +63,10 @@ const Bookings = () => {
                   isViewed={el?.listing?.isViewed}
                   maxNumberOfGuests={el?.listing?.maxNumberOfGuests}
                   onClick={enterListingHandler}
+                  checkIn={el?.checkInDate}
+                  checkOut={el?.checkOutDate}
+                  onChangeDate={showChangeDateModal}
+                  isAccepted
                />
             ))}
             {countOfPages > 1 && (

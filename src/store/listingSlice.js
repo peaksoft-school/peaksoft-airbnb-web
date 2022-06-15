@@ -212,10 +212,10 @@ export const viewedListing = createAsyncThunk(
 
 export const getUserProfileListingsAnnouncement = createAsyncThunk(
    'userProfile/getUserProfileListingsAnnouncement',
-   async ({ sortBy = {} }, { rejectWithValue }) => {
+   async ({ sortBy = {}, pagination }, { rejectWithValue }) => {
       const params = {
-         page: 1,
-         limit: 10,
+         page: pagination || 1,
+         limit: 6,
       }
 
       if (Object.values(sortBy).length > 0) {
@@ -237,10 +237,10 @@ export const getUserProfileListingsAnnouncement = createAsyncThunk(
 
 export const getUserProfileListingBookings = createAsyncThunk(
    'userProfile/getUserProfileListingBookings',
-   async ({ sortBy = {} }, { rejectWithValue }) => {
+   async ({ sortBy = {}, pagination }, { rejectWithValue }) => {
       const params = {
-         page: 1,
-         limit: 10,
+         page: pagination || 1,
+         limit: 6,
       }
 
       if (Object.values(sortBy).length > 0) {
@@ -387,6 +387,15 @@ const listingSlice = createSlice({
       },
       locationValue(state, action) {
          state.location = action.payload
+      },
+      changeTheDatesOfTheBooking(state, { payload }) {
+         state.listing = payload.data
+         state.listings.data = state.listings.data.map((listing) => {
+            if (listing.id === payload.data.id) {
+               listing = payload.data
+            }
+            return listing
+         })
       },
    },
    extraReducers: {

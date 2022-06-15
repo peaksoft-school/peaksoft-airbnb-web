@@ -42,7 +42,7 @@ const HeaderUserContent = ({
             )}
             {isAuthorized && pathname !== '/submit-an-ad' && (
                <Button onClick={navigateToForm} className="btnSubmit">
-                  Submit an as
+                  Submit an ad
                </Button>
             )}
             <ContentForProfile isAuthorized={isAuthorized} />

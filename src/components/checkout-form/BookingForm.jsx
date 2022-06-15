@@ -1,59 +1,25 @@
 import React from 'react'
 import Button from '../UI/buttons/Button'
-import Modal from '../UI/modal/Modal'
 import Input from '../UI/text-fields/Input'
-import Text from '../UI/typography/Text'
 import Title from '../UI/typography/Title'
 import Flex from '../UI/ui-for-positions/Flex'
 import styled, { createGlobalStyle } from 'styled-components'
 import dateIcon from '../../assets/icons/payment.svg'
 import InputMask from 'react-input-mask'
-import {
-   formatDate,
-   getNumberOfDays,
-   validateDateCreditCard,
-} from '../../utils/helpers/general'
-import { useDispatch, useSelector } from 'react-redux'
-import { bookTheListing } from '../../store/bookingSlice'
-import {
-   showErrorMessage,
-   showSuccessMessage,
-} from '../UI/notification/Notification'
 import Spinner from '../UI/loader/Spinner'
 import { useForm } from 'react-hook-form'
 import { Alert } from '@mui/material'
-import { useSearchParams } from 'react-router-dom'
+import { validateDateCreditCard } from '../../utils/helpers/general'
 
-const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
-   const [, setParams] = useSearchParams()
+const BookingForm = ({ isLoading, onBooking }) => {
    const {
       reset,
       register,
       handleSubmit,
       formState: { errors, isValid },
    } = useForm()
-   const dispatch = useDispatch()
-   const { isLoading } = useSelector((state) => state.booking)
-   const amountOfDays = getNumberOfDays(dates.startDate, dates.endDate)
-   const totalPrice = price * amountOfDays
-   const onBook = async () => {
-      const bookingData = {
-         checkInDate: formatDate.YYYY_MM_DD(dates.startDate),
-         checkoutDate: formatDate.YYYY_MM_DD(dates.endDate),
-         amount: totalPrice,
-         id,
-      }
-      try {
-         await dispatch(bookTheListing({ ...bookingData })).unwrap()
-         showSuccessMessage({
-            title: 'Booked :)',
-            message: 'The house was successfully booked',
-         })
-         reset()
-         setParams('')
-      } catch (e) {
-         showErrorMessage({ title: 'Uh! Oh!', message: 'Something went wrong' })
-      }
+   const onBook = () => {
+      onBooking(reset)
    }
 
    const checkOut = {
@@ -93,38 +59,14 @@ const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
    const isValidCvc =
       !errors?.creditCard && !errors?.date && errors?.cvc && !isValid
    return (
-      <Modal width="475px" onClose={onClose} isVisible={isVisible}>
+      <>
          <GlobalStyle />
          {errorMessage && (
             <Alert severity="error" className="alertError">
                <Title>{errorMessage}</Title>
             </Alert>
          )}
-         <Flex justify="center" direction="column" align="center">
-            <Flex margin="0 0 24px 0">
-               <Title size="18px" uppercase>
-                  Book your trip
-               </Title>
-            </Flex>
-            <WrapperText width="100%" justify="center" margin="0 0  20px 0">
-               <Text>
-                  Enter your payment information to book the listing from the
-                  between {formatDate.MONTH_DD_YYYY(dates.startDate)} to &nbsp;
-                  {formatDate.MONTH_DD_YYYY(dates.endDate)} inclusive.
-               </Text>
-            </WrapperText>
-            <hr width="100%" color="#d3d3d3" />
-            <Flex margin="24px 0 14px 0">
-               <Title>
-                  <Text>
-                     ${price} x {amountOfDays} days =
-                  </Text>
-                  ${totalPrice}
-               </Title>
-            </Flex>
-            <Flex margin="0 0 16px 0">
-               <Title>Total = ${totalPrice}</Title>
-            </Flex>
+         <Flex width="100%" justify="center" direction="column" align="center">
             <Flex width="100%" margin="0 0 22px 0">
                <WrapperInput>
                   <Img src={dateIcon} />
@@ -168,12 +110,10 @@ const BookingForm = ({ dates, onClose, isVisible, price, id }) => {
                </Button>
             </Flex>
          </Flex>
-      </Modal>
+      </>
    )
 }
-const WrapperText = styled(Flex)`
-   text-align: center;
-`
+
 const Img = styled.img`
    position: absolute;
    top: 12px;
@@ -185,6 +125,7 @@ const WrapperInput = styled.div`
    position: relative;
    display: flex;
    align-items: center;
+   width: 100%;
    input {
       ::-webkit-outer-spin-button,
       ::-webkit-inner-spin-button {
