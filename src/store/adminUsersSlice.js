@@ -99,7 +99,7 @@ export const blockListing = createAsyncThunk(
             message: 'Successfully blocked',
          })
       } catch (error) {
-         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
+         showErrorMessage({ title: 'Error', message: error.message })
          rejectWithValue(error.message)
       }
    }
@@ -119,7 +119,7 @@ export const unBlockListing = createAsyncThunk(
             message: 'Successfully unblocked',
          })
       } catch (error) {
-         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
+         showErrorMessage({ title: 'Error', message: error.message })
          rejectWithValue(error.message)
       }
    }
@@ -183,12 +183,45 @@ export const unBlockAllListings = createAsyncThunk(
    }
 )
 
+export const getOneBooking = createAsyncThunk(
+   'adminUsers/getOneBooking',
+   async (bookingId, { rejectWithValue }) => {
+      try {
+         const bookingListing = await fetchApi({
+            path: `api/users/announcements/${bookingId}`,
+            method: 'GET',
+         })
+         return bookingListing
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
+
+export const getOneAnnouncement = createAsyncThunk(
+   'adminUsers/getOneAnnouncement',
+   async (announcementsId, { rejectWithValue }) => {
+      try {
+         const announcementListing = await fetchApi({
+            path: `api/users/announcements/${announcementsId}`,
+            method: 'GET',
+         })
+         return announcementListing
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
+
 const initialState = {
    users: [],
    user: {},
-   userListings: {},
+   userListings: {
+      data: [],
+   },
    isLoading: false,
    error: null,
+   listing: {},
 }
 const setPending = (state) => {
    state.status = 'pending'
@@ -206,20 +239,30 @@ const adminUsersSlice = createSlice({
    initialState,
    reducers: {
       blockListing(state, { payload }) {
-         state.userListings.data = state.userListings?.data.map((listing) => {
-            if (listing.id === payload) {
-               listing.isBlocked = true
-            }
-            return listing
-         })
+         state.listing.isBlocked = true
+         if (state.userListings.data.length > 0) {
+            state.userListings.data = state.userListings?.data.map(
+               (listing) => {
+                  if (listing.id === payload) {
+                     listing.isBlocked = true
+                  }
+                  return listing
+               }
+            )
+         }
       },
       unblockListing(state, { payload }) {
-         state.userListings.data = state.userListings?.data.map((listing) => {
-            if (listing.id === payload) {
-               listing.isBlocked = false
-            }
-            return listing
-         })
+         state.listing.isBlocked = false
+         if (state.userListings.data.length > 0) {
+            state.userListings.data = state.userListings?.data.map(
+               (listing) => {
+                  if (listing.id === payload) {
+                     listing.isBlocked = false
+                  }
+                  return listing
+               }
+            )
+         }
       },
       blockAllAnnouncement(state) {
          state.user.data.isAllAnnouncementsAreBlocked = true
@@ -243,25 +286,71 @@ const adminUsersSlice = createSlice({
          state.isLoading = false
          state.error = null
       },
+
       [getAdminUsersPanel.rejected]: setRejected,
+
+      [getOneBooking.pending]: (state) => {
+         state.status = 'pending'
+         state.error = null
+         state.isLoading = true
+      },
+
+      [getOneBooking.fulfilled]: (state, action) => {
+         state.listing = action.payload.data
+         state.status = 'success'
+         state.isLoading = false
+      },
+
+      [getOneBooking.rejected]: (state, error) => {
+         state.status = 'rejected'
+         state.error = error.message
+         state.isLoading = false
+      },
+
+      [getOneAnnouncement.pending]: (state) => {
+         state.status = 'pending'
+         state.error = null
+         state.isLoading = true
+      },
+
+      [getOneAnnouncement.fulfilled]: (state, action) => {
+         state.listing = action.payload.data
+         state.status = 'success'
+         state.isLoading = false
+      },
+
+      [getOneAnnouncement.rejected]: (state, error) => {
+         state.status = 'rejected'
+         state.error = error.message
+      },
+
       [getAdminUserListingBookings.pending]: setPending,
+
       [getAdminUserListingBookings.fulfilled]: (state, action) => {
          state.userListings = action.payload
          state.isLoading = false
       },
+
       [getAdminUserListingBookings.rejected]: setRejected,
+
       [getAdminUserListingAnnouncement.pending]: setPending,
+
       [getAdminUserListingAnnouncement.fulfilled]: (state, action) => {
          state.userListings = action.payload
          state.isLoading = false
       },
+
       [getAdminUserListingAnnouncement.rejected]: setRejected,
+
       [getSingleUser.pending]: setPending,
+
       [getSingleUser.fulfilled]: (state, action) => {
          state.user = action.payload
          state.isLoading = false
       },
+
       [getSingleUser.rejected]: setRejected,
+
       [deleteListing.fulfilled]: (state, { payload }) => {
          state.isLoading = false
          state.userListings.data = state.userListings.data.filter(
