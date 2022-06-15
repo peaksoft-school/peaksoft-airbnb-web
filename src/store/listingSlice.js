@@ -71,7 +71,7 @@ export const getListings = createAsyncThunk(
    ) => {
       const params = {
          page: Number(pagination) || 1,
-         limit: limit || 16,
+         limit: limit || 12,
       }
       if (Object.values(filterBy).length > 0) {
          params.filterBy = JSON.stringify(filterBy)
@@ -194,6 +194,21 @@ export const deleteListing = createAsyncThunk(
       }
    }
 )
+
+export const viewedListing = createAsyncThunk(
+   'listing/viewedListing',
+   async (id, { rejectWithValue }) => {
+      try {
+         await fetchApi({
+            path: `api/listings/${id}/markAsViewed`,
+            method: 'PATCH',
+         })
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
+
 export const getUserProfileListingsAnnouncement = createAsyncThunk(
    'userProfile/getUserProfileListingsAnnouncement',
    async ({ sortBy = {}, pagination }, { rejectWithValue }) => {
