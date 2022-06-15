@@ -51,7 +51,7 @@ const PopularHouse = () => {
                      <DivHouse onClick={() => navigateToDetailListing(home.id)}>
                         <ImgHomeInDiv
                            src={getImageFullUrl(
-                              home?.images[0]?.image?.largeImagePath
+                              home?.images?.[0]?.image?.largeImagePath
                            )}
                            alt="home"
                         />

@@ -12,7 +12,7 @@ export const getAdminUsersPanel = createAsyncThunk(
    async (_, { rejectWithValue }) => {
       try {
          const users = await fetchApi({
-            path: 'api/users',
+            path: 'api/users/',
             method: 'GET',
          })
          return users
@@ -254,7 +254,6 @@ const adminUsersSlice = createSlice({
       unblockListing(state, { payload }) {
          state.listing.isBlocked = false
          if (state.userListings.data.length > 0) {
-            console.log('asdfasdf')
             state.userListings.data = state.userListings?.data.map(
                (listing) => {
                   if (listing.id === payload) {
@@ -279,9 +278,6 @@ const adminUsersSlice = createSlice({
             return listing
          })
       },
-      // deleteListing(state, { payload: id }) {
-      //    state.listing.id = state.listing.id.filter((item) => item.id !== id)
-      // },
    },
    extraReducers: {
       [getAdminUsersPanel.pending]: setPending,

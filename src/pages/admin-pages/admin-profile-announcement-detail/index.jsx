@@ -17,6 +17,7 @@ import {
    getOneAnnouncement,
    unBlockListing,
 } from '../../../store/adminUsersSlice'
+import DatesOfBooking from '../../user-pages/profile-announcement-detail/DatesOfBooking'
 
 const AdminProfileAnnouncementDetail = () => {
    const navigate = useNavigate()
@@ -70,12 +71,13 @@ const AdminProfileAnnouncementDetail = () => {
                </Flex>
             </InnerPageContent>
          </Container>
-         {/* {listing?.bookings?.length && (
-            <DatesOfBooking bookings={listing.bookings} />
-         )} */}
+         <DatesOfBooking bookings={listing.bookings} />
          <Container>
             <LeftContent>
-               <FeedbackList feedbacks={listing?.feedbacks} />
+               <FeedbackList
+                  disabledLikeDisLike
+                  feedbacks={listing?.feedbacks}
+               />
             </LeftContent>
             <RightContent>
                <RatingChart

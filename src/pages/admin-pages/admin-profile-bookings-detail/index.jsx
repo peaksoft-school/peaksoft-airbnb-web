@@ -8,11 +8,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../../../components/UI/loader/Loader'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
-// import LeaveFeedbackButton from '../../../components/UI/buttons/LeaveFeedbackButton'
-// import FeedBack from '../../../components/feedback/FeedBack'
 import FeedbackList from '../../../components/feedback/FeedbackList'
 import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPercentRating'
-import DatesOfBooking from '../../user-pages/profile-announcement-detail/DatesOfBooking'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
 import Button from '../../../components/UI/buttons/Button'
 import DeleteModal from '../../../components/delete-listing-modal/DeleteModal'
@@ -21,8 +18,7 @@ import { getOneBooking } from '../../../store/adminUsersSlice'
 const AdminProfileBookingDetail = () => {
    const navigate = useNavigate()
    const params = useParams()
-   // const [searchParams, setSearchParams] = useSearchParams()
-   // const feedbackParams = searchParams.get('feedback')
+
    const dispatch = useDispatch()
    const { listing, isLoading } = useSelector((state) => state.users)
    const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -31,10 +27,6 @@ const AdminProfileBookingDetail = () => {
    }, [])
 
    const navigateToProfile = () => navigate('/profile/bookings')
-
-   // const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
-
-   // const hidePaymentModal = () => setSearchParams('')
 
    return isLoading ? (
       <Loader />
@@ -46,7 +38,6 @@ const AdminProfileBookingDetail = () => {
             isVisible={showDeleteModal}
             onClose={() => setShowDeleteModal(false)}
          />
-         {/* <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} /> */}
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>
             <Title>/</Title>
@@ -67,15 +58,12 @@ const AdminProfileBookingDetail = () => {
                </Flex>
             </InnerPageContent>
          </Container>
-         {listing?.bookings?.length && (
-            <DatesOfBooking bookings={listing.bookings} />
-         )}
          <Container>
             <LeftContent>
-               <FeedbackList feedbacks={listing.feedbacks} />
-               <Flex width="100%" margin="40px 0 0 0">
-                  {/* <LeaveFeedbackButton onClick={showFeedbackModal} /> */}
-               </Flex>
+               <FeedbackList
+                  disabledLikeDisLike
+                  feedbacks={listing.feedbacks}
+               />
             </LeftContent>
             <RightContent>
                <RatingChart
