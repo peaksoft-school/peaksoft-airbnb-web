@@ -3,19 +3,15 @@ import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../../../components/UI/loader/Loader'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
-import LeaveFeedbackButton from '../../../components/UI/buttons/LeaveFeedbackButton'
-import FeedBack from '../../../components/feedback/FeedBack'
 import FeedbackList from '../../../components/feedback/FeedbackList'
 import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPercentRating'
-// import DatesOfBooking from './DatesOfBooking'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
 import Button from '../../../components/UI/buttons/Button'
-// import DeleteModal from '../../../components/delete-listing-modal/DeleteModal'
 import {
    blockListing,
    getOneAnnouncement,
@@ -25,44 +21,23 @@ import {
 const AdminProfileAnnouncementDetail = () => {
    const navigate = useNavigate()
    const params = useParams()
-   const [searchParams, setSearchParams] = useSearchParams()
-   const feedbackParams = searchParams.get('feedback')
    const dispatch = useDispatch()
    const { listing, isLoading } = useSelector((state) => state.users)
-   // const [showDeleteModal, setShowDeleteModal] = useState(false)
-   const [blockButton, setBlockButton] = useState(false)
 
    useEffect(() => {
       dispatch(getOneAnnouncement(params.homeId))
    }, [])
 
-   const blockListingHandler = async () => {
-      setBlockButton(true)
-      dispatch(blockListing(params.homeIds)).unwrap()
-   }
+   const blockListingHandler = () => dispatch(blockListing(params.homeId))
 
-   const unBlockListingHandler = async () => {
-      setBlockButton(false)
-      dispatch(unBlockListing(params.homeIds)).unwrap()
-   }
+   const unBlockListingHandler = () => dispatch(unBlockListing(params.homeId))
 
    const navigateToProfile = () => navigate('/profile/my-announcements')
-
-   const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
-
-   const hidePaymentModal = () => setSearchParams('')
 
    return isLoading ? (
       <Loader />
    ) : (
       <Wrapper>
-         {/* <DeleteModal
-            id={params.homeId}
-            func={navigateToProfile}
-            isVisible={showDeleteModal}
-            onClose={() => setShowDeleteModal(false)}
-         /> */}
-         <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>
             <Title>/</Title>
@@ -74,24 +49,22 @@ const AdminProfileAnnouncementDetail = () => {
          <Container>
             <InnerPageContent listing={listing}>
                <Flex width="100%" gap="20px" margin="60px 0 0 0">
-                  {blockButton && (
+                  {listing?.isBlocked && (
                      <Button
                         width="200px"
-                        onClick={blockListingHandler}
-                        outline
-                        func={navigateToProfile}
-                     >
-                        BLOCK
-                     </Button>
-                  )}
-                  {!blockButton && (
-                     <Button
                         onClick={unBlockListingHandler}
-                        width="200px"
-                        outline
                         func={navigateToProfile}
                      >
                         UNBLOCK
+                     </Button>
+                  )}
+                  {!listing?.isBlocked && (
+                     <Button
+                        onClick={blockListingHandler}
+                        width="200px"
+                        func={navigateToProfile}
+                     >
+                        BLOCK
                      </Button>
                   )}
                </Flex>
@@ -102,10 +75,7 @@ const AdminProfileAnnouncementDetail = () => {
          )} */}
          <Container>
             <LeftContent>
-               <FeedbackList feedbacks={listing.feedbacks} />
-               <Flex width="100%" margin="40px 0 0 0">
-                  <LeaveFeedbackButton onClick={showFeedbackModal} />
-               </Flex>
+               <FeedbackList feedbacks={listing?.feedbacks} />
             </LeftContent>
             <RightContent>
                <RatingChart

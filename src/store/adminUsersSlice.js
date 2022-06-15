@@ -99,7 +99,7 @@ export const blockListing = createAsyncThunk(
             message: 'Successfully blocked',
          })
       } catch (error) {
-         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
+         showErrorMessage({ title: 'Error', message: error.message })
          rejectWithValue(error.message)
       }
    }
@@ -119,7 +119,7 @@ export const unBlockListing = createAsyncThunk(
             message: 'Successfully unblocked',
          })
       } catch (error) {
-         showErrorMessage({ title: 'Error', message: 'Something went wrong' })
+         showErrorMessage({ title: 'Error', message: error.message })
          rejectWithValue(error.message)
       }
    }
@@ -216,7 +216,9 @@ export const getOneAnnouncement = createAsyncThunk(
 const initialState = {
    users: [],
    user: {},
-   userListings: {},
+   userListings: {
+      data: [],
+   },
    isLoading: false,
    error: null,
    listing: {},
@@ -237,20 +239,31 @@ const adminUsersSlice = createSlice({
    initialState,
    reducers: {
       blockListing(state, { payload }) {
-         state.userListings.data = state.userListings?.data.map((listing) => {
-            if (listing.id === payload) {
-               listing.isBlocked = true
-            }
-            return listing
-         })
+         state.listing.isBlocked = true
+         if (state.userListings.data.length > 0) {
+            state.userListings.data = state.userListings?.data.map(
+               (listing) => {
+                  if (listing.id === payload) {
+                     listing.isBlocked = true
+                  }
+                  return listing
+               }
+            )
+         }
       },
       unblockListing(state, { payload }) {
-         state.userListings.data = state.userListings?.data.map((listing) => {
-            if (listing.id === payload) {
-               listing.isBlocked = false
-            }
-            return listing
-         })
+         state.listing.isBlocked = false
+         if (state.userListings.data.length > 0) {
+            console.log('asdfasdf')
+            state.userListings.data = state.userListings?.data.map(
+               (listing) => {
+                  if (listing.id === payload) {
+                     listing.isBlocked = false
+                  }
+                  return listing
+               }
+            )
+         }
       },
       blockAllAnnouncement(state) {
          state.user.data.isAllAnnouncementsAreBlocked = true
