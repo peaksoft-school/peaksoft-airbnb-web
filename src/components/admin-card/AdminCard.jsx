@@ -27,6 +27,8 @@ const AdminCard = ({
    id,
    onBlock,
    onUnBlock,
+   isAnnouncements,
+   isBookings,
 }) => {
    const [showMeetballs, setShowMeetballs] = useState(false)
    const showMeetballsHandler = (e) => {
@@ -65,18 +67,28 @@ const AdminCard = ({
    }
 
    const { ACCEPTED, PENDING } = LISTING_STATUSES
+   const isRejected = status === LISTING_STATUSES.REJECTED
+   const visibleDisabledContent = isBlocked || isRejected
    return (
-      <Wrapper isViewed={isViewed} isBlocked={isBlocked}>
-         {isBlocked && (
+      <Wrapper
+         isViewed={isViewed}
+         isBlocked={isBlocked}
+         isRejected={isRejected}
+      >
+         {visibleDisabledContent && (
             <BlockedContent>
-               <Message>This application has been blocked</Message>
+               <Message>
+                  {isBlocked
+                     ? 'This application has been blocked'
+                     : 'This application has been REJECTED'}
+               </Message>
             </BlockedContent>
          )}
          <Flex height="100%" direction="column" align="center">
             <ImgWrapper>
                <Carousel dataSlider={images} />
             </ImgWrapper>
-            <ContentWrapper onClick={onClick}>
+            <ContentWrapper onClick={() => onClick(id)}>
                <Flex margin="8px 0 16px 0" justify="space-between" width="100%">
                   <Flex gap="3px" align="center">
                      <Title>${price}/</Title>
@@ -100,9 +112,16 @@ const AdminCard = ({
                </Flex>
                <Flex width="100%" align="center" justify="space-between">
                   <Text size="12px">{maxNumberOfGuests} guests</Text>
-                  <Button onClick={showMeetballsHandler}>...</Button>
+                  <Button
+                     isRejected={isRejected}
+                     onClick={showMeetballsHandler}
+                  >
+                     ...
+                  </Button>
                   <PopUp
-                     isVisible={showMeetballs && status === PENDING}
+                     isVisible={
+                        showMeetballs && status === PENDING && !isAnnouncements
+                     }
                      onClose={closeMeetballs}
                   >
                      <AboutItem onClick={rejectHandler}>Reject</AboutItem>
@@ -111,7 +130,10 @@ const AdminCard = ({
                   </PopUp>
                   <PopUp
                      isVisible={
-                        showMeetballs && status === ACCEPTED && !isBlocked
+                        showMeetballs &&
+                        status === ACCEPTED &&
+                        !isBlocked &&
+                        !isAnnouncements
                      }
                      onClose={closeMeetballs}
                   >
@@ -120,12 +142,33 @@ const AdminCard = ({
                   </PopUp>
                   <PopUp
                      isVisible={
-                        showMeetballs && status === ACCEPTED && isBlocked
+                        showMeetballs &&
+                        status === ACCEPTED &&
+                        isBlocked &&
+                        !isAnnouncements
                      }
                      onClose={closeMeetballs}
                   >
                      <AboutItem onClick={unBlockHandler}>UnBlock</AboutItem>
                      <AboutItem onClick={deleteHandler}>Delete</AboutItem>
+                  </PopUp>
+                  <PopUp
+                     isVisible={showMeetballs && isAnnouncements && isBlocked}
+                     onClose={closeMeetballs}
+                  >
+                     <AboutItem onClick={unBlockHandler}>UnBlock</AboutItem>
+                  </PopUp>
+                  <PopUp
+                     isVisible={showMeetballs && isAnnouncements && !isBlocked}
+                     onClose={closeMeetballs}
+                  >
+                     <AboutItem onClick={blockHandler}>block</AboutItem>
+                  </PopUp>
+                  <PopUp
+                     isVisible={showMeetballs && isBookings}
+                     onClose={closeMeetballs}
+                  >
+                     <AboutItem onClick={deleteHandler}>delete</AboutItem>
                   </PopUp>
                </Flex>
             </ContentWrapper>
@@ -220,7 +263,7 @@ const Button = styled.p`
    align-items: center;
    justify-content: center;
    padding-bottom: 10px;
-   z-index: 12;
+   z-index: ${({ isRejected }) => (isRejected ? '0' : '5')};
 `
 
 const AboutItem = styled.div`

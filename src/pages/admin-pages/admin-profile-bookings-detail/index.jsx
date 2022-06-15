@@ -3,28 +3,34 @@ import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import Loader from '../../../components/UI/loader/Loader'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
 import LeaveFeedbackButton from '../../../components/UI/buttons/LeaveFeedbackButton'
 import FeedBack from '../../../components/feedback/FeedBack'
-// import FeedbackList from '../../../components/feedback/FeedbackList'
+import FeedbackList from '../../../components/feedback/FeedbackList'
 import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPercentRating'
-import { getOneBookings } from '../../../store/adminUsersSlice'
+// import DatesOfBooking from './DatesOfBooking'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
+import Button from '../../../components/UI/buttons/Button'
+import DeleteModal from '../../../components/delete-listing-modal/DeleteModal'
+import { getOneBooking } from '../../../store/adminUsersSlice'
 
 const AdminProfileBookingDetail = () => {
+   const navigate = useNavigate()
    const params = useParams()
    const [searchParams, setSearchParams] = useSearchParams()
    const feedbackParams = searchParams.get('feedback')
    const dispatch = useDispatch()
    const { listing, isLoading } = useSelector((state) => state.users)
-
+   const [showDeleteModal, setShowDeleteModal] = useState(false)
    useEffect(() => {
-      dispatch(getOneBookings(params.homeId))
+      dispatch(getOneBooking(params.homeId))
    }, [])
+
+   const navigateToProfile = () => navigate('/profile/bookings')
 
    const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
 
@@ -34,6 +40,12 @@ const AdminProfileBookingDetail = () => {
       <Loader />
    ) : (
       <Wrapper>
+         <DeleteModal
+            id={params.homeId}
+            func={navigateToProfile}
+            isVisible={showDeleteModal}
+            onClose={() => setShowDeleteModal(false)}
+         />
          <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>
@@ -44,11 +56,24 @@ const AdminProfileBookingDetail = () => {
             <Title size="20px">NAME</Title>
          </Flex>
          <Container>
-            <InnerPageContent listing={listing} />
+            <InnerPageContent listing={listing}>
+               <Flex width="100%" gap="20px" margin="60px 0 0 0">
+                  <Button
+                     onClick={() => setShowDeleteModal(true)}
+                     width="200px"
+                     outline
+                  >
+                     DELETE
+                  </Button>
+               </Flex>
+            </InnerPageContent>
          </Container>
+         {/* {listing?.bookings?.length && (
+            <DatesOfBooking bookings={listing.bookings} />
+         )} */}
          <Container>
             <LeftContent>
-               {/* <FeedbackList feedbacks={listing.feedbacks} /> */}
+               <FeedbackList feedbacks={listing.feedbacks} />
                <Flex width="100%" margin="40px 0 0 0">
                   <LeaveFeedbackButton onClick={showFeedbackModal} />
                </Flex>

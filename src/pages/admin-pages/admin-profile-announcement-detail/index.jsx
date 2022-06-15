@@ -13,10 +13,14 @@ import FeedBack from '../../../components/feedback/FeedBack'
 import FeedbackList from '../../../components/feedback/FeedbackList'
 import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPercentRating'
 // import DatesOfBooking from './DatesOfBooking'
-import { getOneAnnouncements } from '../../../store/listingSlice'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
 import Button from '../../../components/UI/buttons/Button'
-import DeleteModal from '../../../components/delete-listing-modal/DeleteModal'
+// import DeleteModal from '../../../components/delete-listing-modal/DeleteModal'
+import {
+   blockListing,
+   getOneAnnouncement,
+   unBlockListing,
+} from '../../../store/adminUsersSlice'
 
 const AdminProfileAnnouncementDetail = () => {
    const navigate = useNavigate()
@@ -24,12 +28,23 @@ const AdminProfileAnnouncementDetail = () => {
    const [searchParams, setSearchParams] = useSearchParams()
    const feedbackParams = searchParams.get('feedback')
    const dispatch = useDispatch()
-   const { listing, isLoading } = useSelector((state) => state.listing)
-   const [showDeleteModal, setShowDeleteModal] = useState(false)
+   const { listing, isLoading } = useSelector((state) => state.users)
+   // const [showDeleteModal, setShowDeleteModal] = useState(false)
+   const [blockButton, setBlockButton] = useState(false)
 
    useEffect(() => {
-      dispatch(getOneAnnouncements(params.homeId))
+      dispatch(getOneAnnouncement(params.homeId))
    }, [])
+
+   const blockListingHandler = async () => {
+      setBlockButton(true)
+      dispatch(blockListing(params.homeIds)).unwrap()
+   }
+
+   const unBlockListingHandler = async () => {
+      setBlockButton(false)
+      dispatch(unBlockListing(params.homeIds)).unwrap()
+   }
 
    const navigateToProfile = () => navigate('/profile/my-announcements')
 
@@ -41,12 +56,12 @@ const AdminProfileAnnouncementDetail = () => {
       <Loader />
    ) : (
       <Wrapper>
-         <DeleteModal
+         {/* <DeleteModal
             id={params.homeId}
             func={navigateToProfile}
             isVisible={showDeleteModal}
             onClose={() => setShowDeleteModal(false)}
-         />
+         /> */}
          <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
          <Flex align="center" gap="6px">
             <Text size="17">Announcement</Text>
@@ -59,16 +74,26 @@ const AdminProfileAnnouncementDetail = () => {
          <Container>
             <InnerPageContent listing={listing}>
                <Flex width="100%" gap="20px" margin="60px 0 0 0">
-                  <Button
-                     onClick={() => setShowDeleteModal(true)}
-                     width="200px"
-                     outline
-                  >
-                     DELETE
-                  </Button>
-                  <Button onClick={() => navigate('edit')} width="200px">
-                     EDIT
-                  </Button>
+                  {blockButton && (
+                     <Button
+                        width="200px"
+                        onClick={blockListingHandler}
+                        outline
+                        func={navigateToProfile}
+                     >
+                        BLOCK
+                     </Button>
+                  )}
+                  {!blockButton && (
+                     <Button
+                        onClick={unBlockListingHandler}
+                        width="200px"
+                        outline
+                        func={navigateToProfile}
+                     >
+                        UNBLOCK
+                     </Button>
+                  )}
                </Flex>
             </InnerPageContent>
          </Container>

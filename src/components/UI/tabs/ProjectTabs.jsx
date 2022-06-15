@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const AntTabs = styled(Tabs)({
+   width: '100%',
    maxWidth: '820px',
    borderBottom: '1px solid #C4C4C4',
    '& .MuiTabs-indicator': {
@@ -59,9 +60,10 @@ const ProjectTabs = ({ firstPath, secondPath }) => {
    const handleChange = (event, newValue) => {
       setTabValue(newValue)
    }
-
+   const path = pathname.split('/').at(-1)
+   const firstPathName = firstPath.split('/').at(-1)
    useEffect(() => {
-      if (pathname === firstPath) {
+      if (path === firstPathName) {
          setTabValue(0)
       } else {
          setTabValue(1)

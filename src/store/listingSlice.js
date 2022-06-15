@@ -65,10 +65,13 @@ export const addListing = createAsyncThunk(
 )
 export const getListings = createAsyncThunk(
    'listing/getListings',
-   async ({ filterBy = {}, sortBy = {}, pagination }, { rejectWithValue }) => {
+   async (
+      { filterBy = {}, sortBy = {}, pagination, limit },
+      { rejectWithValue }
+   ) => {
       const params = {
          page: Number(pagination) || 1,
-         limit: 16,
+         limit: limit || 16,
       }
       if (Object.values(filterBy).length > 0) {
          params.filterBy = JSON.stringify(filterBy)
@@ -314,7 +317,7 @@ const setRejected = (state, { error }) => {
 }
 const setFulfilled = (state) => {
    state.isLoading = false
-   state.statues = 'success'
+   state.status = 'success'
 }
 
 const listingSlice = createSlice({
