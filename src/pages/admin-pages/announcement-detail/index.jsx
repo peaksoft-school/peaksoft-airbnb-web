@@ -8,7 +8,11 @@ import Button from '../../../components/UI/buttons/Button'
 import media from '../../../utils/helpers/media'
 import Loader from '../../../components/UI/loader/Loader'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOneListing, acceptListing } from '../../../store/listingSlice'
+import {
+   getOneListing,
+   acceptListing,
+   viewedListing,
+} from '../../../store/listingSlice'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
    showSuccessMessage,
@@ -26,8 +30,10 @@ const AnnouncementDetail = () => {
    const id = params.name
    useEffect(() => {
       dispatch(getOneListing(id))
+      if (!listing.isViewed) {
+         dispatch(viewedListing(id))
+      }
    }, [])
-
    const acceptListingHandler = async () => {
       try {
          await dispatch(acceptListing(id)).unwrap()

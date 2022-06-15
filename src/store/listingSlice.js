@@ -194,6 +194,22 @@ export const deleteListing = createAsyncThunk(
       }
    }
 )
+
+export const viewedListing = createAsyncThunk(
+   'listing/viewedListing',
+   async (id, { rejectWithValue }) => {
+      try {
+         fetchApi({
+            path: `api/listings/${id}/markAsViewed`,
+            method: 'PATCH',
+         })
+         return id
+      } catch (error) {
+         rejectWithValue(error.message)
+      }
+   }
+)
+
 export const getUserProfileListingsAnnouncement = createAsyncThunk(
    'userProfile/getUserProfileListingsAnnouncement',
    async ({ sortBy = {} }, { rejectWithValue }) => {
