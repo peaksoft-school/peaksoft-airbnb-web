@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import Text from '../../../components/UI/typography/Text'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
@@ -31,7 +31,7 @@ const Region = () => {
    const price = params.get('price')
    const popular = params.get('popular')
    const page = Number(params.get('page'))
-   const regionsIds = getDataFromLocalStorage('regions')
+   const regionsIds = useMemo(() => getDataFromLocalStorage('regions'))
 
    const [pagination, setPagination] = useState(page || 1)
    const [sort, setSort] = useState({
@@ -56,11 +56,11 @@ const Region = () => {
 
    const clearSortPopular = () => setSort({ ...sort, popular: '' })
 
-   const clearAllFilterAndSortHandler = () => {
+   const clearAllFilterAndSortHandler = useCallback(() => {
       setFilter({ regionIds: [], type: '' })
       setSort({ popular: '', price: '' })
       dispatch(listingActions.saveSearchValue({ search: '' }))
-   }
+   }, [])
 
    const paginationHandler = (event, value) => setPagination(value)
 
@@ -103,7 +103,7 @@ const Region = () => {
             </Title>
          ))
    }
-   const breadcrumbs = [
+   const breadcrumbs = useMemo(() => [
       {
          path: '/main',
          name: 'main',
@@ -112,7 +112,7 @@ const Region = () => {
          path: '/main/regions',
          name: 'region',
       },
-   ]
+   ])
    return (
       <Container>
          <Flex>
