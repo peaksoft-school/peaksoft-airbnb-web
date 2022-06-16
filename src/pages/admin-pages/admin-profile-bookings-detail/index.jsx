@@ -1,11 +1,10 @@
 import styled from 'styled-components'
-import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Loader from '../../../components/UI/loader/Loader'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
 import FeedbackList from '../../../components/feedback/FeedbackList'
@@ -14,19 +13,32 @@ import InnerPageContent from '../../../components/inner-page-content/InnerPageCo
 import Button from '../../../components/UI/buttons/Button'
 import DeleteModal from '../../../components/delete-listing-modal/DeleteModal'
 import { getOneBooking } from '../../../store/adminUsersSlice'
+import { BreadCrumbs } from '../../../components/UI/breadcrumbs/BreadCrumbs'
 
 const AdminProfileBookingDetail = () => {
-   const navigate = useNavigate()
    const params = useParams()
 
    const dispatch = useDispatch()
-   const { listing, isLoading } = useSelector((state) => state.users)
+   const { listing, isLoading, user } = useSelector((state) => state.users)
    const [showDeleteModal, setShowDeleteModal] = useState(false)
    useEffect(() => {
       dispatch(getOneBooking(params.homeId))
    }, [])
 
-   const navigateToProfile = () => navigate('/profile/bookings')
+   const pathsArray = [
+      {
+         path: '/users',
+         name: 'Users',
+      },
+      {
+         path: `/users/${params.userId}/bookings`,
+         name: user?.data?.user?.name || 'user',
+      },
+      {
+         path: `/users/${params.userId}/booking/${params.homeId}`,
+         name: 'booking',
+      },
+   ]
 
    return isLoading ? (
       <Loader />
@@ -34,14 +46,11 @@ const AdminProfileBookingDetail = () => {
       <Wrapper>
          <DeleteModal
             id={params.homeId}
-            func={navigateToProfile}
             isVisible={showDeleteModal}
             onClose={() => setShowDeleteModal(false)}
          />
-         <Flex align="center" gap="6px">
-            <Text size="17">Announcement</Text>
-            <Title>/</Title>
-            <Title>Name</Title>
+         <Flex align="center" gap="6px" margin="40px 0 0 0">
+            <BreadCrumbs pathsArray={pathsArray} />
          </Flex>
          <Flex margin="30px 0 30px 0">
             <Title size="20px">NAME</Title>

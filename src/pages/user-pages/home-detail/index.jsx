@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
@@ -20,6 +19,7 @@ import {
 import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPercentRating'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
 import BookingHome from './BookingHome'
+import { BreadCrumbs } from '../../../components/UI/breadcrumbs/BreadCrumbs'
 
 const HomeDetail = () => {
    const params = useParams()
@@ -46,6 +46,21 @@ const HomeDetail = () => {
    }
    const hidePaymentModal = () => setSearchParams('')
 
+   const pathsArray = [
+      {
+         path: '/main',
+         name: 'main',
+      },
+      {
+         path: '/main/regions',
+         name: listing?.region?.title,
+      },
+      {
+         path: '/main/regions/apartment',
+         name: listing?.type,
+      },
+   ]
+
    return isLoading ? (
       <Loader />
    ) : (
@@ -59,10 +74,8 @@ const HomeDetail = () => {
             id={params.homeId}
             price={listing?.price}
          />
-         <Flex align="center" gap="6px">
-            <Text size="17">Announcement</Text>
-            <Title>/</Title>
-            <Title>Name</Title>
+         <Flex>
+            <BreadCrumbs pathsArray={pathsArray} />
          </Flex>
          <Flex margin="30px 0 30px 0">
             <Title size="20px">NAME</Title>
@@ -124,6 +137,7 @@ const Container = styled(Flex)`
 const Wrapper = styled.div`
    max-width: 1290px;
    padding: 4rem;
+   padding-top: 1.5rem;
    margin: 0 auto;
    width: 100%;
    ${media.tablet`

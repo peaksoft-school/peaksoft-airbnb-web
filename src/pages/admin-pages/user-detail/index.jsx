@@ -5,12 +5,11 @@ import Flex from '../../../components/UI/ui-for-positions/Flex'
 import AdminUserCard from './AdminUserCard'
 import ProjectTabs from '../../../components/UI/tabs/ProjectTabs'
 import media from '../../../utils/helpers/media'
-import Text from '../../../components/UI/typography/Text'
-import Title from '../../../components/UI/typography/Title'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { getSingleUser } from '../../../store/adminUsersSlice'
+import { BreadCrumbs } from '../../../components/UI/breadcrumbs/BreadCrumbs'
 
 const Profile = () => {
    const { userId } = useParams()
@@ -23,12 +22,21 @@ const Profile = () => {
 
    const visibleAllBlockedButton =
       pathname === `/users/${userId}/my-announcements`
+
+   const pathsArray = [
+      {
+         path: '/users',
+         name: 'Users',
+      },
+      {
+         path: '/users/detail',
+         name: user?.user.name,
+      },
+   ]
    return (
       <WrapperContainer>
          <Flex align="center" gap="6px" margin="86px 0 0 0 ">
-            <Text size="17">Users</Text>
-            <Title>/</Title>
-            <Title>{user?.user.name}</Title>
+            <BreadCrumbs pathsArray={pathsArray} />
          </Flex>
          <UserProfile>{user?.user.name || 'LOADING...'} </UserProfile>
          <ContentWrapper>

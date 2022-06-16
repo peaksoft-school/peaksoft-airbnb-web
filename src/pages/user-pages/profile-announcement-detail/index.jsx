@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
@@ -13,10 +12,14 @@ import FeedBack from '../../../components/feedback/FeedBack'
 import FeedbackList from '../../../components/feedback/FeedbackList'
 import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPercentRating'
 import DatesOfBooking from './DatesOfBooking'
-import { getOneAnnouncements } from '../../../store/listingSlice'
+import {
+   getOneAnnouncements,
+   listingActions,
+} from '../../../store/listingSlice'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
 import Button from '../../../components/UI/buttons/Button'
 import DeleteModal from '../../../components/delete-listing-modal/DeleteModal'
+import { BreadCrumbs } from '../../../components/UI/breadcrumbs/BreadCrumbs'
 
 const UserProfileAnnouncementsDetail = () => {
    const navigate = useNavigate()
@@ -29,6 +32,9 @@ const UserProfileAnnouncementsDetail = () => {
 
    useEffect(() => {
       dispatch(getOneAnnouncements(params.homeId))
+      return () => {
+         dispatch(listingActions.clearListing())
+      }
    }, [])
 
    const navigateToProfile = () => navigate('/profile/my-announcements')
@@ -36,6 +42,21 @@ const UserProfileAnnouncementsDetail = () => {
    const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
 
    const hidePaymentModal = () => setSearchParams('')
+
+   const pathsArray = [
+      {
+         path: '/main',
+         name: 'main',
+      },
+      {
+         path: '/profile/my-announcements',
+         name: 'Profile',
+      },
+      {
+         path: 'main/profile/detail',
+         name: listing?.type,
+      },
+   ]
 
    return isLoading ? (
       <Loader />
@@ -48,10 +69,8 @@ const UserProfileAnnouncementsDetail = () => {
             onClose={() => setShowDeleteModal(false)}
          />
          <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
-         <Flex align="center" gap="6px">
-            <Text size="17">Announcement</Text>
-            <Title>/</Title>
-            <Title>Name</Title>
+         <Flex align="center">
+            <BreadCrumbs pathsArray={pathsArray} />
          </Flex>
          <Flex margin="30px 0 30px 0">
             <Title size="20px">NAME</Title>
@@ -72,9 +91,7 @@ const UserProfileAnnouncementsDetail = () => {
                </Flex>
             </InnerPageContent>
          </Container>
-         {listing?.bookings?.length && (
-            <DatesOfBooking bookings={listing.bookings} />
-         )}
+         <DatesOfBooking bookings={listing.bookings} />
          <Container>
             <LeftContent>
                <FeedbackList feedbacks={listing.feedbacks} />
@@ -121,6 +138,7 @@ const Container = styled(Flex)`
 const Wrapper = styled.div`
    max-width: 1290px;
    padding: 4rem;
+   padding-top: 1.5rem;
    margin: 0 auto;
    width: 100%;
    ${media.tablet`
