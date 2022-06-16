@@ -1,11 +1,10 @@
 import styled from 'styled-components'
-import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Loader from '../../../components/UI/loader/Loader'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
 import FeedbackList from '../../../components/feedback/FeedbackList'
@@ -18,12 +17,12 @@ import {
    unBlockListing,
 } from '../../../store/adminUsersSlice'
 import DatesOfBooking from '../../user-pages/profile-announcement-detail/DatesOfBooking'
+import { BreadCrumbs } from '../../../components/UI/breadcrumbs/BreadCrumbs'
 
 const AdminProfileAnnouncementDetail = () => {
-   const navigate = useNavigate()
    const params = useParams()
    const dispatch = useDispatch()
-   const { listing, isLoading } = useSelector((state) => state.users)
+   const { listing, isLoading, user } = useSelector((state) => state.users)
 
    useEffect(() => {
       dispatch(getOneAnnouncement(params.homeId))
@@ -33,16 +32,27 @@ const AdminProfileAnnouncementDetail = () => {
 
    const unBlockListingHandler = () => dispatch(unBlockListing(params.homeId))
 
-   const navigateToProfile = () => navigate('/profile/my-announcements')
+   const pathsArray = [
+      {
+         path: '/users',
+         name: 'Users',
+      },
+      {
+         path: `/users/${params.userId}/my-announcements`,
+         name: user?.data?.user?.name || 'user',
+      },
+      {
+         path: `/users/${params.userId}/booking`,
+         name: 'announcement',
+      },
+   ]
 
    return isLoading ? (
       <Loader />
    ) : (
       <Wrapper>
-         <Flex align="center" gap="6px">
-            <Text size="17">Announcement</Text>
-            <Title>/</Title>
-            <Title>Name</Title>
+         <Flex align="center" gap="6px" margin="40px 0 0 0">
+            <BreadCrumbs pathsArray={pathsArray} />
          </Flex>
          <Flex margin="30px 0 30px 0">
             <Title size="20px">NAME</Title>
@@ -51,20 +61,12 @@ const AdminProfileAnnouncementDetail = () => {
             <InnerPageContent listing={listing}>
                <Flex width="100%" gap="20px" margin="60px 0 0 0">
                   {listing?.isBlocked && (
-                     <Button
-                        width="200px"
-                        onClick={unBlockListingHandler}
-                        func={navigateToProfile}
-                     >
+                     <Button width="200px" onClick={unBlockListingHandler}>
                         UNBLOCK
                      </Button>
                   )}
                   {!listing?.isBlocked && (
-                     <Button
-                        onClick={blockListingHandler}
-                        width="200px"
-                        func={navigateToProfile}
-                     >
+                     <Button onClick={blockListingHandler} width="200px">
                         BLOCK
                      </Button>
                   )}

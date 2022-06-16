@@ -17,6 +17,7 @@ import {
 } from '../../../utils/helpers/general'
 import Title from '../../../components/UI/typography/Title'
 import useFilterListings from '../../../hooks/useFilterListings'
+import { BreadCrumbs } from '../../../components/UI/breadcrumbs/BreadCrumbs'
 
 const Region = () => {
    const { memoizeFiltersAndSortings } = useFilterListings()
@@ -102,8 +103,21 @@ const Region = () => {
             </Title>
          ))
    }
+   const breadcrumbs = [
+      {
+         path: '/main',
+         name: 'main',
+      },
+      {
+         path: '/main/regions',
+         name: 'region',
+      },
+   ]
    return (
       <Container>
+         <Flex>
+            <BreadCrumbs pathsArray={breadcrumbs} />
+         </Flex>
          <GlobalStyle />
          <Flex
             justify="space-between"

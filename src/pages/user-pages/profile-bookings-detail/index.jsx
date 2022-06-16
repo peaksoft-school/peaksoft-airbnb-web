@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
@@ -12,10 +11,11 @@ import LeaveFeedbackButton from '../../../components/UI/buttons/LeaveFeedbackBut
 import FeedBack from '../../../components/feedback/FeedBack'
 import FeedbackList from '../../../components/feedback/FeedbackList'
 import { ratingPercentageCalculator } from '../../../utils/helpers/calculatorPercentRating'
-import { getOneBookings } from '../../../store/listingSlice'
+import { getOneBookings, listingActions } from '../../../store/listingSlice'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
 import ChangeDate from './ChangeDate'
 import ChangeDateBooking from '../../../components/change-date/ChangeDateBooking'
+import { BreadCrumbs } from '../../../components/UI/breadcrumbs/BreadCrumbs'
 
 const UserProfileBookingsDetail = () => {
    const params = useParams()
@@ -28,11 +28,29 @@ const UserProfileBookingsDetail = () => {
 
    useEffect(() => {
       dispatch(getOneBookings(params.homeId))
+      return () => {
+         dispatch(listingActions.clearListing())
+      }
    }, [dispatch])
 
    const showFeedbackModal = () => setSearchParams({ feedback: 'true' })
 
    const hidePaymentModal = () => setSearchParams('')
+
+   const pathsArray = [
+      {
+         path: '/main',
+         name: 'main',
+      },
+      {
+         path: '/profile/bookings',
+         name: 'Profile',
+      },
+      {
+         path: 'main/profile/detail',
+         name: listing?.type,
+      },
+   ]
 
    return isLoading ? (
       <Loader />
@@ -41,9 +59,7 @@ const UserProfileBookingsDetail = () => {
          <ChangeDateBooking booking={booking} />
          <FeedBack isVisible={feedbackParams} onClose={hidePaymentModal} />
          <Flex align="center" gap="6px">
-            <Text size="17">Announcement</Text>
-            <Title>/</Title>
-            <Title>Name</Title>
+            <BreadCrumbs pathsArray={pathsArray} />
          </Flex>
          <Flex margin="30px 0 30px 0">
             <Title size="20px">NAME</Title>
@@ -103,6 +119,7 @@ const Container = styled(Flex)`
 const Wrapper = styled.div`
    max-width: 1290px;
    padding: 4rem;
+   padding-top: 1.5rem;
    margin: 0 auto;
    width: 100%;
    ${media.tablet`

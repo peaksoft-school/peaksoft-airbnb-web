@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import { useEffect } from 'react'
 import styled from 'styled-components'
-import Text from '../../../components/UI/typography/Text'
 import Title from '../../../components/UI/typography/Title'
 import Flex from '../../../components/UI/ui-for-positions/Flex'
 import Button from '../../../components/UI/buttons/Button'
@@ -21,6 +20,7 @@ import {
 } from '../../../components/UI/notification/Notification'
 import { REJECT_LISTING } from '../../../utils/constants/general'
 import InnerPageContent from '../../../components/inner-page-content/InnerPageContent'
+import { BreadCrumbs } from '../../../components/UI/breadcrumbs/BreadCrumbs'
 
 const AnnouncementDetail = () => {
    const params = useParams()
@@ -57,14 +57,23 @@ const AnnouncementDetail = () => {
 
    const showRejectModal = () => setSearchParams({ [REJECT_LISTING]: id })
 
+   const pathsArray = [
+      {
+         path: '/announcement',
+         name: 'Announcements',
+      },
+      {
+         path: '/announcements/detail',
+         name: listing?.type,
+      },
+   ]
+
    return isLoading ? (
       <Loader />
    ) : (
       <Wrapper>
          <Flex align="center" gap="6px" margin="86px 0 0 0 ">
-            <Text size="17">Announcement</Text>
-            <Title>/</Title>
-            <Title>Name</Title>
+            <BreadCrumbs pathsArray={pathsArray} />
          </Flex>
          <Flex margin="30px 0 30px 0">
             <Title size="20px">NAME</Title>
