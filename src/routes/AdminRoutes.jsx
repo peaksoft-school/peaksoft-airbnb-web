@@ -18,9 +18,7 @@ const AnnouncementDetail = React.lazy(
 )
 const Users = React.lazy(() => import('../pages/admin-pages/users'))
 const UserDetail = React.lazy(() => import('../pages/admin-pages/user-detail'))
-const UserHouseDetail = React.lazy(
-   () => import('../pages/admin-pages/user-home-details')
-)
+
 const AllHousing = React.lazy(() => import('../pages/admin-pages/all-housing'))
 
 const AdminRoutes = () => {
@@ -30,7 +28,6 @@ const AdminRoutes = () => {
       ANNOUNCEMENT_NAME,
       USERS,
       USER,
-      USER_HOUSE,
       USER_TABS,
       ALL_HOUSING,
       ADMIN_PROFILE_ANNOUNCEMENTS_HOME_DETAIL,
@@ -66,7 +63,6 @@ const AdminRoutes = () => {
                      element={<MyAnnouncement />}
                   />
                </Route>
-               <Route path={USER_HOUSE.path} element={<UserHouseDetail />} />
                <Route path={ALL_HOUSING.path} element={<AllHousing />} />
                <Route
                   path={ADMIN_PROFILE_ANNOUNCEMENTS_HOME_DETAIL.path}
