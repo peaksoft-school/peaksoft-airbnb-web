@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, memo } from 'react'
 import styled from 'styled-components'
 import Select from '../UI/select/Select'
 import Text from '../UI/typography/Text'
@@ -141,4 +141,4 @@ const FilterMenu = styled.div`
      display:flex;
   `}
 `
-export default Filters
+export default memo(Filters)
