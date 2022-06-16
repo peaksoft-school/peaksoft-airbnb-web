@@ -69,7 +69,7 @@ const Apartments = ({ listings = [], lastest }) => {
 
    return (
       <Background lastest={lastest}>
-         <Container lastest={lastest}>
+         <Container id="apartment" lastest={lastest}>
             <Flex justify="space-between" width="98%" margin="170px 0 60px 0">
                <Title
                   lastest={lastest}

@@ -99,7 +99,7 @@ const Lastest = () => {
 
    return (
       <Background>
-         <Container>
+         <Container id="thelastest">
             <Flex justify="space-between" width="98%" margin="130px 0 60px 0">
                <Title size="20px" uppercase color="#363636;">
                   The Lastest
