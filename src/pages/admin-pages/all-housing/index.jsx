@@ -6,7 +6,7 @@ import AllHousingCards from './AllHousingCards'
 import AdminTag from './AdminTag'
 import Pagination from '../../../components/pagination/Pagination'
 import { useDispatch, useSelector } from 'react-redux'
-import { getListings } from '../../../store/listingSlice'
+import { getListings, listingActions } from '../../../store/listingSlice'
 import { useLocation, useSearchParams } from 'react-router-dom'
 import LoadingPage from '../../../components/UI/loader/LoadingPage'
 import Title from '../../../components/UI/typography/Title'
@@ -67,6 +67,9 @@ const AllHousing = () => {
 
    useEffect(() => {
       dispatch(getRegions())
+      return () => {
+         dispatch(listingActions.clearListings())
+      }
    }, [])
    const getContent = (regionId) =>
       regions.length && getSomeGiven(regionId, regions, 'id').title
@@ -116,13 +119,15 @@ const AllHousing = () => {
             <AllHousingCards listings={listings.data} />
          )}
 
-         <Flex margin="80px 0 140px 0" width="100%" justify="center">
-            <Pagination
-               onChange={paginationHandler}
-               count={Math.ceil(listings.total / 12)}
-               page={pagination}
-            />
-         </Flex>
+         {Math.ceil(listings.total / 12) > 1 && (
+            <Flex margin="80px 0 140px 0" width="100%" justify="center">
+               <Pagination
+                  onChange={paginationHandler}
+                  count={Math.ceil(listings.total / 12)}
+                  page={pagination}
+               />
+            </Flex>
+         )}
       </Container>
    )
 }

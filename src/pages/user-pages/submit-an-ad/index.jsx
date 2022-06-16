@@ -11,7 +11,7 @@ const SubmitAnAd = () => {
 
    const navigateAfterSuccessUpload = () => navigate('/main/regions')
 
-   const formSubmitHandler = (data, files) => {
+   const formSubmitHandler = (data, files, resetForm) => {
       const listing = {
          dataListing: {
             ...data,
@@ -21,6 +21,7 @@ const SubmitAnAd = () => {
          imagesListing: files,
          navigateAfterSuccessUpload,
          id: homeId,
+         resetForm,
       }
       dispatch(uploadImageListing(listing))
    }

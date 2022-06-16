@@ -14,7 +14,14 @@ import {
 export const uploadImageListing = createAsyncThunk(
    'listing/uploadImageListing',
    async (
-      { dataListing, imagesListing, navigateAfterSuccessUpload, isUpdate, id },
+      {
+         dataListing,
+         imagesListing,
+         navigateAfterSuccessUpload,
+         isUpdate,
+         id,
+         resetForm,
+      },
       { rejectWithValue, dispatch }
    ) => {
       const formData = new FormData()
@@ -38,8 +45,18 @@ export const uploadImageListing = createAsyncThunk(
             },
          }
          if (isUpdate)
-            dispatch(updateListing({ id, ...data, navigateAfterSuccessUpload }))
-         else dispatch(addListing({ ...data, navigateAfterSuccessUpload }))
+            dispatch(
+               updateListing({
+                  id,
+                  ...data,
+                  navigateAfterSuccessUpload,
+                  resetForm,
+               })
+            )
+         else
+            dispatch(
+               addListing({ ...data, navigateAfterSuccessUpload, resetForm })
+            )
       } catch (error) {
          rejectWithValue(error.message)
       }
@@ -47,7 +64,10 @@ export const uploadImageListing = createAsyncThunk(
 )
 export const addListing = createAsyncThunk(
    'listing/addListing',
-   async ({ listingData, navigateAfterSuccessUpload }, { rejectWithValue }) => {
+   async (
+      { listingData, navigateAfterSuccessUpload, resetForm },
+      { rejectWithValue }
+   ) => {
       try {
          const result = await fetchApi({
             path: 'api/listings',
@@ -55,6 +75,7 @@ export const addListing = createAsyncThunk(
             body: { ...listingData },
          })
          navigateAfterSuccessUpload()
+         resetForm()
          showSuccessMessage({ title: 'Success', message: result.message })
          return result
       } catch (error) {
@@ -290,7 +311,7 @@ export const getOneBookings = createAsyncThunk(
 export const updateListing = createAsyncThunk(
    'userProfile/updateListing',
    async (
-      { id, listingData, navigateAfterSuccessUpload },
+      { id, listingData, navigateAfterSuccessUpload, resetForm },
       { rejectWithValue }
    ) => {
       try {
@@ -304,6 +325,7 @@ export const updateListing = createAsyncThunk(
             message: bookingListing.message,
          })
          navigateAfterSuccessUpload()
+         resetForm()
          return bookingListing
       } catch (error) {
          showErrorMessage({ title: 'Uh! Oh!', message: error.message })
@@ -378,6 +400,9 @@ const listingSlice = createSlice({
       },
       clearListing(state) {
          state.listing = {}
+      },
+      clearListings(state) {
+         state.listings = { data: [] }
       },
       deleteImageListing(state, { payload: id }) {
          state.listing.images = state.listing.images.filter(
@@ -464,6 +489,12 @@ const listingSlice = createSlice({
       [getOneBookings.rejected]: setRejected,
       [getOneBookings.fulfilled]: (state, { payload }) => {
          state.listing = payload?.data
+         state.status = 'success'
+         state.isLoading = false
+      },
+      [updateListing.pending]: setPending,
+      [updateListing.rejected]: setRejected,
+      [updateListing.fulfilled]: (state) => {
          state.status = 'success'
          state.isLoading = false
       },
