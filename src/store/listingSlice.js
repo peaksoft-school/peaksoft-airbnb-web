@@ -399,7 +399,6 @@ const listingSlice = createSlice({
    },
    extraReducers: {
       [uploadImageListing.pending]: setPending,
-      [uploadImageListing.fulfilled]: setFulfilled,
       [uploadImageListing.rejected]: setRejected,
       [addListing.pending]: setPending,
       [addListing.fulfilled]: setFulfilled,

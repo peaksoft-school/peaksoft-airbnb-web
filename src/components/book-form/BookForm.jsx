@@ -258,7 +258,7 @@ const BookForm = ({ isUpdate, onSubmit }) => {
                onChange={changeSelectHandler}
                value="id"
                label="title"
-               defaultValue=""
+               defaultValue={oneListing?.region?.title || ' '}
             />
          </Flex>
          <Br />
@@ -292,7 +292,9 @@ const BookForm = ({ isUpdate, onSubmit }) => {
             </ErrorMessage>
          </Label>
          <Flex margin="23px 0 0 0" justify="end">
-            <Button width="200px">{isLoading ? <Spinner /> : 'submit'}</Button>
+            <Button disabled={isLoading} width="200px">
+               {isLoading ? <Spinner /> : 'submit'}
+            </Button>
          </Flex>
       </FormContainer>
    )

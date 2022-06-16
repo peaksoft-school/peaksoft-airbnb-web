@@ -114,7 +114,6 @@ const feedbackSlice = createSlice({
          state.error = null
       },
       [uploadImageFeedback.fulfilled]: (state) => {
-         state.isLoading = false
          state.error = null
       },
       [uploadImageFeedback.rejected]: (state, { error }) => {
