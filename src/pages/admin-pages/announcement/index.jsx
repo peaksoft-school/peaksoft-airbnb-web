@@ -4,7 +4,7 @@ import Flex from '../../../components/UI/ui-for-positions/Flex'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
 import Cards from './Cards'
-import { getListings } from '../../../store/listingSlice'
+import { getListings, listingActions } from '../../../store/listingSlice'
 import LoadingPage from '../../../components/UI/loader/LoadingPage'
 import { LISTING_STATUSES } from '../../../utils/constants/general'
 import Pagination from '../../../components/pagination/Pagination'
@@ -26,6 +26,9 @@ const Announcement = () => {
          })
       )
       setParams({ page: pagination })
+      return () => {
+         dispatch(listingActions.clearListings())
+      }
    }, [pagination])
    const paginationHandler = (event, value) => setPagination(value)
    const countOfPages = total / 12

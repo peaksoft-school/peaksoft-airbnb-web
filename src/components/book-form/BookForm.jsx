@@ -32,6 +32,7 @@ const BookForm = ({ isUpdate, onSubmit }) => {
    const { isLoading, listing: oneListing } = listing
    const { regions } = region
    const {
+      reset,
       register,
       setValue,
       formState: { errors, isValid, isSubmitted },
@@ -113,10 +114,16 @@ const BookForm = ({ isUpdate, onSubmit }) => {
 
    const { imageIds } = getImagesAndIds(oneListing || null)
 
+   const resetForm = useCallback((reset) => {
+      setSelectedImages({ images: [], files: [] })
+      reset()
+   })
+
    const submitHandler = (data, e) => {
       e.stopPropagation()
-      onSubmit({ ...data, images: imageIds || [] }, selectedImages.files)
-      setSelectedImages({ images: [], files: [] })
+      onSubmit({ ...data, images: imageIds || [] }, selectedImages.files, () =>
+         resetForm(reset)
+      )
       isDelete = false
    }
    const images = useCallback(() => {

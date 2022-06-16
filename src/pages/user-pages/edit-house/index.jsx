@@ -12,7 +12,7 @@ const EditListing = () => {
    const navigateAfterSuccessUpload = () =>
       navigate(`/profile/my-announcements/${homeId}`)
 
-   const formSubmitHandler = (data, files) => {
+   const formSubmitHandler = (data, files, resetForm) => {
       const listing = {
          dataListing: {
             ...data,
@@ -23,6 +23,7 @@ const EditListing = () => {
          navigateAfterSuccessUpload,
          id: homeId,
          isUpdate: true,
+         resetForm,
       }
       dispatch(uploadImageListing(listing))
    }

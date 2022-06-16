@@ -11,7 +11,6 @@ import {
    getPopularApartmemts,
    getTheLastestListings,
 } from '../../../store/popularsSlice'
-import scrollreveal from 'scrollreveal'
 
 const MainPage = () => {
    const dispatch = useDispatch()
@@ -31,35 +30,6 @@ const MainPage = () => {
       dispatch(
          getTheLastestListings({ sortBy: { createdAt: 'DESC' }, limit: 7 })
       )
-
-      const registerAnimations = () => {
-         const sr = scrollreveal({
-            origin: 'bottom',
-            distance: '80px',
-            duration: 2000,
-            reset: false,
-         })
-         sr.reveal(
-            `
-             header,
-             #main,
-             #regions,
-             #apartment,
-             #popularhouse,
-             #apartment,
-             footer
-         `,
-            {
-               opacity: 0,
-               interval: 500,
-            }
-         )
-      }
-      registerAnimations()
-      window.setTimeout(() => {
-         const home = document.getElementById('main')
-         home.style.transform = 'none'
-      }, 1500)
    }, [])
 
    return (

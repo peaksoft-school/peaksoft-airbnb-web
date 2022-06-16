@@ -4,7 +4,7 @@ import Flex from '../../../components/UI/ui-for-positions/Flex'
 import media from '../../../utils/helpers/media'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../../../components/UI/loader/Loader'
 import RatingChart from '../../../components/UI/rating-chart/RatingChart'
 import FeedbackList from '../../../components/feedback/FeedbackList'
@@ -17,6 +17,7 @@ import { BreadCrumbs } from '../../../components/UI/breadcrumbs/BreadCrumbs'
 
 const AdminProfileBookingDetail = () => {
    const params = useParams()
+   const navigate = useNavigate()
 
    const dispatch = useDispatch()
    const { listing, isLoading, user } = useSelector((state) => state.users)
@@ -24,6 +25,8 @@ const AdminProfileBookingDetail = () => {
    useEffect(() => {
       dispatch(getOneBooking(params.homeId))
    }, [])
+
+   const navigateToProfile = () => navigate(`/users/${params.userId}/bookings`)
 
    const pathsArray = [
       {
@@ -45,6 +48,7 @@ const AdminProfileBookingDetail = () => {
    ) : (
       <Wrapper>
          <DeleteModal
+            func={navigateToProfile}
             id={params.homeId}
             isVisible={showDeleteModal}
             onClose={() => setShowDeleteModal(false)}

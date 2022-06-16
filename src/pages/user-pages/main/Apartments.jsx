@@ -77,7 +77,7 @@ const Apartments = ({ listings = [], lastest }) => {
                   uppercase
                   color={lastest ? '#363636' : '#FFFF'}
                >
-                  Popular Apartments
+                  {lastest ? 'The Lastest' : 'Popular Apartments'}
                </Title>
                <StyledLink
                   lastest={lastest}

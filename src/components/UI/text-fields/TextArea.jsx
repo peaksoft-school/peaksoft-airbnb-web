@@ -11,7 +11,7 @@ const TextAreaStyled = styled.textarea`
    border-radius: 2px;
    font-family: 'Inter';
    letter-spacing: 0.6px;
-   color: #29264e90;
+   color: #29264eb6;
    font-weight: bold;
    border: ${({ isValid }) =>
       isValid ? '1px solid tomato' : '1px solid #c4c4c4'};
