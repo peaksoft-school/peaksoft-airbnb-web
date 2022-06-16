@@ -12,7 +12,7 @@ const Regions = () => {
       navigate(`/main/regions`, { state: id })
 
    return (
-      <Container>
+      <Container id="regions">
          <Flex direction="column" width="100%">
             <Title>REGION IN KYRGYSTAN</Title>
             <Text>
